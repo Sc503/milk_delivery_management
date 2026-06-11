@@ -6,29 +6,34 @@
     android:layout_height="match_parent">
 
     <!-- Native Support Map Fragment (Google Maps Canvas) -->
+
+    <!-- Current Location Tracker FAB overlay (bottom-right) -->
+
+    <!-- Status message indicator for empty databases -->
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.MapFragment" />
+        tools:context=".fragments.MapFragment"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
-    <!-- Current Location Tracker FAB overlay (bottom-right) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_location_finder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="32dp"
         android:contentDescription="Locate current position"
         android:src="@drawable/ic_location"
-        app:fabSize="normal"
         app:backgroundTint="@color/white"
-        app:tint="@color/primary"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/primary" />
 
-    <!-- Status message indicator for empty databases -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_no_markers"
         android:layout_width="wrap_content"
