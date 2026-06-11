@@ -20,7 +20,7 @@
     <color name="surface_variant">#F4F4F4</color>
     <color name="today_blue">#1565C0</color>
     <color name="white">#FFFFFF</color>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Milk Delivery Management</string>
     <string name="gcm_defaultSenderId" translatable="false">144684277787</string>
     <string name="google_api_key" translatable="false">AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI</string>
     <string name="google_app_id" translatable="false">1:144684277787:android:ecbd33d6256c79981e98be</string>
