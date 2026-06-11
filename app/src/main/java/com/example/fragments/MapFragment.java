@@ -61,7 +61,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
         // Initialize supporting Map Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -74,7 +74,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         this.googleMap = map;
-        
+
         // Custom styling can be applied if needed
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -194,22 +194,40 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 String nowTime = DateUtils.getCurrentTimeString();
 
                 // Record the delivery as Delivered in database
-                viewModel.deliverCustomer(c.getId(), today, nowTime, () -> {
+                viewModel.deliverCustomer(
+                        customer.getId(),
+                        today,
+                        nowTime,
+                        () -> {
 
-                    if (getActivity() != null) {
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() -> {
 
-                        getActivity().runOnUiThread(() -> {
+                                    viewModel.getRepository()
+                                            .getExecutor()
+                                            .execute(() -> {
 
-                            Toast.makeText(
-                                    getContext(),
-                                    c.getName() + " marked as Delivered!",
-                                    Toast.LENGTH_SHORT
-                            ).show();
+                                                List<Customer> freshCustomers =
+                                                        viewModel.getRepository()
+                                                                .getAllCustomersSync();
 
+                                                if (getActivity() != null) {
+                                                    getActivity().runOnUiThread(() -> {
+                                                        updateMapMarkers(freshCustomers);
+                                                    });
+                                                }
+                                            });
 
-                        });
-                    }
-                });
+                                    Toast.makeText(
+                                            getContext(),
+                                            "Delivered",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                });
+                            }
+                        }
+                );
+
             }
 
 

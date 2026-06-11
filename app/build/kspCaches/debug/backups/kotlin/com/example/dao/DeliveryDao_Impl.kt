@@ -69,7 +69,7 @@ public class DeliveryDao_Impl(
     }
     this.__updateAdapterOfDelivery = object : EntityDeleteOrUpdateAdapter<Delivery>() {
       protected override fun createQuery(): String =
-          "UPDATE OR ABORT `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ? WHERE `id` = ?"
+          "UPDATE OR REPLACE `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ? WHERE `id` = ?"
 
       protected override fun bind(statement: SQLiteStatement, entity: Delivery) {
         statement.bindLong(1, entity.getId())

@@ -137,7 +137,12 @@ public class MilkRepository {
                     });
 
             Log.d("FIREBASE_TEST", "After Firebase Save");
+
+            if (onCompleted != null) {
+                onCompleted.run();
+            }
         });
+
     }
 
     public void readDeliveriesFromFirebase() {
