@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-49:12
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-60:12
+INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-60:12
+INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-60:12
+INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:2:1-60:12
 MERGED from [androidx.databinding:viewbinding:9.1.1] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\8d0b794b042fffb1a0b5992c6e2e3b5b\workspace\transformed\viewbinding-9.1.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\fd34aded04a6eb6b779c5ab89495a8e7\workspace\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\1baac663a2a806f89f4c7415ae1a63f0\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
@@ -157,8 +157,8 @@ MERGED from [com.google.android.datatransport:transport-backend-cct:3.2.0] C:\Us
 	android:name
 		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:8:22-64
 application
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:10:5-47:19
-INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:10:5-47:19
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:10:5-58:19
+INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:10:5-58:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\fd34aded04a6eb6b779c5ab89495a8e7\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\fd34aded04a6eb6b779c5ab89495a8e7\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Lenovo\.gradle\caches\9.3.1\transforms\1baac663a2a806f89f4c7415ae1a63f0\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -243,44 +243,52 @@ ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\A
 		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:23:13-68
 	android:name
 		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:22:13-58
-activity#com.example.activities.MainActivity
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:25:9-33:20
+activity#com.example.activities.LoginActivity
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:26:9-36:20
 	android:exported
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:27:13-36
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:28:13-36
 	android:theme
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:28:13-54
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:29:13-54
 	android:name
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:26:13-52
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:27:13-53
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:29:13-32:29
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:31:13-34:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:30:17-69
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:32:17-69
 	android:name
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:30:25-66
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:32:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:31:17-77
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:33:17-77
 	android:name
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:31:27-74
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:33:27-74
+activity#com.example.activities.MainActivity
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:39:9-42:57
+	android:exported
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:41:13-37
+	android:theme
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:42:13-54
+	android:name
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:40:13-52
 activity#com.example.activities.CustomerCalendarActivity
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:35:9-39:57
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:45:9-49:57
 	android:label
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:38:13-46
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:48:13-46
 	android:exported
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:37:13-37
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:47:13-37
 	android:theme
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:39:13-54
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:49:13-54
 	android:name
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:36:13-64
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:46:13-64
 activity#com.example.activities.CustomerRecapDetailsActivity
-ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:41:9-45:57
+ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:52:9-56:57
 	android:label
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:44:13-50
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:55:13-50
 	android:exported
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:43:13-37
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:54:13-37
 	android:theme
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:45:13-54
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:56:13-54
 	android:name
-		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:42:13-68
+		ADDED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml:53:13-68
 uses-sdk
 INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Lenovo\Downloads\milk-delivery-management-app\app\src\main\AndroidManifest.xml

@@ -8,7 +8,7 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="36" />
 
-    <!-- Location permissions -->
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -52,8 +52,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCu1yvuGwg0RzR5wHbdx1VmcDvdI-QnnA" />
 
+        <!-- Login Screen -->
         <activity
-            android:name="com.example.activities.MainActivity"
+            android:name="com.example.activities.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.MilkDelivery" >
             <intent-filter>
@@ -62,11 +63,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Main Screen -->
+        <activity
+            android:name="com.example.activities.MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MilkDelivery" />
+
+        <!-- Calendar Screen -->
         <activity
             android:name="com.example.activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
             android:theme="@style/Theme.MilkDelivery" />
+
+        <!-- Recap Screen -->
         <activity
             android:name="com.example.activities.CustomerRecapDetailsActivity"
             android:exported="false"

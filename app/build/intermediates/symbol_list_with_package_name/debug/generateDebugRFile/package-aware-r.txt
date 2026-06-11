@@ -34,6 +34,7 @@ drawable ic_settings
 drawable ic_user
 drawable spinner_border
 id action_add_shortcut
+id btnLogin
 id btn_clear_cache
 id btn_detail_next
 id btn_detail_prev
@@ -61,6 +62,7 @@ id dialog_txt_address
 id dialog_txt_mobile
 id dialog_txt_name
 id drawer_layout
+id edtPhone
 id et_address
 id et_customer_name
 id et_latitude
@@ -114,6 +116,7 @@ id txt_recap_percentage
 id txt_recap_total_days
 layout activity_customer_calendar
 layout activity_customer_recap_details
+layout activity_login
 layout activity_main
 layout dialog_customer_details
 layout fragment_about_us

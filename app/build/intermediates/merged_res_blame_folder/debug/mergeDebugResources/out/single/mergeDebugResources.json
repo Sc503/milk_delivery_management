@@ -28,12 +28,12 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_toolbar_menu.xml.flat",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\toolbar_menu.xml"
-    },
-    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_data_extraction_rules.xml.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\data_extraction_rules.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_toolbar_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\toolbar_menu.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
@@ -48,12 +48,12 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_spinner_border.xml.flat",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\spinner_border.xml"
-    },
-    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_spinner_border.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\spinner_border.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
@@ -108,6 +108,10 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_monthly_recap.xml"
     },
     {
+        "merged": "com.example.app-debug-81:/layout_activity_login.xml.flat",
+        "source": "com.example.app-main-83:/layout/activity_login.xml"
+    },
+    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_location.xml.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_location.xml"
     },
@@ -150,10 +154,6 @@
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_foreground.xml.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_foreground.xml"
-    },
-    {
-        "merged": "com.example.app-debug-81:/layout_fragment_map.xml.flat",
-        "source": "com.example.app-main-83:/layout/fragment_map.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_back.xml.flat",

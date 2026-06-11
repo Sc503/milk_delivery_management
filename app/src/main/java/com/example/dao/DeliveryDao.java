@@ -17,9 +17,8 @@ public interface DeliveryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Delivery delivery);
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Delivery delivery);
-
     @Delete
     void delete(Delivery delivery);
 

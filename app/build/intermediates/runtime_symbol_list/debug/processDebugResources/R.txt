@@ -3688,6 +3688,7 @@ int id browser_actions_menu_item_icon 0x7f080067
 int id browser_actions_menu_item_text 0x7f080068
 int id browser_actions_menu_items 0x7f080069
 int id browser_actions_menu_view 0x7f08006a
+int id btnLogin 0x7f08026f
 int id btn_clear_cache 0x7f08006b
 int id btn_detail_next 0x7f08006c
 int id btn_detail_prev 0x7f08006d
@@ -3793,6 +3794,7 @@ int id east 0x7f0800d0
 int id edge 0x7f0800d1
 int id edit_query 0x7f0800d2
 int id edit_text_id 0x7f0800d3
+int id edtPhone 0x7f080270
 int id elastic 0x7f0800d4
 int id embed 0x7f0800d5
 int id end 0x7f0800d6
@@ -4322,6 +4324,7 @@ int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
 int layout activity_customer_calendar 0x7f0b001c
 int layout activity_customer_recap_details 0x7f0b001d
+int layout activity_login 0x7f0b0082
 int layout activity_main 0x7f0b001e
 int layout browser_actions_context_menu_page 0x7f0b001f
 int layout browser_actions_context_menu_row 0x7f0b0020
