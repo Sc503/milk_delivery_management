@@ -1,0 +1,6 @@
+{
+  "name": "Milk Delivery Management App",
+  "description": "An offline-first Android application in Java for tracking daily milk deliveries, managing customer profiles, viewing routes on a Google Map, and generating monthly delivery recaps.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

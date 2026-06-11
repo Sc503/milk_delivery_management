@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "144684277787",
+    "project_id": "milk-delivery-96dc0",
+    "storage_bucket": "milk-delivery-96dc0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144684277787:android:ecbd33d6256c79981e98be",
+        "android_client_info": {
+          "package_name": "com.aistudio.milkdelivery.qyvjpt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

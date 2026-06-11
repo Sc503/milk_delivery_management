@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_location"
+            android:title="Home (Map)" />
+        <item
+            android:id="@+id/nav_add_customer"
+            android:icon="@drawable/ic_add"
+            android:title="Add Customer" />
+        <item
+            android:id="@+id/nav_monthly_recap"
+            android:icon="@drawable/ic_calendar"
+            android:title="Monthly Recap" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="Settings" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_info"
+            android:title="About Us" />
+    </group>
+</menu>
