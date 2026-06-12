@@ -42,6 +42,16 @@ public class MonthlyRecapFragment extends Fragment {
 
     private final String[] years = {"2025", "2026", "2027", "2028"};
 
+    private int selectedMonth =
+            Calendar.getInstance().get(Calendar.MONTH);
+
+    private String selectedYear =
+            String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
+    private String customerFilter = "";
+    private int minDeliveriesFilter = 0;
+    private int minPendingFilter = 0;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,38 +64,50 @@ public class MonthlyRecapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupSpinners();
+
         setupRecyclerView();
 
-        binding.btnFilter.setOnClickListener(v -> runMonthlyCalculation());
+        binding.fabFilter.setOnClickListener(v -> {
+            showFilterBottomSheet();
+        });
 
-        // Run calculation once initially for the current month and year
+
+
+
         runMonthlyCalculation();
     }
 
-    private void setupSpinners() {
-        // Populating Month
-        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, months);
-        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinMonth.setAdapter(monthAdapter);
+    private void showFilterBottomSheet() {
 
-        // Populating Year
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, years);
-        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spinYear.setAdapter(yearAdapter);
+        FilterBottomSheet sheet =
+                new FilterBottomSheet(
+                        selectedMonth,
+                        selectedYear,
+                        customerFilter,
+                        minDeliveriesFilter,
+                        minPendingFilter,
 
-        // Set selections to current date
-        Calendar c = Calendar.getInstance();
-        binding.spinMonth.setSelection(c.get(Calendar.MONTH));
-        
-        String currentYearStr = String.valueOf(c.get(Calendar.YEAR));
-        for (int i = 0; i < years.length; i++) {
-            if (years[i].equals(currentYearStr)) {
-                binding.spinYear.setSelection(i);
-                break;
-            }
-        }
+                        (month,
+                         year,
+                         customer,
+                         deliveries,
+                         pending) -> {
+
+                            selectedMonth = month;
+                            selectedYear = year;
+                            customerFilter = customer;
+                            minDeliveriesFilter = deliveries;
+                            minPendingFilter = pending;
+
+                            runMonthlyCalculation();
+                        });
+
+        sheet.show(
+                getChildFragmentManager(),
+                "FILTER_SHEET");
     }
+
+
 
     private void setupRecyclerView() {
         binding.rvMonthlyRecap.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,27 +116,31 @@ public class MonthlyRecapFragment extends Fragment {
             Intent intent = new Intent(getContext(), CustomerRecapDetailsActivity.class);
             intent.putExtra("CUSTOMER_ID", item.customerId);
             
-            // Send selected month and year filters
-            intent.putExtra("FILTER_MONTH_INDEX", binding.spinMonth.getSelectedItemPosition());
-            intent.putExtra("FILTER_YEAR_STRING", (String) binding.spinYear.getSelectedItem());
+
+            intent.putExtra(
+                    "FILTER_MONTH_INDEX",
+                    selectedMonth);
+
+            intent.putExtra(
+                    "FILTER_YEAR_STRING",
+                    selectedYear);
             startActivity(intent);
         });
         binding.rvMonthlyRecap.setAdapter(adapter);
     }
 
     private void runMonthlyCalculation() {
-        final int selectedMonthIdx = binding.spinMonth.getSelectedItemPosition(); // 0-based
-        final String selectedYear = (String) binding.spinYear.getSelectedItem();
-        final int yearInt = Integer.parseInt(selectedYear);
+        final int selectedMonthIdx = selectedMonth;
+        final String selectedYearStr = selectedYear;
+        final int yearInt =
+                Integer.parseInt(selectedYearStr);
 
         final int totalDaysInMonth = DateUtils.getDaysInMonth(selectedMonthIdx, yearInt);
         final String yearMonthPrefix = DateUtils.getYearMonthPrefix(selectedMonthIdx, yearInt); // e.g. "2026-06%"
 
-        // Run in repository thread pool to keep UI responsive
         viewModel.getRepository().getExecutor().execute(() -> {
 
-            List<Customer> allCustomers =
-                    viewModel.getRepository().getAllCustomersSync();
+            List<Customer> allCustomers = viewModel.getRepository().getAllCustomersSync();
 
             if (allCustomers == null) {
                 allCustomers = new ArrayList<>();
@@ -122,13 +148,13 @@ public class MonthlyRecapFragment extends Fragment {
 
             final List<Customer> customersList = allCustomers;
 
-            // Step B: Fetch all deliveries matching this month
+
             List<Delivery> monthDeliveries = viewModel.getRepository().getDeliveriesForMonthSync(yearMonthPrefix);
             if (monthDeliveries == null) {
                 monthDeliveries = new ArrayList<>();
             }
 
-            // Index deliveries by Customer ID
+
             Map<Long, List<Delivery>> customerDeliveriesMap = new HashMap<>();
             for (Delivery d : monthDeliveries) {
                 List<Delivery> list = customerDeliveriesMap.get(d.getCustomerId());
@@ -139,18 +165,21 @@ public class MonthlyRecapFragment extends Fragment {
                 list.add(d);
             }
 
-            // Step C: Aggregate customer stats
+
             final List<MonthlyRecapAdapter.RecapItem> recapItems = new ArrayList<>();
             int totalDeliveriesSum = 0;
             int totalPendingSum = 0;
 
             for (Customer customer : customersList) {
+
                 List<Delivery> list = customerDeliveriesMap.get(customer.getId());
+
                 if (list == null) {
                     list = new ArrayList<>();
                 }
 
                 int deliveredCount = 0;
+
                 for (Delivery d : list) {
                     if ("Delivered".equalsIgnoreCase(d.getStatus())) {
                         deliveredCount++;
@@ -158,18 +187,43 @@ public class MonthlyRecapFragment extends Fragment {
                 }
 
                 int pendingCount = totalDaysInMonth - deliveredCount;
-                if (pendingCount < 0) pendingCount = 0;
 
-                double pct = totalDaysInMonth > 0 ? ((double) deliveredCount / totalDaysInMonth) * 100.0 : 0.0;
-                
-                recapItems.add(new MonthlyRecapAdapter.RecapItem(
-                        customer.getId(),
-                        customer.getName(),
-                        totalDaysInMonth,
-                        deliveredCount,
-                        pendingCount,
-                        pct
-                ));
+                if (pendingCount < 0) {
+                    pendingCount = 0;
+                }
+
+                double pct = totalDaysInMonth > 0
+                        ? ((double) deliveredCount / totalDaysInMonth) * 100.0
+                        : 0.0;
+
+
+                if (!customerFilter.trim().isEmpty()
+                        && !customer.getName().toLowerCase()
+                        .contains(customerFilter.toLowerCase())) {
+                    continue;
+                }
+
+
+                if (deliveredCount < minDeliveriesFilter) {
+                    continue;
+                }
+
+
+                if (minPendingFilter > 0
+                        && pendingCount > minPendingFilter) {
+                    continue;
+                }
+
+                recapItems.add(
+                        new MonthlyRecapAdapter.RecapItem(
+                                customer.getId(),
+                                customer.getName(),
+                                totalDaysInMonth,
+                                deliveredCount,
+                                pendingCount,
+                                pct
+                        )
+                );
 
                 totalDeliveriesSum += deliveredCount;
                 totalPendingSum += pendingCount;
@@ -182,7 +236,7 @@ public class MonthlyRecapFragment extends Fragment {
                     ? ((double) finalTotalDeliveries / (finalTotalDeliveries + finalTotalPending)) * 100.0 
                     : 0.0;
 
-            // Step D: Publish results to main UI thread
+
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     adapter.setData(recapItems);

@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Customer Name Header -->
+
         <TextView
             android:id="@+id/dialog_txt_name"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:textColor="@color/on_surface"
             android:layout_marginBottom="16dp" />
 
-        <!-- Mobile Item -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
 
         </LinearLayout>
 
-        <!-- Address Item -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,14 +82,14 @@
 
 
 
-        <!-- Actions Container Row -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end">
 
-            <!-- Cancel Button -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_cancel"
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:text="CANCEL"
                 android:layout_marginEnd="8dp" />
 
-            <!-- Deliver Button -->
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_deliver"
                 android:layout_width="wrap_content"

@@ -19,11 +19,11 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+
         binding.btnLogin.setOnClickListener(v -> {
 
-            String phone = binding.edtPhone.getText()
-                    .toString()
-                    .trim();
+            String phone = binding.edtPhone.getText().toString().trim();
 
             if (phone.isEmpty()) {
                 binding.edtPhone.setError("Enter Mobile Number");
@@ -35,20 +35,37 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(
-                    LoginActivity.this,
+
+            getSharedPreferences("UserSession", MODE_PRIVATE)
+                    .edit()
+                    .putBoolean("isLoggedIn", true)
+                    .putString("phone", phone)
+                    .apply();
+
+            Toast.makeText(LoginActivity.this,
                     "Login Successful",
-                    Toast.LENGTH_SHORT
-            ).show();
+                    Toast.LENGTH_SHORT).show();
 
-            startActivity(
-                    new Intent(
-                            LoginActivity.this,
-                            MainActivity.class
-                    )
-            );
-
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
+
+
         });
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        boolean isLoggedIn = getSharedPreferences("UserSession", MODE_PRIVATE)
+                .getBoolean("isLoggedIn", false);
+
+        if (isLoggedIn) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

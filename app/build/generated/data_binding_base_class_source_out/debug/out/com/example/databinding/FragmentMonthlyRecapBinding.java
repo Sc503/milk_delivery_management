@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.R;
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -23,7 +22,7 @@ public final class FragmentMonthlyRecapBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
-  public final MaterialButton btnFilter;
+  public final FloatingActionButton fabFilter;
 
   @NonNull
   public final TextView recapAveragePercentage;
@@ -40,26 +39,17 @@ public final class FragmentMonthlyRecapBinding implements ViewBinding {
   @NonNull
   public final RecyclerView rvMonthlyRecap;
 
-  @NonNull
-  public final Spinner spinMonth;
-
-  @NonNull
-  public final Spinner spinYear;
-
   private FragmentMonthlyRecapBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnFilter, @NonNull TextView recapAveragePercentage,
+      @NonNull FloatingActionButton fabFilter, @NonNull TextView recapAveragePercentage,
       @NonNull TextView recapTotalCustomers, @NonNull TextView recapTotalDeliveries,
-      @NonNull TextView recapTotalPending, @NonNull RecyclerView rvMonthlyRecap,
-      @NonNull Spinner spinMonth, @NonNull Spinner spinYear) {
+      @NonNull TextView recapTotalPending, @NonNull RecyclerView rvMonthlyRecap) {
     this.rootView = rootView;
-    this.btnFilter = btnFilter;
+    this.fabFilter = fabFilter;
     this.recapAveragePercentage = recapAveragePercentage;
     this.recapTotalCustomers = recapTotalCustomers;
     this.recapTotalDeliveries = recapTotalDeliveries;
     this.recapTotalPending = recapTotalPending;
     this.rvMonthlyRecap = rvMonthlyRecap;
-    this.spinMonth = spinMonth;
-    this.spinYear = spinYear;
   }
 
   @Override
@@ -89,9 +79,9 @@ public final class FragmentMonthlyRecapBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
-      id = R.id.btn_filter;
-      MaterialButton btnFilter = ViewBindings.findChildViewById(rootView, id);
-      if (btnFilter == null) {
+      id = R.id.fabFilter;
+      FloatingActionButton fabFilter = ViewBindings.findChildViewById(rootView, id);
+      if (fabFilter == null) {
         break missingId;
       }
 
@@ -125,21 +115,9 @@ public final class FragmentMonthlyRecapBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.spin_month;
-      Spinner spinMonth = ViewBindings.findChildViewById(rootView, id);
-      if (spinMonth == null) {
-        break missingId;
-      }
-
-      id = R.id.spin_year;
-      Spinner spinYear = ViewBindings.findChildViewById(rootView, id);
-      if (spinYear == null) {
-        break missingId;
-      }
-
-      return new FragmentMonthlyRecapBinding((LinearLayout) rootView, btnFilter,
+      return new FragmentMonthlyRecapBinding((LinearLayout) rootView, fabFilter,
           recapAveragePercentage, recapTotalCustomers, recapTotalDeliveries, recapTotalPending,
-          rvMonthlyRecap, spinMonth, spinYear);
+          rvMonthlyRecap);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

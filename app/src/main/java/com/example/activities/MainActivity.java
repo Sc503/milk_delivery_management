@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewModel.readDeliveriesFromFirebase();
 
 
-        // Pre-populate Database with beautiful demo records on first startup
+
         seedDatabaseOnFirstLaunch();
 
         setSupportActionBar(binding.toolbar);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem addCustomerItem = menu.findItem(R.id.action_add_shortcut);
         if (addCustomerItem != null) {
-            // Only display "+ Add New" button when Map Fragment is active!
+
             addCustomerItem.setVisible(activeFragment instanceof MapFragment);
         }
         return super.onPrepareOptionsMenu(menu);
@@ -162,10 +162,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Seed Database with standard mock customers as shown in the images,
-     * so that the application is immediately responsive, elegant, and interactive!
-     */
+
     private void seedDatabaseOnFirstLaunch() {
         viewModel.getRepository().getExecutor().execute(() -> {
             com.example.database.AppDatabase db = com.example.database.AppDatabase.getInstance(this);
@@ -184,35 +181,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 long id4 = db.customerDao().insert(c4);
                 long id5 = db.customerDao().insert(c5);
 
-                // Add standard delivery logs for June to make the Monthly Recap beautiful of 93.33% calculations!
-                String selectedYearMonth = "2026-06-";
-                int totalDays = 9; // up to current June 9, 2026
 
-                // Customers deliveries seeding
+                String selectedYearMonth = "2026-06-";
+                int totalDays = 9;
+
+
                 for (int d = 1; d <= totalDays; d++) {
                     String dateStr = String.format(java.util.Locale.getDefault(), "%s%02d", selectedYearMonth, d);
                     
-                    // John Doe (Delivered all except June 5, which is Pending)
+
                     if (d != 5) {
                         db.deliveryDao().insert(new Delivery(id1, dateStr, "07:45 AM", "Delivered"));
                     } else {
                         db.deliveryDao().insert(new Delivery(id1, dateStr, "--", "Pending"));
                     }
 
-                    // David Smith (Delivered all)
+
                     db.deliveryDao().insert(new Delivery(id2, dateStr, "07:50 AM", "Delivered"));
 
-                    // Michael Brown (Delivered all except June 3, which is Pending)
+
                     if (d != 3) {
                         db.deliveryDao().insert(new Delivery(id3, dateStr, "07:40 AM", "Delivered"));
                     } else {
                         db.deliveryDao().insert(new Delivery(id3, dateStr, "--", "Pending"));
                     }
 
-                    // James Wilson
+
                     db.deliveryDao().insert(new Delivery(id4, dateStr, "08:10 AM", "Delivered"));
 
-                    // Robert Johnson
+
                     db.deliveryDao().insert(new Delivery(id5, dateStr, "08:05 AM", "Delivered"));
                 }
             }

@@ -55,8 +55,7 @@
         <!-- Login Screen -->
         <activity
             android:name="com.example.activities.LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.MilkDelivery" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
