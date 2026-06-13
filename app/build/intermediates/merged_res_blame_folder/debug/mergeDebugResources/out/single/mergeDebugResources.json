@@ -1,206 +1,207 @@
 [
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_customer_recap_details.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_customer_recap_details.xml"
+        "merged": "com.example.app-debug-81:/drawable_drawer_item_selector.xml.flat",
+        "source": "com.example.app-main-83:/drawable/drawer_item_selector.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_bottom_sheet_filter.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\bottom_sheet_filter.xml"
+        "merged": "com.example.app-debug-81:/xml_data_extraction_rules.xml.flat",
+        "source": "com.example.app-main-83:/xml/data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_monthly_recap.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_monthly_recap.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_back.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_back.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_map.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_map.xml"
+        "merged": "com.example.app-debug-81:/drawable_circle_background.xml.flat",
+        "source": "com.example.app-main-83:/drawable/circle_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app-debug-81:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_nav_header.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\nav_header.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_settings.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
+        "merged": "com.example.app-debug-81:/drawable_ic_user.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_user.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app-debug-81:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
+        "merged": "com.example.app-debug-81:/drawable_ic_add.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_add.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_settings.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_settings.xml"
+        "merged": "com.example.app-debug-81:/layout_bottom_sheet_filter.xml.flat",
+        "source": "com.example.app-main-83:/layout/bottom_sheet_filter.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app-debug-81:/menu_drawer_menu.xml.flat",
+        "source": "com.example.app-main-83:/menu/drawer_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_login.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_login.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_customer_calendar.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_customer_calendar.xml"
+        "merged": "com.example.app-debug-81:/layout_fragment_about_us.xml.flat",
+        "source": "com.example.app-main-83:/layout/fragment_about_us.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_add.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_add.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_drawer_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\drawer_menu.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_circle_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\circle_background.xml"
+        "merged": "com.example.app-debug-81:/layout_item_monthly_recap_customer.xml.flat",
+        "source": "com.example.app-main-83:/layout/item_monthly_recap_customer.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app-debug-81:/layout_item_calendar_day.xml.flat",
+        "source": "com.example.app-main-83:/layout/item_calendar_day.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_delivery_history.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_delivery_history.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_dialog_customer_details.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\dialog_customer_details.xml"
+        "merged": "com.example.app-debug-81:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-hdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\data_extraction_rules.xml"
-    },
-    {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_user.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_user.xml"
-    },
-    {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\backup_rules.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_menu.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_menu.xml"
     },
     {
         "merged": "com.example.app-debug-81:/layout_dialog_customer_details.xml.flat",
         "source": "com.example.app-main-83:/layout/dialog_customer_details.xml"
     },
     {
+        "merged": "com.example.app-debug-81:/menu_toolbar_menu.xml.flat",
+        "source": "com.example.app-main-83:/menu/toolbar_menu.xml"
+    },
+    {
+<<<<<<< HEAD
+        "merged": "com.example.app-debug-81:/layout_dialog_customer_details.xml.flat",
+        "source": "com.example.app-main-83:/layout/dialog_customer_details.xml"
+=======
+        "merged": "com.example.app-debug-81:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-hdpi/ic_launcher_round.webp"
+>>>>>>> origin/main
+    },
+    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_background.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "com.example.app-debug-81:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-hdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher_foreground.webp"
+        "merged": "com.example.app-debug-81:/layout_fragment_settings.xml.flat",
+        "source": "com.example.app-main-83:/layout/fragment_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_circle_today_solid.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\circle_today_solid.xml"
+        "merged": "com.example.app-debug-81:/layout_activity_main.xml.flat",
+        "source": "com.example.app-main-83:/layout/activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
+        "merged": "com.example.app-debug-81:/layout_item_delivery_history.xml.flat",
+        "source": "com.example.app-main-83:/layout/item_delivery_history.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_spinner_border.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\spinner_border.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_add_customer.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_add_customer.xml"
+        "merged": "com.example.app-debug-81:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-mdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher_round.webp"
+        "merged": "com.example.app-debug-81:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.example.app-main-83:/mipmap-anydpi-v26/ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_settings.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_settings.xml"
+        "merged": "com.example.app-debug-81:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.example.app-main-83:/mipmap-anydpi-v26/ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_main.xml"
+        "merged": "com.example.app-debug-81:/layout_activity_login.xml.flat",
+        "source": "com.example.app-main-83:/layout/activity_login.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "com.example.app-debug-81:/layout_activity_customer_calendar.xml.flat",
+        "source": "com.example.app-main-83:/layout/activity_customer_calendar.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_calendar_day.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_calendar_day.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_monthly_recap_customer.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_monthly_recap_customer.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxxhdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "com.example.app-debug-81:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_menu.xml"
+        "merged": "com.example.app-debug-81:/drawable_spinner_border.xml.flat",
+        "source": "com.example.app-main-83:/drawable/spinner_border.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_info.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_info.xml"
+        "merged": "com.example.app-debug-81:/layout_fragment_map.xml.flat",
+        "source": "com.example.app-main-83:/layout/fragment_map.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_info.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_info.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_calendar.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_calendar.xml"
+        "merged": "com.example.app-debug-81:/layout_nav_header.xml.flat",
+        "source": "com.example.app-main-83:/layout/nav_header.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_about_us.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_about_us.xml"
+        "merged": "com.example.app-debug-81:/drawable_circle_today_solid.xml.flat",
+        "source": "com.example.app-main-83:/drawable/circle_today_solid.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "com.example.app-debug-81:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-xxhdpi/ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher_foreground.webp"
+        "merged": "com.example.app-debug-81:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-mdpi/ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_drawer_item_selector.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\drawer_item_selector.xml"
+        "merged": "com.example.app-debug-81:/layout_fragment_add_customer.xml.flat",
+        "source": "com.example.app-main-83:/layout/fragment_add_customer.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "com.example.app-debug-81:/layout_fragment_monthly_recap.xml.flat",
+        "source": "com.example.app-main-83:/layout/fragment_monthly_recap.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_toolbar_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\toolbar_menu.xml"
+        "merged": "com.example.app-debug-81:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.example.app-main-83:/mipmap-mdpi/ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_location.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_location.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_location.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_location.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "com.example.app-debug-81:/drawable_ic_calendar.xml.flat",
+        "source": "com.example.app-main-83:/drawable/ic_calendar.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher.webp"
-    },
-    {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_back.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_back.xml"
+        "merged": "com.example.app-debug-81:/xml_backup_rules.xml.flat",
+        "source": "com.example.app-main-83:/xml/backup_rules.xml"
     }
 ]

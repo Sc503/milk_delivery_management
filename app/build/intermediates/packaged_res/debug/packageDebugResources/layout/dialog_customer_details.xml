@@ -17,7 +17,11 @@
         android:orientation="vertical"
         android:padding="24dp">
 
+<<<<<<< HEAD
         <!-- NAME -->
+=======
+
+>>>>>>> origin/main
         <TextView
             android:id="@+id/dialog_txt_name"
             android:layout_width="match_parent"
@@ -28,6 +32,7 @@
             android:textSize="22sp"
             android:textStyle="bold"/>
 
+<<<<<<< HEAD
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -73,6 +78,9 @@
             android:textSize="16sp"/>
 
         <!-- CALL & NAVIGATE BUTTONS IN A ROW -->
+=======
+
+>>>>>>> origin/main
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +88,65 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
+<<<<<<< HEAD
+=======
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_settings"
+                app:tint="@color/primary"
+                android:contentDescription="Phone icon" />
+
+            <TextView
+                android:id="@+id/dialog_txt_mobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="9876543210"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="@color/on_surface_variant" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_location"
+                app:tint="@color/primary"
+                android:contentDescription="Address icon" />
+
+            <TextView
+                android:id="@+id/dialog_txt_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:text="221B Baker Street, London"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="@color/on_surface_variant" />
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+
+>>>>>>> origin/main
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_call"
                 style="@style/Widget.Material3.Button.OutlinedButton"
@@ -93,6 +160,10 @@
                 app:strokeColor="@color/primary"
                 app:strokeWidth="1.5dp"/>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/main
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_navigate"
                 style="@style/Widget.Material3.Button.OutlinedButton"
