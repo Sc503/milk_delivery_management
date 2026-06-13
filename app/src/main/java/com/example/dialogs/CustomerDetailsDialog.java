@@ -4,9 +4,13 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.content.Intent;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +37,9 @@ public class CustomerDetailsDialog extends DialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = DialogCustomerDetailsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -42,38 +48,58 @@ public class CustomerDetailsDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Bind data values
+
         binding.dialogTxtName.setText(customer.getName());
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
 
+        binding.dialogBtnCall.setOnClickListener(v -> {
+            Intent dialIntent = new Intent(
+                    Intent.ACTION_DIAL,
+                    Uri.parse("tel:" + customer.getMobile())
+            );
+            startActivity(dialIntent);
+        });
 
-        // Cancel click hook
-        binding.dialogBtnCancel.setOnClickListener(v -> {
-            if (callback != null) {
-                callback.onCancel();
-            }
+        binding.dialogBtnNavigate.setOnClickListener(v -> {
+            Uri gmmIntentUri = Uri.parse(
+                    "google.navigation:q="
+                            + customer.getLatitude()
+                            + ","
+                            + customer.getLongitude()
+            );
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+        });
+
+        binding.dialogBtnDeliver.setOnClickListener(v -> {
+            if (callback != null) callback.onDeliver(customer);
             dismiss();
         });
 
-        // Deliver click hook
-        binding.dialogBtnDeliver.setOnClickListener(v -> {
-            if (callback != null) {
-                callback.onDeliver(customer);
-            }
+
+        binding.dialogBtnCancel.setOnClickListener(v -> {
+            if (callback != null) callback.onCancel();
             dismiss();
         });
     }
 
-    @NonNull
+
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        // Remove background frame padding so card corners can be drawn smoothly
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    public void onStart() {
+        super.onStart();
+        Window window = getDialog().getWindow();
+        if (window != null) {
+            window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            window.setGravity(Gravity.CENTER);
+            window.setBackgroundDrawable(
+                    new ColorDrawable(Color.TRANSPARENT)
+            );
         }
-        return dialog;
     }
 
     @Override

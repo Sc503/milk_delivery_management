@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
-    app:strokeWidth="0dp"
-    app:cardBackgroundColor="@color/white">
+    android:layout_gravity="center"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,100 +17,124 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Customer Name Header -->
+        <!-- NAME -->
         <TextView
             android:id="@+id/dialog_txt_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="John Doe"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
             android:textColor="@color/on_surface"
-            android:layout_marginBottom="16dp" />
+            android:textSize="22sp"
+            android:textStyle="bold"/>
 
-        <!-- Mobile Item -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/gray_light"/>
+
+        <!-- MOBILE LABEL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
+            android:textColor="@color/gray_dark"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/dialog_txt_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="9876543210"
+            android:textColor="@color/on_surface"
+            android:textSize="16sp"/>
+
+        <!-- ADDRESS LABEL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Address"
+            android:textColor="@color/gray_dark"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/dialog_txt_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Customer Address"
+            android:textColor="@color/on_surface"
+            android:textSize="16sp"/>
+
+        <!-- CALL & NAVIGATE BUTTONS IN A ROW -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:weightSum="2">
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_settings"
-                app:tint="@color/primary"
-                android:contentDescription="Phone icon" />
-
-            <TextView
-                android:id="@+id/dialog_txt_mobile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:text="9876543210"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textColor="@color/on_surface_variant" />
-
-        </LinearLayout>
-
-        <!-- Address Item -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_location"
-                app:tint="@color/primary"
-                android:contentDescription="Address icon" />
-
-            <TextView
-                android:id="@+id/dialog_txt_address"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="12dp"
-                android:text="221B Baker Street, London"
-                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:textColor="@color/on_surface_variant" />
-
-        </LinearLayout>
-
-
-
-        <!-- Actions Container Row -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <!-- Cancel Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/dialog_btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:textColor="@color/primary"
-                android:text="CANCEL"
-                android:layout_marginEnd="8dp" />
+                android:id="@+id/dialog_btn_call"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="📞 Call"
+                android:textAllCaps="false"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"/>
 
-            <!-- Deliver Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/dialog_btn_deliver"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:backgroundTint="@color/primary"
-                android:textColor="@color/white"
-                android:text="DELIVER" />
+                android:id="@+id/dialog_btn_navigate"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="🗺 Navigate"
+                android:textAllCaps="false"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"/>
 
         </LinearLayout>
+
+        <!-- DELIVER BUTTON -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/dialog_btn_deliver"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:text="Mark Delivered"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:cornerRadius="28dp"/>
+
+        <!-- CANCEL -->
+        <TextView
+            android:id="@+id/dialog_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="14dp"
+            android:padding="8dp"
+            android:text="Cancel"
+            android:textColor="@color/primary"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

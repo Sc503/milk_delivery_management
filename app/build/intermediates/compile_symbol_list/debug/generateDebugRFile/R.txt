@@ -56,8 +56,10 @@ int id detail_address 0x0
 int id detail_avatar 0x0
 int id detail_mobile 0x0
 int id detail_name 0x0
+int id dialog_btn_call 0x0
 int id dialog_btn_cancel 0x0
 int id dialog_btn_deliver 0x0
+int id dialog_btn_navigate 0x0
 int id dialog_txt_address 0x0
 int id dialog_txt_mobile 0x0
 int id dialog_txt_name 0x0

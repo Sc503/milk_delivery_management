@@ -3765,8 +3765,10 @@ int id detail_address 0x7f0800b3
 int id detail_avatar 0x7f0800b4
 int id detail_mobile 0x7f0800b5
 int id detail_name 0x7f0800b6
+int id dialog_btn_call 0x7f08027b
 int id dialog_btn_cancel 0x7f0800b7
 int id dialog_btn_deliver 0x7f0800b8
+int id dialog_btn_navigate 0x7f08027c
 int id dialog_button 0x7f0800b9
 int id dialog_txt_address 0x7f0800ba
 int id dialog_txt_mobile 0x7f0800bb

@@ -123,6 +123,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Run database fetch on background thread
         viewModel.getRepository().getExecutor().execute(() -> {
             List<Delivery> todayDeliveries = viewModel.getRepository().getDeliveriesForDateSync(today);
+
+            android.util.Log.d("MAP_DEBUG", "Today = " + today);
+
+            for (Delivery d : todayDeliveries) {
+
+                android.util.Log.d(
+                        "MAP_DEBUG",
+                        "CustomerId = "
+                                + d.getCustomerId()
+                                + " Status = "
+                                + d.getStatus()
+                );
+            }
+
             Map<Long, Boolean> deliveryStatusMap = new HashMap<>();
             if (todayDeliveries != null) {
                 for (Delivery d : todayDeliveries) {

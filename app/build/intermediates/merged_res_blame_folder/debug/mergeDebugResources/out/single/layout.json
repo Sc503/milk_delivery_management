@@ -60,7 +60,7 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_calendar_day.xml"
     },
     {
-        "merged": "com.example.app-mergeDebugResources-80:/layout/activity_customer_recap_details.xml",
-        "source": "com.example.app-main-83:/layout/activity_customer_recap_details.xml"
+        "merged": "com.example.app-mergeDebugResources-80:/layout/dialog_customer_details.xml",
+        "source": "com.example.app-main-83:/layout/dialog_customer_details.xml"
     }
 ]

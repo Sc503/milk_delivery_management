@@ -21,10 +21,16 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
   private final MaterialCardView rootView;
 
   @NonNull
-  public final MaterialButton dialogBtnCancel;
+  public final MaterialButton dialogBtnCall;
+
+  @NonNull
+  public final TextView dialogBtnCancel;
 
   @NonNull
   public final MaterialButton dialogBtnDeliver;
+
+  @NonNull
+  public final MaterialButton dialogBtnNavigate;
 
   @NonNull
   public final TextView dialogTxtAddress;
@@ -36,12 +42,15 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
   public final TextView dialogTxtName;
 
   private DialogCustomerDetailsBinding(@NonNull MaterialCardView rootView,
-      @NonNull MaterialButton dialogBtnCancel, @NonNull MaterialButton dialogBtnDeliver,
+      @NonNull MaterialButton dialogBtnCall, @NonNull TextView dialogBtnCancel,
+      @NonNull MaterialButton dialogBtnDeliver, @NonNull MaterialButton dialogBtnNavigate,
       @NonNull TextView dialogTxtAddress, @NonNull TextView dialogTxtMobile,
       @NonNull TextView dialogTxtName) {
     this.rootView = rootView;
+    this.dialogBtnCall = dialogBtnCall;
     this.dialogBtnCancel = dialogBtnCancel;
     this.dialogBtnDeliver = dialogBtnDeliver;
+    this.dialogBtnNavigate = dialogBtnNavigate;
     this.dialogTxtAddress = dialogTxtAddress;
     this.dialogTxtMobile = dialogTxtMobile;
     this.dialogTxtName = dialogTxtName;
@@ -74,8 +83,14 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.dialog_btn_call;
+      MaterialButton dialogBtnCall = ViewBindings.findChildViewById(rootView, id);
+      if (dialogBtnCall == null) {
+        break missingId;
+      }
+
       id = R.id.dialog_btn_cancel;
-      MaterialButton dialogBtnCancel = ViewBindings.findChildViewById(rootView, id);
+      TextView dialogBtnCancel = ViewBindings.findChildViewById(rootView, id);
       if (dialogBtnCancel == null) {
         break missingId;
       }
@@ -83,6 +98,12 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
       id = R.id.dialog_btn_deliver;
       MaterialButton dialogBtnDeliver = ViewBindings.findChildViewById(rootView, id);
       if (dialogBtnDeliver == null) {
+        break missingId;
+      }
+
+      id = R.id.dialog_btn_navigate;
+      MaterialButton dialogBtnNavigate = ViewBindings.findChildViewById(rootView, id);
+      if (dialogBtnNavigate == null) {
         break missingId;
       }
 
@@ -104,8 +125,9 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new DialogCustomerDetailsBinding((MaterialCardView) rootView, dialogBtnCancel,
-          dialogBtnDeliver, dialogTxtAddress, dialogTxtMobile, dialogTxtName);
+      return new DialogCustomerDetailsBinding((MaterialCardView) rootView, dialogBtnCall,
+          dialogBtnCancel, dialogBtnDeliver, dialogBtnNavigate, dialogTxtAddress, dialogTxtMobile,
+          dialogTxtName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

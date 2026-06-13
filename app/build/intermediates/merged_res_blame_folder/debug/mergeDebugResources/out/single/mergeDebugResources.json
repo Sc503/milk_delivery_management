@@ -88,12 +88,12 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_background.xml"
+        "merged": "com.example.app-debug-81:/layout_dialog_customer_details.xml.flat",
+        "source": "com.example.app-main-83:/layout/dialog_customer_details.xml"
     },
     {
-        "merged": "com.example.app-debug-81:/layout_activity_customer_recap_details.xml.flat",
-        "source": "com.example.app-main-83:/layout/activity_customer_recap_details.xml"
+        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_background.xml"
     },
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher.webp.flat",
