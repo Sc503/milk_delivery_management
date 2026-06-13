@@ -124,12 +124,28 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     private void loadCustomerProfile() {
         viewModel.getCustomerById(customerId).observe(this, customer -> {
             if (customer != null) {
+
                 binding.detailName.setText(customer.getName());
                 binding.detailMobile.setText(customer.getMobile());
                 binding.detailAddress.setText(customer.getAddress());
+
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(customer.getName() + " Recap");
                 }
+
+                binding.detailName.setOnClickListener(v -> {
+
+                    Intent intent =
+                            new Intent(
+                                    CustomerRecapDetailsActivity.this,
+                                    MainActivity.class
+                            );
+
+                    intent.putExtra("CUSTOMER_ID", customerId);
+                    intent.putExtra("OPEN_CUSTOMER_LOCATION", true);
+
+                    startActivity(intent);
+                });
             }
         });
     }

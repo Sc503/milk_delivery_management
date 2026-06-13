@@ -61,6 +61,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         binding.navView.setNavigationItemSelectedListener(this);
 
+        if (getIntent().getBooleanExtra(
+                "OPEN_CUSTOMER_LOCATION",
+                false
+        )) {
+
+            long customerId =
+                    getIntent().getLongExtra(
+                            "CUSTOMER_ID",
+                            -1
+                    );
+
+            Bundle bundle =
+                    new Bundle();
+
+            bundle.putLong(
+                    "CUSTOMER_ID",
+                    customerId
+            );
+
+            MapFragment fragment =
+                    new MapFragment();
+
+            fragment.setArguments(bundle);
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(
+                            R.id.fragment_container,
+                            fragment
+                    )
+                    .commit();
+
+            return;
+        }
         // Load map as initial starting fragment
         if (savedInstanceState == null) {
             navigateToMenuItem(R.id.nav_home);

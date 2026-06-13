@@ -47,10 +47,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationClient;
     private final Map<String, Customer> markerLookup = new HashMap<>();
 
+    private long selectedCustomerId = -1;
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
-    @Nullable
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            selectedCustomerId =
+                    getArguments().getLong(
+                            "CUSTOMER_ID",
+                            -1
+                    );
+        }
+    }
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMapBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
@@ -80,11 +92,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         googleMap.setOnMarkerClickListener(marker -> {
+
             Customer customer = markerLookup.get(marker.getId());
+
             if (customer != null) {
+
+                // Smooth single tap zoom
+                googleMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                                marker.getPosition(),
+                                18f
+                        )
+                );
+
+                // small delay for better UX (optional but smooth)
+                marker.showInfoWindow();
+
+                // open dialog
                 openCustomerDetailsDialog(customer);
+
                 return true;
             }
+
             return false;
         });
 
@@ -142,6 +171,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap) {
+
         if (googleMap == null) return;
 
         googleMap.clear();
@@ -150,7 +180,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
 
+        Marker selectedMarker = null;
+        LatLng selectedLatLng = null;
+
         for (Customer customer : customers) {
+
             LatLng latLng = new LatLng(customer.getLatitude(), customer.getLongitude());
             boundsBuilder.include(latLng);
 
@@ -167,25 +201,66 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                             .snippet(customer.getAddress())
                             .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
             );
+
             if (marker != null) {
                 markerLookup.put(marker.getId(), customer);
             }
+
+            // select customer store कर
+            if (customer.getId() == selectedCustomerId) {
+                selectedMarker = marker;
+                selectedLatLng = latLng;
+            }
         }
 
-        // Auto zoom and align camera bounds
+        // 🔥 PRIORITY 1: selected customer focus
+        if (selectedLatLng != null) {
+
+            googleMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                            selectedLatLng,
+                            18f
+                    )
+            );
+
+            if (selectedMarker != null) {
+                selectedMarker.showInfoWindow();
+            }
+
+            return; // stop further camera logic
+        }
+
+        // 🔥 DEFAULT camera logic
         try {
             if (customers.size() == 1) {
-                LatLng singleLatLng = new LatLng(customers.get(0).getLatitude(), customers.get(0).getLongitude());
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(singleLatLng, 14.0f));
+
+                LatLng singleLatLng = new LatLng(
+                        customers.get(0).getLatitude(),
+                        customers.get(0).getLongitude()
+                );
+
+                googleMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                                singleLatLng,
+                                14.0f
+                        )
+                );
+
             } else if (customers.size() > 1) {
+
                 LatLngBounds bounds = boundsBuilder.build();
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 120));
+
+                googleMap.animateCamera(
+                        CameraUpdateFactory.newLatLngBounds(
+                                bounds,
+                                120
+                        )
+                );
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     private void openCustomerDetailsDialog(Customer customer) {
         CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, new CustomerDetailsDialog.DialogCallback() {
             @Override
