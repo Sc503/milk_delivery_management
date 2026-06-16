@@ -103,6 +103,11 @@ public class DeliveryDao_Impl(
     _result
   }
 
+  public override fun insertAll(deliveries: MutableList<Delivery?>?): Unit = performBlocking(__db,
+      false, true) { _connection ->
+    __insertAdapterOfDelivery.insert(_connection, deliveries)
+  }
+
   public override fun delete(delivery: Delivery?): Unit = performBlocking(__db, false, true) {
       _connection ->
     __deleteAdapterOfDelivery.handle(_connection, delivery)
@@ -495,6 +500,106 @@ public class DeliveryDao_Impl(
     }
   }
 
+  public override fun getAllDeliveriesSync(): MutableList<Delivery?>? {
+    val _sql: String = "SELECT * FROM deliveries"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfCustomerId: Int = getColumnIndexOrThrow(_stmt, "customerId")
+        val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
+        val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
+        val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _result: MutableList<Delivery?> = mutableListOf()
+        while (_stmt.step()) {
+          val _item: Delivery?
+          _item = Delivery()
+          val _tmpId: Long
+          _tmpId = _stmt.getLong(_columnIndexOfId)
+          _item.setId(_tmpId)
+          val _tmpCustomerId: Long
+          _tmpCustomerId = _stmt.getLong(_columnIndexOfCustomerId)
+          _item.setCustomerId(_tmpCustomerId)
+          val _tmpDeliveryDate: String?
+          if (_stmt.isNull(_columnIndexOfDeliveryDate)) {
+            _tmpDeliveryDate = null
+          } else {
+            _tmpDeliveryDate = _stmt.getText(_columnIndexOfDeliveryDate)
+          }
+          _item.setDeliveryDate(_tmpDeliveryDate)
+          val _tmpDeliveredTime: String?
+          if (_stmt.isNull(_columnIndexOfDeliveredTime)) {
+            _tmpDeliveredTime = null
+          } else {
+            _tmpDeliveredTime = _stmt.getText(_columnIndexOfDeliveredTime)
+          }
+          _item.setDeliveredTime(_tmpDeliveredTime)
+          val _tmpStatus: String?
+          if (_stmt.isNull(_columnIndexOfStatus)) {
+            _tmpStatus = null
+          } else {
+            _tmpStatus = _stmt.getText(_columnIndexOfStatus)
+          }
+          _item.setStatus(_tmpStatus)
+          _result.add(_item)
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override fun getAllDeliveriesForBackup(): MutableList<Delivery?>? {
+    val _sql: String = "SELECT * FROM deliveries"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfCustomerId: Int = getColumnIndexOrThrow(_stmt, "customerId")
+        val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
+        val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
+        val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _result: MutableList<Delivery?> = mutableListOf()
+        while (_stmt.step()) {
+          val _item: Delivery?
+          _item = Delivery()
+          val _tmpId: Long
+          _tmpId = _stmt.getLong(_columnIndexOfId)
+          _item.setId(_tmpId)
+          val _tmpCustomerId: Long
+          _tmpCustomerId = _stmt.getLong(_columnIndexOfCustomerId)
+          _item.setCustomerId(_tmpCustomerId)
+          val _tmpDeliveryDate: String?
+          if (_stmt.isNull(_columnIndexOfDeliveryDate)) {
+            _tmpDeliveryDate = null
+          } else {
+            _tmpDeliveryDate = _stmt.getText(_columnIndexOfDeliveryDate)
+          }
+          _item.setDeliveryDate(_tmpDeliveryDate)
+          val _tmpDeliveredTime: String?
+          if (_stmt.isNull(_columnIndexOfDeliveredTime)) {
+            _tmpDeliveredTime = null
+          } else {
+            _tmpDeliveredTime = _stmt.getText(_columnIndexOfDeliveredTime)
+          }
+          _item.setDeliveredTime(_tmpDeliveredTime)
+          val _tmpStatus: String?
+          if (_stmt.isNull(_columnIndexOfStatus)) {
+            _tmpStatus = null
+          } else {
+            _tmpStatus = _stmt.getText(_columnIndexOfStatus)
+          }
+          _item.setStatus(_tmpStatus)
+          _result.add(_item)
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
   public override fun findDelivery(customerId: Long, date: String?): Delivery? {
     val _sql: String = "SELECT * FROM deliveries WHERE customerId = ? AND deliveryDate = ? LIMIT 1"
     return performBlocking(__db, true, false) { _connection ->
@@ -547,6 +652,18 @@ public class DeliveryDao_Impl(
           _result = null
         }
         _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override fun deleteAll() {
+    val _sql: String = "DELETE FROM deliveries"
+    return performBlocking(__db, false, true) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        _stmt.step()
       } finally {
         _stmt.close()
       }

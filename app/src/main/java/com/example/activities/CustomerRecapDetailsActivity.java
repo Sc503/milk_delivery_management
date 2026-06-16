@@ -57,7 +57,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        // Retrieve arguments
+
         customerId = getIntent().getLongExtra("CUSTOMER_ID", -1);
         filterMonthIdx = getIntent().getIntExtra("FILTER_MONTH_INDEX", -1);
         String yearStr = getIntent().getStringExtra("FILTER_YEAR_STRING");
@@ -104,7 +104,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         });
 
         binding.fabShowCalendar.setOnClickListener(v -> {
-            // Quick jump straight to SCREEN 4 (Customer Calendar)
+
             Intent calendarIntent = new Intent(CustomerRecapDetailsActivity.this, CustomerCalendarActivity.class);
             calendarIntent.putExtra("CUSTOMER_ID", customerId);
             calendarIntent.putExtra("SELECTED_MONTH", filterMonthIdx);
@@ -159,19 +159,18 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         final String yearMonthPrefix = DateUtils.getYearMonthString(filterMonthIdx, filterYearInt); // YYYY-MM
 
         viewModel.getRepository().getExecutor().execute(() -> {
-            // Step 1: Read all deliveries for this specific customer
+
             List<Delivery> allCustomerDeliveries = viewModel.getRepository().getDeliveriesForCustomerSync(customerId);
             if (allCustomerDeliveries == null) {
                 allCustomerDeliveries = new ArrayList<>();
             }
 
-            // Index them by date string "YYYY-MM-DD" for fast O(1) loop checks
+
             Map<String, Delivery> dateMap = new HashMap<>();
             for (Delivery d : allCustomerDeliveries) {
                 dateMap.put(d.getDeliveryDate(), d);
             }
 
-            // Step 2: Generate lists day-by-day (e.g. 1st to 30th/31st of selected month)
             List<Delivery> detailHistory = new ArrayList<>();
             int deliveredCount = 0;
 

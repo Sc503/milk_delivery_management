@@ -29,12 +29,48 @@ public class CustomerDao_Impl(
 
   private val __insertAdapterOfCustomer: EntityInsertAdapter<Customer>
 
+  private val __insertAdapterOfCustomer_1: EntityInsertAdapter<Customer>
+
   private val __deleteAdapterOfCustomer: EntityDeleteOrUpdateAdapter<Customer>
 
   private val __updateAdapterOfCustomer: EntityDeleteOrUpdateAdapter<Customer>
   init {
     this.__db = __db
     this.__insertAdapterOfCustomer = object : EntityInsertAdapter<Customer>() {
+      protected override fun createQuery(): String =
+          "INSERT OR ABORT INTO `customers` (`id`,`name`,`mobile`,`address`,`latitude`,`longitude`,`createdDate`) VALUES (nullif(?, 0),?,?,?,?,?,?)"
+
+      protected override fun bind(statement: SQLiteStatement, entity: Customer) {
+        statement.bindLong(1, entity.getId())
+        val _tmpName: String? = entity.getName()
+        if (_tmpName == null) {
+          statement.bindNull(2)
+        } else {
+          statement.bindText(2, _tmpName)
+        }
+        val _tmpMobile: String? = entity.getMobile()
+        if (_tmpMobile == null) {
+          statement.bindNull(3)
+        } else {
+          statement.bindText(3, _tmpMobile)
+        }
+        val _tmpAddress: String? = entity.getAddress()
+        if (_tmpAddress == null) {
+          statement.bindNull(4)
+        } else {
+          statement.bindText(4, _tmpAddress)
+        }
+        statement.bindDouble(5, entity.getLatitude())
+        statement.bindDouble(6, entity.getLongitude())
+        val _tmpCreatedDate: String? = entity.getCreatedDate()
+        if (_tmpCreatedDate == null) {
+          statement.bindNull(7)
+        } else {
+          statement.bindText(7, _tmpCreatedDate)
+        }
+      }
+    }
+    this.__insertAdapterOfCustomer_1 = object : EntityInsertAdapter<Customer>() {
       protected override fun createQuery(): String =
           "INSERT OR REPLACE INTO `customers` (`id`,`name`,`mobile`,`address`,`latitude`,`longitude`,`createdDate`) VALUES (nullif(?, 0),?,?,?,?,?,?)"
 
@@ -116,6 +152,11 @@ public class CustomerDao_Impl(
       _connection ->
     val _result: Long = __insertAdapterOfCustomer.insertAndReturnId(_connection, customer)
     _result
+  }
+
+  public override fun insertAll(customers: MutableList<Customer?>?): Unit = performBlocking(__db,
+      false, true) { _connection ->
+    __insertAdapterOfCustomer_1.insert(_connection, customers)
   }
 
   public override fun delete(customer: Customer?): Unit = performBlocking(__db, false, true) {
@@ -380,6 +421,68 @@ public class CustomerDao_Impl(
     }
   }
 
+  public override fun getAllCustomersForBackup(): MutableList<Customer?>? {
+    val _sql: String = "SELECT * FROM customers"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfName: Int = getColumnIndexOrThrow(_stmt, "name")
+        val _columnIndexOfMobile: Int = getColumnIndexOrThrow(_stmt, "mobile")
+        val _columnIndexOfAddress: Int = getColumnIndexOrThrow(_stmt, "address")
+        val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
+        val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
+        val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _result: MutableList<Customer?> = mutableListOf()
+        while (_stmt.step()) {
+          val _item: Customer?
+          _item = Customer()
+          val _tmpId: Long
+          _tmpId = _stmt.getLong(_columnIndexOfId)
+          _item.setId(_tmpId)
+          val _tmpName: String?
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName)
+          }
+          _item.setName(_tmpName)
+          val _tmpMobile: String?
+          if (_stmt.isNull(_columnIndexOfMobile)) {
+            _tmpMobile = null
+          } else {
+            _tmpMobile = _stmt.getText(_columnIndexOfMobile)
+          }
+          _item.setMobile(_tmpMobile)
+          val _tmpAddress: String?
+          if (_stmt.isNull(_columnIndexOfAddress)) {
+            _tmpAddress = null
+          } else {
+            _tmpAddress = _stmt.getText(_columnIndexOfAddress)
+          }
+          _item.setAddress(_tmpAddress)
+          val _tmpLatitude: Double
+          _tmpLatitude = _stmt.getDouble(_columnIndexOfLatitude)
+          _item.setLatitude(_tmpLatitude)
+          val _tmpLongitude: Double
+          _tmpLongitude = _stmt.getDouble(_columnIndexOfLongitude)
+          _item.setLongitude(_tmpLongitude)
+          val _tmpCreatedDate: String?
+          if (_stmt.isNull(_columnIndexOfCreatedDate)) {
+            _tmpCreatedDate = null
+          } else {
+            _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
+          }
+          _item.setCreatedDate(_tmpCreatedDate)
+          _result.add(_item)
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
   public override fun getPendingCustomersForDate(todayDate: String?):
       LiveData<MutableList<Customer?>?>? {
     val _sql: String =
@@ -445,6 +548,18 @@ public class CustomerDao_Impl(
           _result.add(_item)
         }
         _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override fun deleteAll() {
+    val _sql: String = "DELETE FROM customers"
+    return performBlocking(__db, false, true) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        _stmt.step()
       } finally {
         _stmt.close()
       }

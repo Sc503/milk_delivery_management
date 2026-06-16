@@ -14,7 +14,8 @@ import java.util.List;
 
 @Dao
 public interface CustomerDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
+    @Insert
     long insert(Customer customer);
 
     @Update
@@ -35,14 +36,18 @@ public interface CustomerDao {
     @Query("SELECT * FROM customers ORDER BY name ASC")
     List<Customer> getAllCustomersSync();
 
-    /**
-     * Fetch pending customers for today.
-     * Returns customers who do not have a delivery record for 'todayDate'
-     * or whose delivery status for 'todayDate' is 'Pending'.
-     */
+    @Query("SELECT * FROM customers")
+    List<Customer> getAllCustomersForBackup();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Customer> customers);
+
+    @Query("DELETE FROM customers")
+    void deleteAll();
+
     @Query("SELECT c.* FROM customers c " +
-           "LEFT JOIN deliveries d ON c.id = d.customerId AND d.deliveryDate = :todayDate " +
-           "WHERE d.id IS NULL OR d.status = 'Pending' " +
-           "ORDER BY c.name ASC")
+            "LEFT JOIN deliveries d ON c.id = d.customerId AND d.deliveryDate = :todayDate " +
+            "WHERE d.id IS NULL OR d.status = 'Pending' " +
+            "ORDER BY c.name ASC")
     LiveData<List<Customer>> getPendingCustomersForDate(String todayDate);
 }

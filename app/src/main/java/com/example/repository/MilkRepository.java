@@ -214,6 +214,8 @@ public class MilkRepository {
         return customerDao.getAllCustomersSync();
     }
 
+    public List<Delivery> getAllDeliveriesSync() {return deliveryDao.getAllDeliveriesSync();}
+
     public List<Delivery> getDeliveriesForCustomerSync(long customerId) {
         return deliveryDao.getDeliveriesForCustomerSync(customerId);
     }

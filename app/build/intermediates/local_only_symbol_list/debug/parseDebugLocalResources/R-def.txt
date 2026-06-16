@@ -38,6 +38,7 @@ id action_add_shortcut
 id btnApply
 id btnClear
 id btnLogin
+id btn_backup_now
 id btn_clear_cache
 id btn_detail_next
 id btn_detail_prev
@@ -45,8 +46,10 @@ id btn_get_location
 id btn_location_finder
 id btn_next_month
 id btn_prev_month
+id btn_restore_backup
 id btn_save_customer
 id btn_search_address
+id btn_share_backup
 id calendar_toolbar
 id card_no_markers
 id customer_profile_address
@@ -117,6 +120,7 @@ id txt_detail_stat_delivered
 id txt_detail_stat_pending
 id txt_detail_stat_percentage
 id txt_detail_stat_total
+id txt_last_backup
 id txt_recap_customer_name
 id txt_recap_delivered_count
 id txt_recap_pending_count
@@ -153,3 +157,4 @@ style CalendarDayHeader
 style Theme.MilkDelivery
 xml backup_rules
 xml data_extraction_rules
+xml file_paths
