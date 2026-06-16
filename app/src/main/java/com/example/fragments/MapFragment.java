@@ -49,6 +49,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private long selectedCustomerId = -1;
 
+    private LatLng lastCameraPosition;
+    private float lastZoomLevel = 15f;
+
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
     @Override
@@ -111,10 +114,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 // open dialog
                 openCustomerDetailsDialog(customer);
 
+                googleMap.setOnCameraIdleListener(() -> {
+
+                    if (googleMap != null) {
+
+                        lastCameraPosition =
+                                googleMap.getCameraPosition().target;
+
+                        lastZoomLevel =
+                                googleMap.getCameraPosition().zoom;
+                    }
+                });
+
                 return true;
             }
 
             return false;
+
+
         });
 
         // Load and watch pending deliveries for today
@@ -244,34 +261,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return; // stop further camera logic
         }
 
-        // 🔥 DEFAULT camera logic
         try {
-            if (customers.size() == 1) {
 
-                LatLng singleLatLng = new LatLng(
-                        customers.get(0).getLatitude(),
-                        customers.get(0).getLongitude()
-                );
+            // Restore previous map position
+            if (lastCameraPosition != null) {
 
                 googleMap.animateCamera(
                         CameraUpdateFactory.newLatLngZoom(
-                                singleLatLng,
-                                14.0f
+                                lastCameraPosition,
+                                lastZoomLevel
                         )
                 );
 
-            } else if (customers.size() > 1) {
+            } else {
 
-                LatLngBounds bounds = boundsBuilder.build();
+                if (customers.size() == 1) {
 
-                googleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(
-                                bounds,
-                                120
-                        )
-                );
+                    LatLng singleLatLng = new LatLng(
+                            customers.get(0).getLatitude(),
+                            customers.get(0).getLongitude()
+                    );
+
+                    googleMap.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(
+                                    singleLatLng,
+                                    14f
+                            )
+                    );
+
+                } else if (customers.size() > 1) {
+
+                    LatLngBounds bounds = boundsBuilder.build();
+
+                    googleMap.animateCamera(
+                            CameraUpdateFactory.newLatLngBounds(
+                                    bounds,
+                                    120
+                            )
+                    );
+                }
             }
-        } catch (Exception e) {
+
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

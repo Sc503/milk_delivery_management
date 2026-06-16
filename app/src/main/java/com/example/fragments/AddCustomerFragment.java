@@ -182,13 +182,18 @@ public class AddCustomerFragment extends Fragment {
         }
     }
     private void validateAndSaveCustomer() {
+
         String name = binding.etCustomerName.getText().toString().trim();
         String mobile = binding.etMobileNumber.getText().toString().trim();
         String address = binding.etAddress.getText().toString().trim();
         String latStr = binding.etLatitude.getText().toString().trim();
         String lngStr = binding.etLongitude.getText().toString().trim();
 
-        // Standard validation check block
+        // NEW
+        String qtyStr = binding.etMilkQuantity.getText().toString().trim();
+        String rateStr = binding.etMilkRate.getText().toString().trim();
+
+        // Standard validation
         if (TextUtils.isEmpty(name)) {
             binding.layCustomerName.setError("Customer Name is required");
             binding.etCustomerName.requestFocus();
@@ -223,31 +228,79 @@ public class AddCustomerFragment extends Fragment {
             binding.layLongitude.setError(null);
         }
 
+        // NEW
+        if (TextUtils.isEmpty(qtyStr)) {
+            binding.etMilkQuantity.setError("Enter Milk Quantity");
+            return;
+        }
+
+        if (TextUtils.isEmpty(rateStr)) {
+            binding.etMilkRate.setError("Enter Milk Rate");
+            return;
+        }
+
         double latitude;
         double longitude;
+        double quantity;
+        double rate;
+
         try {
+
             latitude = Double.parseDouble(latStr);
             longitude = Double.parseDouble(lngStr);
+
+            // NEW
+            quantity = Double.parseDouble(qtyStr);
+            rate = Double.parseDouble(rateStr);
+
         } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Invalid coordinate format", Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(
+                    getContext(),
+                    "Invalid number format",
+                    Toast.LENGTH_SHORT
+            ).show();
+
             return;
         }
 
         String today = DateUtils.getTodayDateString();
 
-        Customer customer = new Customer(name, mobile, address, latitude, longitude, today);
+        // NEW CUSTOMER OBJECT
+        Customer customer = new Customer(
+                name,
+                mobile,
+                address,
+                latitude,
+                longitude,
+                today,
+                quantity,
+                rate
+        );
+
         viewModel.insertCustomer(customer, newId -> {
+
             if (getActivity() != null) {
+
                 getActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Customer: " + name + " saved successfully!", Toast.LENGTH_LONG).show();
+
+                    Toast.makeText(
+                            getContext(),
+                            "Customer: " + name + " saved successfully!",
+                            Toast.LENGTH_LONG
+                    ).show();
+
                     clearFields();
 
-                    // Smoothly routing the user back to Home Map view
                     if (getActivity() instanceof com.example.activities.MainActivity) {
-                        ((com.example.activities.MainActivity) getActivity()).navigateToMenuItem(R.id.nav_home);
+                        ((com.example.activities.MainActivity) getActivity())
+                                .navigateToMenuItem(R.id.nav_home);
                     }
+
                 });
+
             }
+
         });
     }
 

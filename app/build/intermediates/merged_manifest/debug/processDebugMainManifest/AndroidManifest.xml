@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="24"
+        android:minSdkVersion="26"
         android:targetSdkVersion="36" />
 
     <!-- Permissions -->
@@ -82,6 +82,17 @@
             android:exported="false"
             android:label="Milk Delivery Summary"
             android:theme="@style/Theme.MilkDelivery" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.aistudio.milkdelivery.qyvjpt.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
             android:exported="false"

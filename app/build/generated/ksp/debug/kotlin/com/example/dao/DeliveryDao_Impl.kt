@@ -553,6 +553,26 @@ public class DeliveryDao_Impl(
     }
   }
 
+  public override fun getDeliveredDaysCount(customerId: Long): Int {
+    val _sql: String = "SELECT COUNT(*) FROM deliveries WHERE customerId=? AND status='Delivered'"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        var _argIndex: Int = 1
+        _stmt.bindLong(_argIndex, customerId)
+        val _result: Int
+        if (_stmt.step()) {
+          _result = _stmt.getLong(0).toInt()
+        } else {
+          _result = 0
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
   public companion object {
     public fun getRequiredConverters(): List<KClass<*>> = emptyList()
   }

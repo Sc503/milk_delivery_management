@@ -36,7 +36,7 @@ public class CustomerDao_Impl(
     this.__db = __db
     this.__insertAdapterOfCustomer = object : EntityInsertAdapter<Customer>() {
       protected override fun createQuery(): String =
-          "INSERT OR REPLACE INTO `customers` (`id`,`name`,`mobile`,`address`,`latitude`,`longitude`,`createdDate`) VALUES (nullif(?, 0),?,?,?,?,?,?)"
+          "INSERT OR REPLACE INTO `customers` (`id`,`name`,`mobile`,`address`,`latitude`,`longitude`,`createdDate`,`milkQuantity`,`milkRate`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: Customer) {
         statement.bindLong(1, entity.getId())
@@ -66,6 +66,8 @@ public class CustomerDao_Impl(
         } else {
           statement.bindText(7, _tmpCreatedDate)
         }
+        statement.bindDouble(8, entity.getMilkQuantity())
+        statement.bindDouble(9, entity.getMilkRate())
       }
     }
     this.__deleteAdapterOfCustomer = object : EntityDeleteOrUpdateAdapter<Customer>() {
@@ -77,7 +79,7 @@ public class CustomerDao_Impl(
     }
     this.__updateAdapterOfCustomer = object : EntityDeleteOrUpdateAdapter<Customer>() {
       protected override fun createQuery(): String =
-          "UPDATE OR ABORT `customers` SET `id` = ?,`name` = ?,`mobile` = ?,`address` = ?,`latitude` = ?,`longitude` = ?,`createdDate` = ? WHERE `id` = ?"
+          "UPDATE OR ABORT `customers` SET `id` = ?,`name` = ?,`mobile` = ?,`address` = ?,`latitude` = ?,`longitude` = ?,`createdDate` = ?,`milkQuantity` = ?,`milkRate` = ? WHERE `id` = ?"
 
       protected override fun bind(statement: SQLiteStatement, entity: Customer) {
         statement.bindLong(1, entity.getId())
@@ -107,7 +109,9 @@ public class CustomerDao_Impl(
         } else {
           statement.bindText(7, _tmpCreatedDate)
         }
-        statement.bindLong(8, entity.getId())
+        statement.bindDouble(8, entity.getMilkQuantity())
+        statement.bindDouble(9, entity.getMilkRate())
+        statement.bindLong(10, entity.getId())
       }
     }
   }
@@ -140,6 +144,8 @@ public class CustomerDao_Impl(
         val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
         val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
         val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _columnIndexOfMilkQuantity: Int = getColumnIndexOrThrow(_stmt, "milkQuantity")
+        val _columnIndexOfMilkRate: Int = getColumnIndexOrThrow(_stmt, "milkRate")
         val _result: MutableList<Customer?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Customer?
@@ -181,6 +187,12 @@ public class CustomerDao_Impl(
             _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
           }
           _item.setCreatedDate(_tmpCreatedDate)
+          val _tmpMilkQuantity: Double
+          _tmpMilkQuantity = _stmt.getDouble(_columnIndexOfMilkQuantity)
+          _item.setMilkQuantity(_tmpMilkQuantity)
+          val _tmpMilkRate: Double
+          _tmpMilkRate = _stmt.getDouble(_columnIndexOfMilkRate)
+          _item.setMilkRate(_tmpMilkRate)
           _result.add(_item)
         }
         _result
@@ -204,6 +216,8 @@ public class CustomerDao_Impl(
         val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
         val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
         val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _columnIndexOfMilkQuantity: Int = getColumnIndexOrThrow(_stmt, "milkQuantity")
+        val _columnIndexOfMilkRate: Int = getColumnIndexOrThrow(_stmt, "milkRate")
         val _result: Customer?
         if (_stmt.step()) {
           _result = Customer()
@@ -244,6 +258,12 @@ public class CustomerDao_Impl(
             _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
           }
           _result.setCreatedDate(_tmpCreatedDate)
+          val _tmpMilkQuantity: Double
+          _tmpMilkQuantity = _stmt.getDouble(_columnIndexOfMilkQuantity)
+          _result.setMilkQuantity(_tmpMilkQuantity)
+          val _tmpMilkRate: Double
+          _tmpMilkRate = _stmt.getDouble(_columnIndexOfMilkRate)
+          _result.setMilkRate(_tmpMilkRate)
         } else {
           _result = null
         }
@@ -268,6 +288,8 @@ public class CustomerDao_Impl(
         val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
         val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
         val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _columnIndexOfMilkQuantity: Int = getColumnIndexOrThrow(_stmt, "milkQuantity")
+        val _columnIndexOfMilkRate: Int = getColumnIndexOrThrow(_stmt, "milkRate")
         val _result: Customer?
         if (_stmt.step()) {
           _result = Customer()
@@ -308,6 +330,12 @@ public class CustomerDao_Impl(
             _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
           }
           _result.setCreatedDate(_tmpCreatedDate)
+          val _tmpMilkQuantity: Double
+          _tmpMilkQuantity = _stmt.getDouble(_columnIndexOfMilkQuantity)
+          _result.setMilkQuantity(_tmpMilkQuantity)
+          val _tmpMilkRate: Double
+          _tmpMilkRate = _stmt.getDouble(_columnIndexOfMilkRate)
+          _result.setMilkRate(_tmpMilkRate)
         } else {
           _result = null
         }
@@ -330,6 +358,8 @@ public class CustomerDao_Impl(
         val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
         val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
         val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _columnIndexOfMilkQuantity: Int = getColumnIndexOrThrow(_stmt, "milkQuantity")
+        val _columnIndexOfMilkRate: Int = getColumnIndexOrThrow(_stmt, "milkRate")
         val _result: MutableList<Customer?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Customer?
@@ -371,6 +401,12 @@ public class CustomerDao_Impl(
             _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
           }
           _item.setCreatedDate(_tmpCreatedDate)
+          val _tmpMilkQuantity: Double
+          _tmpMilkQuantity = _stmt.getDouble(_columnIndexOfMilkQuantity)
+          _item.setMilkQuantity(_tmpMilkQuantity)
+          val _tmpMilkRate: Double
+          _tmpMilkRate = _stmt.getDouble(_columnIndexOfMilkRate)
+          _item.setMilkRate(_tmpMilkRate)
           _result.add(_item)
         }
         _result
@@ -401,6 +437,8 @@ public class CustomerDao_Impl(
         val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
         val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
         val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _columnIndexOfMilkQuantity: Int = getColumnIndexOrThrow(_stmt, "milkQuantity")
+        val _columnIndexOfMilkRate: Int = getColumnIndexOrThrow(_stmt, "milkRate")
         val _result: MutableList<Customer?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Customer?
@@ -442,6 +480,12 @@ public class CustomerDao_Impl(
             _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
           }
           _item.setCreatedDate(_tmpCreatedDate)
+          val _tmpMilkQuantity: Double
+          _tmpMilkQuantity = _stmt.getDouble(_columnIndexOfMilkQuantity)
+          _item.setMilkQuantity(_tmpMilkQuantity)
+          val _tmpMilkRate: Double
+          _tmpMilkRate = _stmt.getDouble(_columnIndexOfMilkRate)
+          _item.setMilkRate(_tmpMilkRate)
           _result.add(_item)
         }
         _result

@@ -5,9 +5,10 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "customers")
 public class Customer {
+
     @PrimaryKey(autoGenerate = true)
     private long id;
-    
+
     private String name;
     private String mobile;
     private String address;
@@ -15,20 +16,35 @@ public class Customer {
     private double longitude;
     private String createdDate; // YYYY-MM-DD format
 
-    // Unused constructor for Room
+    private double milkQuantity;
+    private double milkRate;
+
+    // Empty constructor required by Room
     public Customer() {
     }
 
-    public Customer(String name, String mobile, String address, double latitude, double longitude, String createdDate) {
+    public Customer(
+            String name,
+            String mobile,
+            String address,
+            double latitude,
+            double longitude,
+            String createdDate,
+            double milkQuantity,
+            double milkRate
+    ) {
         this.name = name;
         this.mobile = mobile;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.createdDate = createdDate;
+        this.milkQuantity = milkQuantity;
+        this.milkRate = milkRate;
     }
 
     // Getters and Setters
+
     public long getId() {
         return id;
     }
@@ -83,5 +99,21 @@ public class Customer {
 
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public double getMilkQuantity() {
+        return milkQuantity;
+    }
+
+    public void setMilkQuantity(double milkQuantity) {
+        this.milkQuantity = milkQuantity;
+    }
+
+    public double getMilkRate() {
+        return milkRate;
+    }
+
+    public void setMilkRate(double milkRate) {
+        this.milkRate = milkRate;
     }
 }

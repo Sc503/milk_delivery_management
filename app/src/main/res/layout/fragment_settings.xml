@@ -109,6 +109,16 @@
                     app:strokeColor="@color/pending_red"
                     android:text="Reset local database" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:text="Logout"
+                    android:textColor="@color/pending_red"
+                    app:strokeColor="@color/pending_red"/>
+
             </LinearLayout>
 
         </LinearLayout>

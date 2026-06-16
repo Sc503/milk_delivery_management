@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.models.Customer;
 import com.example.models.Delivery;
+import com.example.models.Payment;
 import com.example.repository.MilkRepository;
 
 import java.util.List;
@@ -66,7 +67,41 @@ public class MilkViewModel extends AndroidViewModel {
         return repository.getDeliveriesForCustomer(customerId);
     }
 
+    public int getDeliveredDaysCount(long customerId) {
+
+        return repository.getDeliveredDaysCount(customerId);
+
+    }
     public LiveData<List<Delivery>> getDeliveriesForDate(String date) {
         return repository.getDeliveriesForDate(date);
+    }
+    public Payment getPayment(
+            long customerId,
+            String month){
+
+        return repository.getPayment(customerId,month);
+
+    }
+
+    public List<Payment> getPaymentHistory(
+            long customerId){
+
+        return repository
+                .getPaymentHistory(customerId);
+
+    }
+
+    public void savePayment(Payment payment){
+
+        repository.savePayment(payment);
+
+    }
+
+    public List<Customer> getAllCustomersSync() {
+        return repository.getAllCustomersSync();
+    }
+
+    public void backupPaymentToFirebase(Payment payment) {
+        repository.backupPaymentToFirebase(payment);
     }
 }

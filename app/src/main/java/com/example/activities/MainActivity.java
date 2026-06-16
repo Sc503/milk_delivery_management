@@ -1,8 +1,11 @@
 package com.example.activities;
 
+import com.example.fragments.PaymentFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -25,6 +28,8 @@ import com.example.models.Delivery;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.navigation.NavigationView;
+
+
 
 import java.util.List;
 
@@ -51,6 +56,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         seedDatabaseOnFirstLaunch();
 
         setSupportActionBar(binding.toolbar);
+
+        String userType =
+                getSharedPreferences(
+                        "UserSession",
+                        MODE_PRIVATE)
+                        .getString(
+                                "userType",
+                                "");
+
+        Toast.makeText(
+                this,
+                "Welcome " + userType,
+                Toast.LENGTH_SHORT
+        ).show();
 
         // Navigation slide-toggle drawer hooks
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -124,6 +143,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "MONTHLY_RECAP_FRAGMENT";
             toolbarTitle = "Monthly Recap";
             binding.navView.setCheckedItem(R.id.nav_monthly_recap);
+        }else if (itemId == R.id.nav_payment) {
+                fragment = new PaymentFragment();
+                tag = "PAYMENT_FRAGMENT";
+                toolbarTitle = "Payments";
+                binding.navView.setCheckedItem(R.id.nav_payment);
+
         } else if (itemId == R.id.nav_settings) {
             fragment = new SettingsFragment();
             tag = "SETTINGS_FRAGMENT";
@@ -198,16 +223,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void seedDatabaseOnFirstLaunch() {
+
+
         viewModel.getRepository().getExecutor().execute(() -> {
             com.example.database.AppDatabase db = com.example.database.AppDatabase.getInstance(this);
             int count = db.query("SELECT COUNT(*) FROM customers", null).getCount();
             if (count == 0) {
                 // Generate default historical and current customers
-                Customer c1 = new Customer("John Doe", "9876543210", "221B Baker Street, London", 51.523767, -0.1585557, "2026-06-01");
-                Customer c2 = new Customer("David Smith", "9823485710", "Green Park, London", 51.502621, -0.143229, "2026-06-01");
-                Customer c3 = new Customer("Michael Brown", "9812345678", "City Center, London", 51.507421, -0.127817, "2026-06-01");
-                Customer c4 = new Customer("James Wilson", "9765432101", "Market Road, London", 51.512631, -0.168541, "2026-06-02");
-                Customer c5 = new Customer("Robert Johnson", "9512348765", "Lake View Park, London", 51.492621, -0.183229, "2026-06-03");
+                Customer c1 = new Customer("John Doe", "9876543210", "221B Baker Street, London", 51.523767, -0.1585557, "2026-06-01",2,60);
+                Customer c2 = new Customer("David Smith", "9823485710", "Green Park, London", 51.502621, -0.143229, "2026-06-01",2,60);
+                Customer c3 = new Customer("Michael Brown", "9812345678", "City Center, London", 51.507421, -0.127817, "2026-06-01",2,60);
+                Customer c4 = new Customer("James Wilson", "9765432101", "Market Road, London", 51.512631, -0.168541, "2026-06-02",2,60);
+                Customer c5 = new Customer("Robert Johnson", "9512348765", "Lake View Park, London", 51.492621, -0.183229, "2026-06-03",2,60);
 
                 long id1 = db.customerDao().insert(c1);
                 long id2 = db.customerDao().insert(c2);

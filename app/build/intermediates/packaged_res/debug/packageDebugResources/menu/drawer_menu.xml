@@ -14,6 +14,10 @@
             android:icon="@drawable/ic_calendar"
             android:title="Monthly Recap" />
         <item
+            android:id="@+id/nav_payment"
+            android:icon="@drawable/ic_calendar"
+            android:title="Payments"/>
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
             android:title="Settings" />

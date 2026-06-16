@@ -22,10 +22,14 @@ public final class FragmentSettingsBinding implements ViewBinding {
   @NonNull
   public final MaterialButton btnClearCache;
 
+  @NonNull
+  public final MaterialButton btnLogout;
+
   private FragmentSettingsBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnClearCache) {
+      @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnLogout) {
     this.rootView = rootView;
     this.btnClearCache = btnClearCache;
+    this.btnLogout = btnLogout;
   }
 
   @Override
@@ -61,7 +65,13 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentSettingsBinding((LinearLayout) rootView, btnClearCache);
+      id = R.id.btnLogout;
+      MaterialButton btnLogout = ViewBindings.findChildViewById(rootView, id);
+      if (btnLogout == null) {
+        break missingId;
+      }
+
+      return new FragmentSettingsBinding((LinearLayout) rootView, btnClearCache, btnLogout);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

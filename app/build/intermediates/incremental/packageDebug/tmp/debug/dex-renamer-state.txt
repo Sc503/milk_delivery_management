@@ -1,27 +1,13 @@
-<<<<<<< HEAD
-#Sat Jun 13 11:06:02 IST 2026
-base.0=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
-base.1=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
-base.10=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
-base.11=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes3.dex
-base.12=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes4.dex
-base.13=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes5.dex
-base.2=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
-base.3=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
-base.4=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
-base.5=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\2\\classes.dex
-base.6=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
-base.7=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
-base.8=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\8\\classes.dex
-base.9=C\:\\Users\\Karan\\AndroidStudioProjects\\milk_delivery_management\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
-=======
-#Sat Jun 13 11:46:45 IST 2026
+#Tue Jun 16 17:18:52 IST 2026
 base.0=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
 base.11=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes3.dex
 base.12=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes4.dex
 base.13=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes5.dex
+base.14=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes6.dex
+base.15=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes7.dex
+base.16=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes8.dex
 base.2=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
 base.3=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\14\\classes.dex
 base.4=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
@@ -30,13 +16,15 @@ base.6=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\
 base.7=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\6\\classes.dex
 base.8=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\8\\classes.dex
 base.9=C\:\\Users\\Lenovo\\Downloads\\milk-delivery-management-app\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
->>>>>>> origin/main
 path.0=classes.dex
 path.1=0/classes.dex
 path.10=classes2.dex
 path.11=classes3.dex
 path.12=classes4.dex
 path.13=classes5.dex
+path.14=classes6.dex
+path.15=classes7.dex
+path.16=classes8.dex
 path.2=12/classes.dex
 path.3=14/classes.dex
 path.4=1/classes.dex
@@ -51,6 +39,9 @@ renamed.10=classes11.dex
 renamed.11=classes12.dex
 renamed.12=classes13.dex
 renamed.13=classes14.dex
+renamed.14=classes15.dex
+renamed.15=classes16.dex
+renamed.16=classes17.dex
 renamed.2=classes3.dex
 renamed.3=classes4.dex
 renamed.4=classes5.dex
