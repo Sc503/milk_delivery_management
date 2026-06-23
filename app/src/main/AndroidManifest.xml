@@ -2,11 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <queries>
+        <package android:name="com.google.android.gms" />
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -18,57 +26,73 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MilkDelivery">
 
+        <service
+            android:name="com.example.service.WifiDirectService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.ReceivedBackupsActivity"
+            android:exported="false" />
+
         <!-- Google Maps API Key -->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI" />-->
+
+
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
+                    android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCu1yvuGwg0RzR5wHbdx1VmcDvdI-QnnA" />
 
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
 
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
 
-        </provider>
+                <meta-data
+                    android:name="com.google.android.gms.version"
+                    android:value="@integer/google_play_services_version" />
 
-        <!-- Login Screen -->
+                <provider
+                    android:name="androidx.core.content.FileProvider"
+                    android:authorities="${applicationId}.provider"
+                    android:exported="false"
+                    android:grantUriPermissions="true">
+                    <meta-data
+                        android:name="android.support.FILE_PROVIDER_PATHS"
+                        android:resource="@xml/file_paths" />
+                </provider> <!-- Login Screen -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-
-
-        <!-- Main Screen -->
+        </activity> <!-- Main Screen -->
         <activity
             android:name=".activities.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Calendar Screen -->
+            android:theme="@style/Theme.MilkDelivery" /> <!-- Calendar Screen -->
         <activity
             android:name=".activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
-            android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Recap Screen -->
+            android:theme="@style/Theme.MilkDelivery" /> <!-- Recap Screen -->
         <activity
             android:name=".activities.CustomerRecapDetailsActivity"
             android:exported="false"
             android:label="Milk Delivery Summary"
             android:theme="@style/Theme.MilkDelivery" />
-
+        <activity
+            android:name=".activities.MyBackupsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.BackupCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WifiDirectActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

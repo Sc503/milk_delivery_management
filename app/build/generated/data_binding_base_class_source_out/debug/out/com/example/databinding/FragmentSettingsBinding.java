@@ -4,7 +4,7 @@ package com.example.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,13 +12,17 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
 
 public final class FragmentSettingsBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
+
+  @NonNull
+  public final MaterialButton btnBackupCenter;
 
   @NonNull
   public final MaterialButton btnBackupNow;
@@ -33,23 +37,33 @@ public final class FragmentSettingsBinding implements ViewBinding {
   public final MaterialButton btnShareBackup;
 
   @NonNull
+  public final MaterialButton btnWifiDirect;
+
+  @NonNull
+  public final MaterialSwitch switchAutoZoom;
+
+  @NonNull
   public final TextView txtLastBackup;
 
-  private FragmentSettingsBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnBackupNow, @NonNull MaterialButton btnClearCache,
-      @NonNull MaterialButton btnRestoreBackup, @NonNull MaterialButton btnShareBackup,
-      @NonNull TextView txtLastBackup) {
+  private FragmentSettingsBinding(@NonNull ScrollView rootView,
+      @NonNull MaterialButton btnBackupCenter, @NonNull MaterialButton btnBackupNow,
+      @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnRestoreBackup,
+      @NonNull MaterialButton btnShareBackup, @NonNull MaterialButton btnWifiDirect,
+      @NonNull MaterialSwitch switchAutoZoom, @NonNull TextView txtLastBackup) {
     this.rootView = rootView;
+    this.btnBackupCenter = btnBackupCenter;
     this.btnBackupNow = btnBackupNow;
     this.btnClearCache = btnClearCache;
     this.btnRestoreBackup = btnRestoreBackup;
     this.btnShareBackup = btnShareBackup;
+    this.btnWifiDirect = btnWifiDirect;
+    this.switchAutoZoom = switchAutoZoom;
     this.txtLastBackup = txtLastBackup;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -74,6 +88,12 @@ public final class FragmentSettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btn_backup_center;
+      MaterialButton btnBackupCenter = ViewBindings.findChildViewById(rootView, id);
+      if (btnBackupCenter == null) {
+        break missingId;
+      }
+
       id = R.id.btn_backup_now;
       MaterialButton btnBackupNow = ViewBindings.findChildViewById(rootView, id);
       if (btnBackupNow == null) {
@@ -98,14 +118,27 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.btn_wifi_direct;
+      MaterialButton btnWifiDirect = ViewBindings.findChildViewById(rootView, id);
+      if (btnWifiDirect == null) {
+        break missingId;
+      }
+
+      id = R.id.switchAutoZoom;
+      MaterialSwitch switchAutoZoom = ViewBindings.findChildViewById(rootView, id);
+      if (switchAutoZoom == null) {
+        break missingId;
+      }
+
       id = R.id.txt_last_backup;
       TextView txtLastBackup = ViewBindings.findChildViewById(rootView, id);
       if (txtLastBackup == null) {
         break missingId;
       }
 
-      return new FragmentSettingsBinding((LinearLayout) rootView, btnBackupNow, btnClearCache,
-          btnRestoreBackup, btnShareBackup, txtLastBackup);
+      return new FragmentSettingsBinding((ScrollView) rootView, btnBackupCenter, btnBackupNow,
+          btnClearCache, btnRestoreBackup, btnShareBackup, btnWifiDirect, switchAutoZoom,
+          txtLastBackup);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

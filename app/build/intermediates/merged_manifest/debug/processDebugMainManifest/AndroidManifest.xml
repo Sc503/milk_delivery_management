@@ -8,23 +8,28 @@
         android:minSdkVersion="24"
         android:targetSdkVersion="36" />
 
-    <!-- Permissions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Include required permissions for Google Maps API to run. -->
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <queries>
+        <package android:name="com.google.android.gms" />
+        <!-- Needs to be explicitly declared on Android R+ -->
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
+    <!-- Include required permissions for Google Maps API to run. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
-    <queries>
-
-        <!-- Needs to be explicitly declared on Android R+ -->
-        <package android:name="com.google.android.apps.maps" />
-    </queries>
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
 
@@ -47,11 +52,26 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.MilkDelivery" >
+        <service
+            android:name="com.example.service.WifiDirectService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <activity
+            android:name="com.example.activities.ReceivedBackupsActivity"
+            android:exported="false" />
 
         <!-- Google Maps API Key -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.geo.API_KEY" -->
+        <!-- android:value="AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI" /> -->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCCu1yvuGwg0RzR5wHbdx1VmcDvdI-QnnA" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -61,9 +81,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-
-        <!-- Login Screen -->
+        </provider> <!-- Login Screen -->
         <activity
             android:name="com.example.activities.LoginActivity"
             android:exported="true" >
@@ -72,37 +90,55 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Main Screen -->
+        </activity> <!-- Main Screen -->
         <activity
             android:name="com.example.activities.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Calendar Screen -->
+            android:theme="@style/Theme.MilkDelivery" /> <!-- Calendar Screen -->
         <activity
             android:name="com.example.activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
-            android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Recap Screen -->
+            android:theme="@style/Theme.MilkDelivery" /> <!-- Recap Screen -->
         <activity
             android:name="com.example.activities.CustomerRecapDetailsActivity"
             android:exported="false"
             android:label="Milk Delivery Summary"
             android:theme="@style/Theme.MilkDelivery" />
         <activity
+            android:name="com.example.activities.MyBackupsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.activities.BackupCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.activities.WifiDirectActivity"
+            android:exported="false" />
+        <activity
             android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
             android:exported="false"
             android:label="@string/places_autocomplete_label"
             android:theme="@style/PlacesAutocompleteOverlay"
             android:windowSoftInputMode="adjustResize" >
-        </activity> <!-- Needs to be explicitly declared on P+ -->
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
+        </activity>
+
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
 
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
@@ -141,23 +177,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.google.firebase.components.ComponentDiscoveryService"
-            android:directBootAware="true"
-            android:exported="false" >
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-            <meta-data
-                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
-                android:value="com.google.firebase.components.ComponentRegistrar" />
-        </service>
         <service
             android:name="androidx.credentials.playservices.CredentialProviderMetadataHolder"
             android:enabled="true"
@@ -208,10 +227,11 @@
             android:exported="false" />
 
         <activity
-            android:name="androidx.compose.ui.tooling.PreviewActivity"
-            android:exported="true" />
-        <activity
             android:name="androidx.activity.ComponentActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <activity
+            android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true" />
 
         <provider
@@ -228,10 +248,6 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <service
             android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"

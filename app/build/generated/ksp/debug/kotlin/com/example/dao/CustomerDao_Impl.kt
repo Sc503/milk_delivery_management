@@ -483,6 +483,142 @@ public class CustomerDao_Impl(
     }
   }
 
+  public override fun getCustomerByMobile(mobile: String?): Customer? {
+    val _sql: String = "SELECT * FROM customers WHERE mobile = ? LIMIT 1"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        var _argIndex: Int = 1
+        if (mobile == null) {
+          _stmt.bindNull(_argIndex)
+        } else {
+          _stmt.bindText(_argIndex, mobile)
+        }
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfName: Int = getColumnIndexOrThrow(_stmt, "name")
+        val _columnIndexOfMobile: Int = getColumnIndexOrThrow(_stmt, "mobile")
+        val _columnIndexOfAddress: Int = getColumnIndexOrThrow(_stmt, "address")
+        val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
+        val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
+        val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _result: Customer?
+        if (_stmt.step()) {
+          _result = Customer()
+          val _tmpId: Long
+          _tmpId = _stmt.getLong(_columnIndexOfId)
+          _result.setId(_tmpId)
+          val _tmpName: String?
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName)
+          }
+          _result.setName(_tmpName)
+          val _tmpMobile: String?
+          if (_stmt.isNull(_columnIndexOfMobile)) {
+            _tmpMobile = null
+          } else {
+            _tmpMobile = _stmt.getText(_columnIndexOfMobile)
+          }
+          _result.setMobile(_tmpMobile)
+          val _tmpAddress: String?
+          if (_stmt.isNull(_columnIndexOfAddress)) {
+            _tmpAddress = null
+          } else {
+            _tmpAddress = _stmt.getText(_columnIndexOfAddress)
+          }
+          _result.setAddress(_tmpAddress)
+          val _tmpLatitude: Double
+          _tmpLatitude = _stmt.getDouble(_columnIndexOfLatitude)
+          _result.setLatitude(_tmpLatitude)
+          val _tmpLongitude: Double
+          _tmpLongitude = _stmt.getDouble(_columnIndexOfLongitude)
+          _result.setLongitude(_tmpLongitude)
+          val _tmpCreatedDate: String?
+          if (_stmt.isNull(_columnIndexOfCreatedDate)) {
+            _tmpCreatedDate = null
+          } else {
+            _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
+          }
+          _result.setCreatedDate(_tmpCreatedDate)
+        } else {
+          _result = null
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override fun getCustomerByMobileSync(mobile: String?): Customer? {
+    val _sql: String = "SELECT * FROM customers WHERE mobile = ? LIMIT 1"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        var _argIndex: Int = 1
+        if (mobile == null) {
+          _stmt.bindNull(_argIndex)
+        } else {
+          _stmt.bindText(_argIndex, mobile)
+        }
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfName: Int = getColumnIndexOrThrow(_stmt, "name")
+        val _columnIndexOfMobile: Int = getColumnIndexOrThrow(_stmt, "mobile")
+        val _columnIndexOfAddress: Int = getColumnIndexOrThrow(_stmt, "address")
+        val _columnIndexOfLatitude: Int = getColumnIndexOrThrow(_stmt, "latitude")
+        val _columnIndexOfLongitude: Int = getColumnIndexOrThrow(_stmt, "longitude")
+        val _columnIndexOfCreatedDate: Int = getColumnIndexOrThrow(_stmt, "createdDate")
+        val _result: Customer?
+        if (_stmt.step()) {
+          _result = Customer()
+          val _tmpId: Long
+          _tmpId = _stmt.getLong(_columnIndexOfId)
+          _result.setId(_tmpId)
+          val _tmpName: String?
+          if (_stmt.isNull(_columnIndexOfName)) {
+            _tmpName = null
+          } else {
+            _tmpName = _stmt.getText(_columnIndexOfName)
+          }
+          _result.setName(_tmpName)
+          val _tmpMobile: String?
+          if (_stmt.isNull(_columnIndexOfMobile)) {
+            _tmpMobile = null
+          } else {
+            _tmpMobile = _stmt.getText(_columnIndexOfMobile)
+          }
+          _result.setMobile(_tmpMobile)
+          val _tmpAddress: String?
+          if (_stmt.isNull(_columnIndexOfAddress)) {
+            _tmpAddress = null
+          } else {
+            _tmpAddress = _stmt.getText(_columnIndexOfAddress)
+          }
+          _result.setAddress(_tmpAddress)
+          val _tmpLatitude: Double
+          _tmpLatitude = _stmt.getDouble(_columnIndexOfLatitude)
+          _result.setLatitude(_tmpLatitude)
+          val _tmpLongitude: Double
+          _tmpLongitude = _stmt.getDouble(_columnIndexOfLongitude)
+          _result.setLongitude(_tmpLongitude)
+          val _tmpCreatedDate: String?
+          if (_stmt.isNull(_columnIndexOfCreatedDate)) {
+            _tmpCreatedDate = null
+          } else {
+            _tmpCreatedDate = _stmt.getText(_columnIndexOfCreatedDate)
+          }
+          _result.setCreatedDate(_tmpCreatedDate)
+        } else {
+          _result = null
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
   public override fun getPendingCustomersForDate(todayDate: String?):
       LiveData<MutableList<Customer?>?>? {
     val _sql: String =

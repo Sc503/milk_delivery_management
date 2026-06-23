@@ -1,151 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/background">
+    android:background="@drawable/gradient_background"
+    android:fillViewport="true">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="System Preferences"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        android:textColor="@color/primary"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:animateLayoutChanges="true">
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="12dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@color/white">
-
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="24dp">
 
-            <!-- Option 1: Automatic Map Centering Toggle -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Auto Camera Zoom"
-                        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                        android:textStyle="bold"
-                        android:textColor="@color/on_surface" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Center Google Map dynamically on all marker points"
-                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                        android:textColor="@color/gray_dark" />
-
-                </LinearLayout>
-
-                <com.google.android.material.materialswitch.MaterialSwitch
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/header_icon_background"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
+                    android:text="⚙️"
+                    android:textSize="24sp" />
             </LinearLayout>
 
-            <!-- Option 2: Database purge mock -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_light"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="System Preferences"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A2332"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customize your app settings"
+                    android:textSize="13sp"
+                    android:textColor="#7B8794" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Main Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:padding="20dp">
 
+                <!-- Option 1: Auto Camera Zoom Toggle -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Auto Camera Zoom"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1A2332" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Center map dynamically on all markers"
+                            android:textSize="13sp"
+                            android:textColor="#7B8794"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchAutoZoom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        app:thumbTint="@color/primary" />
+                </LinearLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E8ECF1"
+                    android:layout_marginVertical="16dp" />
+
+                <!-- Database Administration -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Database Administration"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="@color/on_surface" />
+                    android:textColor="#1A2332" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Maintenance and diagnostic functions"
+                    android:textSize="13sp"
+                    android:textColor="#7B8794"
                     android:layout_marginTop="2dp"
-                    android:text="Maintenance and diagnostic functions for Room database sqlite"
-                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="@color/gray_dark"
                     android:layout_marginBottom="12dp" />
 
+                <!-- Reset Database Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_clear_cache"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:textColor="@color/pending_red"
-                    app:strokeColor="@color/pending_red"
-                    android:text="Reset local database" />
+                    android:text="🗑️ Reset Local Database"
+                    android:textAllCaps="false"
+                    android:textColor="#EF4444"
+                    app:strokeColor="#EF4444"
+                    app:strokeWidth="1.5dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton" />
 
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E8ECF1"
+                    android:layout_marginVertical="16dp" />
+
+                <!-- Backup Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📦 Backup And Restore"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A2332" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manage your data backups"
+                    android:textSize="13sp"
+                    android:textColor="#7B8794"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- Last Backup Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/info_background"
+                    android:padding="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="⏱️"
+                        android:textSize="18sp"
+                        android:layout_marginEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/txt_last_backup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last Backup: Never"
+                        android:textSize="14sp"
+                        android:textColor="#64748B" />
+
+                </LinearLayout>
+
+                <!-- Backup Buttons Grid -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Row 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_backup_now"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:text="💾 Backup Now"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            app:cornerRadius="10dp"
+                            app:backgroundTint="#10B981"
+                            android:layout_marginEnd="6dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_share_backup"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:text="📤 Share Backup"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            app:cornerRadius="10dp"
+                            app:backgroundTint="#10B981"
+                            android:layout_marginStart="6dp" />
+
+                    </LinearLayout>
+
+                    <!-- Row 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_restore_backup"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:text="📥 Restore Backup"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            app:cornerRadius="10dp"
+                            app:backgroundTint="#10B981"
+                            android:layout_marginEnd="6dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_backup_center"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:text="📂 Backup Center"
+                            android:textAllCaps="false"
+                            android:textSize="11sp"
+                            app:cornerRadius="10dp"
+                            app:backgroundTint="#10B981"
+                            android:layout_marginStart="6dp" />
+
+                    </LinearLayout>
+
+                    <!-- Row 3 - WiFi Direct -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_wifi_direct"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="8dp"
+                        android:text="📶 Open WiFi Direct"
+                        android:textAllCaps="false"
+                        android:textSize="14sp"
+                        app:cornerRadius="10dp"
+                        app:backgroundTint="#10B981" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/txt_last_backup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Backup: Never"
-                android:textSize="14sp"
-                android:textColor="@color/gray_dark"
-                android:layout_marginBottom="12dp"/>
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_backup_now"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Backup Now"
-                android:layout_marginTop="12dp"
-                style="@style/Widget.Material3.Button.OutlinedButton"/>
+        <!-- Footer -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Version 1.0.0"
+            android:textSize="12sp"
+            android:textColor="#94A3B8"
+            android:gravity="center"
+            android:layout_marginTop="24dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_share_backup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:text="Share Backup"/>
+    </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_restore_backup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:text="Restore Backup"/>
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-</LinearLayout>
+</ScrollView>

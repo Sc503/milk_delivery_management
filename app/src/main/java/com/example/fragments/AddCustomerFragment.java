@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import com.example.repository.MilkRepository.OnIdReturnedListener;
+
 public class AddCustomerFragment extends Fragment {
 
     private FragmentAddCustomerBinding binding;
@@ -66,6 +68,8 @@ public class AddCustomerFragment extends Fragment {
 
 
     }
+
+
 
     private void checkPermissionAndFetchGPS() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -236,17 +240,43 @@ public class AddCustomerFragment extends Fragment {
         String today = DateUtils.getTodayDateString();
 
         Customer customer = new Customer(name, mobile, address, latitude, longitude, today);
-        viewModel.insertCustomer(customer, newId -> {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    Toast.makeText(getContext(), "Customer: " + name + " saved successfully!", Toast.LENGTH_LONG).show();
-                    clearFields();
+        viewModel.insertCustomer(customer,new OnIdReturnedListener() {
+            @Override
+            public void onIdReturned(long newId) {
 
-                    // Smoothly routing the user back to Home Map view
-                    if (getActivity() instanceof com.example.activities.MainActivity) {
-                        ((com.example.activities.MainActivity) getActivity()).navigateToMenuItem(R.id.nav_home);
-                    }
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+
+                        Toast.makeText(
+                                getContext(),
+                                "Customer: " + name + " saved successfully!",
+                                Toast.LENGTH_LONG
+                        ).show();
+
+                        clearFields();
+
+                        // Smoothly routing the user back to Home Map view
+                        if (getActivity() instanceof com.example.activities.MainActivity) {
+                            ((com.example.activities.MainActivity) getActivity())
+                                    .navigateToMenuItem(R.id.nav_home);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+
+                        Toast.makeText(
+                                getContext(),
+                                message,
+                                Toast.LENGTH_LONG
+                        ).show();
+                    });
+                }
             }
         });
     }
@@ -261,6 +291,7 @@ public class AddCustomerFragment extends Fragment {
         binding.layMobileNumber.setError(null);
         binding.layLatitude.setError(null);
         binding.layLongitude.setError(null);
+        binding.etCustomerName.requestFocus();
     }
 
     @Override

@@ -40,9 +40,30 @@ public class MilkRepository {
 
     // --- Customer Functions ---
 
-    public void insertCustomer(Customer customer, OnIdReturnedListener listener) {
+    public void insertCustomer(Customer customer,
+                               OnIdReturnedListener listener) {
+
         executorService.execute(() -> {
-            long newId = customerDao.insert(customer);
+
+            Customer existing =
+                    customerDao.getCustomerByMobileSync(
+                            customer.getMobile()
+                    );
+
+            if (existing != null) {
+
+                if (listener != null) {
+                    listener.onError(
+                            "Mobile number already exists"
+                    );
+                }
+
+                return;
+            }
+
+            long newId =
+                    customerDao.insert(customer);
+
             if (listener != null) {
                 listener.onIdReturned(newId);
             }
@@ -234,5 +255,6 @@ public class MilkRepository {
 
     public interface OnIdReturnedListener {
         void onIdReturned(long id);
+        void onError(String message);
     }
 }

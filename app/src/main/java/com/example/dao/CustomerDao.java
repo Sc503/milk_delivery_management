@@ -45,6 +45,12 @@ public interface CustomerDao {
     @Query("DELETE FROM customers")
     void deleteAll();
 
+    @Query("SELECT * FROM customers WHERE mobile = :mobile LIMIT 1")
+    Customer getCustomerByMobile(String mobile);
+
+    @Query("SELECT * FROM customers WHERE mobile = :mobile LIMIT 1")
+    Customer getCustomerByMobileSync(String mobile);
+
     @Query("SELECT c.* FROM customers c " +
             "LEFT JOIN deliveries d ON c.id = d.customerId AND d.deliveryDate = :todayDate " +
             "WHERE d.id IS NULL OR d.status = 'Pending' " +

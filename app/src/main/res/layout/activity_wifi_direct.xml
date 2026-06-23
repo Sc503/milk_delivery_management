@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/gradient_background">
+
+    <!-- Header Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- App Icon and Title -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/icon_background"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📶"
+                        android:textSize="28sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="WiFi Direct"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#1A2332" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Send &amp; Receive Files"
+                        android:textSize="13sp"
+                        android:textColor="#7B8794" />
+                </LinearLayout>
+
+                <!-- Status Indicator -->
+                <View
+                    android:id="@+id/statusIndicator"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:background="@drawable/status_indicator_off" />
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E8ECF1"
+                android:layout_marginVertical="12dp" />
+
+            <!-- Connection Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/status_background"
+                android:padding="14dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/txtConnectionStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="● Not Connected"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#64748B"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/txtStatusHint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tap 'Scan' to discover nearby devices"
+                    android:textSize="12sp"
+                    android:textColor="#94A3B8"
+                    android:gravity="center"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <!-- Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnScan"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:text="Scan Devices"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:icon="@drawable/ic_scan"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="#3B82F6"
+                    android:fontFamily="sans-serif-medium" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDisconnect"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_weight="1"
+                    android:text="Disconnect"
+                    android:textAllCaps="false"
+                    android:textSize="14sp"
+                    app:icon="@drawable/ic_disconnect"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:cornerRadius="12dp"
+                    app:backgroundTint="#EF4444"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginStart="10dp" />
+            </LinearLayout>
+
+
+            <!-- Progress Bar -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                android:progressTint="#10B981" />
+
+            <!-- Update the Send File Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSendFile"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="10dp"
+                android:text="📤 Select and Send File"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#10B981"
+                android:enabled="false"
+                android:fontFamily="sans-serif-medium" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Device List Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Available Devices"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/txtDeviceCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 found"
+                android:textSize="14sp"
+                android:textColor="#7B8794"
+                android:background="@drawable/count_badge"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerDevices"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/txtEmptyState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No devices found\nTap 'Scan Devices' to discover"
+            android:textSize="14sp"
+            android:textColor="#94A3B8"
+            android:gravity="center"
+            android:padding="24dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>
