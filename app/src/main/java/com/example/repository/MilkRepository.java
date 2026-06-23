@@ -230,8 +230,18 @@ public class MilkRepository {
         return customerDao.getAllCustomersSync();
     }
 
+    public List<Delivery> getAllDeliveriesSync() {return deliveryDao.getAllDeliveriesSync();}
+
     public List<Delivery> getDeliveriesForCustomerSync(long customerId) {
         return deliveryDao.getDeliveriesForCustomerSync(customerId);
+    }
+
+    public Customer getCustomerByMobileSync(
+            String mobile
+    ){
+        return customerDao.getCustomerByMobile(
+                mobile
+        );
     }
 
     public List<Delivery> getDeliveriesForMonthSync(String yearMonthPrefix) {

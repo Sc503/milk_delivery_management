@@ -14,11 +14,13 @@ import java.util.List;
 
 @Dao
 public interface DeliveryDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Delivery delivery);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Delivery delivery);
+
     @Delete
     void delete(Delivery delivery);
 
@@ -43,6 +45,12 @@ public interface DeliveryDao {
     @Query("SELECT * FROM deliveries ORDER BY deliveryDate DESC")
     LiveData<List<Delivery>> getAllDeliveries();
 
+    @Query("SELECT * FROM deliveries")
+    List<Delivery> getAllDeliveriesSync();
+
+    @Query("SELECT * FROM deliveries")
+    List<Delivery> getAllDeliveriesForBackup();
+
     @Query("SELECT * FROM deliveries WHERE customerId = :customerId AND deliveryDate = :date LIMIT 1")
     Delivery findDelivery(long customerId, String date);
 
@@ -51,4 +59,10 @@ public interface DeliveryDao {
                     "WHERE customerId=:customerId " +
                     "AND status='Delivered'")
     int getDeliveredDaysCount(long customerId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Delivery> deliveries);
+
+    @Query("DELETE FROM deliveries")
+    void deleteAll();
 }

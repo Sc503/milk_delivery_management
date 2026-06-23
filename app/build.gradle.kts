@@ -11,12 +11,12 @@ plugins {
 
 android {
   namespace = "com.example"
-  compileSdk { version = release(36) { minorApiLevel = 1 } }
+  compileSdk = 36
 
   defaultConfig {
     applicationId = "com.aistudio.milkdelivery.qyvjpt"
     minSdk = 26
-    targetSdk = 36
+    targetSdk = 35
     versionCode = 1
     versionName = "1.0"
 
@@ -109,13 +109,11 @@ dependencies {
   implementation("com.google.firebase:firebase-auth")
 
   implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
   implementation("org.apache.poi:poi:5.2.3")
   implementation("org.apache.poi:poi-ooxml:5.2.3")
+  implementation("com.google.code.gson:gson:2.10.1")
 
-  implementation("com.google.firebase:firebase-firestore:24.11.0")
 
-  implementation("com.google.android.material:material:1.12.0")
 
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)

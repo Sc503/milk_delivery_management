@@ -8,14 +8,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.R;
+import com.example.database.AppDatabase;
 import com.example.databinding.ActivityLoginBinding;
 import com.example.models.User;
 import com.example.viewmodel.LoginViewModel;
+import android.app.ProgressDialog;
+
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.content.SharedPreferences;
 
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
+
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,25 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this)
                 .get(LoginViewModel.class);
 
+        progressDialog = new ProgressDialog(this);
+
+
+
+        progressDialog.setTitle("Please Wait");
+
+        progressDialog.setMessage("Logging In...");
+
+        progressDialog.setCancelable(false);
+
+        new Thread(() -> {
+
+            AppDatabase db = AppDatabase.getInstance(this);
+
+            db.userDao().insert(new User("Owner","9370734093","admin123"));
+            db.userDao().insert(new User("Staff","8888888888","staff123"));
+            db.userDao().insert(new User("Customer","9999999999","cust123"));
+
+        }).start();
         String[] userTypes = {
                 "Owner",
                 "Staff",
@@ -64,127 +93,131 @@ public class LoginActivity extends AppCompatActivity {
         // Login Button
         binding.btnLogin.setOnClickListener(v -> {
 
-            binding.userTypeLayout.setError(null);
-            binding.mobileLayout.setError(null);
-            binding.passwordLayout.setError(null);
+            String type = binding.edtUserType.getText().toString().trim();
+            String mobile = binding.edtMobile.getText().toString().trim();
+            String password = binding.edtPassword.getText().toString().trim();
 
-            String type =
-                    binding.edtUserType.getText()
-                            .toString()
-                            .trim();
+
+
+
+            if (type.isEmpty()) {
+                binding.userTypeLayout.setError("Select User Type");
+                return;
+            }
+
+            if (mobile.length() != 10) {
+                binding.mobileLayout.setError("Enter Valid Mobile Number");
+                return;
+            }
+
+            if (password.length() < 4) {
+                binding.passwordLayout.setError("Minimum 4 characters");
+                return;
+            }
+
+            progressDialog.show();
+
+            new Thread(() -> {
+
+                User loginUser =
+                        viewModel.login(
+                                type,
+                                mobile,
+                                password
+                        );
+
+                runOnUiThread(() -> {
+
+                    progressDialog.dismiss();
+
+                    if (loginUser == null) {
+
+                        binding.passwordLayout.setError(
+                                "Invalid User"
+                        );
+
+                        return;
+                    }
+
+                    openMain(loginUser);
+
+                });
+
+            }).start();
+
+        });
+
+        binding.txtForgotPassword.setOnClickListener(v -> {
 
             String mobile =
                     binding.edtMobile.getText()
                             .toString()
                             .trim();
 
-            String password =
-                    binding.edtPassword.getText()
+            String type =
+                    binding.edtUserType.getText()
                             .toString()
                             .trim();
 
             if (type.isEmpty()) {
 
-                binding.userTypeLayout.setError(
-                        "Select User Type");
+                Toast.makeText(
+                        this,
+                        "Select User Type First",
+                        Toast.LENGTH_SHORT
+                ).show();
 
                 return;
             }
 
             if (mobile.length() != 10) {
 
-                binding.mobileLayout.setError(
-                        "Enter Valid Mobile Number");
-
-                return;
-            }
-
-            if (password.length() < 4) {
-
-                binding.passwordLayout.setError(
-                        "Minimum 4 characters");
+                Toast.makeText(
+                        this,
+                        "Enter Mobile Number First",
+                        Toast.LENGTH_SHORT
+                ).show();
 
                 return;
             }
 
             new Thread(() -> {
 
-                User existingUser =
+                User user =
                         viewModel.getUser(
                                 type,
                                 mobile
                         );
 
+                runOnUiThread(() -> {
 
-                // First Login → Create Account
-                if (existingUser == null) {
-
-                    User user =
-                            new User(
-                                    type,
-                                    mobile,
-                                    password
-                            );
-
-                    viewModel.insertUser(user);
-
-                    runOnUiThread(() -> {
-
-                        binding.passwordLayout.setError(null);
+                    if (user == null) {
 
                         Toast.makeText(
-                                LoginActivity.this,
-                                "Account Created Successfully",
+                                this,
+                                "User not found",
                                 Toast.LENGTH_SHORT
                         ).show();
 
-                        openMain();
+                    } else {
 
-                    });
+                        new androidx.appcompat.app.AlertDialog.Builder(this)
+                                .setTitle("Password")
+                                .setMessage("Your password is : " + user.getPassword())
+                                .setPositiveButton("OK", null)
+                                .show();
 
-                }
+                    }
 
-                // Existing User Login
-                else {
-
-                    User loginUser =
-                            viewModel.login(
-                                    type,
-                                    mobile,
-                                    password
-                            );
-
-                    runOnUiThread(() -> {
-
-                        if (loginUser == null) {
-
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Wrong Password",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                        } else {
-
-                            Toast.makeText(
-                                    LoginActivity.this,
-                                    "Login Successful",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                            openMain();
-
-                        }
-
-                    });
-
-                }
+                });
 
             }).start();
 
         });
 
     }
+
+
 
     @Override
     protected void onStart() {
@@ -198,7 +231,16 @@ public class LoginActivity extends AppCompatActivity {
                                 "isLoggedIn",
                                 false);
 
-        if (isLoggedIn) {
+        boolean rememberMe =
+                getSharedPreferences(
+                        "UserSession",
+                        MODE_PRIVATE)
+                        .getBoolean(
+                                "rememberMe",
+                                false);
+
+        // SAFE AUTO LOGIN LOGIC
+        if (isLoggedIn || rememberMe) {
 
             startActivity(
                     new Intent(
@@ -208,36 +250,50 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
-    private void openMain() {
+    private void openMain(User user) {
 
-        String type =
-                binding.edtUserType
-                        .getText()
-                        .toString()
-                        .trim();
+        SharedPreferences.Editor editor =
+                getSharedPreferences(
+                        "UserSession",
+                        MODE_PRIVATE)
+                        .edit();
 
-        getSharedPreferences(
-                "UserSession",
-                MODE_PRIVATE
-        )
-                .edit()
-                .putString(
-                        "userType",
-                        type
-                )
-                .putBoolean(
-                        "isLoggedIn",
-                        true
-                )
-                .apply();
+        editor.putString(
+                "userType",
+                user.getUserType());
+
+        editor.putString(
+                "mobile",
+                user.getMobile());
+
+        editor.putBoolean(
+                "isLoggedIn",
+                true);
+
+        if (binding.checkRemember.isChecked()) {
+
+            editor.putBoolean(
+                    "rememberMe",
+                    true);
+
+        } else {
+
+            editor.putBoolean(
+                    "rememberMe",
+                    false);
+        }
+
+        editor.apply();
 
         startActivity(
                 new Intent(
                         LoginActivity.this,
-                        MainActivity.class
-                )
-        );
+                        MainActivity.class));
 
         finish();
     }
+
+
+
+
 }

@@ -43,23 +43,23 @@ public class AppDatabase_Impl : AppDatabase() {
     DeliveryDao_Impl(this)
   }
 
-  private val _paymentDao: Lazy<PaymentDao> = lazy {
-    PaymentDao_Impl(this)
-  }
-
   private val _userDao: Lazy<UserDao> = lazy {
     UserDao_Impl(this)
   }
 
+  private val _paymentDao: Lazy<PaymentDao> = lazy {
+    PaymentDao_Impl(this)
+  }
+
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(4,
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(6,
         "9e50ee638023916dee1bd962eb7a849e", "d514a2f890bd02b68bde77bffbad42a7") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `customers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile` TEXT, `address` TEXT, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `createdDate` TEXT, `milkQuantity` REAL NOT NULL, `milkRate` REAL NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `deliveries` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `deliveryDate` TEXT, `deliveredTime` TEXT, `status` TEXT, FOREIGN KEY(`customerId`) REFERENCES `customers`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_deliveries_customerId` ON `deliveries` (`customerId`)")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `payments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `month` TEXT, `totalAmount` REAL NOT NULL, `status` TEXT)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `users` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userType` TEXT, `mobile` TEXT, `password` TEXT)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `payments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `month` TEXT, `totalAmount` REAL NOT NULL, `status` TEXT)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
         connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9e50ee638023916dee1bd962eb7a849e')")
       }
@@ -67,8 +67,8 @@ public class AppDatabase_Impl : AppDatabase() {
       public override fun dropAllTables(connection: SQLiteConnection) {
         connection.execSQL("DROP TABLE IF EXISTS `customers`")
         connection.execSQL("DROP TABLE IF EXISTS `deliveries`")
-        connection.execSQL("DROP TABLE IF EXISTS `payments`")
         connection.execSQL("DROP TABLE IF EXISTS `users`")
+        connection.execSQL("DROP TABLE IF EXISTS `payments`")
       }
 
       public override fun onCreate(connection: SQLiteConnection) {
@@ -150,6 +150,29 @@ public class AppDatabase_Impl : AppDatabase() {
               | Found:
               |""".trimMargin() + _existingDeliveries)
         }
+        val _columnsUsers: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsUsers.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsUsers.put("userType", TableInfo.Column("userType", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsUsers.put("mobile", TableInfo.Column("mobile", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsUsers.put("password", TableInfo.Column("password", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysUsers: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesUsers: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoUsers: TableInfo = TableInfo("users", _columnsUsers, _foreignKeysUsers,
+            _indicesUsers)
+        val _existingUsers: TableInfo = read(connection, "users")
+        if (!_infoUsers.equals(_existingUsers)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |users(com.example.models.User).
+              | Expected:
+              |""".trimMargin() + _infoUsers + """
+              |
+              | Found:
+              |""".trimMargin() + _existingUsers)
+        }
         val _columnsPayments: MutableMap<String, TableInfo.Column> = mutableMapOf()
         _columnsPayments.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
             TableInfo.CREATED_FROM_ENTITY))
@@ -175,29 +198,6 @@ public class AppDatabase_Impl : AppDatabase() {
               | Found:
               |""".trimMargin() + _existingPayments)
         }
-        val _columnsUsers: MutableMap<String, TableInfo.Column> = mutableMapOf()
-        _columnsUsers.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        _columnsUsers.put("userType", TableInfo.Column("userType", "TEXT", false, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        _columnsUsers.put("mobile", TableInfo.Column("mobile", "TEXT", false, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        _columnsUsers.put("password", TableInfo.Column("password", "TEXT", false, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        val _foreignKeysUsers: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
-        val _indicesUsers: MutableSet<TableInfo.Index> = mutableSetOf()
-        val _infoUsers: TableInfo = TableInfo("users", _columnsUsers, _foreignKeysUsers,
-            _indicesUsers)
-        val _existingUsers: TableInfo = read(connection, "users")
-        if (!_infoUsers.equals(_existingUsers)) {
-          return RoomOpenDelegate.ValidationResult(false, """
-              |users(com.example.models.User).
-              | Expected:
-              |""".trimMargin() + _infoUsers + """
-              |
-              | Found:
-              |""".trimMargin() + _existingUsers)
-        }
         return RoomOpenDelegate.ValidationResult(true, null)
       }
     }
@@ -208,19 +208,19 @@ public class AppDatabase_Impl : AppDatabase() {
     val _shadowTablesMap: MutableMap<String, String> = mutableMapOf()
     val _viewTables: MutableMap<String, Set<String>> = mutableMapOf()
     return InvalidationTracker(this, _shadowTablesMap, _viewTables, "customers", "deliveries",
-        "payments", "users")
+        "users", "payments")
   }
 
   public override fun clearAllTables() {
-    super.performClear(true, "customers", "deliveries", "payments", "users")
+    super.performClear(true, "customers", "deliveries", "users", "payments")
   }
 
   protected override fun getRequiredTypeConverterClasses(): Map<KClass<*>, List<KClass<*>>> {
     val _typeConvertersMap: MutableMap<KClass<*>, List<KClass<*>>> = mutableMapOf()
     _typeConvertersMap.put(CustomerDao::class, CustomerDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(DeliveryDao::class, DeliveryDao_Impl.getRequiredConverters())
-    _typeConvertersMap.put(PaymentDao::class, PaymentDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(UserDao::class, UserDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(PaymentDao::class, PaymentDao_Impl.getRequiredConverters())
     return _typeConvertersMap
   }
 
@@ -240,7 +240,7 @@ public class AppDatabase_Impl : AppDatabase() {
 
   public override fun deliveryDao(): DeliveryDao? = _deliveryDao.value
 
-  public override fun paymentDao(): PaymentDao? = _paymentDao.value
-
   public override fun userDao(): UserDao? = _userDao.value
+
+  public override fun paymentDao(): PaymentDao? = _paymentDao.value
 }

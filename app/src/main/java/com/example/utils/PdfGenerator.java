@@ -133,7 +133,7 @@ public class PdfGenerator {
                         + ".pdf";
 
         File downloadsFolder =
-                Environment.getExternalStoragePublicDirectory(
+                context.getExternalFilesDir(
                         Environment.DIRECTORY_DOWNLOADS);
 
         if (!downloadsFolder.exists()) {
@@ -157,6 +157,14 @@ public class PdfGenerator {
             document.writeTo(out);
 
             out.close();
+
+            // Notify MediaScanner about the new file so it appears in "Downloads"
+            android.media.MediaScannerConnection.scanFile(
+                    context,
+                    new String[]{file.getAbsolutePath()},
+                    new String[]{"application/pdf"},
+                    null
+            );
 
         } catch (Exception e) {
 

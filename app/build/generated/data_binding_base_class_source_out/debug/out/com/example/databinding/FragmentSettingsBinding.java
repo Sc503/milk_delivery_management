@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -20,16 +21,30 @@ public final class FragmentSettingsBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final MaterialButton btnBackupNow;
+
+  @NonNull
   public final MaterialButton btnClearCache;
 
   @NonNull
-  public final MaterialButton btnLogout;
+  public final MaterialButton btnRestoreBackup;
+
+  @NonNull
+  public final MaterialButton btnShareBackup;
+
+  @NonNull
+  public final TextView txtLastBackup;
 
   private FragmentSettingsBinding(@NonNull LinearLayout rootView,
-      @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnLogout) {
+      @NonNull MaterialButton btnBackupNow, @NonNull MaterialButton btnClearCache,
+      @NonNull MaterialButton btnRestoreBackup, @NonNull MaterialButton btnShareBackup,
+      @NonNull TextView txtLastBackup) {
     this.rootView = rootView;
+    this.btnBackupNow = btnBackupNow;
     this.btnClearCache = btnClearCache;
-    this.btnLogout = btnLogout;
+    this.btnRestoreBackup = btnRestoreBackup;
+    this.btnShareBackup = btnShareBackup;
+    this.txtLastBackup = txtLastBackup;
   }
 
   @Override
@@ -59,19 +74,38 @@ public final class FragmentSettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btn_backup_now;
+      MaterialButton btnBackupNow = ViewBindings.findChildViewById(rootView, id);
+      if (btnBackupNow == null) {
+        break missingId;
+      }
+
       id = R.id.btn_clear_cache;
       MaterialButton btnClearCache = ViewBindings.findChildViewById(rootView, id);
       if (btnClearCache == null) {
         break missingId;
       }
 
-      id = R.id.btnLogout;
-      MaterialButton btnLogout = ViewBindings.findChildViewById(rootView, id);
-      if (btnLogout == null) {
+      id = R.id.btn_restore_backup;
+      MaterialButton btnRestoreBackup = ViewBindings.findChildViewById(rootView, id);
+      if (btnRestoreBackup == null) {
         break missingId;
       }
 
-      return new FragmentSettingsBinding((LinearLayout) rootView, btnClearCache, btnLogout);
+      id = R.id.btn_share_backup;
+      MaterialButton btnShareBackup = ViewBindings.findChildViewById(rootView, id);
+      if (btnShareBackup == null) {
+        break missingId;
+      }
+
+      id = R.id.txt_last_backup;
+      TextView txtLastBackup = ViewBindings.findChildViewById(rootView, id);
+      if (txtLastBackup == null) {
+        break missingId;
+      }
+
+      return new FragmentSettingsBinding((LinearLayout) rootView, btnBackupNow, btnClearCache,
+          btnRestoreBackup, btnShareBackup, txtLastBackup);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

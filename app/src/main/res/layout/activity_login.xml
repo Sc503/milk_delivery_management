@@ -110,9 +110,11 @@
                 <AutoCompleteTextView
                     android:id="@+id/edtUserType"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="true"/>
             </com.google.android.material.textfield.TextInputLayout>
-
             <!-- MOBILE -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mobileLayout"
@@ -144,6 +146,13 @@
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
 
+            <CheckBox
+                android:id="@+id/checkRemember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:textColor="#555555"/>
+
             <!-- BUTTON -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
@@ -155,6 +164,16 @@
                 android:textColor="@android:color/white"
                 android:backgroundTint="#006B43"
                 app:cornerRadius="12dp"/>
+
+            <TextView
+                android:id="@+id/txtForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forgot Password?"
+                android:textColor="#0B5D1E"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"/>
 
         </LinearLayout>
 

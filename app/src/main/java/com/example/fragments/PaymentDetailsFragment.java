@@ -22,6 +22,7 @@ import com.example.viewmodel.MilkViewModel;
 import androidx.core.content.FileProvider;
 import android.net.Uri;
 import android.content.Intent;
+import android.content.ClipData;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -119,9 +120,34 @@ public class PaymentDetailsFragment extends Fragment {
                     paymentStatus
             );
 
-            Toast.makeText(getContext(),
-                    "PDF Saved:\n" + file.getAbsolutePath(),
-                    Toast.LENGTH_LONG).show();
+            if (file != null && file.exists()) {
+                Toast.makeText(getContext(),
+                        "PDF Saved:\n" + file.getAbsolutePath(),
+                        Toast.LENGTH_LONG).show();
+
+                // Open the PDF
+                try {
+                    Uri uri = FileProvider.getUriForFile(
+                            requireContext(),
+                            requireContext().getPackageName() + ".provider",
+                            file
+                    );
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(uri, "application/pdf");
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                    startActivity(intent);
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(),
+                            "Error opening PDF: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // SHARE PDF
@@ -137,18 +163,28 @@ public class PaymentDetailsFragment extends Fragment {
                     paymentStatus
             );
 
-            Uri uri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().getPackageName() + ".provider",
-                    file
-            );
+            if (file != null && file.exists()) {
+                Uri uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        requireContext().getPackageName() + ".provider",
+                        file
+                );
 
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("application/pdf");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("application/pdf");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                
+                // Grant permission via ClipData (recommended for Android 5.0+)
+                intent.setClipData(ClipData.newRawUri(null, uri));
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            startActivity(Intent.createChooser(intent, "Share Invoice"));
+                // Create chooser and grant permission to it
+                Intent chooser = Intent.createChooser(intent, "Share Invoice");
+                chooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(chooser);
+            } else {
+                Toast.makeText(getContext(), "Failed to generate PDF", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // WHATSAPP

@@ -7,6 +7,8 @@ import androidx.room.Query;
 
 import com.example.models.User;
 
+import java.util.List;
+
 @Dao
 public interface UserDao {
 
@@ -19,6 +21,12 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE userType=:type AND mobile=:mobile AND password=:password LIMIT 1")
     User login(String type, String mobile, String password);
 
-    
+    @Query("SELECT * FROM users WHERE mobile=:mobile LIMIT 1")
+    User getUserByMobile(String mobile);
+
+    @Query("SELECT * FROM users")
+    List<User> getAllUsers();
+
+
 
 }

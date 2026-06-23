@@ -75,6 +75,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        String currentUserType =
+                requireContext()
+                        .getSharedPreferences(
+                                "UserSession",
+                                android.content.Context.MODE_PRIVATE)
+                        .getString(
+                                "userType",
+                                ""
+                        );
+
+        if(currentUserType.equals("Customer")){
+
+            Toast.makeText(
+                    getContext(),
+                    "Access Denied",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
         super.onViewCreated(view, savedInstanceState);
 
         // Initialize supporting Map Fragment
@@ -151,7 +171,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
 
-        checkLocationPermissionAndCenter();
+//        checkLocationPermissionAndCenter();
     }
 
     private void updateMapMarkers(List<Customer> customers) {
@@ -308,6 +328,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
     private void openCustomerDetailsDialog(Customer customer) {
+        String currentUserType =
+                requireContext()
+                        .getSharedPreferences(
+                                "UserSession",
+                                android.content.Context.MODE_PRIVATE)
+                        .getString(
+                                "userType",
+                                ""
+                        );
+
+        if(currentUserType.equals("Customer")){
+
+            Toast.makeText(
+                    getContext(),
+                    "Read Only Mode",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
         CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, new CustomerDetailsDialog.DialogCallback() {
             @Override
             public void onDeliver(Customer c) {
@@ -371,23 +411,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private void enableMyLocationAndCenter() {
+
         if (googleMap == null) return;
+
         googleMap.setMyLocationEnabled(true);
 
-        fusedLocationClient.getLastLocation().addOnSuccessListener(requireActivity(), location -> {
-            if (location != null) {
-                LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 15.0f));
-            } else {
-                // Fallback coordinates if GPS is disabled but permissions granted (e.g. center of city/mock London)
-                if (markerLookup.isEmpty()) {
-                    LatLng alternate = new LatLng(51.523767, -0.1585557);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(alternate, 11.0f));
-                }
-            }
-        });
-    }
+        LatLng nashik = new LatLng(
+                19.9975,
+                73.7898
+        );
 
+        googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                        nashik,
+                        12f
+                )
+        );
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
