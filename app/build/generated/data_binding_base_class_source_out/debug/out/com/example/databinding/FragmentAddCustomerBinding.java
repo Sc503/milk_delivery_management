@@ -43,6 +43,12 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
   public final TextInputEditText etLongitude;
 
   @NonNull
+  public final TextInputEditText etMilkQuantity;
+
+  @NonNull
+  public final TextInputEditText etMilkRate;
+
+  @NonNull
   public final TextInputEditText etMobileNumber;
 
   @NonNull
@@ -58,15 +64,23 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
   public final TextInputLayout layLongitude;
 
   @NonNull
+  public final TextInputLayout layMilkQuantity;
+
+  @NonNull
+  public final TextInputLayout layMilkRate;
+
+  @NonNull
   public final TextInputLayout layMobileNumber;
 
   private FragmentAddCustomerBinding(@NonNull NestedScrollView rootView,
       @NonNull MaterialButton btnGetLocation, @NonNull MaterialButton btnSaveCustomer,
       @NonNull MaterialButton btnSearchAddress, @NonNull TextInputEditText etAddress,
       @NonNull TextInputEditText etCustomerName, @NonNull TextInputEditText etLatitude,
-      @NonNull TextInputEditText etLongitude, @NonNull TextInputEditText etMobileNumber,
+      @NonNull TextInputEditText etLongitude, @NonNull TextInputEditText etMilkQuantity,
+      @NonNull TextInputEditText etMilkRate, @NonNull TextInputEditText etMobileNumber,
       @NonNull TextInputLayout layAddress, @NonNull TextInputLayout layCustomerName,
       @NonNull TextInputLayout layLatitude, @NonNull TextInputLayout layLongitude,
+      @NonNull TextInputLayout layMilkQuantity, @NonNull TextInputLayout layMilkRate,
       @NonNull TextInputLayout layMobileNumber) {
     this.rootView = rootView;
     this.btnGetLocation = btnGetLocation;
@@ -76,11 +90,15 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
     this.etCustomerName = etCustomerName;
     this.etLatitude = etLatitude;
     this.etLongitude = etLongitude;
+    this.etMilkQuantity = etMilkQuantity;
+    this.etMilkRate = etMilkRate;
     this.etMobileNumber = etMobileNumber;
     this.layAddress = layAddress;
     this.layCustomerName = layCustomerName;
     this.layLatitude = layLatitude;
     this.layLongitude = layLongitude;
+    this.layMilkQuantity = layMilkQuantity;
+    this.layMilkRate = layMilkRate;
     this.layMobileNumber = layMobileNumber;
   }
 
@@ -153,6 +171,18 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.et_milk_quantity;
+      TextInputEditText etMilkQuantity = ViewBindings.findChildViewById(rootView, id);
+      if (etMilkQuantity == null) {
+        break missingId;
+      }
+
+      id = R.id.et_milk_rate;
+      TextInputEditText etMilkRate = ViewBindings.findChildViewById(rootView, id);
+      if (etMilkRate == null) {
+        break missingId;
+      }
+
       id = R.id.et_mobile_number;
       TextInputEditText etMobileNumber = ViewBindings.findChildViewById(rootView, id);
       if (etMobileNumber == null) {
@@ -183,6 +213,18 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.lay_milk_quantity;
+      TextInputLayout layMilkQuantity = ViewBindings.findChildViewById(rootView, id);
+      if (layMilkQuantity == null) {
+        break missingId;
+      }
+
+      id = R.id.lay_milk_rate;
+      TextInputLayout layMilkRate = ViewBindings.findChildViewById(rootView, id);
+      if (layMilkRate == null) {
+        break missingId;
+      }
+
       id = R.id.lay_mobile_number;
       TextInputLayout layMobileNumber = ViewBindings.findChildViewById(rootView, id);
       if (layMobileNumber == null) {
@@ -191,7 +233,8 @@ public final class FragmentAddCustomerBinding implements ViewBinding {
 
       return new FragmentAddCustomerBinding((NestedScrollView) rootView, btnGetLocation,
           btnSaveCustomer, btnSearchAddress, etAddress, etCustomerName, etLatitude, etLongitude,
-          etMobileNumber, layAddress, layCustomerName, layLatitude, layLongitude, layMobileNumber);
+          etMilkQuantity, etMilkRate, etMobileNumber, layAddress, layCustomerName, layLatitude,
+          layLongitude, layMilkQuantity, layMilkRate, layMobileNumber);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

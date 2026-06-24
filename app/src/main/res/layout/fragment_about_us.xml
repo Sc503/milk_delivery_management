@@ -44,7 +44,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="This is a commercial-grade, offline-first Milk Distribution &amp; Customer Relationship application built to power local supply networks. It features exact route marking via Google Maps coordinate indexing, daily pending marker list updates, calendar activity grids, and automated monthly analytics dashboards."
+            android:text="🥛 About Us
+
+       Welcome to [Milk Flow] Milk Delivery Management System, your reliable partner for fresh and timely milk delivery.Our mission is to simplify daily milk distribution by connecting customers, delivery staff, and suppliers through a smart and efficient platform. We aim to ensure freshness, punctuality, and transparency in every delivery.
+This application is designed and managed by Saurabh Chaudhari and Karan, who are committed to providing a seamless and user-friendly milk delivery experience for all users.
+Through this app, users can easily:
+
+1)Manage daily milk subscriptions
+2)Track deliveries in real time
+3)View payment and order history
+4)Maintain transparent communication with service providers
+
+We continuously work to improve our service and bring the best experience to our users.
+
+Thank you for trusting us!."
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:textColor="@color/on_surface_variant"
             android:lineSpacingExtra="4dp" />

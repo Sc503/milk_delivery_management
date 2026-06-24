@@ -1,8 +1,13 @@
 package com.example.activities;
 
+import com.example.fragments.PaymentFragment;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,8 +28,16 @@ import com.example.fragments.SettingsFragment;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.utils.DateUtils;
+import com.example.utils.PermissionManager;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.navigation.NavigationView;
+import android.content.SharedPreferences;
+import com.example.dao.CustomerDao;
+import com.example.dao.DeliveryDao;
+import com.example.database.AppDatabase;
+import com.example.models.User;
+
+
 
 import java.util.List;
 
@@ -33,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private MilkViewModel viewModel;
     private Fragment activeFragment;
+    private String currentUserType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +58,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Setup MVVM and DB ViewModel
         viewModel = new ViewModelProvider(this).get(MilkViewModel.class);
 
+        SharedPreferences pref =
+                getSharedPreferences("UserSession", MODE_PRIVATE);
+
+        currentUserType =
+                pref.getString("userType", null);
+
+        String mobile =
+                pref.getString("mobile", null);
+
+// DEBUG LOGS
+        Log.d("CHECK", "UserType = " + currentUserType);
+        Log.d("CHECK", "Mobile = " + mobile);
+
+// SAFE DEFAULT (important)
+        if (currentUserType == null) {
+            currentUserType = "Guest";
+        }
+
+// UI / MENU SETUP FIRST
+        setupMenuByRole();
+
+// THEN DATA LOAD
         viewModel.readDeliveriesFromFirebase();
 
 
-
-        seedDatabaseOnFirstLaunch();
+//        insertUsers();     // ← Temporary
 
         setSupportActionBar(binding.toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(
+                    "Welcome " + currentUserType
+            );
+        }
+
 
         // Navigation slide-toggle drawer hooks
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,6 +102,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         binding.navView.setNavigationItemSelectedListener(this);
+
+
+        if ("Customer".equals(currentUserType)) {
+
+            // Drawer SHOULD NOT be locked
+            binding.drawerLayout.setDrawerLockMode(
+                    androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
+            );
+
+            navigateToMenuItem(R.id.nav_monthly_recap);
+        }
 
         if (getIntent().getBooleanExtra(
                 "OPEN_CUSTOMER_LOCATION",
@@ -97,7 +150,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         // Load map as initial starting fragment
         if (savedInstanceState == null) {
-            navigateToMenuItem(R.id.nav_home);
+
+            if ("Customer".equals(currentUserType)) {
+
+                navigateToMenuItem(R.id.nav_monthly_recap);
+
+            } else {
+
+                navigateToMenuItem(R.id.nav_home);
+
+            }
         }
     }
 
@@ -115,15 +177,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbarTitle = "Milk Delivery";
             binding.navView.setCheckedItem(R.id.nav_home);
         } else if (itemId == R.id.nav_add_customer) {
+            Log.d(
+                    "USER_TYPE",
+                    "Current User = " + currentUserType
+            );
+            if (!PermissionManager.canAddCustomer(currentUserType)) {
+
+                Toast.makeText(
+                        this,
+                        "Access Denied",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return;
+            }
+
             fragment = new AddCustomerFragment();
+
             tag = "ADD_CUSTOMER_FRAGMENT";
+
             toolbarTitle = "Add New Customer";
-            binding.navView.setCheckedItem(R.id.nav_add_customer);
+
+            binding.navView.setCheckedItem(
+                    R.id.nav_add_customer);
         } else if (itemId == R.id.nav_monthly_recap) {
             fragment = new MonthlyRecapFragment();
             tag = "MONTHLY_RECAP_FRAGMENT";
             toolbarTitle = "Monthly Recap";
             binding.navView.setCheckedItem(R.id.nav_monthly_recap);
+        } else if (itemId == R.id.nav_payment) {
+            fragment = new PaymentFragment();
+            tag = "PAYMENT_FRAGMENT";
+            toolbarTitle = "Payments";
+            binding.navView.setCheckedItem(R.id.nav_payment);
+
         } else if (itemId == R.id.nav_settings) {
             fragment = new SettingsFragment();
             tag = "SETTINGS_FRAGMENT";
@@ -134,6 +221,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "ABOUT_FRAGMENT";
             toolbarTitle = "About Us";
             binding.navView.setCheckedItem(R.id.nav_about_us);
+        } else if (itemId == R.id.nav_logout) {
+
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure?")
+
+                    .setPositiveButton(
+                            "Yes",
+                            (dialog, which) -> {
+
+                                getSharedPreferences(
+                                        "UserSession",
+                                        MODE_PRIVATE)
+                                        .edit()
+                                        .clear()
+                                        .apply();
+
+                                startActivity(
+                                        new Intent(
+                                                MainActivity.this,
+                                                LoginActivity.class));
+
+                                finish();
+                            })
+
+                    .setNegativeButton(
+                            "No",
+                            null)
+
+                    .show();
+
+            return;
         }
 
         if (fragment != null) {
@@ -141,12 +260,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment, tag);
             transaction.commit();
-            
+
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(toolbarTitle);
             }
         }
-        
+
         // Re-draw toolbar menu features
         invalidateOptionsMenu();
     }
@@ -160,13 +279,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+
             binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+        } else if ("Customer".equals(currentUserType)) {
+
+            finish();
+
         } else if (!(activeFragment instanceof MapFragment)) {
-            // Default back behavior returns to Map screen
+
             navigateToMenuItem(R.id.nav_home);
+
         } else {
+
             super.onBackPressed();
+
         }
     }
 
@@ -196,57 +325,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupMenuByRole() {
 
-    private void seedDatabaseOnFirstLaunch() {
-        viewModel.getRepository().getExecutor().execute(() -> {
-            com.example.database.AppDatabase db = com.example.database.AppDatabase.getInstance(this);
-            int count = db.query("SELECT COUNT(*) FROM customers", null).getCount();
-            if (count == 0) {
-                // Generate default historical and current customers
-                Customer c1 = new Customer("John Doe", "9876543210", "221B Baker Street, London", 51.523767, -0.1585557, "2026-06-01");
-                Customer c2 = new Customer("David Smith", "9823485710", "Green Park, London", 51.502621, -0.143229, "2026-06-01");
-                Customer c3 = new Customer("Michael Brown", "9812345678", "City Center, London", 51.507421, -0.127817, "2026-06-01");
-                Customer c4 = new Customer("James Wilson", "9765432101", "Market Road, London", 51.512631, -0.168541, "2026-06-02");
-                Customer c5 = new Customer("Robert Johnson", "9512348765", "Lake View Park, London", 51.492621, -0.183229, "2026-06-03");
+        if (binding == null || binding.navView == null) return;
+        if (currentUserType == null) return;
 
-                long id1 = db.customerDao().insert(c1);
-                long id2 = db.customerDao().insert(c2);
-                long id3 = db.customerDao().insert(c3);
-                long id4 = db.customerDao().insert(c4);
-                long id5 = db.customerDao().insert(c5);
+        Menu menu = binding.navView.getMenu();
 
+        Log.d("CHECK", "UserType = " + currentUserType);
 
-                String selectedYearMonth = "2026-06-";
-                int totalDays = 9;
+        // First: show all items (reset state)
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).setVisible(true);
+        }
 
+        if ("Owner".equals(currentUserType)) {
 
-                for (int d = 1; d <= totalDays; d++) {
-                    String dateStr = String.format(java.util.Locale.getDefault(), "%s%02d", selectedYearMonth, d);
-                    
+            Log.d("CHECK", "Owner menu loaded");
+            // Owner = everything visible (no changes)
 
-                    if (d != 5) {
-                        db.deliveryDao().insert(new Delivery(id1, dateStr, "07:45 AM", "Delivered"));
-                    } else {
-                        db.deliveryDao().insert(new Delivery(id1, dateStr, "--", "Pending"));
-                    }
+        } else if ("Staff".equals(currentUserType)) {
 
+            Log.d("CHECK", "Staff menu loaded");
 
-                    db.deliveryDao().insert(new Delivery(id2, dateStr, "07:50 AM", "Delivered"));
+        } else if ("Customer".equals(currentUserType)) {
 
+            Log.d("CHECK", "Customer menu loaded");
 
-                    if (d != 3) {
-                        db.deliveryDao().insert(new Delivery(id3, dateStr, "07:40 AM", "Delivered"));
-                    } else {
-                        db.deliveryDao().insert(new Delivery(id3, dateStr, "--", "Pending"));
-                    }
+            hide(menu, R.id.nav_add_customer);
+            hide(menu, R.id.nav_payment);
+            hide(menu, R.id.nav_settings);
+            hide(menu, R.id.nav_home);
 
+            MenuItem recap = menu.findItem(R.id.nav_monthly_recap);
+            if (recap != null)
+                recap.setVisible(true);
 
-                    db.deliveryDao().insert(new Delivery(id4, dateStr, "08:10 AM", "Delivered"));
+            MenuItem about = menu.findItem(R.id.nav_about_us);
+            if (about != null)
+                about.setVisible(true);
 
+            MenuItem logout = menu.findItem(R.id.nav_logout);
+            if (logout != null)
+                logout.setVisible(true);
+        }
+    }
 
-                    db.deliveryDao().insert(new Delivery(id5, dateStr, "08:05 AM", "Delivered"));
-                }
-            }
-        });
+    private void hide(Menu menu, int id) {
+        MenuItem item = menu.findItem(id);
+        if (item != null) {
+            item.setVisible(false);
+        }
+    }
+
+    private void hideMenuItem(Menu menu, int id) {
+        MenuItem item = menu.findItem(id);
+        if (item != null) {
+            item.setVisible(false);
+        }
     }
 }
+

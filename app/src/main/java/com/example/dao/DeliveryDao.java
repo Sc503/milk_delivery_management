@@ -54,6 +54,12 @@ public interface DeliveryDao {
     @Query("SELECT * FROM deliveries WHERE customerId = :customerId AND deliveryDate = :date LIMIT 1")
     Delivery findDelivery(long customerId, String date);
 
+    @Query(
+            "SELECT COUNT(*) FROM deliveries " +
+                    "WHERE customerId=:customerId " +
+                    "AND status='Delivered'")
+    int getDeliveredDaysCount(long customerId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<Delivery> deliveries);
 

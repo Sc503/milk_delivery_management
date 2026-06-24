@@ -2,6 +2,7 @@ package com.example.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,10 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     private int currentMonth; // 0-based
     private int currentYear;
 
+    private String currentUserType;
+
+    private boolean readOnly;
+
     private final String[] months = {
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -47,6 +52,16 @@ public class CustomerCalendarActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(MilkViewModel.class);
 
+        currentUserType =
+                getSharedPreferences(
+                        "UserSession",
+                        MODE_PRIVATE
+                )
+                        .getString(
+                                "userType",
+                                ""
+                        );
+
         setSupportActionBar(binding.calendarToolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,6 +72,14 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         customerId = getIntent().getLongExtra("CUSTOMER_ID", -1);
         currentMonth = getIntent().getIntExtra("SELECTED_MONTH", -1);
         currentYear = getIntent().getIntExtra("SELECTED_YEAR", -1);
+
+        readOnly =
+                getIntent()
+                        .getBooleanExtra(
+                                "READ_ONLY",
+                                false
+                        );
+
 
         Calendar cal = Calendar.getInstance();
         if (currentMonth == -1) {
@@ -110,6 +133,11 @@ public class CustomerCalendarActivity extends AppCompatActivity {
                 binding.customerProfileName.setText(customer.getName());
                 binding.customerProfileMobile.setText(customer.getMobile());
                 binding.customerProfileAddress.setText(customer.getAddress());
+                if(currentUserType.equals("Customer")){
+
+                    binding.customerProfileMobile.setVisibility(View.GONE);
+
+                }
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(customer.getName() + " Calendar");
                 }
@@ -200,6 +228,28 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     }
 
     private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day) {
+
+        if(readOnly){
+
+            Toast.makeText(
+                    this,
+                    "Read Only Mode",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+        if(currentUserType.equals("Customer")){
+
+            Toast.makeText(
+                    this,
+                    "Access Denied",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
         if ("Delivered".equalsIgnoreCase(day.status)) {
             // Switch to Pending
             viewModel.markDeliveryPending(customerId, day.dateString, () -> 

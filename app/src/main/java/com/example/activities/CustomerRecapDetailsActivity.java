@@ -105,10 +105,31 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
 
         binding.fabShowCalendar.setOnClickListener(v -> {
 
-            Intent calendarIntent = new Intent(CustomerRecapDetailsActivity.this, CustomerCalendarActivity.class);
-            calendarIntent.putExtra("CUSTOMER_ID", customerId);
-            calendarIntent.putExtra("SELECTED_MONTH", filterMonthIdx);
-            calendarIntent.putExtra("SELECTED_YEAR", filterYearInt);
+            Intent calendarIntent =
+                    new Intent(
+                            CustomerRecapDetailsActivity.this,
+                            CustomerCalendarActivity.class);
+
+            calendarIntent.putExtra(
+                    "CUSTOMER_ID",
+                    customerId);
+
+            calendarIntent.putExtra(
+                    "SELECTED_MONTH",
+                    filterMonthIdx);
+
+            calendarIntent.putExtra(
+                    "SELECTED_YEAR",
+                    filterYearInt);
+
+            calendarIntent.putExtra(
+                    "READ_ONLY",
+                    getIntent().getBooleanExtra(
+                            "READ_ONLY",
+                            false
+                    )
+            );
+
             startActivity(calendarIntent);
         });
 

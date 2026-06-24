@@ -56,4 +56,11 @@ public interface CustomerDao {
             "WHERE d.id IS NULL OR d.status = 'Pending' " +
             "ORDER BY c.name ASC")
     LiveData<List<Customer>> getPendingCustomersForDate(String todayDate);
+
+    @Query(
+            "SELECT * FROM customers WHERE mobile=:mobile LIMIT 1"
+    )
+    Customer getCustomerByMobile(
+            String mobile
+    );
 }

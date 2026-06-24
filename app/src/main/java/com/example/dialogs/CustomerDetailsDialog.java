@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.databinding.DialogCustomerDetailsBinding;
 import com.example.models.Customer;
+import com.example.utils.PermissionManager;
 
 public class CustomerDetailsDialog extends DialogFragment {
 
@@ -52,6 +53,25 @@ public class CustomerDetailsDialog extends DialogFragment {
         binding.dialogTxtName.setText(customer.getName());
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
+
+        String currentUserType =
+                requireActivity()
+                        .getSharedPreferences(
+                                "UserSession",
+                                android.content.Context.MODE_PRIVATE
+                        )
+                        .getString(
+                                "userType",
+                                ""
+                        );
+
+        if (!PermissionManager.canDeliver(currentUserType)) {
+
+            binding.dialogBtnDeliver.setVisibility(
+                    View.GONE
+            );
+
+        }
 
         binding.dialogBtnCall.setOnClickListener(v -> {
             Intent dialIntent = new Intent(

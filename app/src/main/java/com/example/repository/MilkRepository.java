@@ -11,6 +11,9 @@ import com.example.database.AppDatabase;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 
+import com.example.dao.PaymentDao;
+import com.example.models.Payment;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,13 +28,21 @@ import java.util.Map;
 public class MilkRepository {
     private final CustomerDao customerDao;
     private final DeliveryDao deliveryDao;
+
+    private final PaymentDao paymentDao;
     private final ExecutorService executorService;
+
+    private final FirebaseFirestore firestore;
+
+
 
     public MilkRepository(Context context) {
         AppDatabase db = AppDatabase.getInstance(context);
         this.customerDao = db.customerDao();
         this.deliveryDao = db.deliveryDao();
+        this.paymentDao = db.paymentDao();
         this.executorService = Executors.newFixedThreadPool(4);
+        this.firestore = FirebaseFirestore.getInstance();
     }
 
     public ExecutorService getExecutor() {
@@ -231,6 +242,11 @@ public class MilkRepository {
         return deliveryDao.getDeliveriesForCustomer(customerId);
     }
 
+    public int getDeliveredDaysCount(long customerId){
+
+        return deliveryDao.getDeliveredDaysCount(customerId);
+
+    }
     public List<Customer> getAllCustomersSync() {
         return customerDao.getAllCustomersSync();
     }
@@ -239,6 +255,14 @@ public class MilkRepository {
 
     public List<Delivery> getDeliveriesForCustomerSync(long customerId) {
         return deliveryDao.getDeliveriesForCustomerSync(customerId);
+    }
+
+    public Customer getCustomerByMobileSync(
+            String mobile
+    ){
+        return customerDao.getCustomerByMobile(
+                mobile
+        );
     }
 
     public List<Delivery> getDeliveriesForMonthSync(String yearMonthPrefix) {
@@ -253,6 +277,58 @@ public class MilkRepository {
         return deliveryDao.getDeliveriesForDate(date);
     }
 
+    // ---------------- Payment Functions ----------------
+
+    public Payment getPayment(
+            long customerId,
+            String month) {
+
+        return paymentDao.getPayment(
+                customerId,
+                month);
+
+    }
+
+    public List<Payment> getPaymentHistory(
+            long customerId){
+
+        return paymentDao
+                .getPaymentHistory(customerId);
+
+    }
+
+    public void savePayment(
+            Payment payment) {
+
+        executorService.execute(() ->
+                paymentDao.insert(payment));
+
+    }
+
+    public void backupPaymentToFirebase(Payment payment) {
+
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("customerId", payment.getCustomerId());
+        data.put("month", payment.getMonth());
+        data.put("amount", payment.getAmount());
+        data.put("status", payment.getStatus());
+
+        firestore.collection("payments")
+                .add(data)
+                .addOnSuccessListener(doc -> {
+
+                    android.util.Log.d("FIREBASE",
+                            "Payment backed up successfully");
+
+                })
+                .addOnFailureListener(e -> {
+
+                    android.util.Log.e("FIREBASE",
+                            "Backup failed: " + e.getMessage());
+
+                });
+    }
     public interface OnIdReturnedListener {
         void onIdReturned(long id);
         void onError(String message);

@@ -35,6 +35,9 @@ public class MonthlyRecapFragment extends Fragment {
     private MilkViewModel viewModel;
     private MonthlyRecapAdapter adapter;
 
+    private String currentUserType;
+    private String currentMobile;
+
     private final String[] months = {
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -64,8 +67,36 @@ public class MonthlyRecapFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        currentUserType =
+                requireContext()
+                        .getSharedPreferences(
+                                "UserSession",
+                                android.content.Context.MODE_PRIVATE
+                        )
+                        .getString(
+                                "userType",
+                                ""
+                        );
+
+        currentMobile =
+                requireContext()
+                        .getSharedPreferences(
+                                "UserSession",
+                                android.content.Context.MODE_PRIVATE
+                        )
+                        .getString(
+                                "mobile",
+                                ""
+                        );
+
 
         setupRecyclerView();
+
+        // ROLE BASED UI CONTROL
+        if (currentUserType.equals("Customer")) {
+
+            binding.fabFilter.setVisibility(View.GONE);
+        }
 
         binding.fabFilter.setOnClickListener(v -> {
             showFilterBottomSheet();
@@ -79,6 +110,10 @@ public class MonthlyRecapFragment extends Fragment {
 
     private void showFilterBottomSheet() {
 
+        if (currentUserType.equals("Customer")) {
+            return; // Customer ला filter allowed नाही
+        }
+
         FilterBottomSheet sheet =
                 new FilterBottomSheet(
                         selectedMonth,
@@ -86,12 +121,7 @@ public class MonthlyRecapFragment extends Fragment {
                         customerFilter,
                         minDeliveriesFilter,
                         minPendingFilter,
-
-                        (month,
-                         year,
-                         customer,
-                         deliveries,
-                         pending) -> {
+                        (month, year, customer, deliveries, pending) -> {
 
                             selectedMonth = month;
                             selectedYear = year;
@@ -102,30 +132,53 @@ public class MonthlyRecapFragment extends Fragment {
                             runMonthlyCalculation();
                         });
 
-        sheet.show(
-                getChildFragmentManager(),
-                "FILTER_SHEET");
+        sheet.show(getChildFragmentManager(), "FILTER_SHEET");
     }
 
 
 
     private void setupRecyclerView() {
-        binding.rvMonthlyRecap.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        binding.rvMonthlyRecap.setLayoutManager(
+                new LinearLayoutManager(getContext()));
+
         adapter = new MonthlyRecapAdapter(item -> {
+
             // Jump to Screen 6 (Customer Recap Details Screen) on row tap!
-            Intent intent = new Intent(getContext(), CustomerRecapDetailsActivity.class);
-            intent.putExtra("CUSTOMER_ID", item.customerId);
-            
+            Intent intent =
+                    new Intent(
+                            getContext(),
+                            CustomerRecapDetailsActivity.class
+                    );
+
+            if(currentUserType.equals("Customer")){
+
+                intent.putExtra(
+                        "READ_ONLY",
+                        true
+                );
+
+            }
+
+            intent.putExtra(
+                    "CUSTOMER_ID",
+                    item.customerId
+            );
 
             intent.putExtra(
                     "FILTER_MONTH_INDEX",
-                    selectedMonth);
+                    selectedMonth
+            );
 
             intent.putExtra(
                     "FILTER_YEAR_STRING",
-                    selectedYear);
+                    selectedYear
+            );
+
             startActivity(intent);
+
         });
+
         binding.rvMonthlyRecap.setAdapter(adapter);
     }
 
@@ -140,7 +193,30 @@ public class MonthlyRecapFragment extends Fragment {
 
         viewModel.getRepository().getExecutor().execute(() -> {
 
-            List<Customer> allCustomers = viewModel.getRepository().getAllCustomersSync();
+            List<Customer> allCustomers;
+
+            if(currentUserType.equals("Customer")){
+
+                allCustomers = new ArrayList<>();
+
+                Customer customer =
+                        viewModel.getRepository()
+                                .getCustomerByMobileSync(
+                                        currentMobile
+                                );
+
+                if(customer!=null){
+                    allCustomers.add(customer);
+                }
+
+            }
+            else{
+
+                allCustomers =
+                        viewModel.getRepository()
+                                .getAllCustomersSync();
+
+            }
 
             if (allCustomers == null) {
                 allCustomers = new ArrayList<>();
@@ -237,14 +313,19 @@ public class MonthlyRecapFragment extends Fragment {
                     : 0.0;
 
 
-            if (getActivity() != null) {
+            if (getActivity() != null && isAdded()) {
                 getActivity().runOnUiThread(() -> {
+
+                    if (binding == null) return; // 🔥 IMPORTANT FIX
+
                     adapter.setData(recapItems);
-                    
+
                     binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));
                     binding.recapTotalDeliveries.setText(String.valueOf(finalTotalDeliveries));
                     binding.recapTotalPending.setText(String.valueOf(finalTotalPending));
-                    binding.recapAveragePercentage.setText(String.format(Locale.getDefault(), "%.2f%%", finalAveragePercentage));
+                    binding.recapAveragePercentage.setText(
+                            String.format(Locale.getDefault(), "%.2f%%", finalAveragePercentage)
+                    );
                 });
             }
         });
