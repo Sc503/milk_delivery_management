@@ -10,6 +10,18 @@
 
     <queries>
         <package android:name="com.google.android.gms" />
+
+        <!-- ✅ Allow app to handle file viewing and sharing -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="*/*" />
+        </intent>
         <!-- Needs to be explicitly declared on Android R+ -->
         <package android:name="com.google.android.apps.maps" />
     </queries>
@@ -19,7 +31,16 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Include required permissions for Google Maps API to run. -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Include required permissions for Google Maps API to run. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
@@ -43,6 +64,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
@@ -52,6 +74,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -63,41 +88,109 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- Splash Screen -->
+        <!-- WiFi Direct Service -->
+        <service
+            android:name="com.example.service.WifiDirectService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Auto Backup Receivers -->
+        <receiver
+            android:name="com.example.receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.example.receivers.AutoBackupReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Activities -->
         <activity
             android:name="com.example.activities.SplashActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Login Screen -->
         <activity
             android:name="com.example.activities.LoginActivity"
-            android:exported="true" />
-
-        <!-- Main Screen -->
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.example.activities.MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Calendar Screen -->
         <activity
             android:name="com.example.activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
-
-        <!-- Recap Screen -->
         <activity
             android:name="com.example.activities.CustomerRecapDetailsActivity"
             android:exported="false"
             android:label="Milk Delivery Summary"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
+        <activity
+            android:name="com.example.activities.BackupCenterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.activities.MyBackupsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.activities.ReceivedBackupsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.activities.WifiDirectActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- ✅ Handle .enc files (Both Open & Share) -->
+        <activity
+            android:name="com.example.activities.EncryptedFileViewerActivity"
+            android:exported="true"
+            android:label="Decrypt Backup"
+            android:screenOrientation="portrait" >
+
+            <!-- For "Open with" -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:mimeType="application/octet-stream" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.enc" />
+                <data android:pathPattern=".*\\..*\\.enc" />
+                <data android:pathPattern=".*\\..*\\..*\\.enc" />
+            </intent-filter>
+
+            <!-- ✅ For "Share" menu -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
             android:exported="false"
@@ -229,10 +322,6 @@
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"
                 android:value="androidx.startup" />
         </provider>
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <service
             android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
