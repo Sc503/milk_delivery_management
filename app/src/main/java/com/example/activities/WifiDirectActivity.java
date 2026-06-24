@@ -97,6 +97,25 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         bindService(svc, connection, BIND_AUTO_CREATE);
     }
 
+    // ✅ Handle the selected file from Backup Center
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1002 && resultCode == RESULT_OK && data != null) {
+            String filePath = data.getStringExtra("BACKUP_FILE_PATH");
+            if (filePath != null) {
+                File file = new File(filePath);
+                if (file.exists() && isBound && service != null) {
+                    service.sendFile(file);
+                    Toast.makeText(this, "Sending: " + file.getName(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
     private void initViews() {
         statusText = findViewById(R.id.txtConnectionStatus);
         btnScan = findViewById(R.id.btnScan);
@@ -116,7 +135,11 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                 Toast.makeText(this, "Connect to a device first", Toast.LENGTH_SHORT).show();
                 return;
             }
-            startActivity(new Intent(this, BackupCenterActivity.class));
+
+            // ✅ Open Backup Center to select a file
+            Intent intent = new Intent(this, BackupCenterActivity.class);
+            intent.putExtra("MODE", "SELECT_TO_SEND");
+            startActivityForResult(intent, 1002);
         });
     }
 

@@ -139,6 +139,7 @@ int id stat_delivery_percentage 0x0
 int id stat_pending_days 0x0
 int id stat_total_days 0x0
 int id statusIndicator 0x0
+int id switchAutoBackup 0x0
 int id switchAutoZoom 0x0
 int id toolbar 0x0
 int id tvDeviceName 0x0
@@ -150,6 +151,7 @@ int id txtConnectionStatus 0x0
 int id txtDeviceCount 0x0
 int id txtEmptyState 0x0
 int id txtFileCount 0x0
+int id txtLastAutoBackup 0x0
 int id txtStatusHint 0x0
 int id txt_calendar_month_year 0x0
 int id txt_day_number 0x0

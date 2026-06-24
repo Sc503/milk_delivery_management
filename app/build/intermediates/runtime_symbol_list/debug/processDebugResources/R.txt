@@ -4157,6 +4157,7 @@ int id stretch 0x7f080228
 int id submenuarrow 0x7f080229
 int id submit_area 0x7f08022a
 int id supportScrollUp 0x7f08022b
+int id switchAutoBackup 0x7f0802a3
 int id switchAutoZoom 0x7f0802a2
 int id tabMode 0x7f08022c
 int id tag_accessibility_actions 0x7f08022d
@@ -4220,6 +4221,7 @@ int id txtConnectionStatus 0x7f080263
 int id txtDeviceCount 0x7f080264
 int id txtEmptyState 0x7f080265
 int id txtFileCount 0x7f0802a1
+int id txtLastAutoBackup 0x7f0802a4
 int id txtStatusHint 0x7f080295
 int id txt_calendar_month_year 0x7f080268
 int id txt_day_number 0x7f080269

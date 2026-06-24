@@ -141,6 +141,7 @@ id stat_delivery_percentage
 id stat_pending_days
 id stat_total_days
 id statusIndicator
+id switchAutoBackup
 id switchAutoZoom
 id toolbar
 id tvDeviceName
@@ -152,6 +153,7 @@ id txtConnectionStatus
 id txtDeviceCount
 id txtEmptyState
 id txtFileCount
+id txtLastAutoBackup
 id txtStatusHint
 id txt_calendar_month_year
 id txt_day_number

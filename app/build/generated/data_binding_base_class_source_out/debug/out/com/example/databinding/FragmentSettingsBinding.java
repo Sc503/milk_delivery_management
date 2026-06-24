@@ -8,6 +8,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.R;
@@ -40,7 +41,13 @@ public final class FragmentSettingsBinding implements ViewBinding {
   public final MaterialButton btnWifiDirect;
 
   @NonNull
+  public final SwitchCompat switchAutoBackup;
+
+  @NonNull
   public final MaterialSwitch switchAutoZoom;
+
+  @NonNull
+  public final TextView txtLastAutoBackup;
 
   @NonNull
   public final TextView txtLastBackup;
@@ -49,7 +56,8 @@ public final class FragmentSettingsBinding implements ViewBinding {
       @NonNull MaterialButton btnBackupCenter, @NonNull MaterialButton btnBackupNow,
       @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnRestoreBackup,
       @NonNull MaterialButton btnShareBackup, @NonNull MaterialButton btnWifiDirect,
-      @NonNull MaterialSwitch switchAutoZoom, @NonNull TextView txtLastBackup) {
+      @NonNull SwitchCompat switchAutoBackup, @NonNull MaterialSwitch switchAutoZoom,
+      @NonNull TextView txtLastAutoBackup, @NonNull TextView txtLastBackup) {
     this.rootView = rootView;
     this.btnBackupCenter = btnBackupCenter;
     this.btnBackupNow = btnBackupNow;
@@ -57,7 +65,9 @@ public final class FragmentSettingsBinding implements ViewBinding {
     this.btnRestoreBackup = btnRestoreBackup;
     this.btnShareBackup = btnShareBackup;
     this.btnWifiDirect = btnWifiDirect;
+    this.switchAutoBackup = switchAutoBackup;
     this.switchAutoZoom = switchAutoZoom;
+    this.txtLastAutoBackup = txtLastAutoBackup;
     this.txtLastBackup = txtLastBackup;
   }
 
@@ -124,9 +134,21 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.switchAutoBackup;
+      SwitchCompat switchAutoBackup = ViewBindings.findChildViewById(rootView, id);
+      if (switchAutoBackup == null) {
+        break missingId;
+      }
+
       id = R.id.switchAutoZoom;
       MaterialSwitch switchAutoZoom = ViewBindings.findChildViewById(rootView, id);
       if (switchAutoZoom == null) {
+        break missingId;
+      }
+
+      id = R.id.txtLastAutoBackup;
+      TextView txtLastAutoBackup = ViewBindings.findChildViewById(rootView, id);
+      if (txtLastAutoBackup == null) {
         break missingId;
       }
 
@@ -137,8 +159,8 @@ public final class FragmentSettingsBinding implements ViewBinding {
       }
 
       return new FragmentSettingsBinding((ScrollView) rootView, btnBackupCenter, btnBackupNow,
-          btnClearCache, btnRestoreBackup, btnShareBackup, btnWifiDirect, switchAutoZoom,
-          txtLastBackup);
+          btnClearCache, btnRestoreBackup, btnShareBackup, btnWifiDirect, switchAutoBackup,
+          switchAutoZoom, txtLastAutoBackup, txtLastBackup);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

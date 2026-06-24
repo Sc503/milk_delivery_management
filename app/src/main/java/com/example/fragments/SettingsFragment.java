@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,12 +24,14 @@ import com.example.activities.WifiDirectActivity;
 import com.example.backup.BackupManager;
 import com.example.backup.RestoreManager;
 import com.example.databinding.FragmentSettingsBinding;
+import com.example.service.AutoBackupManager;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.button.MaterialButton;
 
 import android.content.Intent;
 import android.net.Uri;
 import androidx.core.content.FileProvider;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.concurrent.Executors;
@@ -39,18 +42,23 @@ public class SettingsFragment extends Fragment {
     private MilkViewModel viewModel;
     private ActivityResultLauncher<String> restoreLauncher;
     private ActivityResultLauncher<String> mergeBackupLauncher;
+    private AutoBackupManager autoBackupManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
+        autoBackupManager = new AutoBackupManager(requireContext());
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // ── Setup Auto Backup ──────────────────────────────────────
+        setupAutoBackup();
 
         binding.btnClearCache.setOnClickListener(v -> {
             viewModel.getRepository().getExecutor().execute(() -> {
@@ -77,7 +85,7 @@ public class SettingsFragment extends Fragment {
                                         Toast.LENGTH_LONG
                                 ).show();
 
-                                // ✅ UPDATE last backup time after successful backup
+                                // Update last backup time after successful backup
                                 if (success) {
                                     saveLastBackupTime();
                                     updateLastBackupDisplay();
@@ -97,7 +105,7 @@ public class SettingsFragment extends Fragment {
             startActivity(intent);
         });
 
-        // ✅ UPDATE: Load and display last backup time
+        // Update last backup display
         updateLastBackupDisplay();
 
         restoreLauncher =
@@ -146,36 +154,64 @@ public class SettingsFragment extends Fragment {
         });
     }
 
-    // ── ✅ NEW: Save last backup time ──────────────────────────────
+    // ── Setup Auto Backup ──────────────────────────────────────────
+    private void setupAutoBackup() {
+        // Find views
+        SwitchCompat switchAutoBackup = binding.switchAutoBackup;
+        TextView txtLastAutoBackup = binding.txtLastAutoBackup;
+
+        // Set initial state
+        switchAutoBackup.setChecked(autoBackupManager.isAutoBackupEnabled());
+        txtLastAutoBackup.setText(autoBackupManager.getLastBackupTime());
+
+        // Set listener
+        switchAutoBackup.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            autoBackupManager.setAutoBackupEnabled(isChecked);
+
+            if (isChecked) {
+                Toast.makeText(getContext(), "✅ Auto backup enabled (every 24 hours)", Toast.LENGTH_LONG).show();
+                txtLastAutoBackup.setText(autoBackupManager.getLastBackupTime());
+            } else {
+                Toast.makeText(getContext(), "❌ Auto backup disabled", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // ── Save last backup time ──────────────────────────────────────
     private void saveLastBackupTime() {
         SharedPreferences prefs = requireContext().getSharedPreferences("backup_prefs", android.content.Context.MODE_PRIVATE);
         String currentTime = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
                 .format(new java.util.Date());
         prefs.edit().putString("last_backup_time", currentTime).apply();
+
+        // Also update auto backup last time
+        autoBackupManager.setAutoBackupEnabled(autoBackupManager.isAutoBackupEnabled());
     }
 
-    // ── ✅ NEW: Update last backup display ──────────────────────────
+    // ── Update last backup display ──────────────────────────────────
     private void updateLastBackupDisplay() {
         SharedPreferences prefs = requireContext().getSharedPreferences("backup_prefs", android.content.Context.MODE_PRIVATE);
         String lastBackup = prefs.getString("last_backup_time", null);
 
         if (lastBackup != null && !lastBackup.equals("Never") && !lastBackup.isEmpty()) {
             try {
-                // Parse the stored time
                 java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
                 java.util.Date date = inputFormat.parse(lastBackup);
 
-                // Format for display
                 java.text.SimpleDateFormat outputFormat = new java.text.SimpleDateFormat("MMM dd, yyyy • hh:mm a", java.util.Locale.getDefault());
                 String formattedTime = outputFormat.format(date);
 
                 binding.txtLastBackup.setText("Last Backup: " + formattedTime);
             } catch (Exception e) {
-                // If parsing fails, show as is
                 binding.txtLastBackup.setText("Last Backup: " + lastBackup);
             }
         } else {
             binding.txtLastBackup.setText("Last Backup: Never");
+        }
+
+        // Update auto backup display
+        if (binding.txtLastAutoBackup != null) {
+            binding.txtLastAutoBackup.setText(autoBackupManager.getLastBackupTime());
         }
     }
 

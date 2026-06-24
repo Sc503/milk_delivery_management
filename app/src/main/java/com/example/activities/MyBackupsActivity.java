@@ -1,7 +1,11 @@
 package com.example.activities;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,9 +20,6 @@ import com.example.models.BackupFile;
 import com.example.service.WifiDirectService;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +29,33 @@ public class MyBackupsActivity extends AppCompatActivity {
     private View emptyState;
     private RecyclerView rv;
 
+    // ✅ WiFi Direct Service
+    private WifiDirectService wifiService;
+    private boolean isServiceBound = false;
+
+    // ✅ Service Connection
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            wifiService = ((WifiDirectService.LocalBinder) service).getService();
+            isServiceBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            wifiService = null;
+            isServiceBound = false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_backups);
+
+        // ✅ Bind to WiFi Direct Service
+        Intent intent = new Intent(this, WifiDirectService.class);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
         // Initialize views
         rv = findViewById(R.id.recyclerBackups);
@@ -118,66 +142,27 @@ public class MyBackupsActivity extends AppCompatActivity {
                 }).show();
     }
 
-    // ── Send via WiFi Direct ─────────────────────────────────────
+    // ── ✅ FIXED: Send via WiFi Direct ──────────────────────────────
     private void sendViaWifi(File file) {
+        // Check if WiFi Direct is connected
         if (!WifiDirectService.isConnected) {
-            Toast.makeText(this, "Connect devices first", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Not connected to any device.\nOpen WiFi Direct first.", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, WifiDirectActivity.class));
             return;
         }
 
-        String targetAddress;
-        if (WifiDirectService.isGroupOwner) {
-            targetAddress = WifiDirectService.clientAddress;
-            if (targetAddress == null || targetAddress.isEmpty()) {
-                String[] possibleIps = {"192.168.49.1", "192.168.49.2", "192.168.1.1"};
-                for (String ip : possibleIps) {
-                    try {
-                        java.net.InetAddress address = java.net.InetAddress.getByName(ip);
-                        if (address.isReachable(2000)) {
-                            targetAddress = ip;
-                            break;
-                        }
-                    } catch (Exception e) {}
-                }
-            }
-        } else {
-            targetAddress = WifiDirectService.connectedHostAddress;
-        }
-
-        if (targetAddress == null || targetAddress.isEmpty()) {
-            Toast.makeText(this, "Could not find target device", Toast.LENGTH_LONG).show();
+        // ✅ Check if service is bound
+        if (!isServiceBound || wifiService == null) {
+            Toast.makeText(this, "Service not available. Please reconnect.", Toast.LENGTH_LONG).show();
+            // Try to bind again
+            Intent intent = new Intent(this, WifiDirectService.class);
+            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
             return;
         }
 
-        Toast.makeText(this, "Sending: " + file.getName(), Toast.LENGTH_LONG).show();
-
-        final String finalTargetAddress = targetAddress;
-        new Thread(() -> {
-            try {
-                Socket socket = new Socket(finalTargetAddress, WifiDirectService.PORT);
-                FileInputStream fis = new FileInputStream(file);
-                OutputStream out = socket.getOutputStream();
-
-                byte[] buffer = new byte[4096];
-                int len;
-                while ((len = fis.read(buffer)) != -1) {
-                    out.write(buffer, 0, len);
-                }
-
-                out.flush();
-                socket.shutdownOutput();
-                fis.close();
-                socket.close();
-
-                runOnUiThread(() ->
-                        Toast.makeText(MyBackupsActivity.this, "✅ Sent Successfully", Toast.LENGTH_LONG).show());
-
-            } catch (Exception e) {
-                runOnUiThread(() ->
-                        Toast.makeText(MyBackupsActivity.this, "❌ Send failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
-            }
-        }).start();
+        // ✅ Send the file using service
+        wifiService.sendFile(file);
+        Toast.makeText(this, "Sending: " + file.getName(), Toast.LENGTH_SHORT).show();
     }
 
     // ── Open file (show JSON content) ─────────────────────────────
@@ -235,5 +220,15 @@ public class MyBackupsActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // ✅ Unbind service when activity is destroyed
+        if (isServiceBound) {
+            unbindService(serviceConnection);
+            isServiceBound = false;
+        }
     }
 }
