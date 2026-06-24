@@ -22,6 +22,7 @@ import com.example.databinding.FragmentAddCustomerBinding;
 import com.example.models.Customer;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
+import com.example.repository.MilkRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -278,29 +279,35 @@ public class AddCustomerFragment extends Fragment {
                 rate
         );
 
-        viewModel.insertCustomer(customer, newId -> {
+        viewModel.insertCustomer(customer, new MilkRepository.OnIdReturnedListener() {
+            @Override
+            public void onIdReturned(long newId) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(
+                                getContext(),
+                                "Customer: " + name + " saved successfully!",
+                                Toast.LENGTH_LONG
+                        ).show();
 
-            if (getActivity() != null) {
+                        clearFields();
 
-                getActivity().runOnUiThread(() -> {
-
-                    Toast.makeText(
-                            getContext(),
-                            "Customer: " + name + " saved successfully!",
-                            Toast.LENGTH_LONG
-                    ).show();
-
-                    clearFields();
-
-                    if (getActivity() instanceof com.example.activities.MainActivity) {
-                        ((com.example.activities.MainActivity) getActivity())
-                                .navigateToMenuItem(R.id.nav_home);
-                    }
-
-                });
-
+                        if (getActivity() instanceof com.example.activities.MainActivity) {
+                            ((com.example.activities.MainActivity) getActivity())
+                                    .navigateToMenuItem(R.id.nav_home);
+                        }
+                    });
+                }
             }
 
+            @Override
+            public void onError(String message) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                    });
+                }
+            }
         });
     }
 

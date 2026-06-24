@@ -142,11 +142,18 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         try {
             android.net.Uri uri = androidx.core.content.FileProvider
                     .getUriForFile(this, getPackageName() + ".provider", file);
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("application/json");
-            intent.putExtra(Intent.EXTRA_STREAM, uri);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(Intent.createChooser(intent, "Share Backup"));
+
+            if (uri != null) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("application/json");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+                // Grant permission via ClipData (recommended for modern Android versions)
+                intent.setClipData(android.content.ClipData.newRawUri(null, uri));
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                startActivity(Intent.createChooser(intent, "Share Backup"));
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Share failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
