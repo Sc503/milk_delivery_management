@@ -14,6 +14,9 @@ import com.example.models.Delivery;
 import com.example.dao.PaymentDao;
 import com.example.models.Payment;
 
+import com.example.dao.StaffDao;
+import com.example.models.Staff;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,6 +33,8 @@ public class MilkRepository {
     private final DeliveryDao deliveryDao;
 
     private final PaymentDao paymentDao;
+
+    private final StaffDao staffDao;
     private final ExecutorService executorService;
 
     private final FirebaseFirestore firestore;
@@ -41,6 +46,7 @@ public class MilkRepository {
         this.customerDao = db.customerDao();
         this.deliveryDao = db.deliveryDao();
         this.paymentDao = db.paymentDao();
+        this.staffDao = db.staffDao();
         this.executorService = Executors.newFixedThreadPool(4);
         this.firestore = FirebaseFirestore.getInstance();
     }
@@ -328,6 +334,35 @@ public class MilkRepository {
                             "Backup failed: " + e.getMessage());
 
                 });
+    }
+
+    // ---------------- Staff Functions ----------------
+
+    public void insertStaff(Staff staff) {
+
+        executorService.execute(() ->
+                staffDao.insert(staff));
+
+    }
+
+    public LiveData<List<Staff>> getAllStaff() {
+
+        return staffDao.getAllStaff();
+
+    }
+
+    public void updateStaff(Staff staff) {
+
+        executorService.execute(() ->
+                staffDao.update(staff));
+
+    }
+
+    public void deleteStaff(Staff staff) {
+
+        executorService.execute(() ->
+                staffDao.delete(staff));
+
     }
     public interface OnIdReturnedListener {
         void onIdReturned(long id);

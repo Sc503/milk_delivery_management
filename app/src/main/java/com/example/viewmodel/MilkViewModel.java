@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.models.Payment;
+import com.example.models.Staff;
 import com.example.repository.MilkRepository;
 
 import java.util.List;
@@ -103,5 +104,30 @@ public class MilkViewModel extends AndroidViewModel {
 
     public void backupPaymentToFirebase(Payment payment) {
         repository.backupPaymentToFirebase(payment);
+    }
+    // ---------------- Staff ----------------
+
+    public void insertStaff(Staff staff){
+
+        repository.insertStaff(staff);
+
+    }
+
+    public LiveData<List<Staff>> getAllStaff(){
+
+        return repository.getAllStaff();
+
+    }
+
+    public void updateStaff(Staff staff){
+
+        repository.updateStaff(staff);
+
+    }
+
+    public void deleteStaff(Staff staff){
+
+        repository.deleteStaff(staff);
+
     }
 }

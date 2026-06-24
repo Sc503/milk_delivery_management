@@ -21,15 +21,19 @@ import com.example.models.Payment;
 import com.example.dao.PaymentDao;
 import com.example.dao.DeliveryDao;
 
+import com.example.dao.StaffDao;
+import com.example.models.Staff;
+
 
 @Database(
         entities = {
                 Customer.class,
                 Delivery.class,
+                Payment.class,
                 User.class,
-                Payment.class
+                Staff.class
         },
-        version = 6,
+        version = 5,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -41,6 +45,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract PaymentDao paymentDao();
+
+    public abstract StaffDao staffDao();
 
     public static AppDatabase getInstance(Context context) {
 

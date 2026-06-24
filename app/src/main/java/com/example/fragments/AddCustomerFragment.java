@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.R;
 import com.example.databinding.FragmentAddCustomerBinding;
 import com.example.models.Customer;
+import com.example.repository.MilkRepository;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -183,9 +184,9 @@ public class AddCustomerFragment extends Fragment {
     }
     private void validateAndSaveCustomer() {
 
-        String name = binding.etCustomerName.getText().toString().trim();
-        String mobile = binding.etMobileNumber.getText().toString().trim();
-        String address = binding.etAddress.getText().toString().trim();
+        final String name = binding.etCustomerName.getText().toString().trim();
+        final String mobile = binding.etMobileNumber.getText().toString().trim();
+        String rawAddress = binding.etAddress.getText().toString().trim();
         String latStr = binding.etLatitude.getText().toString().trim();
         String lngStr = binding.etLongitude.getText().toString().trim();
 
@@ -210,9 +211,7 @@ public class AddCustomerFragment extends Fragment {
             binding.layMobileNumber.setError(null);
         }
 
-        if (TextUtils.isEmpty(address)) {
-            address = "No Address Specified";
-        }
+        final String address = TextUtils.isEmpty(rawAddress) ? "No Address Specified" : rawAddress;
 
         if (TextUtils.isEmpty(latStr)) {
             binding.layLatitude.setError("Required");
@@ -278,29 +277,35 @@ public class AddCustomerFragment extends Fragment {
                 rate
         );
 
-        viewModel.insertCustomer(customer, newId -> {
+        viewModel.insertCustomer(customer, new MilkRepository.OnIdReturnedListener() {
+            @Override
+            public void onIdReturned(long newId) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(
+                                getContext(),
+                                "Customer: " + name + " saved successfully!",
+                                Toast.LENGTH_LONG
+                        ).show();
 
-            if (getActivity() != null) {
+                        clearFields();
 
-                getActivity().runOnUiThread(() -> {
-
-                    Toast.makeText(
-                            getContext(),
-                            "Customer: " + name + " saved successfully!",
-                            Toast.LENGTH_LONG
-                    ).show();
-
-                    clearFields();
-
-                    if (getActivity() instanceof com.example.activities.MainActivity) {
-                        ((com.example.activities.MainActivity) getActivity())
-                                .navigateToMenuItem(R.id.nav_home);
-                    }
-
-                });
-
+                        if (getActivity() instanceof com.example.activities.MainActivity) {
+                            ((com.example.activities.MainActivity) getActivity())
+                                    .navigateToMenuItem(R.id.nav_home);
+                        }
+                    });
+                }
             }
 
+            @Override
+            public void onError(String message) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                    });
+                }
+            }
         });
     }
 
