@@ -5,12 +5,11 @@
     android:layout_height="match_parent"
     android:background="#DD000000">
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/previewImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"/>
-
     <ImageButton
         android:id="@+id/btnClose"
         android:layout_width="48dp"

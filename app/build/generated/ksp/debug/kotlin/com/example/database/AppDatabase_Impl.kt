@@ -9,6 +9,8 @@ import androidx.room.util.TableInfo.Companion.read
 import androidx.room.util.dropFtsSyncTriggers
 import androidx.sqlite.SQLiteConnection
 import androidx.sqlite.execSQL
+import com.example.dao.AttendanceDao
+import com.example.dao.AttendanceDao_Impl
 import com.example.dao.CustomerDao
 import com.example.dao.CustomerDao_Impl
 import com.example.dao.DeliveryDao
@@ -57,18 +59,23 @@ public class AppDatabase_Impl : AppDatabase() {
     StaffDao_Impl(this)
   }
 
+  private val _attendanceDao: Lazy<AttendanceDao> = lazy {
+    AttendanceDao_Impl(this)
+  }
+
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(5,
-        "daf9453d166874854717514f65f12e52", "ead05a125755f773aca5667bac3c9557") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(7,
+        "1853db2311aa2748370517813f4e4446", "2187300255b0ccbe0a393f46a846e818") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `customers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile` TEXT, `address` TEXT, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `createdDate` TEXT, `milkQuantity` REAL NOT NULL, `milkRate` REAL NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `deliveries` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `deliveryDate` TEXT, `deliveredTime` TEXT, `status` TEXT, FOREIGN KEY(`customerId`) REFERENCES `customers`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE INDEX IF NOT EXISTS `index_deliveries_customerId` ON `deliveries` (`customerId`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `payments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `month` TEXT, `totalAmount` REAL NOT NULL, `status` TEXT)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `users` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userType` TEXT, `mobile` TEXT, `password` TEXT)")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `staff` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile1` TEXT, `mobile2` TEXT, `address` TEXT, `documentPath` TEXT, `documentType` TEXT)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `staff` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile1` TEXT, `mobile2` TEXT, `address` TEXT, `documentPath` TEXT, `documentType` TEXT, `joiningDate` TEXT, `monthlySalary` REAL NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `attendance` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `staffId` INTEGER NOT NULL, `date` TEXT, `present` INTEGER NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'daf9453d166874854717514f65f12e52')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1853db2311aa2748370517813f4e4446')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -77,6 +84,7 @@ public class AppDatabase_Impl : AppDatabase() {
         connection.execSQL("DROP TABLE IF EXISTS `payments`")
         connection.execSQL("DROP TABLE IF EXISTS `users`")
         connection.execSQL("DROP TABLE IF EXISTS `staff`")
+        connection.execSQL("DROP TABLE IF EXISTS `attendance`")
       }
 
       public override fun onCreate(connection: SQLiteConnection) {
@@ -221,6 +229,10 @@ public class AppDatabase_Impl : AppDatabase() {
             TableInfo.CREATED_FROM_ENTITY))
         _columnsStaff.put("documentType", TableInfo.Column("documentType", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
+        _columnsStaff.put("joiningDate", TableInfo.Column("joiningDate", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsStaff.put("monthlySalary", TableInfo.Column("monthlySalary", "REAL", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
         val _foreignKeysStaff: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
         val _indicesStaff: MutableSet<TableInfo.Index> = mutableSetOf()
         val _infoStaff: TableInfo = TableInfo("staff", _columnsStaff, _foreignKeysStaff,
@@ -235,6 +247,29 @@ public class AppDatabase_Impl : AppDatabase() {
               | Found:
               |""".trimMargin() + _existingStaff)
         }
+        val _columnsAttendance: MutableMap<String, TableInfo.Column> = mutableMapOf()
+        _columnsAttendance.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsAttendance.put("staffId", TableInfo.Column("staffId", "INTEGER", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsAttendance.put("date", TableInfo.Column("date", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsAttendance.put("present", TableInfo.Column("present", "INTEGER", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        val _foreignKeysAttendance: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
+        val _indicesAttendance: MutableSet<TableInfo.Index> = mutableSetOf()
+        val _infoAttendance: TableInfo = TableInfo("attendance", _columnsAttendance,
+            _foreignKeysAttendance, _indicesAttendance)
+        val _existingAttendance: TableInfo = read(connection, "attendance")
+        if (!_infoAttendance.equals(_existingAttendance)) {
+          return RoomOpenDelegate.ValidationResult(false, """
+              |attendance(com.example.models.Attendance).
+              | Expected:
+              |""".trimMargin() + _infoAttendance + """
+              |
+              | Found:
+              |""".trimMargin() + _existingAttendance)
+        }
         return RoomOpenDelegate.ValidationResult(true, null)
       }
     }
@@ -245,11 +280,11 @@ public class AppDatabase_Impl : AppDatabase() {
     val _shadowTablesMap: MutableMap<String, String> = mutableMapOf()
     val _viewTables: MutableMap<String, Set<String>> = mutableMapOf()
     return InvalidationTracker(this, _shadowTablesMap, _viewTables, "customers", "deliveries",
-        "payments", "users", "staff")
+        "payments", "users", "staff", "attendance")
   }
 
   public override fun clearAllTables() {
-    super.performClear(true, "customers", "deliveries", "payments", "users", "staff")
+    super.performClear(true, "customers", "deliveries", "payments", "users", "staff", "attendance")
   }
 
   protected override fun getRequiredTypeConverterClasses(): Map<KClass<*>, List<KClass<*>>> {
@@ -259,6 +294,7 @@ public class AppDatabase_Impl : AppDatabase() {
     _typeConvertersMap.put(UserDao::class, UserDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(PaymentDao::class, PaymentDao_Impl.getRequiredConverters())
     _typeConvertersMap.put(StaffDao::class, StaffDao_Impl.getRequiredConverters())
+    _typeConvertersMap.put(AttendanceDao::class, AttendanceDao_Impl.getRequiredConverters())
     return _typeConvertersMap
   }
 
@@ -283,4 +319,6 @@ public class AppDatabase_Impl : AppDatabase() {
   public override fun paymentDao(): PaymentDao? = _paymentDao.value
 
   public override fun staffDao(): StaffDao? = _staffDao.value
+
+  public override fun attendanceDao(): AttendanceDao? = _attendanceDao.value
 }

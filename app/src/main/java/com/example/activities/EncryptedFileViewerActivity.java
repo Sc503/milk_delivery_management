@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.database.Cursor;
+import android.provider.OpenableColumns;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +125,11 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
             layoutPassword.setVisibility(View.VISIBLE);
             layoutContent.setVisibility(View.GONE);
 
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            tvFileName.setText("Access Denied");
+            tvFileInfo.setText("Permission error: The app cannot access this file. Please try sharing it again or opening it from a different file manager.");
+            layoutPassword.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
             tvFileName.setText("Error loading file");
@@ -192,17 +199,27 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
     }
 
     private String getFileNameFromUri(Uri uri) {
-        String name = "Unknown";
-        try {
-            String path = uri.getPath();
-            if (path != null) {
-                File file = new File(path);
-                name = file.getName();
+        String result = null;
+        if (uri != null && "content".equals(uri.getScheme())) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (index != -1) {
+                        result = cursor.getString(index);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return name;
+        if (result == null && uri != null && uri.getPath() != null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result != null ? result : "Unknown";
     }
 
     private String getFileSize(long size) {

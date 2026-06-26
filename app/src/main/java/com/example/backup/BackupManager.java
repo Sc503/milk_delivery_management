@@ -217,9 +217,16 @@ public class BackupManager {
 
     // ── RESTORE REGULAR BACKUP ────────────────────────────────────
     public static boolean restoreBackup(Context context, Uri uri) {
+        try (InputStream inputStream = context.getContentResolver().openInputStream(uri)) {
+            return restoreBackup(context, inputStream);
+        } catch (Exception e) {
+            Log.e("RESTORE", "Restore failed", e);
+            return false;
+        }
+    }
+
+    public static boolean restoreBackup(Context context, InputStream inputStream) {
         try {
-            ContentResolver resolver = context.getContentResolver();
-            InputStream inputStream = resolver.openInputStream(uri);
             if (inputStream == null) return false;
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -253,9 +260,16 @@ public class BackupManager {
 
     // ── IMPORT AND MERGE BACKUP ──────────────────────────────────
     public static boolean importAndMergeBackup(Context context, Uri fileUri) {
+        try (InputStream inputStream = context.getContentResolver().openInputStream(fileUri)) {
+            return importAndMergeBackup(context, inputStream);
+        } catch (Exception e) {
+            Log.e("IMPORT", "Import failed", e);
+            return false;
+        }
+    }
+
+    public static boolean importAndMergeBackup(Context context, InputStream inputStream) {
         try {
-            ContentResolver resolver = context.getContentResolver();
-            InputStream inputStream = resolver.openInputStream(fileUri);
             if (inputStream == null) return false;
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));

@@ -14,9 +14,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.R;
 import com.example.adapters.StaffAdapter;
 import com.example.databinding.FragmentStaffListBinding;
 import com.example.dialogs.EditStaffDialog;
+
 import com.example.dialogs.StaffDetailsDialog;
 import com.example.models.Staff;
 import com.example.utils.StaffPdfExporter;
@@ -28,6 +30,12 @@ import androidx.appcompat.widget.SearchView;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.example.dialogs.AddStaffDialog;
 
 import java.io.File;
 
@@ -61,30 +69,27 @@ public class StaffListFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel =
-                new ViewModelProvider(requireActivity())
-                        .get(MilkViewModel.class);
+        setHasOptionsMenu(true);
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
 
         adapter = new StaffAdapter(new StaffAdapter.Listener() {
 
             @Override
             public void onEdit(Staff staff) {
 
-                // STEP 12 मध्ये Edit Dialog येईल
                 EditStaffDialog dialog =
                         new EditStaffDialog(
                                 staff,
                                 updatedStaff -> {
 
-                                    viewModel.updateStaff(
-                                            updatedStaff);
+                                    viewModel.updateStaff(updatedStaff);
 
                                     Toast.makeText(
                                             requireContext(),
                                             "Updated Successfully",
                                             Toast.LENGTH_SHORT
                                     ).show();
-
                                 });
 
                 dialog.show(
@@ -96,7 +101,6 @@ public class StaffListFragment extends Fragment {
             public void onDelete(Staff staff) {
 
                 showDeleteDialog(staff);
-
             }
 
             @Override
@@ -122,9 +126,11 @@ public class StaffListFragment extends Fragment {
                         staff.getName(),
                         Toast.LENGTH_SHORT
                 ).show();
-
             }
+
+
         });
+
 
         binding.recyclerStaff.setLayoutManager(
                 new LinearLayoutManager(requireContext()));
@@ -184,41 +190,15 @@ public class StaffListFragment extends Fragment {
         observeStaff();
 
         binding.btnSharePdf.setOnClickListener(v -> {
-
             try {
-                File file =
-                        StaffPdfExporter.export(
-                                requireContext(),
-                                adapter.getCurrentList());
-
-                Uri uri =
-                        FileProvider.getUriForFile(
-                                requireContext(),
-                                requireContext().getPackageName() + ".provider",
-                                file);
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-
-                intent.setType("application/pdf");
-
-                intent.putExtra(
-                        Intent.EXTRA_STREAM,
-                        uri);
-
-                intent.addFlags(
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                startActivity(
-                        Intent.createChooser(
-                                intent,
-                                "Share PDF"));
+                File file = StaffPdfExporter.export(requireContext(), adapter.getCurrentList());
+                shareFile(file);
             } catch (Exception e) {
-                Toast.makeText(requireContext(),
-                        "Error exporting PDF: " + e.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
+                Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 
     private void observeStaff() {
@@ -227,8 +207,21 @@ public class StaffListFragment extends Fragment {
                 .observe(getViewLifecycleOwner(), staffList -> {
 
                     adapter.setData(staffList);
-
+                    adapter.notifyDataSetChanged(); // 🔥 ADD THIS
                 });
+    }
+
+    private void shareFile(File file) {
+        Uri uri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().getPackageName() + ".provider",
+                file);
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, "Share PDF"));
     }
 
     private void showDeleteDialog(Staff staff) {
@@ -256,6 +249,38 @@ public class StaffListFragment extends Fragment {
                         "Cancel",
                         null)
                 .show();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu,
+                                    @NonNull MenuInflater inflater) {
+
+        inflater.inflate(R.menu.staff_toolbar_menu, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.action_add_staff) {
+
+            new AddStaffDialog(
+
+                    staff -> viewModel.insertStaff(staff)
+
+            ).show(
+
+                    getParentFragmentManager(),
+
+                    "ADD_STAFF"
+
+            );
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -50,6 +50,7 @@ android {
   }
   buildFeatures {
     viewBinding = true
+    dataBinding = true
     buildConfig = true
   }
   testOptions { unitTests { isIncludeAndroidResources = true } }
@@ -115,6 +116,7 @@ dependencies {
   implementation("org.apache.poi:poi-ooxml:5.2.3")
   implementation("com.google.code.gson:gson:2.10.1")
   implementation("com.itextpdf:itext7-core:7.2.5")
+  implementation("com.github.chrisbanes:PhotoView:2.3.0")
 
 
 

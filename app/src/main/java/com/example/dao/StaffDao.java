@@ -28,4 +28,6 @@ public interface StaffDao {
 
     @Query("SELECT * FROM staff WHERE id=:id LIMIT 1")
     Staff getStaffById(long id);
+
+
 }

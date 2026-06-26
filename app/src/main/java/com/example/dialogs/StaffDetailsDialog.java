@@ -43,6 +43,8 @@ public class StaffDetailsDialog extends DialogFragment {
 
         builder.setView(binding.getRoot());
 
+
+
         builder.setPositiveButton("Close", null);
 
         return builder.create();

@@ -1,6 +1,7 @@
 package com.example.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "staff")
@@ -10,11 +11,8 @@ public class Staff {
     private long id;
 
     private String name;
-
     private String mobile1;
-
     private String mobile2;
-
     private String address;
 
     // Aadhar or PAN image path
@@ -23,9 +21,12 @@ public class Staff {
     // Aadhaar / PAN
     private String documentType;
 
-    public Staff() {
-    }
+    // NEW FIELDS
+    private String joiningDate;
+    private double monthlySalary;
 
+
+    @Ignore
     public Staff(String name,
                  String mobile1,
                  String mobile2,
@@ -33,12 +34,35 @@ public class Staff {
                  String documentPath,
                  String documentType) {
 
+        this(name,
+                mobile1,
+                mobile2,
+                address,
+                documentPath,
+                documentType,
+                "",
+                0.0);
+    }
+
+    public Staff(String name,
+                 String mobile1,
+                 String mobile2,
+                 String address,
+                 String documentPath,
+                 String documentType,
+                 String joiningDate,
+                 double monthlySalary
+                 ) {
+
         this.name = name;
         this.mobile1 = mobile1;
         this.mobile2 = mobile2;
         this.address = address;
         this.documentPath = documentPath;
         this.documentType = documentType;
+        this.joiningDate = joiningDate;
+        this.monthlySalary = monthlySalary;
+
     }
 
     public long getId() {
@@ -81,6 +105,15 @@ public class Staff {
         return documentType;
     }
 
+    public String getJoiningDate() {
+        return joiningDate;
+    }
+
+    public double getMonthlySalary() {
+        return monthlySalary;
+    }
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -104,4 +137,14 @@ public class Staff {
     public void setDocumentType(String documentType) {
         this.documentType = documentType;
     }
+
+    public void setJoiningDate(String joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public void setMonthlySalary(double monthlySalary) {
+        this.monthlySalary = monthlySalary;
+    }
+
+
 }

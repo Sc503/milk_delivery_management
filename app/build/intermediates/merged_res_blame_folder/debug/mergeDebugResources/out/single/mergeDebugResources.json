@@ -1,398 +1,466 @@
 [
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_customer_recap_details.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_customer_recap_details.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_login_button_bg.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\login_button_bg.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_disconnect.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_disconnect.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_bottom_sheet_filter.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\bottom_sheet_filter.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_nav_header.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\nav_header.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_payment_details.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_payment_details.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_gradient_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\gradient_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_dialog_edit_staff.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_edit_staff.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-mdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_add.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_add.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_icon_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\icon_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_card_icon_background_green.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\card_icon_background_green.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_settings.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_file_paths.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\file_paths.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_drawer_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\drawer_menu.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_gradient_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\gradient_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_logout.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_logout.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_device.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_device.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_circle_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\circle_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_blink.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\blink.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_dialog_customer_details.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\dialog_customer_details.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_card_icon_background_gray.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\card_icon_background_gray.xml"
+        "merged": "com.example.app-debug-85:/layout_fragment_staff_list.xml.flat",
+        "source": "com.example.app-main-87:/layout/fragment_staff_list.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_user.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_user.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\menu_toolbar_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\menu\\toolbar_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_payment.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_payment.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_encrypted_file_viewer.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_encrypted_file_viewer.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_splash.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_splash.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_info_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\info_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_staff.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_staff.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_circle_today_solid.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\circle_today_solid.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_info_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\info_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_spinner_border.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\spinner_border.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_home.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_home.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_settings.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_settings.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_close_cancel.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_close_cancel.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_calendar_day.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_calendar_day.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_info.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_info.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_map.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_map.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_milk.png.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_milk.png"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_payment_dashboard.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_payment_dashboard.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_monthly_recap_customer.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_monthly_recap_customer.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_wifi_direct.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_wifi_direct.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_backup_center.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_backup_center.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_monthly_recap_customer.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_monthly_recap_customer.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_received_backups.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_received_backups.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\xml_file_paths.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\xml\\file_paths.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_menu.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_fade_in.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\fade_in.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_info.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_info.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_support.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_support.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-anydpi-v26\\ic_launcher.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\menu_staff_toolbar_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\menu\\staff_toolbar_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_edit_text_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\edit_text_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_invoice_card.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_invoice_card.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_edit.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_edit.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_about_us.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_about_us.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_bottom_sheet_filter.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\bottom_sheet_filter.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_file_icon_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\file_icon_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_drawer_item_selector.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\drawer_item_selector.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_monthly_recap.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_monthly_recap.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_nav_header.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\nav_header.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_toolbar_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\toolbar_menu.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\menu_nav_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\menu\\nav_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_file_icon_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\file_icon_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_payment.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_payment.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_location.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_location.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_drawer_item_selector.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\drawer_item_selector.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_foreground.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_add_customer.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_add_customer.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_dot_separator.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\dot_separator.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_dot_separator.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\dot_separator.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_count_badge.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\count_badge.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_dialog_image_preview.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_image_preview.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_wifi_direct.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_wifi_direct.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_call.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_call.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_backup_file.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_backup_file.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_backup_file.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_backup_file.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_splash.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_splash.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_login_button_bg.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\login_button_bg.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_monthly_recap.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_monthly_recap.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_main.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_map.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_map.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_pdf.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_pdf.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_delete.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_delete.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_status_indicator_on.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\status_indicator_on.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_splash_bg.png.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\splash_bg.png"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_support.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_support.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_menu.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_settings.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_settings.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_settings.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_settings.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_pulse.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\pulse.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_edit_text_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\edit_text_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_device.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_device.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_shake.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\shake.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_login.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_login.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-anydpi-v26\\ic_launcher.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_home.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_home.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_device_icon_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\device_icon_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_customer_calendar.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_customer_calendar.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_shake.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\shake.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_scan.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_scan.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_pulse.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\pulse.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_status_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\status_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_circle_bg.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\circle_bg.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher_round.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_circle_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\circle_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_delivery_history.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_delivery_history.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_dialog_customer_details.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_customer_details.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_data_extraction_rules.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\data_extraction_rules.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_customer_calendar.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_customer_calendar.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\xml_backup_rules.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\xml\\backup_rules.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_add_staff.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_add_staff.xml"
     },
     {
-        "merged": "com.example.app-debug-81:/layout_activity_encrypted_file_viewer.xml.flat",
-        "source": "com.example.app-main-83:/layout/activity_encrypted_file_viewer.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_customer_recap_details.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_customer_recap_details.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_launcher_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_launcher_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-mdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_payment_history.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_payment_history.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_staff_list.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_staff_list.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\menu_nav_menu.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\menu\\nav_menu.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-hdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_fade_in.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\fade_in.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_status_indicator_on.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\status_indicator_on.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_status_indicator_off.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\status_indicator_off.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-hdpi_ic_launcher_foreground.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-hdpi\\ic_launcher_foreground.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_header_icon_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\header_icon_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_logout.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_logout.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_payment.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_payment.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_calendar_day.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_calendar_day.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_spinner_border.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\spinner_border.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_location.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_location.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_add_customer.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_add_customer.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xhdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_status_indicator_off.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\status_indicator_off.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_backup_center.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_backup_center.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_main.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_main.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_delivery_history.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_delivery_history.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-mdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_received_backups.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_received_backups.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_right_to_left.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\right_to_left.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_count_badge.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\count_badge.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-anydpi-v26\\ic_launcher_round.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_circle_today_solid.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\circle_today_solid.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_payment_details.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_payment_details.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_my_backups.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_my_backups.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_card_icon_background_blue.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\card_icon_background_blue.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_calendar.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_calendar.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_milk.png.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_milk.png"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_dialog_salary.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_salary.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_activity_my_backups.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\activity_my_backups.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_payment_history.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_payment_history.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_blink.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\blink.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_map.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_map.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\anim_slide_in_left.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\anim\\slide_in_left.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_encrypted_file_viewer.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_encrypted_file_viewer.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_disconnect.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_disconnect.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_card_icon_background_gray.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\card_icon_background_gray.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_calendar.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_calendar.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_user.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_user.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_item_invoice_card.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\item_invoice_card.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_launcher_background.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\layout_fragment_payment_history.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\layout\\fragment_payment_history.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_right_to_left.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\right_to_left.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_device_icon_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\device_icon_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_map.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_map.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_icon_background.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\icon_background.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_login_background.png.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\login_background.png"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_splash_bg.png.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\splash_bg.png"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_payment_history.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_payment_history.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\mipmap-xxxhdpi\\ic_launcher.webp"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxhdpi\\ic_launcher_foreground.webp"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_login_background.png.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\login_background.png"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_about_us.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_about_us.xml"
     },
     {
-        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-81:\\drawable_ic_back.xml.flat",
-        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-83:\\drawable\\ic_back.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_back.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_back.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_fragment_payment_dashboard.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_payment_dashboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-hdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_whatsapp_logo.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_whatsapp_logo.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_item_salary_history.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_salary_history.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_activity_login.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\anim_slide_in_left.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\anim\\slide_in_left.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\layout_dialog_staff_details.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_staff_details.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_add.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_add.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_person.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_person.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_card_icon_background_blue.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\card_icon_background_blue.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\mipmap-xxxhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_status_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\status_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\menu_drawer_menu.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\menu\\drawer_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_scan.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_scan.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_header_icon_background.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\header_icon_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_ic_payment.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\ic_payment.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-85:\\drawable_card_icon_background_green.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\drawable\\card_icon_background_green.xml"
     }
 ]

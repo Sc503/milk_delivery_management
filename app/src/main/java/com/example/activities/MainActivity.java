@@ -37,7 +37,7 @@ import com.example.dao.CustomerDao;
 import com.example.dao.DeliveryDao;
 import com.example.database.AppDatabase;
 import com.example.models.User;
-import com.example.fragments.AddStaffFragment;
+
 
 
 
@@ -202,15 +202,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             binding.navView.setCheckedItem(
                     R.id.nav_add_customer);
-        } else if (itemId == R.id.nav_add_staff) {
-
-            fragment = new AddStaffFragment();
-
-            tag = "ADD_STAFF_FRAGMENT";
-
-            toolbarTitle = "Add Staff";
-
-            binding.navView.setCheckedItem(R.id.nav_add_staff);
         } else if (itemId == R.id.nav_monthly_recap) {
             fragment = new MonthlyRecapFragment();
             tag = "MONTHLY_RECAP_FRAGMENT";
@@ -364,20 +355,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Log.d("CHECK", "Owner menu loaded");
 
-            MenuItem addStaff = menu.findItem(R.id.nav_add_staff);
-
-            if (addStaff != null) {
-                addStaff.setVisible(true);
-            }
 
         }
-        else if ("Staff".equals(currentUserType)) {
 
-            Log.d("CHECK", "Staff menu loaded");
-
-            hide(menu, R.id.nav_add_staff);
-
-        }
         else if ("Customer".equals(currentUserType)) {
 
             Log.d("CHECK", "Customer menu loaded");
@@ -386,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             hide(menu, R.id.nav_payment);
             hide(menu, R.id.nav_settings);
             hide(menu, R.id.nav_home);
-            hide(menu, R.id.nav_add_staff);
+
 
             MenuItem recap = menu.findItem(R.id.nav_monthly_recap);
             if (recap != null)

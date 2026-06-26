@@ -19,7 +19,12 @@ import com.example.viewmodel.MilkViewModel;
 import android.net.Uri;
 import android.widget.ArrayAdapter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 
 public class AddStaffFragment extends Fragment {
@@ -32,20 +37,44 @@ public class AddStaffFragment extends Fragment {
 
     private Uri selectedImageUri;
 
-    private final ActivityResultLauncher<String> imagePickerLauncher =
+    private final ActivityResultLauncher<PickVisualMediaRequest> imagePickerLauncher =
             registerForActivityResult(
-                    new ActivityResultContracts.GetContent(),
+                    new ActivityResultContracts.PickVisualMedia(),
                     uri -> {
 
                         if (uri != null) {
 
-                            selectedImageUri = uri;
-
-                            binding.imgDocument.setImageURI(uri);
-
-                            documentPath = uri.toString();
+                            String internalPath = saveImageToInternalStorage(uri);
+                            if (internalPath != null) {
+                                documentPath = Uri.fromFile(new File(internalPath)).toString();
+                                binding.imgDocument.setImageURI(Uri.fromFile(new File(internalPath)));
+                                selectedImageUri = Uri.fromFile(new File(internalPath));
+                            } else {
+                                Toast.makeText(requireContext(), "Failed to process image", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
+
+    private String saveImageToInternalStorage(Uri uri) {
+        try {
+            InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
+            if (inputStream == null) return null;
+
+            File file = new File(requireContext().getFilesDir(), "staff_" + System.currentTimeMillis() + ".jpg");
+            FileOutputStream outputStream = new FileOutputStream(file);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.close();
+            inputStream.close();
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public AddStaffFragment() {
     }
@@ -90,7 +119,9 @@ public class AddStaffFragment extends Fragment {
 
         binding.btnUploadDocument.setOnClickListener(v -> {
 
-            imagePickerLauncher.launch("image/*");
+            imagePickerLauncher.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
 
         });
 
@@ -154,6 +185,18 @@ public class AddStaffFragment extends Fragment {
         binding.etMobile1.setText("");
         binding.etMobile2.setText("");
         binding.etAddress.setText("");
+
+        // Spinner reset
+        binding.spDocumentType.setSelection(0);
+
+        // Image reset
+        binding.imgDocument.setImageDrawable(null);
+
+        // URI reset
+        selectedImageUri = null;
+
+        // Document path reset
+        documentPath = "";
     }
 
     @Override

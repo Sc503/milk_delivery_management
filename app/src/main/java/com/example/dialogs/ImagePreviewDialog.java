@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.databinding.DialogImagePreviewBinding;
+import android.net.Uri;
 
 public class ImagePreviewDialog extends AppCompatDialogFragment {
 
@@ -25,12 +26,16 @@ public class ImagePreviewDialog extends AppCompatDialogFragment {
 
         binding=DialogImagePreviewBinding.inflate(getLayoutInflater());
 
-        Dialog dialog=new Dialog(requireContext());
+        Dialog dialog = new Dialog(
+                requireContext(),
+                android.R.style.Theme_Black_NoTitleBar_Fullscreen
+        );
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(binding.getRoot());
 
         Glide.with(requireContext())
-                .load(imageUri)
+                .load(Uri.parse(imageUri))
                 .into(binding.previewImage);
 
         binding.btnClose.setOnClickListener(v->dismiss());

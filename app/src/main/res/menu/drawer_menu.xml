@@ -10,10 +10,6 @@
             android:icon="@drawable/ic_add"
             android:title="Add Customer" />
         <item
-            android:id="@+id/nav_add_staff"
-            android:icon="@drawable/ic_add"
-            android:title="Add Staff"/>
-        <item
             android:id="@+id/nav_staff_list"
             android:icon="@drawable/ic_person"
             android:title="Staff List"/>

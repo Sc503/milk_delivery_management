@@ -39,13 +39,15 @@ import android.content.ClipData;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.Executors;
 
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
     private MilkViewModel viewModel;
-    private ActivityResultLauncher<String> restoreLauncher;
+    private ActivityResultLauncher<String[]> restoreLauncher;
     private String currentUserType;
 
     @Nullable
@@ -135,18 +137,25 @@ public class SettingsFragment extends Fragment {
         // ── Restore Launcher ────────────────────────────────────────
         restoreLauncher =
                 registerForActivityResult(
-                        new ActivityResultContracts.GetContent(),
+                        new ActivityResultContracts.OpenDocument(),
                         uri -> {
                             if (uri != null) {
-                                Executors.newSingleThreadExecutor()
-                                        .execute(() -> {
-                                            boolean success =
-                                                    BackupManager.restoreBackup(
-                                                            requireContext(),
-                                                            uri
-                                                    );
-                                            requireActivity()
-                                                    .runOnUiThread(() -> {
+                                try {
+                                    // Open stream on Main Thread to retain URI permission
+                                    final InputStream inputStream =
+                                            requireContext().getContentResolver().openInputStream(uri);
+                                    
+                                    final android.content.Context appContext = requireContext().getApplicationContext();
+
+                                    Executors.newSingleThreadExecutor()
+                                            .execute(() -> {
+                                                boolean success =
+                                                        BackupManager.restoreBackup(
+                                                                appContext,
+                                                                inputStream
+                                                        );
+                                                if (getActivity() != null) {
+                                                    getActivity().runOnUiThread(() -> {
                                                         if (success) {
                                                             Toast.makeText(
                                                                     requireContext(),
@@ -161,10 +170,13 @@ public class SettingsFragment extends Fragment {
                                                             ).show();
                                                         }
                                                     });
-                                        });
+                                                }
+                                            });
+                                } catch (IOException e) {
+                                    Toast.makeText(requireContext(), "Failed to open backup file", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                );
+                        });
 
         // ── Last Backup Display ─────────────────────────────────────
         SharedPreferences prefs = requireContext().getSharedPreferences("backup_prefs", android.content.Context.MODE_PRIVATE);
@@ -178,7 +190,7 @@ public class SettingsFragment extends Fragment {
 
         // ── Restore Backup ──────────────────────────────────────────
         binding.btnRestoreBackup.setOnClickListener(v -> {
-            restoreLauncher.launch("*/*");
+            restoreLauncher.launch(new String[]{"application/json", "application/octet-stream", "*/*"});
         });
     }
 
