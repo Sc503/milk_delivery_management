@@ -28,6 +28,10 @@ import java.util.Map;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import android.content.ContentResolver;
+import android.net.Uri;
+import java.io.ByteArrayOutputStream;
+
 public class BackupManager {
 
     private static final String TAG = "BACKUP_TEST";
@@ -315,5 +319,60 @@ public class BackupManager {
             Log.e("MERGE_BACKUP", "Merge failed", e);
             return false;
         }
+    }
+
+    // ── RESTORE ENCRYPTED BACKUP FROM URI ──────────────────────────────
+    public static boolean restoreEncryptedBackupFromUri(Context context, Uri uri, String password) {
+        try {
+            // 1. Read encrypted data from Uri
+            ContentResolver resolver = context.getContentResolver();
+            InputStream inputStream = resolver.openInputStream(uri);
+            if (inputStream == null) {
+                Log.e(TAG, "Could not open input stream");
+                return false;
+            }
+
+            byte[] encryptedData = readAllBytes(inputStream);
+            inputStream.close();
+
+            // 2. Decrypt the data
+            EncryptionHelper encryption = new EncryptionHelper(context);
+            byte[] decryptedData = encryption.decrypt(encryptedData, password);
+            String jsonData = new String(decryptedData, "UTF-8");
+
+            // 3. Parse JSON and restore to database
+            Gson gson = new Gson();
+            BackupData backupData = gson.fromJson(jsonData, BackupData.class);
+
+            AppDatabase db = AppDatabase.getInstance(context);
+            db.runInTransaction(() -> {
+                db.deliveryDao().deleteAll();
+                db.customerDao().deleteAll();
+                if (backupData.getCustomers() != null) {
+                    db.customerDao().insertAll(backupData.getCustomers());
+                }
+                if (backupData.getDeliveries() != null) {
+                    db.deliveryDao().insertAll(backupData.getDeliveries());
+                }
+            });
+
+            Log.d(TAG, "✅ Encrypted restore successful!");
+            return true;
+
+        } catch (Exception e) {
+            Log.e(TAG, "Restore encrypted from URI failed: " + e.getMessage(), e);
+            return false;
+        }
+    }
+
+    // ── Helper: Read all bytes from InputStream ──────────────────────────
+    private static byte[] readAllBytes(InputStream inputStream) throws java.io.IOException {
+        java.io.ByteArrayOutputStream byteArrayOutputStream = new java.io.ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, length);
+        }
+        return byteArrayOutputStream.toByteArray();
     }
 }

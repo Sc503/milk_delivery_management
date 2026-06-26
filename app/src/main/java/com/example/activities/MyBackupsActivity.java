@@ -88,7 +88,8 @@ public class MyBackupsActivity extends AppCompatActivity {
         BackupAdapter adapter = new BackupAdapter(list, new BackupAdapter.OnBackupClickListener() {
             @Override
             public void onClick(BackupFile f) {
-                handleFileClick(f.getFile());
+                // ✅ Show options dialog instead of just opening
+                showFileOptionsDialog(f.getFile());
             }
 
             @Override
@@ -99,16 +100,39 @@ public class MyBackupsActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
     }
 
-    // ── ✅ NEW: Handle file click (check if encrypted) ──────────────
-    private void handleFileClick(File file) {
+    // ── Show file options dialog (with WiFi Direct) ──────────────────
+    private void showFileOptionsDialog(File file) {
+        String[] options;
+
         if (BackupManager.isEncryptedFile(file)) {
-            showDecryptDialog(file);
+            options = new String[]{"🔓 Decrypt & Open", "📤 Share", "📶 Send via WiFi Direct", "🗑️ Delete"};
         } else {
-            openFile(file);
+            options = new String[]{"📄 Open", "📤 Share", "📶 Send via WiFi Direct", "🗑️ Delete"};
         }
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(file.getName())
+                .setItems(options, (d, i) -> {
+                    if (BackupManager.isEncryptedFile(file)) {
+                        switch (i) {
+                            case 0: showDecryptDialog(file); break;
+                            case 1: shareFile(file); break;
+                            case 2: sendViaWifi(file); break;
+                            case 3: confirmDelete(file); break;
+                        }
+                    } else {
+                        switch (i) {
+                            case 0: openFile(file); break;
+                            case 1: shareFile(file); break;
+                            case 2: sendViaWifi(file); break;
+                            case 3: confirmDelete(file); break;
+                        }
+                    }
+                })
+                .show();
     }
 
-    // ── ✅ NEW: Show decrypt dialog for encrypted files ──────────
+    // ── Show decrypt dialog for encrypted files ──────────────────
     private void showDecryptDialog(File file) {
         final EditText passwordInput = new EditText(this);
         passwordInput.setHint("Enter encryption password");
@@ -130,19 +154,16 @@ public class MyBackupsActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ── ✅ NEW: Decrypt and open file ──────────────────────────────
+    // ── Decrypt and open file ──────────────────────────────────────
     private void decryptAndOpenFile(File file, String password) {
         try {
             String jsonContent = BackupManager.decryptEncryptedFile(this, file, password);
-
-            // Show decrypted content
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("📄 " + file.getName().replace(".enc", ".json"))
                     .setMessage(jsonContent)
                     .setPositiveButton("OK", null)
                     .setNeutralButton("Share", (d, w) -> shareFile(file))
                     .show();
-
         } catch (Exception e) {
             Toast.makeText(this, "❌ Wrong password or corrupted file!", Toast.LENGTH_LONG).show();
         }
@@ -163,7 +184,6 @@ public class MyBackupsActivity extends AppCompatActivity {
             base.mkdirs();
         }
 
-        // ✅ Load BOTH .json AND .enc files
         File[] ownFiles = base.listFiles(file ->
                 file.isFile() &&
                         (file.getName().endsWith(".json") || file.getName().endsWith(".enc")) &&
@@ -183,15 +203,14 @@ public class MyBackupsActivity extends AppCompatActivity {
         return list;
     }
 
-    // ── Options dialog (Supports encrypted files) ──────────────────
+    // ── Long press options dialog ──────────────────────────────────
     private void showOptions(File file) {
         String[] opts;
 
-        // ✅ Check if file is encrypted
         if (BackupManager.isEncryptedFile(file)) {
-            opts = new String[]{"🔓 Decrypt & Open", "📤 Share", "🗑️ Delete"};
+            opts = new String[]{"🔓 Decrypt & Open", "📤 Share", "📶 Send via WiFi Direct", "🗑️ Delete"};
         } else {
-            opts = new String[]{"📄 Open", "📤 Share", "🗑️ Delete"};
+            opts = new String[]{"📄 Open", "📤 Share", "📶 Send via WiFi Direct", "🗑️ Delete"};
         }
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
@@ -201,13 +220,15 @@ public class MyBackupsActivity extends AppCompatActivity {
                         switch (i) {
                             case 0: showDecryptDialog(file); break;
                             case 1: shareFile(file); break;
-                            case 2: confirmDelete(file); break;
+                            case 2: sendViaWifi(file); break;
+                            case 3: confirmDelete(file); break;
                         }
                     } else {
                         switch (i) {
                             case 0: openFile(file); break;
                             case 1: shareFile(file); break;
-                            case 2: confirmDelete(file); break;
+                            case 2: sendViaWifi(file); break;
+                            case 3: confirmDelete(file); break;
                         }
                     }
                 }).show();
@@ -225,7 +246,6 @@ public class MyBackupsActivity extends AppCompatActivity {
         // Check if service is bound
         if (!isServiceBound || wifiService == null) {
             Toast.makeText(this, "Service not available. Please reconnect.", Toast.LENGTH_LONG).show();
-            // Try to bind again
             Intent intent = new Intent(this, WifiDirectService.class);
             bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
             return;
@@ -233,7 +253,7 @@ public class MyBackupsActivity extends AppCompatActivity {
 
         // Send the file using service
         wifiService.sendFile(file);
-        Toast.makeText(this, "Sending: " + file.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Sending: " + file.getName() + " via WiFi Direct...", Toast.LENGTH_SHORT).show();
     }
 
     // ── Open file (show JSON content) ─────────────────────────────
@@ -271,11 +291,8 @@ public class MyBackupsActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("application/json");
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
-
-                // Grant permission via ClipData
                 intent.setClipData(android.content.ClipData.newRawUri(null, uri));
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                 startActivity(Intent.createChooser(intent, "Share Backup"));
             }
         } catch (Exception e) {
@@ -303,7 +320,6 @@ public class MyBackupsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Unbind service when activity is destroyed
         if (isServiceBound) {
             unbindService(serviceConnection);
             isServiceBound = false;

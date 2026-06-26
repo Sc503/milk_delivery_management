@@ -46,7 +46,7 @@ import java.util.List;
 public class WifiDirectActivity extends AppCompatActivity implements WifiP2pManager.PeerListListener {
 
     private static final int PERM_CODE = 1001;
-    private static final String TAG = "WiFiDirect";
+    private static final int REQUEST_CODE_BACKUP_CENTER = 1002;
 
     private WifiP2pManager manager;
     private WifiP2pManager.Channel channel;
@@ -60,9 +60,13 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     private Button btnScan, btnDisconnect, btnSendFile;
     private boolean isScanning = false;
     private boolean isConnecting = false;
+    private boolean isConnected = false;
+    private String ownDeviceAddress = "";
 
     private WifiDirectService service;
     private boolean isBound = false;
+
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     private final ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -87,7 +91,6 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         initViews();
         initWifiP2p();
 
-        // Start and Bind Service
         Intent svc = new Intent(this, WifiDirectService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(svc);
@@ -95,14 +98,27 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             startService(svc);
         }
         bindService(svc, connection, BIND_AUTO_CREATE);
+
+        getOwnDeviceAddress();
     }
 
-    // ✅ Handle the selected file from Backup Center
+    private void getOwnDeviceAddress() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (checkLocationPermission()) {
+                manager.requestDeviceInfo(channel, device -> {
+                    if (device != null) {
+                        ownDeviceAddress = device.deviceAddress;
+                    }
+                });
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1002 && resultCode == RESULT_OK && data != null) {
+        if (requestCode == REQUEST_CODE_BACKUP_CENTER && resultCode == RESULT_OK && data != null) {
             String filePath = data.getStringExtra("BACKUP_FILE_PATH");
             if (filePath != null) {
                 File file = new File(filePath);
@@ -135,11 +151,9 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                 Toast.makeText(this, "Connect to a device first", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            // ✅ Open Backup Center to select a file
             Intent intent = new Intent(this, BackupCenterActivity.class);
             intent.putExtra("MODE", "SELECT_TO_SEND");
-            startActivityForResult(intent, 1002);
+            startActivityForResult(intent, REQUEST_CODE_BACKUP_CENTER);
         });
     }
 
@@ -158,10 +172,8 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                         setStatus("● Wi-Fi Direct is OFF", "#B71C1C");
                     }
                 } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
-                    if (manager != null) {
-                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                            manager.requestPeers(channel, WifiDirectActivity.this);
-                        }
+                    if (manager != null && checkLocationPermission()) {
+                        manager.requestPeers(channel, WifiDirectActivity.this);
                     }
                 } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
                     if (manager == null) return;
@@ -170,6 +182,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                     if (networkInfo != null && networkInfo.isConnected()) {
                         manager.requestConnectionInfo(channel, info -> {
                             if (info.groupFormed) {
+                                isConnected = true;
                                 if (info.isGroupOwner) {
                                     service.onBecomeHost(info.groupOwnerAddress.getHostAddress());
                                 } else {
@@ -178,6 +191,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                             }
                         });
                     } else {
+                        isConnected = false;
                         service.onConnectionLost();
                     }
                 }
@@ -197,9 +211,9 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             public void onConnected(boolean asHost, String hostAddress, String deviceName) {
                 runOnUiThread(() -> {
                     isConnecting = false;
+                    isConnected = true;
                     updateUIState();
-                    String role = asHost ? "HOST (Receiver)" : "CLIENT (Sender)";
-                    Toast.makeText(WifiDirectActivity.this, "Connected as " + role, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WifiDirectActivity.this, "✅ Connected!", Toast.LENGTH_SHORT).show();
                 });
             }
 
@@ -207,6 +221,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             public void onDisconnected() {
                 runOnUiThread(() -> {
                     isConnecting = false;
+                    isConnected = false;
                     updateUIState();
                     Toast.makeText(WifiDirectActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
                 });
@@ -215,7 +230,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             @Override
             public void onFileReceived(String filePath) {
                 runOnUiThread(() -> {
-                    Toast.makeText(WifiDirectActivity.this, "File Received: " + filePath, Toast.LENGTH_LONG).show();
+                    Toast.makeText(WifiDirectActivity.this, "File Received!", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(WifiDirectActivity.this, ReceivedBackupsActivity.class);
                     startActivity(intent);
                 });
@@ -257,7 +272,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     }
 
     private void updateUIState() {
-        if (WifiDirectService.isConnected) {
+        if (isConnected || WifiDirectService.isConnected) {
             setStatus("● Connected to: " + WifiDirectService.connectedDeviceName, "#2E7D32");
             btnScan.setEnabled(false);
             btnDisconnect.setVisibility(View.VISIBLE);
@@ -268,7 +283,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             btnSendFile.setEnabled(false);
             btnScan.setEnabled(true);
             if (isScanning) {
-                setStatus("● Scanning for devices...", "#1565C0");
+                setStatus("● Scanning...", "#1565C0");
                 btnScan.setText("SCANNING...");
             } else if (isConnecting) {
                 setStatus("● Connecting...", "#F9A825");
@@ -288,48 +303,100 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     private void startScan() {
         if (!checkPermissions()) return;
 
+        android.net.wifi.WifiManager wifiManager =
+                (android.net.wifi.WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager != null && !wifiManager.isWifiEnabled()) {
+            Toast.makeText(this, "Please enable WiFi first", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+            return;
+        }
+
+        if (isConnected || WifiDirectService.isConnected) {
+            Toast.makeText(this, "Already connected. Disconnect first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         isScanning = true;
         updateUIState();
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+        if (!checkLocationPermission()) return;
 
         manager.discoverPeers(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                Toast.makeText(WifiDirectActivity.this, "Scanning for devices...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WifiDirectActivity.this, "Scanning...", Toast.LENGTH_SHORT).show();
+                handler.postDelayed(() -> {
+                    isScanning = false;
+                    updateUIState();
+                }, 15000);
             }
 
             @Override
             public void onFailure(int reason) {
                 isScanning = false;
                 updateUIState();
-                Toast.makeText(WifiDirectActivity.this, "Scan failed: " + reason, Toast.LENGTH_SHORT).show();
+                handler.postDelayed(() -> {
+                    if (!isConnected && !WifiDirectService.isConnected) {
+                        startScan();
+                    }
+                }, 2000);
             }
         });
     }
 
     private void disconnect() {
+        if (manager == null || channel == null) return;
+
         manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
                 runOnUiThread(() -> {
+                    isConnected = false;
                     WifiDirectService.isConnected = false;
                     WifiDirectService.isGroupOwner = false;
                     WifiDirectService.connectedHostAddress = null;
                     updateUIState();
+                    Toast.makeText(WifiDirectActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
                 });
             }
 
             @Override
-            public void onFailure(int reason) {}
+            public void onFailure(int reason) {
+                runOnUiThread(() -> {
+                    isConnected = false;
+                    WifiDirectService.isConnected = false;
+                    WifiDirectService.isGroupOwner = false;
+                    WifiDirectService.connectedHostAddress = null;
+                    updateUIState();
+                    Toast.makeText(WifiDirectActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
+                });
+            }
         });
     }
 
     private void connectToDevice(WifiDevice device) {
         if (!checkPermissions()) return;
+        if (isConnected || WifiDirectService.isConnected) {
+            Toast.makeText(this, "Already connected. Disconnect first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        manager.cancelConnect(channel, null);
+
+        manager.removeGroup(channel, new WifiP2pManager.ActionListener() {
+            @Override
+            public void onSuccess() {
+                performConnect(device);
+            }
+
+            @Override
+            public void onFailure(int reason) {
+                performConnect(device);
+            }
+        });
+    }
+
+    private void performConnect(WifiDevice device) {
         isConnecting = true;
         isScanning = false;
         updateUIState();
@@ -337,22 +404,28 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.address;
         config.wps.setup = WpsInfo.PBC;
+        config.groupOwnerIntent = 7;
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
+        if (!checkLocationPermission()) return;
 
         manager.connect(channel, config, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
                 WifiDirectService.connectedDeviceName = device.name;
+                runOnUiThread(() -> {
+                    Toast.makeText(WifiDirectActivity.this, "Connecting to " + device.name + "...", Toast.LENGTH_SHORT).show();
+                });
             }
 
             @Override
             public void onFailure(int reason) {
                 isConnecting = false;
                 updateUIState();
-                Toast.makeText(WifiDirectActivity.this, "Connection failed: " + reason, Toast.LENGTH_SHORT).show();
+                handler.postDelayed(() -> {
+                    if (!isConnected && !WifiDirectService.isConnected) {
+                        performConnect(device);
+                    }
+                }, 2000);
             }
         });
     }
@@ -360,15 +433,30 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     @Override
     public void onPeersAvailable(WifiP2pDeviceList peers) {
         deviceList.clear();
+
         for (WifiP2pDevice device : peers.getDeviceList()) {
+            String deviceName = device.deviceName;
+            if (deviceName == null || deviceName.isEmpty()) {
+                continue;
+            }
+
+            if (deviceName.equalsIgnoreCase("Android")) {
+                continue;
+            }
+
             deviceList.add(new WifiDevice(device.deviceName, device.deviceAddress, device.status));
         }
         adapter.notifyDataSetChanged();
 
-        if (isScanning) {
+        if (isScanning && !deviceList.isEmpty()) {
             isScanning = false;
             updateUIState();
         }
+    }
+
+    private boolean checkLocationPermission() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     private boolean checkPermissions() {
@@ -387,5 +475,17 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERM_CODE) {
+            if (checkLocationPermission()) {
+                startScan();
+            } else {
+                Toast.makeText(this, "Permissions required for WiFi Direct", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

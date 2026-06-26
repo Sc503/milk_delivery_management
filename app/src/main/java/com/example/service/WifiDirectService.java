@@ -182,10 +182,9 @@ public class WifiDirectService extends Service {
                     );
                     if (!dir.exists()) dir.mkdirs();
 
-                    File outFile = new File(
-                            dir,
-                            "received_backup_" + System.currentTimeMillis() + ".json"
-                    );
+                    // ✅ Save as .enc if the received data is encrypted
+                   // For now, we'll save as .enc to handle encrypted files properly
+                    File outFile = new File(dir, "received_backup_" + System.currentTimeMillis() + ".enc");
 
                     InputStream in = client.getInputStream();
                     FileOutputStream fos = new FileOutputStream(outFile);

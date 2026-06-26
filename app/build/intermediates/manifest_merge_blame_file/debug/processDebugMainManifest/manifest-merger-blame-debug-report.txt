@@ -138,11 +138,11 @@
 72
 73        <!-- Google Maps API Key -->
 74        <meta-data
-74-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:46:9-48:71
+74-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:46:9-48:72
 75            android:name="com.google.android.geo.API_KEY"
 75-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:47:13-58
-76            android:value="AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI" />
-76-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:48:13-68
+76            android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY\" />
+76-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:48:13-69
 77        <meta-data
 77-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:50:9-52:69
 78            android:name="com.google.android.gms.version"
@@ -181,7 +181,7 @@
 97        <!-- Auto Backup Receivers -->
 98        <receiver
 98-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:73:9-81:20
-99            android:name="com.example.receivers.BootReceiver"
+99            android:name="com.example.Receivers.BootReceiver"
 99-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:74:13-51
 100            android:enabled="true"
 100-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:75:13-35
@@ -199,7 +199,7 @@
 106        </receiver>
 107        <receiver
 107-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:83:9-86:40
-108            android:name="com.example.receivers.AutoBackupReceiver"
+108            android:name="com.example.Receivers.AutoBackupReceiver"
 108-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:84:13-57
 109            android:enabled="true"
 109-->C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:85:13-35
