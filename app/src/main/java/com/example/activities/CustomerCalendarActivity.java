@@ -1,6 +1,7 @@
 package com.example.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -173,7 +174,22 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             // Index them by Date key "YYYY-MM-DD"
             Map<String, Delivery> dateLookup = new HashMap<>();
             for (Delivery d : allDeliveries) {
-                dateLookup.put(d.getDeliveryDate(), d);
+
+                dateLookup.put(
+                        d.getDeliveryDate(),
+                        d
+                );
+
+                Log.d(
+                        "ROW_ID",
+                        d.getId()
+                                + " | "
+                                + d.getCustomerId()
+                                + " | "
+                                + d.getDeliveryDate()
+                                + " | "
+                                + d.getStatus()
+                );
             }
 
             final List<CalendarGridAdapter.CalendarDay> gridList = new ArrayList<>();

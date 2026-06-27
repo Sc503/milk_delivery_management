@@ -148,6 +148,19 @@ public class MilkRepository {
                 existing.setDeliveredTime(time);
 
                 deliveryDao.update(existing);
+
+                Delivery check =
+                        deliveryDao.getDeliveryForCustomerAndDate(
+                                customerId,
+                                date
+                        );
+
+                Log.d(
+                        "DELIVERY_CHECK",
+                        check.getDeliveryDate()
+                                + " | "
+                                + check.getStatus()
+                );
             }
 
 

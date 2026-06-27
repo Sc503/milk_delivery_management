@@ -56,6 +56,10 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_payment.xml"
     },
     {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-84:\\layout\\dialog_edit_customer.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\dialog_edit_customer.xml"
+    },
+    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-84:\\layout\\fragment_about_us.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\fragment_about_us.xml"
     },
@@ -104,12 +108,12 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\activity_wifi_direct.xml"
     },
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-84:\\layout\\item_staff.xml",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_staff.xml"
+        "merged": "com.example.app-mergeDebugResources-84:/layout/dialog_edit_customer.xml",
+        "source": "com.example.app-main-87:/layout/dialog_edit_customer.xml"
     },
     {
-        "merged": "com.example.app-mergeDebugResources-84:/layout/fragment_staff_list.xml",
-        "source": "com.example.app-main-87:/layout/fragment_staff_list.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-84:\\layout\\item_staff.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-87:\\layout\\item_staff.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-84:\\layout\\dialog_image_preview.xml",

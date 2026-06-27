@@ -78,6 +78,7 @@ id action_add_staff
 id bgImage
 id btnApply
 id btnCall
+id btnChangeLocation
 id btnClear
 id btnClose
 id btnDecrypt
@@ -85,6 +86,7 @@ id btnDelete
 id btnDisconnect
 id btnDownloadPdf
 id btnEdit
+id btnEditCustomer
 id btnExportExcel
 id btnLogin
 id btnMarkPaid
@@ -146,6 +148,11 @@ id emptyState
 id etAddress
 id etCustomerName
 id etDeliveries
+id etLatitude
+id etLongitude
+id etMilkQuantity
+id etMilkRate
+id etMobile
 id etMobile1
 id etMobile2
 id etName
@@ -294,6 +301,7 @@ layout activity_splash
 layout activity_wifi_direct
 layout bottom_sheet_filter
 layout dialog_customer_details
+layout dialog_edit_customer
 layout dialog_edit_staff
 layout dialog_image_preview
 layout dialog_staff_details

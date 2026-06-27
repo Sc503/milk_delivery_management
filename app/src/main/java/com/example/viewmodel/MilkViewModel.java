@@ -28,8 +28,13 @@ public class MilkViewModel extends AndroidViewModel {
 
     // --- Customer Operations ---
 
-    public LiveData<List<Customer>> getAllCustomers() {
-        return repository.getAllCustomers();
+    public LiveData<List<Customer>> getAllCustomers() {return repository.getAllCustomers();
+    }
+
+    public Customer getCustomerByIdSync(long id){
+
+        return repository.getCustomerByIdSync(id);
+
     }
 
     public LiveData<Customer> getCustomerById(long id) {
@@ -44,8 +49,12 @@ public class MilkViewModel extends AndroidViewModel {
         repository.insertCustomer(customer, listener);
     }
 
-    public void updateCustomer(Customer customer) {
+
+
+    public void updateCustomer(Customer customer){
+
         repository.updateCustomer(customer);
+
     }
 
     public void deleteCustomer(Customer customer) {
@@ -130,4 +139,5 @@ public class MilkViewModel extends AndroidViewModel {
         repository.deleteStaff(staff);
 
     }
+
 }

@@ -4,6 +4,7 @@ package com.example.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -18,6 +19,9 @@ import java.lang.String;
 public final class ItemMonthlyRecapCustomerBinding implements ViewBinding {
   @NonNull
   private final LinearLayout rootView;
+
+  @NonNull
+  public final ImageButton btnEditCustomer;
 
   @NonNull
   public final TextView txtRecapCustomerName;
@@ -35,10 +39,11 @@ public final class ItemMonthlyRecapCustomerBinding implements ViewBinding {
   public final TextView txtRecapTotalDays;
 
   private ItemMonthlyRecapCustomerBinding(@NonNull LinearLayout rootView,
-      @NonNull TextView txtRecapCustomerName, @NonNull TextView txtRecapDeliveredCount,
-      @NonNull TextView txtRecapPendingCount, @NonNull TextView txtRecapPercentage,
-      @NonNull TextView txtRecapTotalDays) {
+      @NonNull ImageButton btnEditCustomer, @NonNull TextView txtRecapCustomerName,
+      @NonNull TextView txtRecapDeliveredCount, @NonNull TextView txtRecapPendingCount,
+      @NonNull TextView txtRecapPercentage, @NonNull TextView txtRecapTotalDays) {
     this.rootView = rootView;
+    this.btnEditCustomer = btnEditCustomer;
     this.txtRecapCustomerName = txtRecapCustomerName;
     this.txtRecapDeliveredCount = txtRecapDeliveredCount;
     this.txtRecapPendingCount = txtRecapPendingCount;
@@ -73,6 +78,12 @@ public final class ItemMonthlyRecapCustomerBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnEditCustomer;
+      ImageButton btnEditCustomer = ViewBindings.findChildViewById(rootView, id);
+      if (btnEditCustomer == null) {
+        break missingId;
+      }
+
       id = R.id.txt_recap_customer_name;
       TextView txtRecapCustomerName = ViewBindings.findChildViewById(rootView, id);
       if (txtRecapCustomerName == null) {
@@ -103,8 +114,9 @@ public final class ItemMonthlyRecapCustomerBinding implements ViewBinding {
         break missingId;
       }
 
-      return new ItemMonthlyRecapCustomerBinding((LinearLayout) rootView, txtRecapCustomerName,
-          txtRecapDeliveredCount, txtRecapPendingCount, txtRecapPercentage, txtRecapTotalDays);
+      return new ItemMonthlyRecapCustomerBinding((LinearLayout) rootView, btnEditCustomer,
+          txtRecapCustomerName, txtRecapDeliveredCount, txtRecapPendingCount, txtRecapPercentage,
+          txtRecapTotalDays);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

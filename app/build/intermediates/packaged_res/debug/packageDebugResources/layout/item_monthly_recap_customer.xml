@@ -68,4 +68,12 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
 
+    <ImageButton
+        android:id="@+id/btnEditCustomer"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="6dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_edit"
+        android:tint="@color/primary"/>
 </LinearLayout>

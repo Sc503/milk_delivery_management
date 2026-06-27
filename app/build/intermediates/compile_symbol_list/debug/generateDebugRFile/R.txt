@@ -77,6 +77,7 @@ int id action_add_staff 0x0
 int id bgImage 0x0
 int id btnApply 0x0
 int id btnCall 0x0
+int id btnChangeLocation 0x0
 int id btnClear 0x0
 int id btnClose 0x0
 int id btnDecrypt 0x0
@@ -84,6 +85,7 @@ int id btnDelete 0x0
 int id btnDisconnect 0x0
 int id btnDownloadPdf 0x0
 int id btnEdit 0x0
+int id btnEditCustomer 0x0
 int id btnExportExcel 0x0
 int id btnLogin 0x0
 int id btnMarkPaid 0x0
@@ -145,6 +147,11 @@ int id emptyState 0x0
 int id etAddress 0x0
 int id etCustomerName 0x0
 int id etDeliveries 0x0
+int id etLatitude 0x0
+int id etLongitude 0x0
+int id etMilkQuantity 0x0
+int id etMilkRate 0x0
+int id etMobile 0x0
 int id etMobile1 0x0
 int id etMobile2 0x0
 int id etName 0x0
@@ -293,6 +300,7 @@ int layout activity_splash 0x0
 int layout activity_wifi_direct 0x0
 int layout bottom_sheet_filter 0x0
 int layout dialog_customer_details 0x0
+int layout dialog_edit_customer 0x0
 int layout dialog_edit_staff 0x0
 int layout dialog_image_preview 0x0
 int layout dialog_staff_details 0x0
