@@ -139,22 +139,31 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         btnSendFile = findViewById(R.id.btnSendFile);
         RecyclerView rv = findViewById(R.id.recyclerDevices);
 
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DeviceAdapter(deviceList, this::connectToDevice);
-        rv.setAdapter(adapter);
+        if (rv != null) {
+            rv.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new DeviceAdapter(deviceList, this::connectToDevice);
+            rv.setAdapter(adapter);
+        }
 
-        btnScan.setOnClickListener(v -> startScan());
-        btnDisconnect.setOnClickListener(v -> disconnect());
+        if (btnScan != null) {
+            btnScan.setOnClickListener(v -> startScan());
+        }
+        
+        if (btnDisconnect != null) {
+            btnDisconnect.setOnClickListener(v -> disconnect());
+        }
 
-        btnSendFile.setOnClickListener(v -> {
-            if (!WifiDirectService.isConnected) {
-                Toast.makeText(this, "Connect to a device first", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Intent intent = new Intent(this, BackupCenterActivity.class);
-            intent.putExtra("MODE", "SELECT_TO_SEND");
-            startActivityForResult(intent, REQUEST_CODE_BACKUP_CENTER);
-        });
+        if (btnSendFile != null) {
+            btnSendFile.setOnClickListener(v -> {
+                if (!WifiDirectService.isConnected) {
+                    Toast.makeText(this, "Connect to a device first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(this, BackupCenterActivity.class);
+                intent.putExtra("MODE", "SELECT_TO_SEND");
+                startActivityForResult(intent, REQUEST_CODE_BACKUP_CENTER);
+            });
+        }
     }
 
     private void initWifiP2p() {
@@ -272,6 +281,10 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     }
 
     private void updateUIState() {
+        if (btnScan == null || btnDisconnect == null || btnSendFile == null || statusText == null) {
+            return;
+        }
+
         if (isConnected || WifiDirectService.isConnected) {
             setStatus("● Connected to: " + WifiDirectService.connectedDeviceName, "#2E7D32");
             btnScan.setEnabled(false);
@@ -296,8 +309,10 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     }
 
     private void setStatus(String text, String colorHex) {
-        statusText.setText(text);
-        statusText.setTextColor(Color.parseColor(colorHex));
+        if (statusText != null) {
+            statusText.setText(text);
+            statusText.setTextColor(Color.parseColor(colorHex));
+        }
     }
 
     private void startScan() {
