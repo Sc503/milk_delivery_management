@@ -6,14 +6,22 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
-    tableName = "deliveries",
-    foreignKeys = @ForeignKey(
-        entity = Customer.class,
-        parentColumns = "id",
-        childColumns = "customerId",
-        onDelete = ForeignKey.CASCADE
-    ),
-    indices = {@Index("customerId")}
+        tableName = "deliveries",
+        foreignKeys = @ForeignKey(
+                entity = Customer.class,
+                parentColumns = "id",
+                childColumns = "customerId",
+                onDelete = ForeignKey.CASCADE
+        ),
+        indices = {
+                @Index(
+                        value = {
+                                "customerId",
+                                "deliveryDate"
+                        },
+                        unique = true
+                )
+        }
 )
 public class Delivery {
     @PrimaryKey(autoGenerate = true)

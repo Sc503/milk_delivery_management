@@ -13,14 +13,21 @@ import com.example.R;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import android.widget.ImageButton;
 
 public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapter.RecapViewHolder> {
 
     private List<RecapItem> itemsList = new ArrayList<>();
     private final OnItemClickListener listener;
 
+    private boolean isOwner = false;
+
     public interface OnItemClickListener {
+
         void onItemClick(RecapItem item);
+
+        void onEditClick(RecapItem item);
+
     }
 
     public static class RecapItem {
@@ -45,6 +52,10 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
         this.listener = listener;
     }
 
+    public void setOwner(boolean owner) {
+        isOwner = owner;
+    }
+
     public void setData(List<RecapItem> items) {
         this.itemsList = items != null ? items : new ArrayList<>();
         notifyDataSetChanged();
@@ -60,7 +71,11 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
     @Override
     public void onBindViewHolder(@NonNull RecapViewHolder holder, int position) {
         RecapItem item = itemsList.get(position);
-        holder.bind(item, listener);
+        holder.bind(
+                item,
+                listener,
+                isOwner
+        );
     }
 
     @Override
@@ -75,6 +90,10 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
         private final TextView txtPending;
         private final TextView txtPercentage;
 
+        private final ImageButton btnEditCustomer;
+
+
+
         public RecapViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txt_recap_customer_name);
@@ -82,20 +101,63 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
             txtDelivered = itemView.findViewById(R.id.txt_recap_delivered_count);
             txtPending = itemView.findViewById(R.id.txt_recap_pending_count);
             txtPercentage = itemView.findViewById(R.id.txt_recap_percentage);
+            btnEditCustomer = itemView.findViewById(R.id.btnEditCustomer);
         }
 
-        public void bind(final RecapItem item, final OnItemClickListener listener) {
+        public void bind(
+                final RecapItem item,
+                final OnItemClickListener listener,
+                boolean isOwner){
+
             txtName.setText(item.customerName);
-            txtTotalDays.setText(String.valueOf(item.totalDays));
-            txtDelivered.setText(String.valueOf(item.deliveredCount));
-            txtPending.setText(String.valueOf(item.pendingCount));
-            txtPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", item.percentage));
+
+            txtTotalDays.setText(
+                    String.valueOf(item.totalDays));
+
+            txtDelivered.setText(
+                    String.valueOf(item.deliveredCount));
+
+            txtPending.setText(
+                    String.valueOf(item.pendingCount));
+
+            txtPercentage.setText(
+                    String.format(
+                            Locale.getDefault(),
+                            "%.1f%%",
+                            item.percentage));
 
             itemView.setOnClickListener(v -> {
-                if (listener != null) {
+
+                if(listener!=null){
+
                     listener.onItemClick(item);
+
                 }
+
             });
+
+            if(isOwner){
+
+                btnEditCustomer.setVisibility(
+                        View.VISIBLE);
+
+            }else{
+
+                btnEditCustomer.setVisibility(
+                        View.GONE);
+
+            }
+
+            btnEditCustomer.setOnClickListener(v->{
+
+                if(listener!=null){
+
+                    listener.onEditClick(item);
+
+                }
+
+            });
+
         }
     }
 }

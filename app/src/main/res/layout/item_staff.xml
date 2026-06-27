@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="staff"
+            type="com.example.models.Staff" />
+        <variable
+            name="listener"
+            type="com.example.adapters.StaffAdapter.Listener" />
+        <import type="com.example.utils.StaffUtils"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="18dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="#DDDDDD"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <!-- TOP ROW -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Image + Number -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/imgStaff"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_person"/>
+
+
+                </LinearLayout>
+
+                <!-- DETAILS -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="8dp"/>
+
+                        <TextView
+                            android:id="@+id/txtName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{staff.name}"
+                            android:textStyle="bold"
+                            android:textSize="15sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtMobile1"
+                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:text="@{staff.mobile1}"
+                            android:textSize="14sp"/>
+
+                        <TextView
+                            android:id="@+id/txtMobile2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{staff.mobile2}"
+                            android:textStyle="bold"
+                            android:layout_marginStart="5dp"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnWhatsapp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_whatsapp_logo"
+                            android:onClick="@{() -> StaffUtils.shareOnWhatsapp(context, staff)}"/>
+
+                        <ImageButton
+                            android:id="@+id/btnCall"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_call"
+                            android:onClick="@{() -> listener.onCall(staff)}"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEdit"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_edit"
+                            android:onClick="@{() -> listener.onEdit(staff)}"/>
+
+                        <ImageButton
+                            android:id="@+id/btnDelete"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_delete"
+                            android:onClick="@{() -> listener.onDelete(staff)}"/>
+
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtDocument"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

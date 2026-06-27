@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.R;
 import com.example.databinding.FragmentAddCustomerBinding;
 import com.example.models.Customer;
+import com.example.repository.MilkRepository;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
 import com.example.repository.MilkRepository;
@@ -184,9 +185,9 @@ public class AddCustomerFragment extends Fragment {
     }
     private void validateAndSaveCustomer() {
 
-        String name = binding.etCustomerName.getText().toString().trim();
-        String mobile = binding.etMobileNumber.getText().toString().trim();
-        String address = binding.etAddress.getText().toString().trim();
+        final String name = binding.etCustomerName.getText().toString().trim();
+        final String mobile = binding.etMobileNumber.getText().toString().trim();
+        String rawAddress = binding.etAddress.getText().toString().trim();
         String latStr = binding.etLatitude.getText().toString().trim();
         String lngStr = binding.etLongitude.getText().toString().trim();
 
@@ -211,9 +212,7 @@ public class AddCustomerFragment extends Fragment {
             binding.layMobileNumber.setError(null);
         }
 
-        if (TextUtils.isEmpty(address)) {
-            address = "No Address Specified";
-        }
+        final String address = TextUtils.isEmpty(rawAddress) ? "No Address Specified" : rawAddress;
 
         if (TextUtils.isEmpty(latStr)) {
             binding.layLatitude.setError("Required");

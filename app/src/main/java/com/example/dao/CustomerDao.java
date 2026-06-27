@@ -24,6 +24,7 @@ public interface CustomerDao {
     @Delete
     void delete(Customer customer);
 
+
     @Query("SELECT * FROM customers ORDER BY name ASC")
     LiveData<List<Customer>> getAllCustomers();
 
@@ -56,4 +57,6 @@ public interface CustomerDao {
             "WHERE d.id IS NULL OR d.status = 'Pending' " +
             "ORDER BY c.name ASC")
     LiveData<List<Customer>> getPendingCustomersForDate(String todayDate);
+
+
 }

@@ -73,7 +73,7 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY\" />
+            android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -96,7 +96,7 @@
 
         <!-- Auto Backup Receivers -->
         <receiver
-            android:name="com.example.Receivers.BootReceiver"
+            android:name="com.example.receivers.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -105,7 +105,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.example.Receivers.AutoBackupReceiver"
+            android:name="com.example.receivers.AutoBackupReceiver"
             android:enabled="true"
             android:exported="false" />
 
@@ -191,6 +191,17 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.aistudio.milkdelivery.qyvjpt.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
             android:exported="false"

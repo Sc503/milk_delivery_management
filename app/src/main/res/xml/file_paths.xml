@@ -26,4 +26,9 @@
         name="external_cache"
         path="."/>
 
+   xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <external-files-path
+            name="documents"
+            path="Documents/" />
 </paths>

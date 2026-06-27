@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.models.Payment;
+import com.example.models.Staff;
 import com.example.repository.MilkRepository;
 
 import java.util.List;
@@ -27,8 +28,13 @@ public class MilkViewModel extends AndroidViewModel {
 
     // --- Customer Operations ---
 
-    public LiveData<List<Customer>> getAllCustomers() {
-        return repository.getAllCustomers();
+    public LiveData<List<Customer>> getAllCustomers() {return repository.getAllCustomers();
+    }
+
+    public Customer getCustomerByIdSync(long id){
+
+        return repository.getCustomerByIdSync(id);
+
     }
 
     public LiveData<Customer> getCustomerById(long id) {
@@ -43,8 +49,12 @@ public class MilkViewModel extends AndroidViewModel {
         repository.insertCustomer(customer, listener);
     }
 
-    public void updateCustomer(Customer customer) {
+
+
+    public void updateCustomer(Customer customer){
+
         repository.updateCustomer(customer);
+
     }
 
     public void deleteCustomer(Customer customer) {
@@ -104,4 +114,30 @@ public class MilkViewModel extends AndroidViewModel {
     public void backupPaymentToFirebase(Payment payment) {
         repository.backupPaymentToFirebase(payment);
     }
+    // ---------------- Staff ----------------
+
+    public void insertStaff(Staff staff){
+
+        repository.insertStaff(staff);
+
+    }
+
+    public LiveData<List<Staff>> getAllStaff(){
+
+        return repository.getAllStaff();
+
+    }
+
+    public void updateStaff(Staff staff){
+
+        repository.updateStaff(staff);
+
+    }
+
+    public void deleteStaff(Staff staff){
+
+        repository.deleteStaff(staff);
+
+    }
+
 }

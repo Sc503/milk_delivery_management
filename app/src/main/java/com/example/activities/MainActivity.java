@@ -25,6 +25,7 @@ import com.example.fragments.AddCustomerFragment;
 import com.example.fragments.MapFragment;
 import com.example.fragments.MonthlyRecapFragment;
 import com.example.fragments.SettingsFragment;
+import com.example.fragments.StaffListFragment;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.utils.DateUtils;
@@ -36,6 +37,7 @@ import com.example.dao.CustomerDao;
 import com.example.dao.DeliveryDao;
 import com.example.database.AppDatabase;
 import com.example.models.User;
+
 
 
 
@@ -211,6 +213,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbarTitle = "Payments";
             binding.navView.setCheckedItem(R.id.nav_payment);
 
+        } else if (itemId == R.id.nav_staff_list) {
+
+            fragment = new StaffListFragment();
+
+            tag = "STAFF_LIST_FRAGMENT";
+
+            toolbarTitle = "Staff List";
+
+            binding.navView.setCheckedItem(R.id.nav_staff_list);
+
         } else if (itemId == R.id.nav_settings) {
             fragment = new SettingsFragment();
             tag = "SETTINGS_FRAGMENT";
@@ -334,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d("CHECK", "UserType = " + currentUserType);
 
-        // First: show all items (reset state)
+        // First: show all items
         for (int i = 0; i < menu.size(); i++) {
             menu.getItem(i).setVisible(true);
         }
@@ -342,13 +354,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if ("Owner".equals(currentUserType)) {
 
             Log.d("CHECK", "Owner menu loaded");
-            // Owner = everything visible (no changes)
 
-        } else if ("Staff".equals(currentUserType)) {
 
-            Log.d("CHECK", "Staff menu loaded");
+        }
 
-        } else if ("Customer".equals(currentUserType)) {
+        else if ("Customer".equals(currentUserType)) {
 
             Log.d("CHECK", "Customer menu loaded");
 
@@ -356,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             hide(menu, R.id.nav_payment);
             hide(menu, R.id.nav_settings);
             hide(menu, R.id.nav_home);
+
 
             MenuItem recap = menu.findItem(R.id.nav_monthly_recap);
             if (recap != null)
@@ -370,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 logout.setVisible(true);
         }
     }
-
     private void hide(Menu menu, int id) {
         MenuItem item = menu.findItem(id);
         if (item != null) {

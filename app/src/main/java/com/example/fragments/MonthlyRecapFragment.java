@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,12 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.R;
 import com.example.databinding.FragmentMonthlyRecapBinding;
+import com.example.dialogs.EditCustomerDialog;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.activities.CustomerRecapDetailsActivity;
 import com.example.adapters.MonthlyRecapAdapter;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
+
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -142,42 +145,99 @@ public class MonthlyRecapFragment extends Fragment {
         binding.rvMonthlyRecap.setLayoutManager(
                 new LinearLayoutManager(getContext()));
 
-        adapter = new MonthlyRecapAdapter(item -> {
+        adapter =
+                new MonthlyRecapAdapter(
 
-            // Jump to Screen 6 (Customer Recap Details Screen) on row tap!
-            Intent intent =
-                    new Intent(
-                            getContext(),
-                            CustomerRecapDetailsActivity.class
-                    );
+                        new MonthlyRecapAdapter.OnItemClickListener() {
 
-            if(currentUserType.equals("Customer")){
+                            @Override
+                            public void onItemClick(
+                                    MonthlyRecapAdapter.RecapItem item) {
 
-                intent.putExtra(
-                        "READ_ONLY",
-                        true
-                );
+                                Intent intent =
+                                        new Intent(
+                                                getContext(),
+                                                CustomerRecapDetailsActivity.class);
 
-            }
+                                if(currentUserType.equals("Customer")){
 
-            intent.putExtra(
-                    "CUSTOMER_ID",
-                    item.customerId
-            );
+                                    intent.putExtra(
+                                            "READ_ONLY",
+                                            true);
 
-            intent.putExtra(
-                    "FILTER_MONTH_INDEX",
-                    selectedMonth
-            );
+                                }
 
-            intent.putExtra(
-                    "FILTER_YEAR_STRING",
-                    selectedYear
-            );
+                                intent.putExtra(
+                                        "CUSTOMER_ID",
+                                        item.customerId);
 
-            startActivity(intent);
+                                intent.putExtra(
+                                        "FILTER_MONTH_INDEX",
+                                        selectedMonth);
 
-        });
+                                intent.putExtra(
+                                        "FILTER_YEAR_STRING",
+                                        selectedYear);
+
+                                startActivity(intent);
+
+                            }
+                            @Override
+                            public void onEditClick(
+                                    MonthlyRecapAdapter.RecapItem item) {
+
+                                viewModel.getRepository()
+                                        .getExecutor()
+                                        .execute(() -> {
+
+                                            Customer customer =
+                                                    viewModel
+                                                            .getRepository()
+                                                            .getCustomerByIdSync(
+                                                                    item.customerId);
+
+                                            if(customer==null){
+                                                return;
+                                            }
+
+                                            requireActivity().runOnUiThread(() -> {
+
+                                                EditCustomerDialog dialog =
+                                                        new EditCustomerDialog(
+
+                                                                customer,
+
+                                                                updatedCustomer -> {
+
+                                                                    viewModel.updateCustomer(
+                                                                            updatedCustomer);
+
+                                                                    Toast.makeText(
+                                                                            requireContext(),
+                                                                            "Customer Updated",
+                                                                            Toast.LENGTH_SHORT
+                                                                    ).show();
+
+                                                                    runMonthlyCalculation();
+
+                                                                });
+
+                                                dialog.show(
+                                                        getChildFragmentManager(),
+                                                        "EDIT_CUSTOMER");
+
+                                            });
+
+                                        });
+
+
+                            }
+
+
+                        });
+
+        adapter.setOwner(
+                currentUserType.equals("Owner"));
 
         binding.rvMonthlyRecap.setAdapter(adapter);
     }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Customer Name"/>
+
+    <EditText
+        android:id="@+id/etMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mobile"
+        android:inputType="phone"/>
+
+    <EditText
+        android:id="@+id/etAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address"/>
+
+    <EditText
+        android:id="@+id/etLatitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Latitude"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/etLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Longitude"
+        android:inputType="numberDecimal"/>
+
+    <Button
+        android:id="@+id/btnChangeLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Location"
+        android:layout_marginTop="8dp"/>
+
+    <EditText
+        android:id="@+id/etMilkQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Milk Quantity"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/etMilkRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Milk Rate"
+        android:inputType="numberDecimal"/>
+
+</LinearLayout>

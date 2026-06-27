@@ -10,6 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.dao.CustomerDao;
 import com.example.dao.UserDao;
+import com.example.models.Attendance;
 import com.example.models.User;
 
 import java.util.concurrent.ExecutorService;
@@ -20,16 +21,22 @@ import com.example.models.Delivery;
 import com.example.models.Payment;
 import com.example.dao.PaymentDao;
 import com.example.dao.DeliveryDao;
+import com.example.dao.AttendanceDao;
+
+import com.example.dao.StaffDao;
+import com.example.models.Staff;
 
 
 @Database(
         entities = {
                 Customer.class,
                 Delivery.class,
+                Payment.class,
                 User.class,
-                Payment.class
+                Staff.class,
+                Attendance.class,
         },
-        version = 6,
+        version = 8,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -41,6 +48,12 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract PaymentDao paymentDao();
+
+    public abstract StaffDao staffDao();
+
+
+
+    public abstract AttendanceDao attendanceDao();
 
     public static AppDatabase getInstance(Context context) {
 

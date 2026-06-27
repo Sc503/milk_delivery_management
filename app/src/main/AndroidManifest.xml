@@ -45,7 +45,7 @@
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY\" />
+            android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -71,7 +71,7 @@
 
         <!-- Auto Backup Receivers -->
         <receiver
-            android:name=".Receivers.BootReceiver"
+            android:name=".receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -81,7 +81,7 @@
         </receiver>
 
         <receiver
-            android:name=".Receivers.AutoBackupReceiver"
+            android:name=".receivers.AutoBackupReceiver"
             android:enabled="true"
             android:exported="false" />
 
@@ -172,6 +172,17 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+
+        </provider>
 
     </application>
 

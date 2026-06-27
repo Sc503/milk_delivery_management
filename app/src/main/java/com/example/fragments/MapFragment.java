@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,6 +155,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         });
 
+
+
         // Load and watch pending deliveries for today
         viewModel.getAllCustomers()
                 .observe(getViewLifecycleOwner(), this::updateMapMarkers);
@@ -175,35 +178,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void updateMapMarkers(List<Customer> customers) {
-        if (googleMap == null) return;
 
-        if (customers == null || customers.isEmpty()) {
-            googleMap.clear();
-            markerLookup.clear();
-            binding.cardNoMarkers.setVisibility(View.VISIBLE);
+
+        if (googleMap == null) {
+
             return;
         }
 
+        if (customers == null) {
+
+            return;
+        }
+
+
+
         final String today = DateUtils.getTodayDateString();
 
-        // Run database fetch on background thread
+
+
         viewModel.getRepository().getExecutor().execute(() -> {
-            List<Delivery> todayDeliveries = viewModel.getRepository().getDeliveriesForDateSync(today);
 
-            android.util.Log.d("MAP_DEBUG", "Today = " + today);
 
-            for (Delivery d : todayDeliveries) {
+            List<Delivery> todayDeliveries =
+                    viewModel.getRepository().getDeliveriesForDateSync(today);
 
-                android.util.Log.d(
-                        "MAP_DEBUG",
-                        "CustomerId = "
-                                + d.getCustomerId()
-                                + " Status = "
-                                + d.getStatus()
-                );
-            }
+
 
             Map<Long, Boolean> deliveryStatusMap = new HashMap<>();
+
             if (todayDeliveries != null) {
                 for (Delivery d : todayDeliveries) {
                     if ("Delivered".equalsIgnoreCase(d.getStatus())) {
@@ -212,16 +214,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
 
-            // Post back to main thread to update UI
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    renderMarkersOnUI(customers, deliveryStatusMap);
-                });
-            }
-        });
-    }
 
+
+            if (getActivity() != null) {
+
+                getActivity().runOnUiThread(() -> {
+
+
+
+                    renderMarkersOnUI(customers, deliveryStatusMap);
+
+                });
+
+            } else {
+
+
+            }
+
+        });
+
+
+    }
     private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap) {
+        android.util.Log.d("MAP_TEST", "renderMarkersOnUI called");
 
         if (googleMap == null) return;
 
@@ -282,48 +297,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         try {
+            android.util.Log.d("MAP_TEST", "Moving To Nashik");
+            Toast.makeText(getContext(), "Moving to Nashik", Toast.LENGTH_SHORT).show();
 
-            // Restore previous map position
-            if (lastCameraPosition != null) {
+            LatLng nashik = new LatLng(19.9975, 73.7898);
 
-                googleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                                lastCameraPosition,
-                                lastZoomLevel
-                        )
-                );
+            googleMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                            nashik,
+                            12f
+                    )
+            );
 
-            } else {
-
-                if (customers.size() == 1) {
-
-                    LatLng singleLatLng = new LatLng(
-                            customers.get(0).getLatitude(),
-                            customers.get(0).getLongitude()
-                    );
-
-                    googleMap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                    singleLatLng,
-                                    14f
-                            )
-                    );
-
-                } else if (customers.size() > 1) {
-
-                    LatLngBounds bounds = boundsBuilder.build();
-
-                    googleMap.animateCamera(
-                            CameraUpdateFactory.newLatLngBounds(
-                                    bounds,
-                                    120
-                            )
-                    );
-                }
-            }
-
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
