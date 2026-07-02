@@ -4,24 +4,24 @@
             "outputFile": "com.example.app-mergeDebugResources-84:/values-vi/values-vi.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\8f522a7cac51777816a011387f37fb92\\workspace\\transformed\\core-1.18.0\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\db4c1fb91aa32e091e1a8eb23c5b7018\\workspace\\transformed\\ui-release\\res\\values-vi\\values-vi.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,254,353,453,556,669,785",
-                        "endColumns": "96,101,98,99,102,112,115,100",
-                        "endOffsets": "147,249,348,448,551,664,780,881"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,201,287,393,493,585,670,763,857,938,1028,1119,1191,1267,1344,1420,1497,1563",
+                        "endColumns": "95,85,105,99,91,84,92,93,80,89,90,71,75,76,75,76,65,113",
+                        "endOffsets": "196,282,388,488,580,665,758,852,933,1023,1114,1186,1262,1339,1415,1492,1558,1672"
                     },
                     "to": {
-                        "startLines": "40,41,42,43,44,45,46,220",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "3634,3731,3833,3932,4032,4135,4248,20673",
-                        "endColumns": "96,101,98,99,102,112,115,100",
-                        "endOffsets": "3726,3828,3927,4027,4130,4243,4359,20769"
+                        "startLines": "50,51,71,72,73,81,82,199,200,210,211,215,217,218,219,221,222,223",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4657,4753,7190,7296,7396,8112,8197,19038,19132,19871,19961,20298,20444,20520,20597,20774,20851,20917",
+                        "endColumns": "95,85,105,99,91,84,92,93,80,89,90,71,75,76,75,76,65,113",
+                        "endOffsets": "4748,4834,7291,7391,7483,8192,8285,19127,19208,19956,20047,20365,20515,20592,20668,20846,20912,21026"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\7be116195b49da28cf24ad58d4740a84\\workspace\\transformed\\play-services-base-18.9.0\\res\\values-vi\\values.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\7be116195b49da28cf24ad58d4740a84\\workspace\\transformed\\play-services-base-18.9.0\\res\\values-vi\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -38,24 +38,75 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\89a54982fb9e8a2bdb4a0ca1ab2ad393\\workspace\\transformed\\play-services-basement-18.9.0\\res\\values-vi\\values.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\28d3d2f0de6abd74eb36f0ea78a5b975\\workspace\\transformed\\browser-1.4.0\\res\\values-vi\\values-vi.xml",
                     "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "218",
-                        "endColumns": "123",
-                        "endOffsets": "341"
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,172,283,397",
+                        "endColumns": "116,110,113,104",
+                        "endOffsets": "167,278,392,497"
                     },
                     "to": {
-                        "startLines": "60",
-                        "startColumns": "4",
-                        "startOffsets": "5855",
-                        "endColumns": "127",
-                        "endOffsets": "5978"
+                        "startLines": "70,77,78,79",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "7073,7708,7819,7933",
+                        "endColumns": "116,110,113,104",
+                        "endOffsets": "7185,7814,7928,8033"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\0a2bf96d8b02a0b5a4bbc5f38793c077\\workspace\\transformed\\material-1.12.0\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\795cd5a76459de2165a1bd1a101a9be3\\workspace\\transformed\\places-3.5.0\\res\\values-vi\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10,11",
+                        "startColumns": "0,0,0,0,0,0,0,0",
+                        "startOffsets": "184,263,331,426,495,537,607,683",
+                        "endColumns": "78,67,94,68,41,69,75,48",
+                        "endOffsets": "262,330,425,494,536,606,682,731"
+                    },
+                    "to": {
+                        "startLines": "202,203,204,205,206,207,208,209",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "19291,19374,19446,19545,19618,19664,19738,19818",
+                        "endColumns": "82,71,98,72,45,73,79,52",
+                        "endOffsets": "19369,19441,19540,19613,19659,19733,19813,19866"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\8f522a7cac51777816a011387f37fb92\\workspace\\transformed\\core-1.18.0\\res\\values-vi\\values-vi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,152,254,353,453,556,669,785",
+                        "endColumns": "96,101,98,99,102,112,115,100",
+                        "endOffsets": "147,249,348,448,551,664,780,881"
+                    },
+                    "to": {
+                        "startLines": "40,41,42,43,44,45,46,220",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "3634,3731,3833,3932,4032,4135,4248,20673",
+                        "endColumns": "96,101,98,99,102,112,115,100",
+                        "endOffsets": "3726,3828,3927,4027,4130,4243,4359,20769"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\b64667ea96ab079bcf4a975b946c477d\\workspace\\transformed\\appcompat-1.7.0\\res\\values-vi\\values-vi.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,212,314,423,507,610,729,807,883,974,1067,1162,1256,1356,1449,1544,1638,1729,1820,1904,2008,2116,2217,2322,2437,2542,2699,2798",
+                        "endColumns": "106,101,108,83,102,118,77,75,90,92,94,93,99,92,94,93,90,90,83,103,107,100,104,114,104,156,98,84",
+                        "endOffsets": "207,309,418,502,605,724,802,878,969,1062,1157,1251,1351,1444,1539,1633,1724,1815,1899,2003,2111,2212,2317,2432,2537,2694,2793,2878"
+                    },
+                    "to": {
+                        "startLines": "6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,212",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "315,422,524,633,717,820,939,1017,1093,1184,1277,1372,1466,1566,1659,1754,1848,1939,2030,2114,2218,2326,2427,2532,2647,2752,2909,20052",
+                        "endColumns": "106,101,108,83,102,118,77,75,90,92,94,93,99,92,94,93,90,90,83,103,107,100,104,114,104,156,98,84",
+                        "endOffsets": "417,519,628,712,815,934,1012,1088,1179,1272,1367,1461,1561,1654,1749,1843,1934,2025,2109,2213,2321,2422,2527,2642,2747,2904,3003,20132"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\0a2bf96d8b02a0b5a4bbc5f38793c077\\workspace\\transformed\\material-1.12.0\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -74,92 +125,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\795cd5a76459de2165a1bd1a101a9be3\\workspace\\transformed\\places-3.5.0\\res\\values-vi\\values.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\89a54982fb9e8a2bdb4a0ca1ab2ad393\\workspace\\transformed\\play-services-basement-18.9.0\\res\\values-vi\\values.xml",
                     "from": {
-                        "startLines": "4,5,6,7,8,9,10,11",
-                        "startColumns": "0,0,0,0,0,0,0,0",
-                        "startOffsets": "184,263,331,426,495,537,607,683",
-                        "endColumns": "78,67,94,68,41,69,75,48",
-                        "endOffsets": "262,330,425,494,536,606,682,731"
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "218",
+                        "endColumns": "123",
+                        "endOffsets": "341"
                     },
                     "to": {
-                        "startLines": "202,203,204,205,206,207,208,209",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "19291,19374,19446,19545,19618,19664,19738,19818",
-                        "endColumns": "82,71,98,72,45,73,79,52",
-                        "endOffsets": "19369,19441,19540,19613,19659,19733,19813,19866"
+                        "startLines": "60",
+                        "startColumns": "4",
+                        "startOffsets": "5855",
+                        "endColumns": "127",
+                        "endOffsets": "5978"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\eb2c4ffa8be4071ecc2eb6e87aec1900\\workspace\\transformed\\credentials-1.2.0-rc01\\res\\values-vi\\values-vi.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,167",
-                        "endColumns": "111,119",
-                        "endOffsets": "162,282"
-                    },
-                    "to": {
-                        "startLines": "33,34",
-                        "startColumns": "4,4",
-                        "startOffsets": "3008,3120",
-                        "endColumns": "111,119",
-                        "endOffsets": "3115,3235"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\9ed964d1d8ad94c7796e19a38fc159ed\\workspace\\transformed\\foundation-release\\res\\values-vi\\values-vi.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,143",
-                        "endColumns": "87,86",
-                        "endOffsets": "138,225"
-                    },
-                    "to": {
-                        "startLines": "224,225",
-                        "startColumns": "4,4",
-                        "startOffsets": "21031,21119",
-                        "endColumns": "87,86",
-                        "endOffsets": "21114,21201"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\b64667ea96ab079bcf4a975b946c477d\\workspace\\transformed\\appcompat-1.7.0\\res\\values-vi\\values-vi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,212,314,423,507,610,729,807,883,974,1067,1162,1256,1356,1449,1544,1638,1729,1820,1904,2008,2116,2217,2322,2437,2542,2699,2798",
-                        "endColumns": "106,101,108,83,102,118,77,75,90,92,94,93,99,92,94,93,90,90,83,103,107,100,104,114,104,156,98,84",
-                        "endOffsets": "207,309,418,502,605,724,802,878,969,1062,1157,1251,1351,1444,1539,1633,1724,1815,1899,2003,2111,2212,2317,2432,2537,2694,2793,2878"
-                    },
-                    "to": {
-                        "startLines": "6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,212",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "315,422,524,633,717,820,939,1017,1093,1184,1277,1372,1466,1566,1659,1754,1848,1939,2030,2114,2218,2326,2427,2532,2647,2752,2909,20052",
-                        "endColumns": "106,101,108,83,102,118,77,75,90,92,94,93,99,92,94,93,90,90,83,103,107,100,104,114,104,156,98,84",
-                        "endOffsets": "417,519,628,712,815,934,1012,1088,1179,1272,1367,1461,1561,1654,1749,1843,1934,2025,2109,2213,2321,2422,2527,2642,2747,2904,3003,20132"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\28d3d2f0de6abd74eb36f0ea78a5b975\\workspace\\transformed\\browser-1.4.0\\res\\values-vi\\values-vi.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,172,283,397",
-                        "endColumns": "116,110,113,104",
-                        "endOffsets": "167,278,392,497"
-                    },
-                    "to": {
-                        "startLines": "70,77,78,79",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "7073,7708,7819,7933",
-                        "endColumns": "116,110,113,104",
-                        "endOffsets": "7185,7814,7928,8033"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\eaf36e8480770da849418bac92ea9736\\workspace\\transformed\\material3-release\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\eaf36e8480770da849418bac92ea9736\\workspace\\transformed\\material3-release\\res\\values-vi\\values-vi.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -176,20 +159,37 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\db4c1fb91aa32e091e1a8eb23c5b7018\\workspace\\transformed\\ui-release\\res\\values-vi\\values-vi.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\9ed964d1d8ad94c7796e19a38fc159ed\\workspace\\transformed\\foundation-release\\res\\values-vi\\values-vi.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,201,287,393,493,585,670,763,857,938,1028,1119,1191,1267,1344,1420,1497,1563",
-                        "endColumns": "95,85,105,99,91,84,92,93,80,89,90,71,75,76,75,76,65,113",
-                        "endOffsets": "196,282,388,488,580,665,758,852,933,1023,1114,1186,1262,1339,1415,1492,1558,1672"
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,143",
+                        "endColumns": "87,86",
+                        "endOffsets": "138,225"
                     },
                     "to": {
-                        "startLines": "50,51,71,72,73,81,82,199,200,210,211,215,217,218,219,221,222,223",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4657,4753,7190,7296,7396,8112,8197,19038,19132,19871,19961,20298,20444,20520,20597,20774,20851,20917",
-                        "endColumns": "95,85,105,99,91,84,92,93,80,89,90,71,75,76,75,76,65,113",
-                        "endOffsets": "4748,4834,7291,7391,7483,8192,8285,19127,19208,19956,20047,20365,20515,20592,20668,20846,20912,21026"
+                        "startLines": "224,225",
+                        "startColumns": "4,4",
+                        "startOffsets": "21031,21119",
+                        "endColumns": "87,86",
+                        "endOffsets": "21114,21201"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\eb2c4ffa8be4071ecc2eb6e87aec1900\\workspace\\transformed\\credentials-1.2.0-rc01\\res\\values-vi\\values-vi.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,167",
+                        "endColumns": "111,119",
+                        "endOffsets": "162,282"
+                    },
+                    "to": {
+                        "startLines": "33,34",
+                        "startColumns": "4,4",
+                        "startOffsets": "3008,3120",
+                        "endColumns": "111,119",
+                        "endOffsets": "3115,3235"
                     }
                 }
             ]

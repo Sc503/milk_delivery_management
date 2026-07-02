@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- App-specific external storage (Android/data/com.example.package/files) -->
+    <!-- App external files -->
     <external-files-path
-        name="my_files"
-        path="."/>
-
-    <!-- Public external storage (e.g., /storage/emulated/0) -->
-    <external-path
         name="external_files"
-        path="."/>
+        path="." />
 
-    <!-- Specifically for Downloads folder -->
-    <external-path
-        name="downloads"
-        path="Download"/>
-
-    <!-- App-specific cache storage -->
+    <!-- Cache -->
     <cache-path
         name="cache_files"
-        path="."/>
+        path="." />
 
-    <!-- App-specific external cache storage -->
+    <!-- External cache -->
     <external-cache-path
         name="external_cache"
-        path="."/>
+        path="." />
 
-   xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Public storage (optional) -->
+    <external-path
+        name="external"
+        path="." />
 
-        <external-files-path
-            name="documents"
-            path="Documents/" />
 </paths>

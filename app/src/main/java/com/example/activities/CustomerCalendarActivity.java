@@ -1,5 +1,7 @@
 package com.example.activities;
 
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,6 +27,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.os.Environment;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import android.net.Uri;
 
 public class CustomerCalendarActivity extends AppCompatActivity {
 
@@ -109,6 +120,8 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             }
             updateMonthYearHeader();
             renderCalendarDaysAndStats();
+
+
         });
 
         binding.btnNextMonth.setOnClickListener(v -> {
@@ -119,6 +132,18 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             }
             updateMonthYearHeader();
             renderCalendarDaysAndStats();
+        });
+        binding.btnScreenshot.setOnClickListener(v -> {
+            captureAndShareReport();
+
+        });
+
+        binding.btnDownloadPdf.setOnClickListener(v -> {
+            createPdf(false);
+        });
+
+        binding.btnSharePdf.setOnClickListener(v -> {
+            createPdf(true);
         });
 
         renderCalendarDaysAndStats();
@@ -293,5 +318,185 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+    private void captureAndShareReport() {
+
+        View content = binding.reportContainer.getChildAt(0);
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                content.getWidth(),
+                content.getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        content.draw(canvas);
+
+        saveBitmap(bitmap);
+
+        shareBitmap(bitmap);
+    }
+    private void saveBitmap(Bitmap bitmap) {
+
+        try {
+
+            File folder = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                    "Reports"
+            );
+
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            File file = new File(
+                    folder,
+                    "CustomerReport_" + System.currentTimeMillis() + ".png"
+            );
+
+            FileOutputStream out = new FileOutputStream(file);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            out.flush();
+            out.close();   // <-- हे add कर
+
+            Toast.makeText(
+                    this,
+                    "Screenshot Saved",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+    private void shareBitmap(Bitmap bitmap) {
+
+        try {
+
+            File folder = new File(getCacheDir(), "reports");
+
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            File file = new File(folder, "MonthlyReport.png");
+
+            FileOutputStream out = new FileOutputStream(file);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            out.flush();
+            out.close();
+
+            Uri uri = androidx.core.content.FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    file
+            );
+
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/png");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(Intent.createChooser(share, "Share Report"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createPdf(boolean share) {
+
+        View view = binding.reportContainer.getChildAt(0);
+
+        Bitmap bitmap = Bitmap.createBitmap(
+                view.getWidth(),
+                view.getHeight(),
+                Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        try {
+
+            File folder = new File(
+                    getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                    "Reports");
+
+            if (!folder.exists())
+                folder.mkdirs();
+
+            File pdfFile = new File(
+                    folder,
+                    "CustomerReport_" + System.currentTimeMillis() + ".pdf");
+
+            android.graphics.pdf.PdfDocument document =
+                    new android.graphics.pdf.PdfDocument();
+
+            android.graphics.pdf.PdfDocument.PageInfo pageInfo =
+                    new android.graphics.pdf.PdfDocument.PageInfo.Builder(
+                            bitmap.getWidth(),
+                            bitmap.getHeight(),
+                            1
+                    ).create();
+
+            android.graphics.pdf.PdfDocument.Page page =
+                    document.startPage(pageInfo);
+
+            page.getCanvas().drawBitmap(bitmap,0,0,null);
+
+            document.finishPage(page);
+
+            FileOutputStream out = new FileOutputStream(pdfFile);
+
+            document.writeTo(out);
+
+            out.close();
+
+            document.close();
+
+            if(share){
+
+                Uri uri =
+                        androidx.core.content.FileProvider.getUriForFile(
+                                this,
+                                getPackageName()+".provider",
+                                pdfFile);
+
+                Intent intent = new Intent(Intent.ACTION_SEND);
+
+                intent.setType("application/pdf");
+
+                intent.putExtra(Intent.EXTRA_STREAM,uri);
+
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                startActivity(Intent.createChooser(intent,"Share PDF"));
+
+            }else{
+
+                Toast.makeText(
+                        this,
+                        "PDF Saved Successfully",
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+            Toast.makeText(
+                    this,
+                    e.getMessage(),
+                    Toast.LENGTH_LONG
+            ).show();
+        }
     }
 }
