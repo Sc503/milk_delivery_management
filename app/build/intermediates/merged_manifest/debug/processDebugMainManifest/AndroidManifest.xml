@@ -96,7 +96,7 @@
 
         <!-- Auto Backup Receivers -->
         <receiver
-            android:name="com.example.receivers.BootReceiver"
+            android:name="com.example.Receivers.BootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -105,7 +105,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.example.receivers.AutoBackupReceiver"
+            android:name="com.example.Receivers.AutoBackupReceiver"
             android:enabled="true"
             android:exported="false" />
 
@@ -124,6 +124,10 @@
             android:name="com.example.activities.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.example.activities.CreateAccountActivity"
+            android:parentActivityName="com.example.activities.LoginActivity"
+            android:theme="@style/Theme.MilkDelivery" />
         <activity
             android:name="com.example.activities.MainActivity"
             android:exported="false"

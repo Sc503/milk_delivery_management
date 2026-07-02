@@ -1,150 +1,71 @@
 package com.example.models;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "staff")
 public class Staff {
-
     @PrimaryKey(autoGenerate = true)
     private long id;
-
+    private int account_id;
     private String name;
-    private String mobile1;
+    private String usertype;
+    private String mobile;
     private String mobile2;
     private String address;
-
-    // Aadhar or PAN image path
     private String documentPath;
-
-    // Aadhaar / PAN
     private String documentType;
+    private int isactive;
 
-    // NEW FIELDS
-    private String joiningDate;
-    private double monthlySalary;
+    // ── Constructors ──────────────────────────────────────────────
+    public Staff() {}
 
-
-    @Ignore
-    public Staff(String name,
-                 String mobile1,
-                 String mobile2,
-                 String address,
-                 String documentPath,
-                 String documentType) {
-
-        this(name,
-                mobile1,
-                mobile2,
-                address,
-                documentPath,
-                documentType,
-                "",
-                0.0);
+    public Staff(String name, String mobile) {
+        this.name = name;
+        this.mobile = mobile;
+        this.usertype = "staff";
+        this.isactive = 1;
     }
 
-    public Staff(String name,
-                 String mobile1,
-                 String mobile2,
-                 String address,
-                 String documentPath,
-                 String documentType,
-                 String joiningDate,
-                 double monthlySalary
-                 ) {
-
+    public Staff(String name, String mobile, String mobile2, String address, String documentPath, String documentType) {
         this.name = name;
-        this.mobile1 = mobile1;
+        this.mobile = mobile;
         this.mobile2 = mobile2;
         this.address = address;
         this.documentPath = documentPath;
         this.documentType = documentType;
-        this.joiningDate = joiningDate;
-        this.monthlySalary = monthlySalary;
-
+        this.usertype = "staff";
+        this.isactive = 1;
     }
 
-    public long getId() {
-        return id;
-    }
+    // ── Getters and Setters ──────────────────────────────────────
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public int getAccount_id() { return account_id; }
+    public void setAccount_id(int account_id) { this.account_id = account_id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getMobile1() {
-        return mobile1;
-    }
+    public String getUsertype() { return usertype; }
+    public void setUsertype(String usertype) { this.usertype = usertype; }
 
-    public String getPhone1() {
-        return mobile1;
-    }
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
 
-    public String getMobile2() {
-        return mobile2;
-    }
+    public String getMobile2() { return mobile2; }
+    public void setMobile2(String mobile2) { this.mobile2 = mobile2; }
 
-    public String getPhone2() {
-        return mobile2;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getDocumentPath() { return documentPath; }
+    public void setDocumentPath(String documentPath) { this.documentPath = documentPath; }
 
-    public String getDocumentPath() {
-        return documentPath;
-    }
+    public String getDocumentType() { return documentType; }
+    public void setDocumentType(String documentType) { this.documentType = documentType; }
 
-    public String getDocumentType() {
-        return documentType;
-    }
-
-    public String getJoiningDate() {
-        return joiningDate;
-    }
-
-    public double getMonthlySalary() {
-        return monthlySalary;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setMobile1(String mobile1) {
-        this.mobile1 = mobile1;
-    }
-
-    public void setMobile2(String mobile2) {
-        this.mobile2 = mobile2;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDocumentPath(String documentPath) {
-        this.documentPath = documentPath;
-    }
-
-    public void setDocumentType(String documentType) {
-        this.documentType = documentType;
-    }
-
-    public void setJoiningDate(String joiningDate) {
-        this.joiningDate = joiningDate;
-    }
-
-    public void setMonthlySalary(double monthlySalary) {
-        this.monthlySalary = monthlySalary;
-    }
-
-
+    public int getIsactive() { return isactive; }
+    public void setIsactive(int isactive) { this.isactive = isactive; }
 }

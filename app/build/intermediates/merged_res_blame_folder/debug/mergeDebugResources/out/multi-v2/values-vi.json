@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.app-mergeDebugResources-83:/values-vi/values-vi.xml",
+            "outputFile": "com.example.app-mergeDebugResources-84:/values-vi/values-vi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\8f522a7cac51777816a011387f37fb92\\workspace\\transformed\\core-1.18.0\\res\\values-vi\\values-vi.xml",

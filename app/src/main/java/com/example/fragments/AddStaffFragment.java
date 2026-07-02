@@ -10,193 +10,191 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.databinding.FragmentAddStaffBinding;
-import com.example.models.Staff;
-import com.example.viewmodel.MilkViewModel;
+import com.example.models.LoginResponse;
+import com.example.network.ApiClient;
+import com.example.network.ApiService;
 
-import android.net.Uri;
-import android.widget.ArrayAdapter;
+import android.content.SharedPreferences;
+import android.util.Log;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddStaffFragment extends Fragment {
 
     private FragmentAddStaffBinding binding;
-    private MilkViewModel viewModel;
+    private String accountId;
+    private static final String TAG = "AddStaffFragment";
 
-    private String documentPath = "";
-    private String documentType = "";
-
-    private Uri selectedImageUri;
-
-    private final ActivityResultLauncher<PickVisualMediaRequest> imagePickerLauncher =
-            registerForActivityResult(
-                    new ActivityResultContracts.PickVisualMedia(),
-                    uri -> {
-
-                        if (uri != null) {
-
-                            String internalPath = saveImageToInternalStorage(uri);
-                            if (internalPath != null) {
-                                documentPath = Uri.fromFile(new File(internalPath)).toString();
-                                binding.imgDocument.setImageURI(Uri.fromFile(new File(internalPath)));
-                                selectedImageUri = Uri.fromFile(new File(internalPath));
-                            } else {
-                                Toast.makeText(requireContext(), "Failed to process image", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-    private String saveImageToInternalStorage(Uri uri) {
-        try {
-            InputStream inputStream = requireContext().getContentResolver().openInputStream(uri);
-            if (inputStream == null) return null;
-
-            File file = new File(requireContext().getFilesDir(), "staff_" + System.currentTimeMillis() + ".jpg");
-            FileOutputStream outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.close();
-            inputStream.close();
-            return file.getAbsolutePath();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public AddStaffFragment() {
-    }
+    public AddStaffFragment() {}
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddStaffBinding.inflate(inflater, container, false);
-
-        viewModel =
-                new ViewModelProvider(requireActivity())
-                        .get(MilkViewModel.class);
-
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState) {
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.btnSaveStaff.setOnClickListener(v -> saveStaff());
+        // Get account_id from SharedPreferences
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserSession", android.content.Context.MODE_PRIVATE);
+        accountId = prefs.getString("account_id", "");
 
-        String[] docs = {
-                "Aadhar Card",
-                "PAN Card"
-        };
+        Log.d(TAG, "Account ID from SharedPreferences: " + accountId);
 
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(
-                        requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        docs
-                );
+        binding.btnSaveStaff.setEnabled(true);
+        binding.btnSaveStaff.setText("Create Staff");
 
-        binding.spDocumentType.setAdapter(adapter);
+        if (accountId.isEmpty()) {
+            Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
+            binding.btnSaveStaff.setEnabled(false);
+        }
 
-        binding.btnUploadDocument.setOnClickListener(v -> {
-
-            imagePickerLauncher.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-
+        // Cancel button
+        binding.btnCancel.setOnClickListener(v -> {
+            if (getParentFragmentManager() != null) {
+                getParentFragmentManager().popBackStack();
+            }
         });
 
-        // Document upload code STEP 8 मध्ये येईल
+        // Save button
+        binding.btnSaveStaff.setOnClickListener(v -> saveStaff());
     }
 
     private void saveStaff() {
+        String name = binding.etStaffName.getText().toString().trim();
+        String mobile = binding.etMobile1.getText().toString().trim();
+        String password = binding.etPassword.getText().toString().trim();
+        String confirmPassword = binding.etConfirmPassword.getText().toString().trim();
 
-        String name =
-                binding.etStaffName.getText().toString().trim();
+        // Log input values
+        Log.d(TAG, "Name: " + name);
+        Log.d(TAG, "Mobile: " + mobile);
+        Log.d(TAG, "Password: " + password);
+        Log.d(TAG, "Confirm Password: " + confirmPassword);
+        Log.d(TAG, "Account ID: " + accountId);
 
-        String mobile1 =
-                binding.etMobile1.getText().toString().trim();
-
-        String mobile2 =
-                binding.etMobile2.getText().toString().trim();
-
-        String address =
-                binding.etAddress.getText().toString().trim();
-
+        // Validate Name
         if (TextUtils.isEmpty(name)) {
-
-            binding.etStaffName.setError("Enter Name");
+            binding.etStaffName.setError("Enter Staff Name");
+            binding.etStaffName.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(mobile1)) {
-
+        // Validate Mobile
+        if (TextUtils.isEmpty(mobile)) {
             binding.etMobile1.setError("Enter Mobile Number");
+            binding.etMobile1.requestFocus();
             return;
         }
 
-        documentType =
-                binding.spDocumentType
-                        .getSelectedItem()
-                        .toString();
+        if (mobile.length() < 10) {
+            binding.etMobile1.setError("Enter valid 10-digit mobile number");
+            binding.etMobile1.requestFocus();
+            return;
+        }
 
-        Staff staff = new Staff(
-                name,
-                mobile1,
-                mobile2,
-                address,
-                documentPath,
-                documentType
-        );
+        // Validate Password
+        if (TextUtils.isEmpty(password)) {
+            binding.etPassword.setError("Enter Password");
+            binding.etPassword.requestFocus();
+            return;
+        }
 
-        // STEP 7 नंतर repository मध्ये add करू
-        viewModel.insertStaff(staff);
-        Toast.makeText(
-                requireContext(),
-                "Staff Saved Successfully",
-                Toast.LENGTH_SHORT
-        ).show();
+        if (password.length() < 3) {
+            binding.etPassword.setError("Password must be at least 3 characters");
+            binding.etPassword.requestFocus();
+            return;
+        }
 
-        clearFields();
+        // Validate Confirm Password
+        if (TextUtils.isEmpty(confirmPassword)) {
+            binding.etConfirmPassword.setError("Confirm Password");
+            binding.etConfirmPassword.requestFocus();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            binding.etConfirmPassword.setError("Passwords do not match");
+            binding.etConfirmPassword.requestFocus();
+            return;
+        }
+
+        if (accountId.isEmpty()) {
+            Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Disable button and show progress
+        binding.btnSaveStaff.setEnabled(false);
+        binding.btnSaveStaff.setText("Creating...");
+
+        // Log the API call details
+        Log.d(TAG, "========== API CALL DETAILS ==========");
+        Log.d(TAG, "URL: https://smartmr.in/milkflowapp/createstaff.php");
+        Log.d(TAG, "Parameters:");
+        Log.d(TAG, "  account_id: " + accountId);
+        Log.d(TAG, "  name: " + name);
+        Log.d(TAG, "  mobile: " + mobile);
+        Log.d(TAG, "  password: " + password);
+        Log.d(TAG, "======================================");
+
+        // Call API
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<LoginResponse> call = apiService.createStaff(accountId, name, mobile, password);
+
+        call.enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                LoginResponse loginResponse = response.body();
+
+                if (response.isSuccessful() && response.body() != null) {
+
+                    if (loginResponse.getStatus().equals("true")) {
+                        Toast.makeText(requireContext(), loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        clearFields();
+                        if (getParentFragmentManager() != null) {
+                            getParentFragmentManager().popBackStack();
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                } else {
+
+                    String errorMsg = "Failed to create staff";
+                    try {
+                        if (response.errorBody() != null) {
+                            String errorBody = response.errorBody().string();
+                            Log.e(TAG, "Error Body: " + errorBody);
+                            errorMsg = "Server error: " + response.code();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error parsing error body: " + e.getMessage());
+                    }
+
+                    Toast.makeText(requireContext(), "❌ " + errorMsg, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void clearFields() {
-
         binding.etStaffName.setText("");
         binding.etMobile1.setText("");
-        binding.etMobile2.setText("");
+        binding.etPassword.setText("");
+        binding.etConfirmPassword.setText("");
         binding.etAddress.setText("");
-
-        // Spinner reset
-        binding.spDocumentType.setSelection(0);
-
-        // Image reset
-        binding.imgDocument.setImageDrawable(null);
-
-        // URI reset
-        selectedImageUri = null;
-
-        // Document path reset
-        documentPath = "";
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.example.fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,285 +13,174 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.R;
 import com.example.adapters.StaffAdapter;
 import com.example.databinding.FragmentStaffListBinding;
-import com.example.dialogs.EditStaffDialog;
-
-import com.example.dialogs.StaffDetailsDialog;
 import com.example.models.Staff;
-import com.example.utils.StaffPdfExporter;
-import com.example.viewmodel.MilkViewModel;
+import com.example.models.StaffListResponse;
+import com.example.network.ApiClient;
+import com.example.network.ApiService;
 
-import android.content.Intent;
-import android.net.Uri;
-import androidx.appcompat.widget.SearchView;
+import java.util.ArrayList;
+import java.util.List;
 
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
-import com.example.dialogs.AddStaffDialog;
-
-import java.io.File;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StaffListFragment extends Fragment {
 
     private FragmentStaffListBinding binding;
-    private MilkViewModel viewModel;
     private StaffAdapter adapter;
+    private List<Staff> staffList = new ArrayList<>();
+    private String accountId;
+    private static final String TAG = "StaffListFragment";
 
-    public StaffListFragment() {
-    }
+    public StaffListFragment() {}
 
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            ViewGroup container,
-            Bundle savedInstanceState) {
-
-        binding = FragmentStaffListBinding.inflate(
-                inflater,
-                container,
-                false);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentStaffListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(
-            @NonNull View view,
-            @Nullable Bundle savedInstanceState) {
-
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setHasOptionsMenu(true);
+        // Get account_id from SharedPreferences
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserSession", android.content.Context.MODE_PRIVATE);
+        accountId = prefs.getString("account_id", "");
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
+        if (accountId.isEmpty()) {
+            Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
+        }
 
+        // Setup adapter
         adapter = new StaffAdapter(new StaffAdapter.Listener() {
-
-            @Override
-            public void onEdit(Staff staff) {
-
-                EditStaffDialog dialog =
-                        new EditStaffDialog(
-                                staff,
-                                updatedStaff -> {
-
-                                    viewModel.updateStaff(updatedStaff);
-
-                                    Toast.makeText(
-                                            requireContext(),
-                                            "Updated Successfully",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                });
-
-                dialog.show(
-                        getParentFragmentManager(),
-                        "EDIT_STAFF");
-            }
-
             @Override
             public void onDelete(Staff staff) {
-
                 showDeleteDialog(staff);
             }
 
             @Override
             public void onCall(Staff staff) {
-
-                Intent intent = new Intent(
-                        Intent.ACTION_DIAL,
-                        Uri.parse("tel:" + staff.getMobile1()));
-
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + staff.getMobile()));
                 startActivity(intent);
             }
 
             @Override
             public void onDetails(Staff staff) {
-
-                new StaffDetailsDialog(staff)
-                        .show(
-                                getParentFragmentManager(),
-                                "STAFF_DETAILS");
-
-                Toast.makeText(
-                        requireContext(),
-                        staff.getName(),
-                        Toast.LENGTH_SHORT
-                ).show();
+                showStaffDetails(staff);
             }
+        }, this);
 
-
-        });
-
-
-        binding.recyclerStaff.setLayoutManager(
-                new LinearLayoutManager(requireContext()));
-
+        binding.recyclerStaff.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerStaff.setAdapter(adapter);
 
-        new ItemTouchHelper(
+        // Search
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-                new ItemTouchHelper.SimpleCallback(
-                        0,
-                        ItemTouchHelper.LEFT) {
-
-                    @Override
-                    public boolean onMove(
-                            RecyclerView recyclerView,
-                            RecyclerView.ViewHolder viewHolder,
-                            RecyclerView.ViewHolder target) {
-
-                        return false;
-                    }
-
-                    @Override
-                    public void onSwiped(
-                            RecyclerView.ViewHolder viewHolder,
-                            int direction) {
-
-                        int pos = viewHolder.getAdapterPosition();
-
-                        Staff staff = adapter.getItem(pos);
-
-                        viewModel.deleteStaff(staff);
-
-                    }
-                }
-
-        ).attachToRecyclerView(
-                binding.recyclerStaff);
-
-        binding.searchView.setOnQueryTextListener(
-
-                new SearchView.OnQueryTextListener() {
-
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-
-                        adapter.filter(newText);
-
-                        return true;
-                    }
-                });
-
-        observeStaff();
-
-        binding.btnSharePdf.setOnClickListener(v -> {
-            try {
-                File file = StaffPdfExporter.export(requireContext(), adapter.getCurrentList());
-                shareFile(file);
-            } catch (Exception e) {
-                Toast.makeText(requireContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
             }
         });
 
+        // ❌ REMOVED: btnSharePdf click listener
 
+        // Load staff from API
+        loadStaffList();
     }
 
-    private void observeStaff() {
+    private void loadStaffList() {
+        if (accountId.isEmpty()) {
+            Toast.makeText(requireContext(), "Account ID not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        viewModel.getAllStaff()
-                .observe(getViewLifecycleOwner(), staffList -> {
+        binding.progressBar.setVisibility(View.VISIBLE);
 
-                    adapter.setData(staffList);
-                    adapter.notifyDataSetChanged(); // 🔥 ADD THIS
-                });
-    }
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<StaffListResponse> call = apiService.listStaff(accountId);
 
-    private void shareFile(File file) {
-        Uri uri = FileProvider.getUriForFile(
-                requireContext(),
-                requireContext().getPackageName() + ".provider",
-                file);
+        call.enqueue(new Callback<StaffListResponse>() {
+            @Override
+            public void onResponse(Call<StaffListResponse> call, Response<StaffListResponse> response) {
+                binding.progressBar.setVisibility(View.GONE);
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("application/pdf");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(Intent.createChooser(intent, "Share PDF"));
+                if (response.isSuccessful() && response.body() != null) {
+                    StaffListResponse staffResponse = response.body();
+
+                    if (staffResponse.isStatus()) {
+                        List<Staff> staffData = staffResponse.getData();
+
+                        if (staffData != null && !staffData.isEmpty()) {
+                            staffList.clear();
+                            staffList.addAll(staffData);
+                            adapter.setData(staffList);
+                            Toast.makeText(requireContext(), "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(requireContext(), "No staff members found", Toast.LENGTH_SHORT).show();
+                            staffList.clear();
+                            adapter.setData(staffList);
+                        }
+                    } else {
+                        String msg = staffResponse.getMessage() != null ? staffResponse.getMessage() : "Error loading staff";
+                        Toast.makeText(requireContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load staff list", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StaffListResponse> call, Throwable t) {
+                binding.progressBar.setVisibility(View.GONE);
+                Log.e(TAG, "Network Error: " + t.getMessage());
+                Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void showDeleteDialog(Staff staff) {
-
         new AlertDialog.Builder(requireContext())
                 .setTitle("Delete Staff")
-                .setMessage(
-                        "Delete " +
-                                staff.getName() +
-                                " ?")
-                .setPositiveButton(
-                        "Delete",
-                        (dialog, which) -> {
+                .setMessage("Are you sure you want to delete " + staff.getName() + "?")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    // TODO: Implement delete via API
+                    Toast.makeText(requireContext(), "Delete: " + staff.getName(), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
 
-                            viewModel.deleteStaff(staff);
+    private void showStaffDetails(Staff staff) {
+        String details = "ID: " + staff.getId() + "\n" +
+                "Name: " + staff.getName() + "\n" +
+                "Mobile: " + staff.getMobile() + "\n" +
+                "User Type: " + staff.getUsertype() + "\n" +
+                "Status: " + (staff.getIsactive() == 1 ? "Active" : "Inactive");
 
-                            Toast.makeText(
-                                    requireContext(),
-                                    "Deleted",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-
-                        })
-                .setNegativeButton(
-                        "Cancel",
-                        null)
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Staff Details")
+                .setMessage(details)
+                .setPositiveButton("OK", null)
                 .show();
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu,
-                                    @NonNull MenuInflater inflater) {
-
-        inflater.inflate(R.menu.staff_toolbar_menu, menu);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (item.getItemId() == R.id.action_add_staff) {
-
-            new AddStaffDialog(
-
-                    staff -> viewModel.insertStaff(staff)
-
-            ).show(
-
-                    getParentFragmentManager(),
-
-                    "ADD_STAFF"
-
-            );
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onDestroyView() {
-
         super.onDestroyView();
-
         binding = null;
     }
 }

@@ -1,7 +1,7 @@
 -- Merging decision tree log ---
 provider#androidx.core.content.FileProvider
 INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:54:9-64:20
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:175:9-185:20
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:180:9-190:20
 	android:grantUriPermissions
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:58:13-47
 	android:authorities
@@ -13,10 +13,10 @@ INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:55:13-62
 manifest
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-189:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-189:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-189:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-189:12
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-194:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-194:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-194:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-194:12
 MERGED from [androidx.databinding:databinding-adapters:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\78664155b2f33762fa79af2220f5124a\workspace\transformed\databinding-adapters-9.1.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-ktx:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\c754c006ee5a3187cc48f7be59cef0af\workspace\transformed\databinding-ktx-9.1.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-runtime:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\7b089d7dce10a93d960ef25a01077b63\workspace\transformed\databinding-runtime-9.1.1\AndroidManifest.xml:2:1-7:12
@@ -137,6 +137,7 @@ MERGED from [com.google.firebase:firebase-encoders-json:18.0.0] C:\Users\Karan\.
 MERGED from [androidx.documentfile:documentfile:1.0.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\628c944f83c61a64d8ef61b41854f301\workspace\transformed\documentfile-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\bf2354c43591847a7d63714d684f57fd\workspace\transformed\print-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Karan\.gradle\caches\9.3.1\transforms\1f9975783729007e44fa0e47657aba80\workspace\transformed\grpc-android-1.62.2\AndroidManifest.xml:2:1-9:12
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\44f57336fea10361c8925b619a0e8cb4\workspace\transformed\circleimageview-3.1.0\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.volley:volley:1.2.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\5e655697686613d09906bfb225fb0d75\workspace\transformed\volley-1.2.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\1cb5ccfbbf49f83e61144fbb9e6b5f5e\workspace\transformed\protolite-well-known-types-18.0.1\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Karan\.gradle\caches\9.3.1\transforms\9be4a0f6ff3c50b55580b44a827f770f\workspace\transformed\core-common-2.0.3\AndroidManifest.xml:2:1-21:12
@@ -167,11 +168,11 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 data
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:11:13-44
 	android:host
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:160:23-39
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:165:23-39
 	android:scheme
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:158:23-44
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:163:23-44
 	android:pathPattern
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:161:23-53
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:166:23-53
 	android:mimeType
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:11:19-41
 intent#action:name:android.intent.action.SEND+data:mimeType:*/*
@@ -247,8 +248,8 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:31:22-74
 application
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:33:5-187:19
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:33:5-187:19
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:33:5-192:19
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:33:5-192:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\0a2bf96d8b02a0b5a4bbc5f38793c077\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\0a2bf96d8b02a0b5a4bbc5f38793c077\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Karan\.gradle\caches\9.3.1\transforms\bc49d61ed8725b6b31946a2f76cc51da\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -305,6 +306,8 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Karan\.g
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\288033e42388f0d6d11b5abab5998745\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\794a3301d01367faa16145ffc2bf1368\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\794a3301d01367faa16145ffc2bf1368\workspace\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\44f57336fea10361c8925b619a0e8cb4\workspace\transformed\circleimageview-3.1.0\AndroidManifest.xml:9:5-20
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\44f57336fea10361c8925b619a0e8cb4\workspace\transformed\circleimageview-3.1.0\AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Karan\.gradle\caches\9.3.1\transforms\9be4a0f6ff3c50b55580b44a827f770f\workspace\transformed\core-common-2.0.3\AndroidManifest.xml:11:5-19:19
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\Karan\.gradle\caches\9.3.1\transforms\9be4a0f6ff3c50b55580b44a827f770f\workspace\transformed\core-common-2.0.3\AndroidManifest.xml:11:5-19:19
 	android:extractNativeLibs
@@ -353,7 +356,7 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:69:13-53
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:68:13-65
-receiver#com.example.receivers.BootReceiver
+receiver#com.example.Receivers.BootReceiver
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:73:9-81:20
 	android:enabled
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:75:13-35
@@ -371,7 +374,7 @@ action#android.intent.action.QUICKBOOT_POWERON
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:79:17-82
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:79:25-79
-receiver#com.example.receivers.AutoBackupReceiver
+receiver#com.example.Receivers.AutoBackupReceiver
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:83:9-86:40
 	android:enabled
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:85:13-35
@@ -405,94 +408,102 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:101:13-36
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:100:13-53
+activity#com.example.activities.CreateAccountActivity
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:104:9-107:70
+	android:parentActivityName
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:107:13-67
+	android:theme
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:106:13-54
+	android:name
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:105:13-61
 activity#com.example.activities.MainActivity
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:104:9-108:52
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:109:9-113:52
 	android:screenOrientation
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:108:13-49
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:113:13-49
 	android:exported
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:106:13-37
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:111:13-37
 	android:theme
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:107:13-54
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:112:13-54
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:105:13-52
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:110:13-52
 activity#com.example.activities.CustomerCalendarActivity
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:110:9-115:52
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:115:9-120:52
 	android:screenOrientation
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:115:13-49
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:120:13-49
 	android:label
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:113:13-46
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:118:13-46
 	android:exported
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:112:13-37
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:117:13-37
 	android:theme
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:114:13-54
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:119:13-54
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:111:13-64
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:116:13-64
 activity#com.example.activities.CustomerRecapDetailsActivity
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:117:9-122:52
-	android:screenOrientation
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:122:13-49
-	android:label
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:120:13-50
-	android:exported
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:119:13-37
-	android:theme
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:121:13-54
-	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:118:13-68
-activity#com.example.activities.BackupCenterActivity
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:124:9-127:52
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:122:9-127:52
 	android:screenOrientation
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:127:13-49
+	android:label
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:125:13-50
 	android:exported
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:126:13-37
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:124:13-37
+	android:theme
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:126:13-54
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:125:13-60
-activity#com.example.activities.MyBackupsActivity
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:123:13-68
+activity#com.example.activities.BackupCenterActivity
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:129:9-132:52
 	android:screenOrientation
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:132:13-49
 	android:exported
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:131:13-37
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:130:13-57
-activity#com.example.activities.ReceivedBackupsActivity
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:130:13-60
+activity#com.example.activities.MyBackupsActivity
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:134:9-137:52
 	android:screenOrientation
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:137:13-49
 	android:exported
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:136:13-37
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:135:13-63
-activity#com.example.activities.WifiDirectActivity
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:135:13-57
+activity#com.example.activities.ReceivedBackupsActivity
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:139:9-142:52
 	android:screenOrientation
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:142:13-49
 	android:exported
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:141:13-37
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:140:13-58
-activity#com.example.activities.EncryptedFileViewerActivity
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:145:9-174:20
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:140:13-63
+activity#com.example.activities.WifiDirectActivity
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:144:9-147:52
 	android:screenOrientation
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:149:13-49
-	android:label
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:148:13-43
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:147:13-49
 	android:exported
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:147:13-36
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:146:13-37
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:146:13-67
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:145:13-58
+activity#com.example.activities.EncryptedFileViewerActivity
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:150:9-179:20
+	android:screenOrientation
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:154:13-49
+	android:label
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:153:13-43
+	android:exported
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:152:13-36
+	android:name
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:151:13-67
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:*+data:mimeType:application/octet-stream+data:pathPattern:.*\\..*\\..*\\.enc+data:pathPattern:.*\\..*\\.enc+data:pathPattern:.*\\.enc+data:scheme:content+data:scheme:file
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:152:13-164:29
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:157:13-169:29
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:154:17-76
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:159:17-76
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:154:27-73
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:159:27-73
 category#android.intent.category.BROWSABLE
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:155:17-78
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:160:17-78
 	android:name
-		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:155:27-75
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:160:27-75
 intent-filter#action:name:android.intent.action.SEND+category:name:android.intent.category.DEFAULT+data:mimeType:*/*+data:mimeType:application/octet-stream
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:167:13-173:29
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:172:13-178:29
 meta-data#android.support.FILE_PROVIDER_PATHS
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:60:13-62:54
 	android:resource
@@ -743,6 +754,8 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\Karan\.gradle\caches\9.3.1\tra
 MERGED from [androidx.print:print:1.0.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\bf2354c43591847a7d63714d684f57fd\workspace\transformed\print-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Karan\.gradle\caches\9.3.1\transforms\1f9975783729007e44fa0e47657aba80\workspace\transformed\grpc-android-1.62.2\AndroidManifest.xml:5:5-44
 MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\Karan\.gradle\caches\9.3.1\transforms\1f9975783729007e44fa0e47657aba80\workspace\transformed\grpc-android-1.62.2\AndroidManifest.xml:5:5-44
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\44f57336fea10361c8925b619a0e8cb4\workspace\transformed\circleimageview-3.1.0\AndroidManifest.xml:5:5-7:41
+MERGED from [de.hdodenhof:circleimageview:3.1.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\44f57336fea10361c8925b619a0e8cb4\workspace\transformed\circleimageview-3.1.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.android.volley:volley:1.2.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\5e655697686613d09906bfb225fb0d75\workspace\transformed\volley-1.2.1\AndroidManifest.xml:5:5-43
 MERGED from [com.android.volley:volley:1.2.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\5e655697686613d09906bfb225fb0d75\workspace\transformed\volley-1.2.1\AndroidManifest.xml:5:5-43
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\1cb5ccfbbf49f83e61144fbb9e6b5f5e\workspace\transformed\protolite-well-known-types-18.0.1\AndroidManifest.xml:5:5-44

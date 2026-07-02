@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- NEW: Subtitle (added by you) -->
+    <!-- Subtitle -->
     <TextView
         android:id="@+id/txtSubtitleApp"
         android:layout_width="wrap_content"
@@ -83,7 +83,8 @@
             android:layout_height="wrap_content"
             android:padding="20dp"
             android:orientation="vertical">
-            <!-- NEW: Login Title -->
+
+            <!-- Login Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +92,7 @@
                 android:textStyle="bold"
                 android:textSize="26dp"/>
 
-            <!-- NEW: Welcome Back -->
+            <!-- Welcome Back -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,6 +116,7 @@
                     android:focusable="false"
                     android:clickable="true"/>
             </com.google.android.material.textfield.TextInputLayout>
+
             <!-- MOBILE -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mobileLayout"
@@ -175,8 +177,31 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"/>
 
+            <!-- Create Account Link -->
+            <TextView
+                android:id="@+id/txtCreateAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account? Create One"
+                android:textColor="#006B43"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:padding="8dp"/>
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <!-- ✅ Fragment Container -->
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

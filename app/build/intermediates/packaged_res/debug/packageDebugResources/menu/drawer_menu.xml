@@ -9,10 +9,23 @@
             android:id="@+id/nav_add_customer"
             android:icon="@drawable/ic_add"
             android:title="Add Customer" />
+
+        <!-- Staff Management Sub-menu -->
         <item
-            android:id="@+id/nav_staff_list"
-            android:icon="@drawable/ic_person"
-            android:title="Staff List"/>
+            android:id="@+id/nav_staff_management"
+            android:title="Staff Management">
+            <menu>
+                <item
+                    android:id="@+id/nav_staff_list"
+                    android:icon="@drawable/ic_person"
+                    android:title="Staff List" />
+                <item
+                    android:id="@+id/nav_add_staff"
+                    android:icon="@drawable/ic_person"
+                    android:title="Add Staff" />
+            </menu>
+        </item>
+
         <item
             android:id="@+id/nav_monthly_recap"
             android:icon="@drawable/ic_calendar"
@@ -20,7 +33,7 @@
         <item
             android:id="@+id/nav_payment"
             android:icon="@drawable/ic_calendar"
-            android:title="Payments"/>
+            android:title="Payments" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
@@ -32,6 +45,6 @@
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
-            android:title="Logout"/>
+            android:title="Logout" />
     </group>
 </menu>

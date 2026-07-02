@@ -117,6 +117,13 @@ dependencies {
   implementation("com.google.code.gson:gson:2.10.1")
   implementation("com.itextpdf:itext7-core:7.2.5")
   implementation("com.github.chrisbanes:PhotoView:2.3.0")
+  implementation("com.squareup.retrofit2:retrofit:2.9.0")
+  implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+  implementation("com.google.code.gson:gson:2.10.1")
+  implementation("com.google.code.gson:gson:2.10.1")
+  implementation("de.hdodenhof:circleimageview:3.1.0")
+
+
 
 
 

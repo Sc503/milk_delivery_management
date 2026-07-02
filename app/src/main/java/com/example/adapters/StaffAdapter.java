@@ -1,46 +1,51 @@
 package com.example.adapters;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.R;
-import com.example.databinding.ItemStaffBinding;
-import com.example.dialogs.ImagePreviewDialog;
 import com.example.models.Staff;
-import com.example.utils.StaffUtils;
+import com.example.databinding.ItemStaffBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 
     public interface Listener {
-        void onEdit(Staff staff);
         void onDelete(Staff staff);
         void onCall(Staff staff);
         void onDetails(Staff staff);
-
-
     }
 
     private final Listener listener;
     private List<Staff> list = new ArrayList<>();
     private List<Staff> fullList = new ArrayList<>();
+    private Fragment parentFragment;
 
     public StaffAdapter(Listener listener) {
         this.listener = listener;
     }
 
+    public StaffAdapter(Listener listener, Fragment fragment) {
+        this.listener = listener;
+        this.parentFragment = fragment;
+    }
+
     public void setData(List<Staff> staffList) {
-        list = new ArrayList<>(staffList);
-        fullList = new ArrayList<>(staffList);
+        this.list = new ArrayList<>(staffList);
+        this.fullList = new ArrayList<>(staffList);
         notifyDataSetChanged();
     }
 
@@ -52,7 +57,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         } else {
             text = text.toLowerCase();
             for (Staff s : fullList) {
-                if (s.getName().toLowerCase().contains(text)) {
+                if (s.getName().toLowerCase().contains(text) ||
+                        s.getMobile().contains(text)) {
                     list.add(s);
                 }
             }
@@ -61,13 +67,9 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        ItemStaffBinding binding;
-
-        ViewHolder(ItemStaffBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+    @Override
+    public int getItemCount() {
+        return list.size();
     }
 
     @NonNull
@@ -84,62 +86,59 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Staff staff = list.get(position);
 
-        holder.binding.setStaff(staff);
-        holder.binding.setListener(listener);
+        // Set data
         holder.binding.txtNumber.setText(String.valueOf(position + 1));
-        holder.binding.executePendingBindings();
+        holder.binding.tvStaffName.setText(staff.getName());
+        holder.binding.tvStaffMobile.setText("📱 " + staff.getMobile());
+        holder.binding.tvStaffId.setText("ID: " + staff.getId());
 
-
-        // ✅ FIX 2: Image load properly using Glide with error handling
-        if (staff.getDocumentPath() != null && !staff.getDocumentPath().isEmpty()) {
-            try {
-                Uri uri = Uri.parse(staff.getDocumentPath());
-                Glide.with(holder.itemView.getContext())
-                        .load(uri)
-                        .circleCrop()
-                        .placeholder(R.drawable.ic_person)
-                        .error(R.drawable.ic_person)
-                        .into(holder.binding.imgStaff);
-            } catch (Exception e) {
-                // If URI parsing fails, show default image
-                holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
-                android.util.Log.e("StaffAdapter", "Error loading image: " + e.getMessage());
-            }
+        // Set status
+        if (staff.getIsactive() == 1) {
+            holder.binding.tvStaffStatus.setText("Active");
+            holder.binding.tvStaffStatus.setBackgroundResource(R.drawable.bg_status_active);
+            holder.binding.tvStaffStatus.setTextColor(0xFF10B981);
         } else {
-            // Set default image if no document path
-            holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
+            holder.binding.tvStaffStatus.setText("Inactive");
+            holder.binding.tvStaffStatus.setBackgroundResource(R.drawable.bg_status_inactive);
+            holder.binding.tvStaffStatus.setTextColor(0xFFEF4444);
         }
 
-        // Image click listener for preview
-        holder.binding.imgStaff.setOnClickListener(v -> {
-            if (staff.getDocumentPath() != null && !staff.getDocumentPath().isEmpty()) {
-                try {
-                    new ImagePreviewDialog(staff.getDocumentPath())
-                            .show(((FragmentActivity) v.getContext())
-                                    .getSupportFragmentManager(), "doc");
-                } catch (Exception e) {
-                    android.util.Log.e("StaffAdapter", "Error showing image preview: " + e.getMessage());
-                }
+        // Profile image - use first letter as avatar
+        String firstLetter = staff.getName().substring(0, 1).toUpperCase();
+        // You can use a library like Glide or set a placeholder
+        holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
+
+        // ✅ Call button
+        holder.binding.btnCall.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + staff.getMobile()));
+            if (parentFragment != null) {
+                parentFragment.startActivity(intent);
+            } else {
+                v.getContext().startActivity(intent);
             }
         });
 
-        // Long click listener for details
+        // ✅ Delete button
+        holder.binding.btnDelete.setOnClickListener(v -> listener.onDelete(staff));
+
+        // ✅ Click for details
+        holder.itemView.setOnClickListener(v -> {
+            listener.onDetails(staff);
+        });
+
+        // ✅ Long press for details too
         holder.itemView.setOnLongClickListener(v -> {
             listener.onDetails(staff);
             return true;
         });
     }
 
-    public Staff getItem(int position) {
-        return list.get(position);
-    }
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ItemStaffBinding binding;
 
-    public List<Staff> getCurrentList() {
-        return list;
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
+        ViewHolder(ItemStaffBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
     }
 }

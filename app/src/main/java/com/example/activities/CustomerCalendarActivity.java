@@ -74,12 +74,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         currentMonth = getIntent().getIntExtra("SELECTED_MONTH", -1);
         currentYear = getIntent().getIntExtra("SELECTED_YEAR", -1);
 
-        readOnly =
-                getIntent()
-                        .getBooleanExtra(
-                                "READ_ONLY",
-                                false
-                        );
+        readOnly = getIntent().getBooleanExtra("READ_ONLY", false);
 
 
         Calendar cal = Calendar.getInstance();
@@ -134,7 +129,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
                 binding.customerProfileName.setText(customer.getName());
                 binding.customerProfileMobile.setText(customer.getMobile());
                 binding.customerProfileAddress.setText(customer.getAddress());
-                if(currentUserType.equals("Customer")){
+                if (currentUserType.equals("Customer")) {
 
                     binding.customerProfileMobile.setVisibility(View.GONE);
 
@@ -245,7 +240,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
 
     private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day) {
 
-        if(readOnly){
+        if (readOnly) {
 
             Toast.makeText(
                     this,
@@ -256,7 +251,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             return;
         }
 
-        if(currentUserType.equals("Customer")){
+        if (currentUserType.equals("Customer")) {
 
             Toast.makeText(
                     this,
@@ -268,20 +263,20 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         }
         if ("Delivered".equalsIgnoreCase(day.status)) {
             // Switch to Pending
-            viewModel.markDeliveryPending(customerId, day.dateString, () -> 
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
-                    renderCalendarDaysAndStats();
-                })
+            viewModel.markDeliveryPending(customerId, day.dateString, () ->
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
+                        renderCalendarDaysAndStats();
+                    })
             );
         } else {
             // Switch to Delivered
             String nowTime = DateUtils.getCurrentTimeString();
-            viewModel.deliverCustomer(customerId, day.dateString, nowTime, () -> 
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Marked as Delivered!", Toast.LENGTH_SHORT).show();
-                    renderCalendarDaysAndStats();
-                })
+            viewModel.deliverCustomer(customerId, day.dateString, nowTime, () ->
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Marked as Delivered!", Toast.LENGTH_SHORT).show();
+                        renderCalendarDaysAndStats();
+                    })
             );
         }
     }

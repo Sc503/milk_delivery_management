@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.app-mergeDebugResources-83:/values-pt-rBR/values-pt-rBR.xml",
+            "outputFile": "com.example.app-mergeDebugResources-84:/values-pt-rBR/values-pt-rBR.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Karan\\.gradle\\caches\\9.3.1\\transforms\\9ed964d1d8ad94c7796e19a38fc159ed\\workspace\\transformed\\foundation-release\\res\\values-pt-rBR\\values-pt-rBR.xml",

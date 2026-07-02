@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="document_types">
+        <item>Aadhar Card</item>
+        <item>Voter ID</item>
+        <item>Driving License</item>
+        <item>PAN Card</item>
+        <item>Other</item>
+    </string-array>
     <color name="background">#FAFAFA</color>
     <color name="black">#000000</color>
     <color name="color_outline">#BDBDBD</color>

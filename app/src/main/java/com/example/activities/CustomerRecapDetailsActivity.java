@@ -1,7 +1,6 @@
 package com.example.activities;
 
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -136,6 +135,17 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         calculateDetailedHistoryAndStats();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupRecyclerView();
+        loadCustomerProfile();
+        updateMonthYearHeader();
+        calculateDetailedHistoryAndStats();
+
+    }
+
     private void setupRecyclerView() {
         binding.rvDeliveryHistory.setLayoutManager(new LinearLayoutManager(this));
         historyAdapter = new DeliveryHistoryAdapter();
@@ -219,7 +229,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
             // Step 3: Publish variables back to UI
             runOnUiThread(() -> {
                 historyAdapter.setData(finalHistory);
-                
+
                 binding.txtDetailStatTotal.setText(String.valueOf(daysInMonth));
                 binding.txtDetailStatDelivered.setText(String.valueOf(finalDelivered));
                 binding.txtDetailStatPending.setText(String.valueOf(finalPending));

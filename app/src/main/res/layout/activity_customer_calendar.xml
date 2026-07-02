@@ -140,7 +140,8 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_add"
+                            android:src="@drawable/ic_back"
+                            android:rotation="180"
                             app:tint="@color/primary"
                             android:contentDescription="Next Month" />
 

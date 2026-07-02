@@ -1,299 +1,336 @@
 package com.example.activities;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.R;
-import com.example.database.AppDatabase;
 import com.example.databinding.ActivityLoginBinding;
-import com.example.models.User;
-import com.example.viewmodel.LoginViewModel;
-import android.app.ProgressDialog;
+import com.example.models.LoginResponse;
+import com.example.models.MyData;
+import com.example.network.ApiClient;
+import com.example.network.ApiService;
 
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.content.SharedPreferences;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class  LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
-    private LoginViewModel viewModel;
+    private static final String TAG = "LoginActivity";
+    private String selectedUserType = "admin";
 
-    private ProgressDialog progressDialog;
-
+    // SharedPreferences keys
+    private static final String PREF_NAME = "UserSession";
+    private static final String KEY_MOBILE = "mobile";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_USER_TYPE = "userType";
+    private static final String KEY_REMEMBER = "rememberMe";
+    private static final String KEY_ACCOUNT_ID = "account_id";
+    private static final String KEY_NAME = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        viewModel = new ViewModelProvider(this)
-                .get(LoginViewModel.class);
-
-        progressDialog = new ProgressDialog(this);
-
-
-
-        progressDialog.setTitle("Please Wait");
-
-        progressDialog.setMessage("Logging In...");
-
-        progressDialog.setCancelable(false);
-
-        new Thread(() -> {
-
-            AppDatabase db = AppDatabase.getInstance(this);
-
-            db.userDao().insert(new User("Owner","9370734093","admin123"));
-            db.userDao().insert(new User("Staff","8888888888","staff123"));
-            db.userDao().insert(new User("Customer","9999999999","cust123"));
-
-        }).start();
-        String[] userTypes = {
-                "Owner",
-                "Staff",
-                "Customer"
-        };
-
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(
-                        this,
-                        android.R.layout.simple_dropdown_item_1line,
-                        userTypes
-                );
-
-        binding.edtUserType.setAdapter(adapter);
-
-        // Initially disable
-        binding.edtMobile.setEnabled(false);
-        binding.edtPassword.setEnabled(false);
-
-        binding.mobileLayout.setError("Select User Type First");
-        binding.passwordLayout.setError("Select User Type First");
-
-        // Enable after selecting user type
-        binding.edtUserType.setOnItemClickListener((parent, view, position, id) -> {
-
-            binding.userTypeLayout.setError(null);
-            binding.mobileLayout.setError(null);
-            binding.passwordLayout.setError(null);
-
-            binding.edtMobile.setEnabled(true);
-            binding.edtPassword.setEnabled(true);
-
-        });
-
-        // Login Button
-        binding.btnLogin.setOnClickListener(v -> {
-
-            String type = binding.edtUserType.getText().toString().trim();
-            String mobile = binding.edtMobile.getText().toString().trim();
-            String password = binding.edtPassword.getText().toString().trim();
-
-
-
-
-            if (type.isEmpty()) {
-                binding.userTypeLayout.setError("Select User Type");
-                return;
-            }
-
-            if (mobile.length() != 10) {
-                binding.mobileLayout.setError("Enter Valid Mobile Number");
-                return;
-            }
-
-            if (password.length() < 4) {
-                binding.passwordLayout.setError("Minimum 4 characters");
-                return;
-            }
-
-            progressDialog.show();
-
-            new Thread(() -> {
-
-                User loginUser =
-                        viewModel.login(
-                                type,
-                                mobile,
-                                password
-                        );
-
-                runOnUiThread(() -> {
-
-                    progressDialog.dismiss();
-
-                    if (loginUser == null) {
-
-                        binding.passwordLayout.setError(
-                                "Invalid User"
-                        );
-
-                        return;
-                    }
-
-                    openMain(loginUser);
-
-                });
-
-            }).start();
-
-        });
-
-        binding.txtForgotPassword.setOnClickListener(v -> {
-
-            String mobile =
-                    binding.edtMobile.getText()
-                            .toString()
-                            .trim();
-
-            String type =
-                    binding.edtUserType.getText()
-                            .toString()
-                            .trim();
-
-            if (type.isEmpty()) {
-
-                Toast.makeText(
-                        this,
-                        "Select User Type First",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-                return;
-            }
-
-            if (mobile.length() != 10) {
-
-                Toast.makeText(
-                        this,
-                        "Enter Mobile Number First",
-                        Toast.LENGTH_SHORT
-                ).show();
-
-                return;
-            }
-
-            new Thread(() -> {
-
-                User user =
-                        viewModel.getUser(
-                                type,
-                                mobile
-                        );
-
-                runOnUiThread(() -> {
-
-                    if (user == null) {
-
-                        Toast.makeText(
-                                this,
-                                "User not found",
-                                Toast.LENGTH_SHORT
-                        ).show();
-
-                    } else {
-
-                        new androidx.appcompat.app.AlertDialog.Builder(this)
-                                .setTitle("Password")
-                                .setMessage("Your password is : " + user.getPassword())
-                                .setPositiveButton("OK", null)
-                                .show();
-
-                    }
-
-                });
-
-            }).start();
-
-        });
-
-    }
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        boolean isLoggedIn =
-                getSharedPreferences(
-                        "UserSession",
-                        MODE_PRIVATE)
-                        .getBoolean(
-                                "isLoggedIn",
-                                false);
-
-        boolean rememberMe =
-                getSharedPreferences(
-                        "UserSession",
-                        MODE_PRIVATE)
-                        .getBoolean(
-                                "rememberMe",
-                                false);
-
-        // SAFE AUTO LOGIN LOGIC
-        if (isLoggedIn || rememberMe) {
-
-            startActivity(
-                    new Intent(
-                            LoginActivity.this,
-                            MainActivity.class));
-
+        // ✅ CHECK IF USER IS ALREADY LOGGED IN
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
+        String userType = prefs.getString(KEY_USER_TYPE, null);
+        String mobile = prefs.getString(KEY_MOBILE, null);
+
+        // ✅ If Remember Me is checked and user is logged in, skip login screen
+        if (rememberMe && userType != null && mobile != null) {
+            // User is already logged in, go directly to MainActivity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
+            return;
+        }
+
+        setupUserTypeDropdown();
+
+        // Load saved credentials (auto-fill fields)
+        loadSavedCredentials();
+
+        // Login button
+        binding.btnLogin.setOnClickListener(v -> performLogin());
+
+        // Create Account link
+        binding.txtCreateAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+            startActivity(intent);
+        });
+
+        // Forgot Password
+        binding.txtForgotPassword.setOnClickListener(v -> {
+            Toast.makeText(LoginActivity.this, "Forgot Password feature coming soon", Toast.LENGTH_SHORT).show();
+        });
+
+        // Remember Me checkbox - Save/Clear when toggled
+//        binding.checkRemember.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                // Save credentials when checked
+//                saveCredentials();
+//            } else {
+//                // Clear saved credentials when unchecked
+//                clearSavedCredentials();
+//            }
+//        });
+    }
+
+    private void loadSavedCredentials() {
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+
+        String savedMobile = prefs.getString(KEY_MOBILE, "");
+        String savedPassword = prefs.getString(KEY_PASSWORD, "");
+        boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
+        String savedUserType = prefs.getString(KEY_USER_TYPE, "admin");
+
+        // Set Remember Me checkbox
+        binding.checkRemember.setChecked(rememberMe);
+
+        // If Remember Me is checked, fill the fields
+        if (rememberMe) {
+            binding.edtMobile.setText(savedMobile);
+            binding.edtPassword.setText(savedPassword);
+
+            // Set user type dropdown
+            if (savedUserType.equals("admin") || savedUserType.equals("Owner")) {
+                binding.edtUserType.setText("Admin", false);
+                selectedUserType = "admin";
+            } else {
+                binding.edtUserType.setText("Staff", false);
+                selectedUserType = "staff";
+            }
         }
     }
-    private void openMain(User user) {
 
-        SharedPreferences.Editor editor =
-                getSharedPreferences(
-                        "UserSession",
-                        MODE_PRIVATE)
-                        .edit();
+    private void saveCredentials() {
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(
-                "userType",
-                user.getUserType());
+        String mobile = binding.edtMobile.getText().toString().trim();
+        String password = binding.edtPassword.getText().toString().trim();
 
-        editor.putString(
-                "mobile",
-                user.getMobile());
-
-        editor.putBoolean(
-                "isLoggedIn",
-                true);
-
-        if (binding.checkRemember.isChecked()) {
-
-            editor.putBoolean(
-                    "rememberMe",
-                    true);
-
-        } else {
-
-            editor.putBoolean(
-                    "rememberMe",
-                    false);
+        if (!TextUtils.isEmpty(mobile) && !TextUtils.isEmpty(password)) {
+            editor.putString(KEY_MOBILE, mobile);
+            editor.putString(KEY_PASSWORD, password);
+            editor.putString(KEY_USER_TYPE, selectedUserType);
+            editor.putBoolean(KEY_REMEMBER, true);
+            editor.apply();
+            Log.d(TAG, "Credentials saved");
         }
+    }
 
+    private void clearSavedCredentials() {
+        SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.remove(KEY_MOBILE);
+        editor.remove(KEY_PASSWORD);
+        editor.remove(KEY_USER_TYPE);
+        editor.remove(KEY_ACCOUNT_ID);
+        editor.putBoolean(KEY_REMEMBER, false);
         editor.apply();
-
-        startActivity(
-                new Intent(
-                        LoginActivity.this,
-                        MainActivity.class));
-
-        finish();
+        Log.d(TAG, "Credentials cleared");
     }
 
+    private void setupUserTypeDropdown() {
+        String[] userTypes = {"Admin", "Staff"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                userTypes
+        );
+        AutoCompleteTextView autoCompleteTextView = binding.edtUserType;
+        autoCompleteTextView.setAdapter(adapter);
+        autoCompleteTextView.setText("Admin", false);
+
+        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+            selectedUserType = userTypes[position].toLowerCase();
+            Log.d(TAG, "Selected User Type: " + selectedUserType);
+
+            // Update saved user type if Remember Me is checked
+            if (binding.checkRemember.isChecked()) {
+                saveCredentials();
+            }
+        });
+    }
+
+    private void performLogin() {
+        String mobile = binding.edtMobile.getText().toString().trim();
+        String password = binding.edtPassword.getText().toString().trim();
+
+        // Validate
+        if (TextUtils.isEmpty(mobile)) {
+            binding.edtMobile.setError("Enter Mobile Number");
+            binding.edtMobile.requestFocus();
+            return;
+        }
+
+        if (mobile.length() < 10) {
+            binding.edtMobile.setError("Enter valid 10-digit mobile number");
+            binding.edtMobile.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            binding.edtPassword.setError("Enter Password");
+            binding.edtPassword.requestFocus();
+            return;
+        }
+
+        // Save credentials if Remember Me is checked
+        if (binding.checkRemember.isChecked()) {
+            saveCredentials();
+        } else {
+            clearSavedCredentials();
+        }
+
+        binding.btnLogin.setEnabled(false);
+        binding.btnLogin.setText("Logging in...");
+
+        Log.d(TAG, "User Type: " + selectedUserType);
+        Log.d(TAG, "Mobile: " + mobile);
+
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+
+        if (selectedUserType.equals("admin")) {
+            Call<LoginResponse> call = apiService.loginAdmin(mobile, password);
+            call.enqueue(new LoginCallback("admin"));
+        } else {
+            showAccountIdDialog(mobile, password);
+        }
+    }
+
+    private void showAccountIdDialog(String mobile, String password) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Account ID");
+
+        final EditText input = new EditText(this);
+        input.setHint("Account ID");
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("Login", (dialog, which) -> {
+            String accountId = input.getText().toString().trim();
+            if (TextUtils.isEmpty(accountId)) {
+                Toast.makeText(this, "Please enter Account ID", Toast.LENGTH_SHORT).show();
+                binding.btnLogin.setEnabled(true);
+                binding.btnLogin.setText("LOGIN");
+                return;
+            }
+
+            // Save account ID for staff if Remember Me is checked
+            if (binding.checkRemember.isChecked()) {
+                SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(KEY_ACCOUNT_ID, accountId);
+                editor.putString(KEY_MOBILE, mobile);
+                editor.putString(KEY_PASSWORD, password);
+                editor.putString(KEY_USER_TYPE, "staff");
+                editor.putBoolean(KEY_REMEMBER, true);
+                editor.apply();
+            }
+
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            Call<LoginResponse> call = apiService.loginStaff(mobile, password, accountId);
+            call.enqueue(new LoginCallback("staff"));
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            binding.btnLogin.setEnabled(true);
+            binding.btnLogin.setText("LOGIN");
+            dialog.cancel();
+        });
+
+        builder.show();
+    }
+
+    private class LoginCallback implements Callback<LoginResponse> {
+        private String userType;
+
+        LoginCallback(String userType) {
+            this.userType = userType;
+        }
+
+        @Override
+        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            binding.btnLogin.setEnabled(true);
+            binding.btnLogin.setText("LOGIN");
+
+                LoginResponse loginResponse = response.body();
+
+                if (loginResponse.getData() != null) {
+                    MyData data = loginResponse.getData();
+                    Toast.makeText(LoginActivity.this, "11", Toast.LENGTH_SHORT).show();
+
+                    // Save user data
+                    SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+
+                    if (data != null) {
+                        editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getId()));
+                        editor.putString(KEY_NAME, data.getBusinessName());
+                        editor.putString(KEY_MOBILE, data.getMobile());
+//                        editor.putString("business_name", data.ge());
+//                        editor.putString("city", data.getCity());
+//                        editor.putString("address", data.getAddress());
+                    } else {
+                        Toast.makeText(LoginActivity.this, "22", Toast.LENGTH_SHORT).show();
+                    }
 
 
+                    // Save userType as "Owner" or "Staff" (matches MainActivity)
+                    if (userType.equals("admin")) {
+                        editor.putString(KEY_USER_TYPE, "Owner");
+                    } else {
+                        editor.putString(KEY_USER_TYPE, "Staff");
+                    }
 
+                    // Keep Remember Me preference
+                    if (binding.checkRemember.isChecked()) {
+                        editor.putBoolean(KEY_REMEMBER, true);
+                    }
+
+                    editor.apply();
+
+//                    Toast.makeText(LoginActivity.this, "✅ Login Successful!", Toast.LENGTH_LONG).show();
+
+                    // Go to MainActivity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                } else {
+
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "33", Toast.LENGTH_SHORT).show();
+                }
+
+        }
+
+        @Override
+        public void onFailure(Call<LoginResponse> call, Throwable t) {
+            binding.btnLogin.setEnabled(true);
+            binding.btnLogin.setText("LOGIN");
+            Log.e(TAG, "Network Error: " + t.getMessage());
+            Toast.makeText(LoginActivity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
 }

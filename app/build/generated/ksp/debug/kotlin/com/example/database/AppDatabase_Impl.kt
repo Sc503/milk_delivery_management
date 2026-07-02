@@ -64,18 +64,18 @@ public class AppDatabase_Impl : AppDatabase() {
   }
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(8,
-        "9d70138909e782d333c67260c2772089", "072210f8cc09d0fa1c9654ee608417cc") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(9,
+        "a8ff789589a56cd69616715bcd4285b0", "59814a9dcb9742e4d9461dc0e1422d0c") {
       public override fun createAllTables(connection: SQLiteConnection) {
         connection.execSQL("CREATE TABLE IF NOT EXISTS `customers` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile` TEXT, `address` TEXT, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `createdDate` TEXT, `milkQuantity` REAL NOT NULL, `milkRate` REAL NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `deliveries` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `deliveryDate` TEXT, `deliveredTime` TEXT, `status` TEXT, FOREIGN KEY(`customerId`) REFERENCES `customers`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )")
         connection.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_deliveries_customerId_deliveryDate` ON `deliveries` (`customerId`, `deliveryDate`)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `payments` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `customerId` INTEGER NOT NULL, `month` TEXT, `totalAmount` REAL NOT NULL, `status` TEXT)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `users` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userType` TEXT, `mobile` TEXT, `password` TEXT)")
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `staff` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `mobile1` TEXT, `mobile2` TEXT, `address` TEXT, `documentPath` TEXT, `documentType` TEXT, `joiningDate` TEXT, `monthlySalary` REAL NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `staff` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `account_id` INTEGER NOT NULL, `name` TEXT, `usertype` TEXT, `mobile` TEXT, `mobile2` TEXT, `address` TEXT, `documentPath` TEXT, `documentType` TEXT, `isactive` INTEGER NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS `attendance` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `staffId` INTEGER NOT NULL, `date` TEXT, `present` INTEGER NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9d70138909e782d333c67260c2772089')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a8ff789589a56cd69616715bcd4285b0')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -217,9 +217,13 @@ public class AppDatabase_Impl : AppDatabase() {
         val _columnsStaff: MutableMap<String, TableInfo.Column> = mutableMapOf()
         _columnsStaff.put("id", TableInfo.Column("id", "INTEGER", true, 1, null,
             TableInfo.CREATED_FROM_ENTITY))
+        _columnsStaff.put("account_id", TableInfo.Column("account_id", "INTEGER", true, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
         _columnsStaff.put("name", TableInfo.Column("name", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
-        _columnsStaff.put("mobile1", TableInfo.Column("mobile1", "TEXT", false, 0, null,
+        _columnsStaff.put("usertype", TableInfo.Column("usertype", "TEXT", false, 0, null,
+            TableInfo.CREATED_FROM_ENTITY))
+        _columnsStaff.put("mobile", TableInfo.Column("mobile", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
         _columnsStaff.put("mobile2", TableInfo.Column("mobile2", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
@@ -229,9 +233,7 @@ public class AppDatabase_Impl : AppDatabase() {
             TableInfo.CREATED_FROM_ENTITY))
         _columnsStaff.put("documentType", TableInfo.Column("documentType", "TEXT", false, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
-        _columnsStaff.put("joiningDate", TableInfo.Column("joiningDate", "TEXT", false, 0, null,
-            TableInfo.CREATED_FROM_ENTITY))
-        _columnsStaff.put("monthlySalary", TableInfo.Column("monthlySalary", "REAL", true, 0, null,
+        _columnsStaff.put("isactive", TableInfo.Column("isactive", "INTEGER", true, 0, null,
             TableInfo.CREATED_FROM_ENTITY))
         val _foreignKeysStaff: MutableSet<TableInfo.ForeignKey> = mutableSetOf()
         val _indicesStaff: MutableSet<TableInfo.Index> = mutableSetOf()
