@@ -167,11 +167,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "MONTHLY_RECAP_FRAGMENT";
             toolbarTitle = "Monthly Recap";
             binding.navView.setCheckedItem(R.id.nav_monthly_recap);
-        } else if (itemId == R.id.nav_payment) {
+        } else if (itemId == R.id.nav_payments) {
             fragment = new PaymentFragment();
             tag = "PAYMENT_FRAGMENT";
             toolbarTitle = "Payments";
-            binding.navView.setCheckedItem(R.id.nav_payment);
+            binding.navView.setCheckedItem(R.id.nav_payments);
         } else if (itemId == R.id.nav_settings) {
             fragment = new SettingsFragment();
             tag = "SETTINGS_FRAGMENT";
