@@ -28,6 +28,8 @@ int color today_blue 0x0
 int color white 0x0
 int drawable bg_dot 0x0
 int drawable bg_number_badge 0x0
+int drawable bg_paid 0x0
+int drawable bg_pending 0x0
 int drawable bg_status_active 0x0
 int drawable bg_status_inactive 0x0
 int drawable card_icon_background_blue 0x0
@@ -50,6 +52,7 @@ int drawable ic_address 0x0
 int drawable ic_back 0x0
 int drawable ic_calendar 0x0
 int drawable ic_call 0x0
+int drawable ic_camera 0x0
 int drawable ic_close_cancel 0x0
 int drawable ic_delete 0x0
 int drawable ic_disconnect 0x0
@@ -65,8 +68,8 @@ int drawable ic_logout 0x0
 int drawable ic_map 0x0
 int drawable ic_menu 0x0
 int drawable ic_milk 0x0
-int drawable ic_payment 0x0
 int drawable ic_person 0x0
+int drawable ic_person_add 0x0
 int drawable ic_phone 0x0
 int drawable ic_rightarrow 0x0
 int drawable ic_scan 0x0
@@ -78,6 +81,7 @@ int drawable icon_background 0x0
 int drawable info_background 0x0
 int drawable login_background 0x0
 int drawable login_button_bg 0x0
+int drawable payments 0x0
 int drawable spinner_border 0x0
 int drawable splash_bg 0x0
 int drawable status_background 0x0
@@ -105,6 +109,7 @@ int id btnMyBackups 0x0
 int id btnReceivedBackups 0x0
 int id btnSaveStaff 0x0
 int id btnScan 0x0
+int id btnScreenshot 0x0
 int id btnSelectMonth 0x0
 int id btnSendFile 0x0
 int id btnShare 0x0
@@ -210,6 +215,7 @@ int id nav_home 0x0
 int id nav_logout 0x0
 int id nav_monthly_recap 0x0
 int id nav_payment 0x0
+int id nav_payments 0x0
 int id nav_settings 0x0
 int id nav_staff_list 0x0
 int id nav_staff_management 0x0
@@ -228,6 +234,7 @@ int id recyclerBackups 0x0
 int id recyclerDevices 0x0
 int id recyclerReceivedBackups 0x0
 int id recyclerStaff 0x0
+int id reportContainer 0x0
 int id rvPaymentHistory 0x0
 int id rv_calendar_grid 0x0
 int id rv_delivery_history 0x0
@@ -246,6 +253,7 @@ int id statusIndicator 0x0
 int id switchAutoBackup 0x0
 int id toolbar 0x0
 int id tvContent 0x0
+int id tvDeliveredDays 0x0
 int id tvDeviceName 0x0
 int id tvDeviceStatus 0x0
 int id tvFileDate 0x0
@@ -253,10 +261,14 @@ int id tvFileInfo 0x0
 int id tvFileName 0x0
 int id tvFileSize 0x0
 int id tvLoginLink 0x0
+int id tvPaymentStatus 0x0
+int id tvQuantity 0x0
+int id tvRate 0x0
 int id tvStaffId 0x0
 int id tvStaffMobile 0x0
 int id tvStaffName 0x0
 int id tvStaffStatus 0x0
+int id tvTotalAmount 0x0
 int id txtAddress 0x0
 int id txtAmount 0x0
 int id txtCollection 0x0

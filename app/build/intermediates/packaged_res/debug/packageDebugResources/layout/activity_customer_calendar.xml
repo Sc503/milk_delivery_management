@@ -19,6 +19,7 @@
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/reportContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -369,6 +370,195 @@
                     </LinearLayout>
 
                 </GridLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <!-- Monthly Payment Slip -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monthly Payment Slip"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/primary"
+                android:paddingBottom="8dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Rate -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Rate (Per Litre)"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="₹100"/>
+                    </LinearLayout>
+
+                    <!-- Quantity -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Quantity"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvQuantity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="23 L"/>
+                    </LinearLayout>
+
+                    <!-- Delivered Days -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Delivered Days"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvDeliveredDays"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="23"/>
+                    </LinearLayout>
+
+                    <!-- Total Amount -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Total Amount"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvTotalAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="₹2300"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <!-- Payment Status -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Payment Status"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/tvPaymentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PAID"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:paddingStart="16dp"
+                            android:paddingEnd="16dp"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:background="@drawable/bg_paid"/>
+                    </LinearLayout>
+
+                    <!-- Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnDownloadPdf"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:text="DOWNLOAD PDF"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="@color/primary"
+                            app:cornerRadius="12dp"/>
+
+                        <Space
+                            android:layout_width="8dp"
+                            android:layout_height="wrap_content"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSharePdf"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:text="SHARE PDF"
+                            android:textAllCaps="true"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:backgroundTint="@color/primary"
+                            app:cornerRadius="12dp"/>
+                    </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnScreenshot"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="16dp"
+                        android:text="SCREENSHOT"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#6750A4"
+                        app:cornerRadius="12dp"
+                        app:icon="@drawable/ic_camera"
+                        app:iconGravity="textStart"
+                        app:iconPadding="8dp"/>
+
+                </LinearLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

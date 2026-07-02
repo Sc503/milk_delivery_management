@@ -10,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.R;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -24,10 +26,19 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   private final LinearLayout rootView;
 
   @NonNull
+  public final MaterialButton btnDownloadPdf;
+
+  @NonNull
   public final ImageButton btnNextMonth;
 
   @NonNull
   public final ImageButton btnPrevMonth;
+
+  @NonNull
+  public final MaterialButton btnScreenshot;
+
+  @NonNull
+  public final MaterialButton btnSharePdf;
 
   @NonNull
   public final MaterialToolbar calendarToolbar;
@@ -45,6 +56,9 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   public final TextView customerProfileName;
 
   @NonNull
+  public final NestedScrollView reportContainer;
+
+  @NonNull
   public final RecyclerView rvCalendarGrid;
 
   @NonNull
@@ -60,29 +74,57 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   public final TextView statTotalDays;
 
   @NonNull
+  public final TextView tvDeliveredDays;
+
+  @NonNull
+  public final TextView tvPaymentStatus;
+
+  @NonNull
+  public final TextView tvQuantity;
+
+  @NonNull
+  public final TextView tvRate;
+
+  @NonNull
+  public final TextView tvTotalAmount;
+
+  @NonNull
   public final TextView txtCalendarMonthYear;
 
   private ActivityCustomerCalendarBinding(@NonNull LinearLayout rootView,
-      @NonNull ImageButton btnNextMonth, @NonNull ImageButton btnPrevMonth,
-      @NonNull MaterialToolbar calendarToolbar, @NonNull TextView customerProfileAddress,
-      @NonNull ImageView customerProfileAvatar, @NonNull TextView customerProfileMobile,
-      @NonNull TextView customerProfileName, @NonNull RecyclerView rvCalendarGrid,
+      @NonNull MaterialButton btnDownloadPdf, @NonNull ImageButton btnNextMonth,
+      @NonNull ImageButton btnPrevMonth, @NonNull MaterialButton btnScreenshot,
+      @NonNull MaterialButton btnSharePdf, @NonNull MaterialToolbar calendarToolbar,
+      @NonNull TextView customerProfileAddress, @NonNull ImageView customerProfileAvatar,
+      @NonNull TextView customerProfileMobile, @NonNull TextView customerProfileName,
+      @NonNull NestedScrollView reportContainer, @NonNull RecyclerView rvCalendarGrid,
       @NonNull TextView statDeliveredDays, @NonNull TextView statDeliveryPercentage,
       @NonNull TextView statPendingDays, @NonNull TextView statTotalDays,
+      @NonNull TextView tvDeliveredDays, @NonNull TextView tvPaymentStatus,
+      @NonNull TextView tvQuantity, @NonNull TextView tvRate, @NonNull TextView tvTotalAmount,
       @NonNull TextView txtCalendarMonthYear) {
     this.rootView = rootView;
+    this.btnDownloadPdf = btnDownloadPdf;
     this.btnNextMonth = btnNextMonth;
     this.btnPrevMonth = btnPrevMonth;
+    this.btnScreenshot = btnScreenshot;
+    this.btnSharePdf = btnSharePdf;
     this.calendarToolbar = calendarToolbar;
     this.customerProfileAddress = customerProfileAddress;
     this.customerProfileAvatar = customerProfileAvatar;
     this.customerProfileMobile = customerProfileMobile;
     this.customerProfileName = customerProfileName;
+    this.reportContainer = reportContainer;
     this.rvCalendarGrid = rvCalendarGrid;
     this.statDeliveredDays = statDeliveredDays;
     this.statDeliveryPercentage = statDeliveryPercentage;
     this.statPendingDays = statPendingDays;
     this.statTotalDays = statTotalDays;
+    this.tvDeliveredDays = tvDeliveredDays;
+    this.tvPaymentStatus = tvPaymentStatus;
+    this.tvQuantity = tvQuantity;
+    this.tvRate = tvRate;
+    this.tvTotalAmount = tvTotalAmount;
     this.txtCalendarMonthYear = txtCalendarMonthYear;
   }
 
@@ -113,6 +155,12 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.btnDownloadPdf;
+      MaterialButton btnDownloadPdf = ViewBindings.findChildViewById(rootView, id);
+      if (btnDownloadPdf == null) {
+        break missingId;
+      }
+
       id = R.id.btn_next_month;
       ImageButton btnNextMonth = ViewBindings.findChildViewById(rootView, id);
       if (btnNextMonth == null) {
@@ -122,6 +170,18 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
       id = R.id.btn_prev_month;
       ImageButton btnPrevMonth = ViewBindings.findChildViewById(rootView, id);
       if (btnPrevMonth == null) {
+        break missingId;
+      }
+
+      id = R.id.btnScreenshot;
+      MaterialButton btnScreenshot = ViewBindings.findChildViewById(rootView, id);
+      if (btnScreenshot == null) {
+        break missingId;
+      }
+
+      id = R.id.btnSharePdf;
+      MaterialButton btnSharePdf = ViewBindings.findChildViewById(rootView, id);
+      if (btnSharePdf == null) {
         break missingId;
       }
 
@@ -155,6 +215,12 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.reportContainer;
+      NestedScrollView reportContainer = ViewBindings.findChildViewById(rootView, id);
+      if (reportContainer == null) {
+        break missingId;
+      }
+
       id = R.id.rv_calendar_grid;
       RecyclerView rvCalendarGrid = ViewBindings.findChildViewById(rootView, id);
       if (rvCalendarGrid == null) {
@@ -185,16 +251,48 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.tvDeliveredDays;
+      TextView tvDeliveredDays = ViewBindings.findChildViewById(rootView, id);
+      if (tvDeliveredDays == null) {
+        break missingId;
+      }
+
+      id = R.id.tvPaymentStatus;
+      TextView tvPaymentStatus = ViewBindings.findChildViewById(rootView, id);
+      if (tvPaymentStatus == null) {
+        break missingId;
+      }
+
+      id = R.id.tvQuantity;
+      TextView tvQuantity = ViewBindings.findChildViewById(rootView, id);
+      if (tvQuantity == null) {
+        break missingId;
+      }
+
+      id = R.id.tvRate;
+      TextView tvRate = ViewBindings.findChildViewById(rootView, id);
+      if (tvRate == null) {
+        break missingId;
+      }
+
+      id = R.id.tvTotalAmount;
+      TextView tvTotalAmount = ViewBindings.findChildViewById(rootView, id);
+      if (tvTotalAmount == null) {
+        break missingId;
+      }
+
       id = R.id.txt_calendar_month_year;
       TextView txtCalendarMonthYear = ViewBindings.findChildViewById(rootView, id);
       if (txtCalendarMonthYear == null) {
         break missingId;
       }
 
-      return new ActivityCustomerCalendarBinding((LinearLayout) rootView, btnNextMonth,
-          btnPrevMonth, calendarToolbar, customerProfileAddress, customerProfileAvatar,
-          customerProfileMobile, customerProfileName, rvCalendarGrid, statDeliveredDays,
-          statDeliveryPercentage, statPendingDays, statTotalDays, txtCalendarMonthYear);
+      return new ActivityCustomerCalendarBinding((LinearLayout) rootView, btnDownloadPdf,
+          btnNextMonth, btnPrevMonth, btnScreenshot, btnSharePdf, calendarToolbar,
+          customerProfileAddress, customerProfileAvatar, customerProfileMobile, customerProfileName,
+          reportContainer, rvCalendarGrid, statDeliveredDays, statDeliveryPercentage,
+          statPendingDays, statTotalDays, tvDeliveredDays, tvPaymentStatus, tvQuantity, tvRate,
+          tvTotalAmount, txtCalendarMonthYear);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

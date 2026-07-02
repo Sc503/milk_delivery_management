@@ -3,6 +3,7 @@ package com.example.activities;
 import com.example.fragments.PaymentFragment;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.app_name, R.string.app_name);
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        binding.navView.setItemIconTintList(getResources().getColorStateList(R.color.primary));
         binding.navView.setNavigationItemSelectedListener(this);
 
         if (getIntent().getBooleanExtra("OPEN_CUSTOMER_LOCATION", false)) {
