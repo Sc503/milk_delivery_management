@@ -30,6 +30,8 @@ color today_blue
 color white
 drawable bg_dot
 drawable bg_number_badge
+drawable bg_paid
+drawable bg_pending
 drawable bg_status_active
 drawable bg_status_inactive
 drawable card_icon_background_blue
@@ -52,6 +54,7 @@ drawable ic_address
 drawable ic_back
 drawable ic_calendar
 drawable ic_call
+drawable ic_camera
 drawable ic_close_cancel
 drawable ic_delete
 drawable ic_disconnect
@@ -67,8 +70,8 @@ drawable ic_logout
 drawable ic_map
 drawable ic_menu
 drawable ic_milk
-drawable ic_payment
 drawable ic_person
+drawable ic_person_add
 drawable ic_phone
 drawable ic_rightarrow
 drawable ic_scan
@@ -80,6 +83,7 @@ drawable icon_background
 drawable info_background
 drawable login_background
 drawable login_button_bg
+drawable payments
 drawable spinner_border
 drawable splash_bg
 drawable status_background
@@ -107,6 +111,7 @@ id btnMyBackups
 id btnReceivedBackups
 id btnSaveStaff
 id btnScan
+id btnScreenshot
 id btnSelectMonth
 id btnSendFile
 id btnShare
@@ -212,6 +217,7 @@ id nav_home
 id nav_logout
 id nav_monthly_recap
 id nav_payment
+id nav_payments
 id nav_settings
 id nav_staff_list
 id nav_staff_management
@@ -230,6 +236,7 @@ id recyclerBackups
 id recyclerDevices
 id recyclerReceivedBackups
 id recyclerStaff
+id reportContainer
 id rvPaymentHistory
 id rv_calendar_grid
 id rv_delivery_history
@@ -248,6 +255,7 @@ id statusIndicator
 id switchAutoBackup
 id toolbar
 id tvContent
+id tvDeliveredDays
 id tvDeviceName
 id tvDeviceStatus
 id tvFileDate
@@ -255,10 +263,14 @@ id tvFileInfo
 id tvFileName
 id tvFileSize
 id tvLoginLink
+id tvPaymentStatus
+id tvQuantity
+id tvRate
 id tvStaffId
 id tvStaffMobile
 id tvStaffName
 id tvStaffStatus
+id tvTotalAmount
 id txtAddress
 id txtAmount
 id txtCollection

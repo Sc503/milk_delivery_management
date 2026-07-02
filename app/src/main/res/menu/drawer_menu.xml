@@ -21,8 +21,8 @@
                     android:title="Staff List" />
                 <item
                     android:id="@+id/nav_add_staff"
-                    android:icon="@drawable/ic_person"
-                    android:title="Add Staff" />
+                    android:title="Add Staff"
+                    android:icon="@drawable/ic_person_add" />
             </menu>
         </item>
 
@@ -31,9 +31,9 @@
             android:icon="@drawable/ic_calendar"
             android:title="Monthly Recap" />
         <item
-            android:id="@+id/nav_payment"
-            android:icon="@drawable/ic_calendar"
-            android:title="Payments" />
+            android:id="@+id/nav_payments"
+            android:title="Payments"
+            android:icon="@drawable/payments" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
