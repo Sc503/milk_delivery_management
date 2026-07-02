@@ -1,9 +1,5 @@
 [
     {
-        "merged": "com.example.app-mergeDebugResources-85:/layout/activity_customer_recap_details.xml",
-        "source": "com.example.app-main-88:/layout/activity_customer_recap_details.xml"
-    },
-    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-85:\\layout\\dialog_edit_staff.xml",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\dialog_edit_staff.xml"
     },
@@ -14,6 +10,10 @@
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-85:\\layout\\fragment_add_customer.xml",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\fragment_add_customer.xml"
+    },
+    {
+        "merged": "com.example.app-mergeDebugResources-85:/layout/fragment_settings.xml",
+        "source": "com.example.app-main-88:/layout/fragment_settings.xml"
     },
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-85:\\layout\\fragment_settings.xml",

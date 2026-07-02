@@ -4,63 +4,195 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:padding="16dp"
+    android:gravity="center">
 
+    <!-- App Icon -->
     <ImageView
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:src="@drawable/ic_location"
         app:tint="@color/primary"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="12dp"
         android:contentDescription="Milk Delivery app icon" />
 
+    <!-- App Name -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Milk Delivery Management App"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-        android:textColor="@color/primary"
+        android:text="Milk Flow"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:textColor="@color/primary"
+        android:layout_marginBottom="2dp" />
 
+    <!-- Subtitle -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Version 1.0.0 (Production)"
-        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-        android:textColor="@color/gray_dark"
-        android:layout_marginBottom="24dp" />
+        android:text="Milk Delivery Management System"
+        android:textSize="13sp"
+        android:textColor="#6B7280"
+        android:layout_marginBottom="2dp" />
 
+    <!-- Version -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Version 1.0.0"
+        android:textSize="11sp"
+        android:textColor="#94A3B8"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="50dp"
+        android:layout_height="3dp"
+        android:background="@color/primary"
+        android:layout_marginBottom="16dp" />
+
+    <!-- About Card -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:strokeWidth="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
         app:cardBackgroundColor="@color/white">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="🥛 About Us
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-       Welcome to [Milk Flow] Milk Delivery Management System, your reliable partner for fresh and timely milk delivery.Our mission is to simplify daily milk distribution by connecting customers, delivery staff, and suppliers through a smart and efficient platform. We aim to ensure freshness, punctuality, and transparency in every delivery.
-This application is designed and managed by Saurabh Chaudhari and Karan, who are committed to providing a seamless and user-friendly milk delivery experience for all users.
-Through this app, users can easily:
+            <!-- Section: About -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🥛 About Us"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332"
+                android:layout_marginBottom="6dp" />
 
-1)Manage daily milk subscriptions
-2)Track deliveries in real time
-3)View payment and order history
-4)Maintain transparent communication with service providers
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your reliable partner for fresh and timely milk delivery management."
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginBottom="12dp" />
 
-We continuously work to improve our service and bring the best experience to our users.
+            <!-- Section: Mission -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🎯 Our Mission"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332"
+                android:layout_marginBottom="3dp" />
 
-Thank you for trusting us!."
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/on_surface_variant"
-            android:lineSpacingExtra="4dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="To simplify daily milk distribution by connecting customers, delivery staff, and suppliers through a smart, efficient, and transparent platform."
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"
+                android:layout_marginVertical="6dp" />
+
+            <!-- Section: Features -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✨ What You Can Do"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ Manage daily milk subscriptions"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:paddingVertical="2dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ Track deliveries in real-time"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:paddingVertical="2dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ View payment and order history"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:paddingVertical="2dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="✅ Transparent communication with service providers"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:paddingVertical="2dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5E7EB"
+                android:layout_marginVertical="6dp" />
+
+            <!-- Section: Team -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👨‍💻 Developed By"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332"
+                android:layout_marginBottom="3dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saurabh Chaudhari &amp; Karan Pawar"
+                android:textSize="13sp"
+                android:textColor="#6B7280"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Thank You -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🙏 Thank you for trusting us!"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:paddingTop="8dp" />
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

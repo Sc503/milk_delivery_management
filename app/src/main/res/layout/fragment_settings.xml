@@ -58,8 +58,8 @@
                     android:textColor="#7B8794" />
 
             </LinearLayout>
-
         </LinearLayout>
+
 
         <!-- Main Card -->
         <com.google.android.material.card.MaterialCardView
@@ -88,30 +88,10 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Auto Camera Zoom"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#1A2332" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Center map dynamically on all markers"
-                            android:textSize="13sp"
-                            android:textColor="#7B8794"
-                            android:layout_marginTop="2dp" />
 
                     </LinearLayout>
 
-                    <com.google.android.material.materialswitch.MaterialSwitch
-                        android:id="@+id/switchAutoZoom"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        app:thumbTint="@color/primary" />
+
                 </LinearLayout>
 
                 <!-- Divider -->

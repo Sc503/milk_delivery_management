@@ -244,7 +244,6 @@ int id stat_pending_days 0x0
 int id stat_total_days 0x0
 int id statusIndicator 0x0
 int id switchAutoBackup 0x0
-int id switchAutoZoom 0x0
 int id toolbar 0x0
 int id tvContent 0x0
 int id tvDeviceName 0x0

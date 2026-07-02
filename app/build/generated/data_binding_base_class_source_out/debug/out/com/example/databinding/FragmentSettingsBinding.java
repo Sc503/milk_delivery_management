@@ -13,7 +13,6 @@ import androidx.viewbinding.ViewBinding;
 import androidx.viewbinding.ViewBindings;
 import com.example.R;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.materialswitch.MaterialSwitch;
 import java.lang.NullPointerException;
 import java.lang.Override;
 import java.lang.String;
@@ -44,9 +43,6 @@ public final class FragmentSettingsBinding implements ViewBinding {
   public final SwitchCompat switchAutoBackup;
 
   @NonNull
-  public final MaterialSwitch switchAutoZoom;
-
-  @NonNull
   public final TextView txtLastAutoBackup;
 
   @NonNull
@@ -56,8 +52,8 @@ public final class FragmentSettingsBinding implements ViewBinding {
       @NonNull MaterialButton btnBackupCenter, @NonNull MaterialButton btnBackupNow,
       @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnRestoreBackup,
       @NonNull MaterialButton btnShareBackup, @NonNull MaterialButton btnWifiDirect,
-      @NonNull SwitchCompat switchAutoBackup, @NonNull MaterialSwitch switchAutoZoom,
-      @NonNull TextView txtLastAutoBackup, @NonNull TextView txtLastBackup) {
+      @NonNull SwitchCompat switchAutoBackup, @NonNull TextView txtLastAutoBackup,
+      @NonNull TextView txtLastBackup) {
     this.rootView = rootView;
     this.btnBackupCenter = btnBackupCenter;
     this.btnBackupNow = btnBackupNow;
@@ -66,7 +62,6 @@ public final class FragmentSettingsBinding implements ViewBinding {
     this.btnShareBackup = btnShareBackup;
     this.btnWifiDirect = btnWifiDirect;
     this.switchAutoBackup = switchAutoBackup;
-    this.switchAutoZoom = switchAutoZoom;
     this.txtLastAutoBackup = txtLastAutoBackup;
     this.txtLastBackup = txtLastBackup;
   }
@@ -140,12 +135,6 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.switchAutoZoom;
-      MaterialSwitch switchAutoZoom = ViewBindings.findChildViewById(rootView, id);
-      if (switchAutoZoom == null) {
-        break missingId;
-      }
-
       id = R.id.txtLastAutoBackup;
       TextView txtLastAutoBackup = ViewBindings.findChildViewById(rootView, id);
       if (txtLastAutoBackup == null) {
@@ -160,7 +149,7 @@ public final class FragmentSettingsBinding implements ViewBinding {
 
       return new FragmentSettingsBinding((ScrollView) rootView, btnBackupCenter, btnBackupNow,
           btnClearCache, btnRestoreBackup, btnShareBackup, btnWifiDirect, switchAutoBackup,
-          switchAutoZoom, txtLastAutoBackup, txtLastBackup);
+          txtLastAutoBackup, txtLastBackup);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

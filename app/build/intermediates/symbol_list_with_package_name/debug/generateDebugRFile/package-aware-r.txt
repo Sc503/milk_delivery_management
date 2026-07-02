@@ -245,7 +245,6 @@ id stat_pending_days
 id stat_total_days
 id statusIndicator
 id switchAutoBackup
-id switchAutoZoom
 id toolbar
 id tvContent
 id tvDeviceName

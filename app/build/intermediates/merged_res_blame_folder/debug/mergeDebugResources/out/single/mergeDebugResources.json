@@ -128,10 +128,6 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\activity_wifi_direct.xml"
     },
     {
-        "merged": "com.example.app-debug-86:/drawable_ic_forward.xml.flat",
-        "source": "com.example.app-main-88:/drawable/ic_forward.xml"
-    },
-    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\anim_pulse.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\anim\\pulse.xml"
     },
@@ -154,10 +150,6 @@
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\layout_dialog_edit_customer.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\dialog_edit_customer.xml"
-    },
-    {
-        "merged": "com.example.app-debug-86:/drawable_ic_rightarrow.png.flat",
-        "source": "com.example.app-main-88:/drawable/ic_rightarrow.png"
     },
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
@@ -192,8 +184,16 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
+        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_ic_rightarrow.png.flat",
+        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\drawable\\ic_rightarrow.png"
+    },
+    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\layout_activity_customer_calendar.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\activity_customer_calendar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_ic_forward.xml.flat",
+        "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\drawable\\ic_forward.xml"
     },
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_info_background.xml.flat",
@@ -308,10 +308,6 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\drawable\\header_icon_background.xml"
     },
     {
-        "merged": "com.example.app-debug-86:/layout_activity_customer_recap_details.xml.flat",
-        "source": "com.example.app-main-88:/layout/activity_customer_recap_details.xml"
-    },
-    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_circle_today_solid.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\drawable\\circle_today_solid.xml"
     },
@@ -398,6 +394,10 @@
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\layout_nav_header.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\nav_header.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/layout_fragment_settings.xml.flat",
+        "source": "com.example.app-main-88:/layout/fragment_settings.xml"
     },
     {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_drawer_item_selector.xml.flat",

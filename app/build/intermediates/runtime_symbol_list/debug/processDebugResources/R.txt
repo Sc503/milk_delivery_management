@@ -4268,7 +4268,6 @@ int id submenuarrow 0x7f090274
 int id submit_area 0x7f090275
 int id supportScrollUp 0x7f090276
 int id switchAutoBackup 0x7f090277
-int id switchAutoZoom 0x7f090278
 int id tabMode 0x7f090279
 int id tag_accessibility_actions 0x7f09027a
 int id tag_accessibility_clickable_spans 0x7f09027b
