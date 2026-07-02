@@ -396,10 +396,6 @@
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\layout\\nav_header.xml"
     },
     {
-        "merged": "com.example.app-debug-86:/layout_fragment_settings.xml.flat",
-        "source": "com.example.app-main-88:/layout/fragment_settings.xml"
-    },
-    {
         "merged": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-debug-86:\\drawable_drawer_item_selector.xml.flat",
         "source": "C:\\Users\\Karan\\.gradle\\daemon\\9.3.1\\com.example.app-main-88:\\drawable\\drawer_item_selector.xml"
     },

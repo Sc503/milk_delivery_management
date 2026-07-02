@@ -344,7 +344,6 @@ int layout item_payment_history 0x0
 int layout item_staff 0x0
 int layout nav_header 0x0
 int menu drawer_menu 0x0
-int menu nav_menu 0x0
 int menu staff_toolbar_menu 0x0
 int menu toolbar_menu 0x0
 int mipmap ic_launcher 0x0

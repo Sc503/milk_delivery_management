@@ -345,7 +345,6 @@ layout item_payment_history
 layout item_staff
 layout nav_header
 menu drawer_menu
-menu nav_menu
 menu staff_toolbar_menu
 menu toolbar_menu
 mipmap ic_launcher

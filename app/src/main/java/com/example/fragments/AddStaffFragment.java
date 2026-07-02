@@ -47,8 +47,7 @@ public class AddStaffFragment extends Fragment {
 
         Log.d(TAG, "Account ID from SharedPreferences: " + accountId);
 
-        binding.btnSaveStaff.setEnabled(true);
-        binding.btnSaveStaff.setText("Create Staff");
+        resetButtonState();
 
         if (accountId.isEmpty()) {
             Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
@@ -66,13 +65,17 @@ public class AddStaffFragment extends Fragment {
         binding.btnSaveStaff.setOnClickListener(v -> saveStaff());
     }
 
+    private void resetButtonState() {
+        binding.btnSaveStaff.setEnabled(true);
+        binding.btnSaveStaff.setText("Create Staff");
+    }
+
     private void saveStaff() {
         String name = binding.etStaffName.getText().toString().trim();
         String mobile = binding.etMobile1.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
         String confirmPassword = binding.etConfirmPassword.getText().toString().trim();
 
-        // Log input values
         Log.d(TAG, "Name: " + name);
         Log.d(TAG, "Mobile: " + mobile);
         Log.d(TAG, "Password: " + password);
@@ -130,11 +133,10 @@ public class AddStaffFragment extends Fragment {
             return;
         }
 
-        // Disable button and show progress
+        // ✅ Disable button and show progress
         binding.btnSaveStaff.setEnabled(false);
         binding.btnSaveStaff.setText("Creating...");
 
-        // Log the API call details
         Log.d(TAG, "========== API CALL DETAILS ==========");
         Log.d(TAG, "URL: https://smartmr.in/milkflowapp/createstaff.php");
         Log.d(TAG, "Parameters:");
@@ -151,22 +153,40 @@ public class AddStaffFragment extends Fragment {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                // ✅ Re-enable button FIRST
+                resetButtonState();
 
-                LoginResponse loginResponse = response.body();
+                Log.d(TAG, "Response Code: " + response.code());
+                Log.d(TAG, "isSuccessful: " + response.isSuccessful());
 
                 if (response.isSuccessful() && response.body() != null) {
+                    LoginResponse loginResponse = response.body();
 
-                    if (loginResponse.getStatus().equals("true")) {
-                        Toast.makeText(requireContext(), loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    // ✅ Get status - returns Boolean
+                    Boolean status = loginResponse.getStatus();
+                    String message = loginResponse.getMessage();
+
+                    Log.d(TAG, "Status: " + status);
+                    Log.d(TAG, "Message: " + message);
+
+                    // ✅ Check if status is true
+                    if (status != null && status) {
+                        // ✅ Success
+                        String msg = message != null ? message : "Staff created successfully!";
+                        Toast.makeText(requireContext(), "✅ " + msg, Toast.LENGTH_LONG).show();
                         clearFields();
+
+                        // Navigate back to staff list
                         if (getParentFragmentManager() != null) {
                             getParentFragmentManager().popBackStack();
                         }
                     } else {
-                        Toast.makeText(requireContext(), loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        // ❌ Error from API
+                        String msg = message != null ? message : "Failed to create staff";
+                        Toast.makeText(requireContext(), "❌ " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-
+                    // ❌ Response not successful
                     String errorMsg = "Failed to create staff";
                     try {
                         if (response.errorBody() != null) {
@@ -177,13 +197,16 @@ public class AddStaffFragment extends Fragment {
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing error body: " + e.getMessage());
                     }
-
                     Toast.makeText(requireContext(), "❌ " + errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                // ✅ Re-enable button on network error
+                resetButtonState();
+
+                Log.e(TAG, "Network Error: " + t.getMessage());
                 Toast.makeText(requireContext(), "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
