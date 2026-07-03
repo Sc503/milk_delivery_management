@@ -8,6 +8,10 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.example.backup.BackupManager;
 import com.example.Receivers.AutoBackupReceiver;
 
@@ -16,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class AutoBackupManager {
 
@@ -90,57 +95,26 @@ public class AutoBackupManager {
 
     // ── Schedule Auto Backup ─────────────────────────────────────
     private void scheduleAutoBackup() {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AutoBackupReceiver.class);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                1001,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+        PeriodicWorkRequest workRequest =
+                new PeriodicWorkRequest.Builder(
+                        AutoBackupWorker.class,
+                        24,
+                        TimeUnit.HOURS
+                ).build();
 
-        // Cancel existing alarm
-        alarmManager.cancel(pendingIntent);
-
-
-        long triggerTime = System.currentTimeMillis() + BACKUP_INTERVAL;
-
-        // Schedule the alarm
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-            );
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-            );
-        } else {
-            alarmManager.set(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-            );
-        }
+        WorkManager.getInstance(context)
+                .enqueueUniquePeriodicWork(
+                        "AUTO_BACKUP",
+                        ExistingPeriodicWorkPolicy.UPDATE,
+                        workRequest
+                );
     }
 
     // ── Cancel Auto Backup ──────────────────────────────────────
     private void cancelAutoBackup() {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AutoBackupReceiver.class);
-
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                1001,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
-
-        alarmManager.cancel(pendingIntent);
+        WorkManager.getInstance(context)
+                .cancelUniqueWork("AUTO_BACKUP");
     }
 
     // ── ✅ FIXED: Perform Auto Backup ──────────────────────────────

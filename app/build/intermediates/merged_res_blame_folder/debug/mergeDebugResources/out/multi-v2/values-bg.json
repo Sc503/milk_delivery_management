@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.app-mergeDebugResources-84:/values-bg/values-bg.xml",
+            "outputFile": "com.example.app-mergeDebugResources-86:/values-bg/values-bg.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\8f522a7cac51777816a011387f37fb92\\workspace\\transformed\\core-1.18.0\\res\\values-bg\\values-bg.xml",
