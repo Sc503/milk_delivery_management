@@ -338,8 +338,7 @@ public class PaymentDetailsFragment extends Fragment {
                     // 💾 Save to Room + Firebase (via repository)
                     viewModel.savePayment(newPayment);
 
-                    // 🔥 Firebase backup call (IMPORTANT ADD)
-                    viewModel.backupPaymentToFirebase(newPayment);
+
 
                     paymentStatus = "Paid";
                     updateStatusUI(paymentStatus);

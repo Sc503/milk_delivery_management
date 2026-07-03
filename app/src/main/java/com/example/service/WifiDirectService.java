@@ -94,7 +94,7 @@ public class WifiDirectService extends Service {
         isGroupOwner         = true;
         connectedHostAddress = hostAddress;
         myHostAddress        = hostAddress;
-        clientAddress        = null;
+        clientAddress        = null; // Reset client address
 
         updateNotification("HOST – waiting for file…");
 
@@ -114,6 +114,12 @@ public class WifiDirectService extends Service {
         connectedDeviceName  = deviceName;
         myHostAddress        = null;
         clientAddress        = null;
+
+        // ✅ Client also starts a server to receive files from host
+        if (!serverRunning) {
+            serverRunning = true;
+            new ReceiveThread().start();
+        }
 
         updateNotification("Connected to " + deviceName);
 
@@ -138,7 +144,7 @@ public class WifiDirectService extends Service {
             listener.onDisconnected();
     }
 
-    // ── ✅ FIXED: Send a file (BOTH HOST AND CLIENT CAN SEND) ──
+    // ── Send a file (BOTH HOST AND CLIENT CAN SEND) ──
     public void sendFile(File file) {
         if (!isConnected) {
             if (listener != null)
@@ -146,7 +152,6 @@ public class WifiDirectService extends Service {
             return;
         }
 
-        // ✅ REMOVED the isGroupOwner check - BOTH can send!
         new SendThread(file).start();
     }
 
@@ -158,7 +163,7 @@ public class WifiDirectService extends Service {
         activeSocket  = null;
     }
 
-    // ── ✅ RECEIVE (BOTH HOST AND CLIENT) ────────────────────────
+    // ── RECEIVE (BOTH HOST AND CLIENT) ────────────────────────
     private class ReceiveThread extends Thread {
         @Override public void run() {
             try {
@@ -167,12 +172,14 @@ public class WifiDirectService extends Service {
                 while (serverRunning) {
                     Socket client = activeSocket.accept();
 
-                    // ✅ Get client IP address
+                    // ✅ Get client IP address and store it
                     String clientIp = client.getInetAddress().getHostAddress();
+
+                    // ✅ Store client IP for future communication
                     if (!connectedClients.contains(clientIp)) {
                         connectedClients.add(clientIp);
-                        clientAddress = clientIp;
                     }
+                    clientAddress = clientIp;  // ✅ Update client address
 
                     File dir = new File(
                             android.os.Environment
@@ -182,8 +189,6 @@ public class WifiDirectService extends Service {
                     );
                     if (!dir.exists()) dir.mkdirs();
 
-                    // ✅ Save as .enc if the received data is encrypted
-                   // For now, we'll save as .enc to handle encrypted files properly
                     File outFile = new File(dir, "received_backup_" + System.currentTimeMillis() + ".enc");
 
                     InputStream in = client.getInputStream();
@@ -214,7 +219,7 @@ public class WifiDirectService extends Service {
         }
     }
 
-    // ── ✅ SEND (BOTH HOST AND CLIENT) ────────────────────────────
+    // ── SEND (BOTH HOST AND CLIENT) ────────────────────────────
     private class SendThread extends Thread {
         private final File file;
         SendThread(File file) { this.file = file; }
@@ -227,14 +232,19 @@ public class WifiDirectService extends Service {
             try {
                 // ✅ Determine target address based on role
                 if (isGroupOwner) {
-                    // HOST sends to client - find client IP
-                    targetAddress = findClientAddress();
+                    // HOST sends to client - use stored client address
+                    targetAddress = clientAddress;
+
+                    // If no client address, find it
+                    if (targetAddress == null || targetAddress.isEmpty()) {
+                        targetAddress = findClientAddress();
+                    }
                 } else {
                     // CLIENT sends to host
                     targetAddress = connectedHostAddress;
                 }
 
-                if (targetAddress == null) {
+                if (targetAddress == null || targetAddress.isEmpty()) {
                     if (listener != null) {
                         listener.onError("Could not find target device. Try reconnecting.");
                     }

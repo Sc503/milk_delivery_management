@@ -98,7 +98,6 @@ int id btnClear 0x0
 int id btnClose 0x0
 int id btnCreateAccount 0x0
 int id btnDecrypt 0x0
-int id btnDelete 0x0
 int id btnDisconnect 0x0
 int id btnDownloadPdf 0x0
 int id btnEditCustomer 0x0

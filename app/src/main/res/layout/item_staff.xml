@@ -123,34 +123,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:weightSum="2">
+            android:gravity="center">
 
             <!-- Call Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCall"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
-                android:layout_marginEnd="6dp"
                 android:text="📞 Call"
                 android:textSize="13sp"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#10B981"
-                app:cornerRadius="10dp"
-                style="@style/Widget.MaterialComponents.Button" />
-
-            <!-- Delete Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDelete"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp"
-                android:text="🗑️ Delete"
-                android:textSize="13sp"
-                android:textColor="#FFFFFF"
-                android:backgroundTint="#EF4444"
                 app:cornerRadius="10dp"
                 style="@style/Widget.MaterialComponents.Button" />
 

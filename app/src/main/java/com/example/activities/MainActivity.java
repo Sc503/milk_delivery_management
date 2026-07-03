@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.R;
 import com.example.databinding.ActivityMainBinding;
-import com.example.firebase.DeliverySyncListener;
+
 import com.example.fragments.AboutUsFragment;
 import com.example.fragments.AddCustomerFragment;
 import com.example.fragments.AddStaffFragment;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DeliverySyncListener.start(this);
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // UI / MENU SETUP FIRST
         setupMenuByRole();
 
-        // THEN DATA LOAD
-        viewModel.readDeliveriesFromFirebase();
+
+
 
         setSupportActionBar(binding.toolbar);
 

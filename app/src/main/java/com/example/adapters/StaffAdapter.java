@@ -3,28 +3,23 @@ package com.example.adapters;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
-import com.example.models.Staff;
 import com.example.databinding.ItemStaffBinding;
+import com.example.models.Staff;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> {
 
     public interface Listener {
-        void onDelete(Staff staff);
         void onCall(Staff staff);
         void onDetails(Staff staff);
     }
@@ -103,9 +98,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
             holder.binding.tvStaffStatus.setTextColor(0xFFEF4444);
         }
 
-        // Profile image - use first letter as avatar
-        String firstLetter = staff.getName().substring(0, 1).toUpperCase();
-        // You can use a library like Glide or set a placeholder
+        // Profile image - placeholder
         holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
 
         // ✅ Call button
@@ -118,15 +111,12 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
             }
         });
 
-        // ✅ Delete button
-        holder.binding.btnDelete.setOnClickListener(v -> listener.onDelete(staff));
-
         // ✅ Click for details
         holder.itemView.setOnClickListener(v -> {
             listener.onDetails(staff);
         });
 
-        // ✅ Long press for details too
+        // ✅ Long press for details
         holder.itemView.setOnLongClickListener(v -> {
             listener.onDetails(staff);
             return true;

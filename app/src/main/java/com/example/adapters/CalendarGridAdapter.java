@@ -24,9 +24,9 @@ public class CalendarGridAdapter extends RecyclerView.Adapter<CalendarGridAdapte
     }
 
     public static class CalendarDay {
-        public String dateString; // YYYY-MM-DD, or "" for padding cells
-        public int dayNumber;     // 1 to 31, or 0 for empty padding cells
-        public String status;     // "Delivered", "Pending", or ""
+        public String dateString;
+        public int dayNumber;
+        public String status;
         public boolean isToday;
 
         public CalendarDay(String dateString, int dayNumber, String status, boolean isToday) {
@@ -83,8 +83,8 @@ public class CalendarGridAdapter extends RecyclerView.Adapter<CalendarGridAdapte
             } else {
                 txtDayNumber.setText(String.valueOf(day.dayNumber));
                 root.setClickable(true);
-                
-                // Active status highlighting
+
+                // Today highlighting
                 if (day.isToday) {
                     txtDayNumber.setTextColor(Color.WHITE);
                     txtDayNumber.setBackgroundResource(R.drawable.circle_today_solid);
@@ -93,7 +93,7 @@ public class CalendarGridAdapter extends RecyclerView.Adapter<CalendarGridAdapte
                     txtDayNumber.setBackgroundResource(0);
                 }
 
-                // Status mapping indicators below the number
+                // Status mapping
                 if ("Delivered".equalsIgnoreCase(day.status)) {
                     txtDayStatus.setText("✓");
                     txtDayStatus.setTextColor(root.getContext().getResources().getColor(R.color.delivered_green));

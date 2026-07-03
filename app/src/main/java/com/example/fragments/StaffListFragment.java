@@ -62,10 +62,6 @@ public class StaffListFragment extends Fragment {
 
         // Setup adapter
         adapter = new StaffAdapter(new StaffAdapter.Listener() {
-            @Override
-            public void onDelete(Staff staff) {
-                showDeleteDialog(staff);
-            }
 
             @Override
             public void onCall(Staff staff) {

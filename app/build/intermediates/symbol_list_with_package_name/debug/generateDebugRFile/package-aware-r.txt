@@ -99,7 +99,6 @@ id btnClear
 id btnClose
 id btnCreateAccount
 id btnDecrypt
-id btnDelete
 id btnDisconnect
 id btnDownloadPdf
 id btnEditCustomer

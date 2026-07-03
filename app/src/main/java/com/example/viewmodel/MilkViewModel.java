@@ -28,13 +28,12 @@ public class MilkViewModel extends AndroidViewModel {
 
     // --- Customer Operations ---
 
-    public LiveData<List<Customer>> getAllCustomers() {return repository.getAllCustomers();
+    public LiveData<List<Customer>> getAllCustomers() {
+        return repository.getAllCustomers();
     }
 
-    public Customer getCustomerByIdSync(long id){
-
+    public Customer getCustomerByIdSync(long id) {
         return repository.getCustomerByIdSync(id);
-
     }
 
     public LiveData<Customer> getCustomerById(long id) {
@@ -49,12 +48,8 @@ public class MilkViewModel extends AndroidViewModel {
         repository.insertCustomer(customer, listener);
     }
 
-
-
-    public void updateCustomer(Customer customer){
-
+    public void updateCustomer(Customer customer) {
         repository.updateCustomer(customer);
-
     }
 
     public void deleteCustomer(Customer customer) {
@@ -66,9 +61,9 @@ public class MilkViewModel extends AndroidViewModel {
     public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
         repository.deliverCustomer(customerId, date, time, onCompleted);
     }
-    public void readDeliveriesFromFirebase() {
-        repository.readDeliveriesFromFirebase();
-    }
+
+    // ❌ REMOVED: public void readDeliveriesFromFirebase() { ... }
+
     public void markDeliveryPending(long customerId, String date, Runnable onCompleted) {
         repository.markDeliveryPending(customerId, date, onCompleted);
     }
@@ -78,66 +73,51 @@ public class MilkViewModel extends AndroidViewModel {
     }
 
     public int getDeliveredDaysCount(long customerId, String month) {
-
         return repository.getDeliveredDaysCount(customerId, month);
-
     }
+
     public LiveData<List<Delivery>> getDeliveriesForDate(String date) {
         return repository.getDeliveriesForDate(date);
     }
-    public Payment getPayment(
-            long customerId,
-            String month){
 
-        return repository.getPayment(customerId,month);
+    // --- Payment Operations ---
 
+    public Payment getPayment(long customerId, String month) {
+        return repository.getPayment(customerId, month);
     }
 
-    public List<Payment> getPaymentHistory(
-            long customerId){
-
-        return repository
-                .getPaymentHistory(customerId);
-
+    public List<Payment> getPaymentHistory(long customerId) {
+        return repository.getPaymentHistory(customerId);
     }
 
-    public void savePayment(Payment payment){
-
+    public void savePayment(Payment payment) {
         repository.savePayment(payment);
-
     }
 
     public List<Customer> getAllCustomersSync() {
         return repository.getAllCustomersSync();
     }
 
-    public void backupPaymentToFirebase(Payment payment) {
-        repository.backupPaymentToFirebase(payment);
-    }
-    // ---------------- Staff ----------------
+    // --- Staff Operations ---
 
-    public void insertStaff(Staff staff){
-
+    public void insertStaff(Staff staff) {
         repository.insertStaff(staff);
-
     }
 
-    public LiveData<List<Staff>> getAllStaff(){
-
+    public LiveData<List<Staff>> getAllStaff() {
         return repository.getAllStaff();
-
     }
 
-    public void updateStaff(Staff staff){
-
+    public void updateStaff(Staff staff) {
         repository.updateStaff(staff);
-
     }
 
-    public void deleteStaff(Staff staff){
-
+    public void deleteStaff(Staff staff) {
         repository.deleteStaff(staff);
 
-    }
 
+    }
+    public void resetAllToPending() {
+        repository.resetAllToPending();
+    }
 }
