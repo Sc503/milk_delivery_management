@@ -49,8 +49,10 @@ public class ExcelExporter {
 
             Payment p = viewModel.getPayment(c.getId(), month);
 
-            int days = viewModel.getDeliveredDaysCount(c.getId());
-
+            int days = viewModel.getDeliveredDaysCount(
+                    c.getId(),
+                    month
+            );
             double amount = days * c.getMilkRate() * c.getMilkQuantity();
 
             XSSFRow row = sheet.createRow(rowIndex++);

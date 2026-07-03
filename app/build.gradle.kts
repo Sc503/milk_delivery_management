@@ -71,6 +71,7 @@ dependencies {
   implementation(libs.constraintlayout)
   implementation(libs.play.services.maps)
   implementation(libs.play.services.location)
+  implementation(libs.play.services.base)
 
   implementation(platform(libs.androidx.compose.bom))
   implementation(platform(libs.firebase.bom))
@@ -119,7 +120,6 @@ dependencies {
   implementation("com.github.chrisbanes:PhotoView:2.3.0")
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-  implementation("com.google.code.gson:gson:2.10.1")
   implementation("com.google.code.gson:gson:2.10.1")
   implementation("de.hdodenhof:circleimageview:3.1.0")
 

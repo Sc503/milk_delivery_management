@@ -27,7 +27,6 @@ import android.content.ClipData;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class PaymentDetailsFragment extends Fragment {
@@ -101,8 +100,10 @@ public class PaymentDetailsFragment extends Fragment {
                         selectedMonth = months[which];
                         binding.btnSelectMonth.setText(displayMonths[which]);
 
-                        viewModel.getCustomerById(customerId)
-                                .observe(getViewLifecycleOwner(), this::loadPayment);
+
+                        if (currentCustomer != null) {
+                            loadPayment(currentCustomer);
+                        }
                     })
                     .show();
         });
@@ -192,18 +193,28 @@ public class PaymentDetailsFragment extends Fragment {
 
             if (currentCustomer == null) return;
 
-            String month = new SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-                    .format(new Date());
+            Calendar cal = Calendar.getInstance();
+            cal.set(
+                    Integer.parseInt(selectedMonth.substring(0,4)),
+                    Integer.parseInt(selectedMonth.substring(5,7)) - 1,
+                    1
+            );
+
+            String month =
+                    new SimpleDateFormat(
+                            "MMMM yyyy",
+                            Locale.getDefault()
+                    ).format(cal.getTime());
 
             String message =
-                    "Hello " + currentCustomer.getName() + "\n\n"
-                            + "Milk Bill - " + month + "\n\n"
+                    "Milk Bill - " + month + "\n\n"
+                            + "Customer: " + currentCustomer.getName() + "\n"
+                            + "Mobile: " + currentCustomer.getMobile() + "\n"
                             + "Days: " + deliveredDays + "\n"
-                            + "Qty: " + currentCustomer.getMilkQuantity() + "L\n"
+                            + "Qty: " + currentCustomer.getMilkQuantity() + " L\n"
                             + "Rate: ₹" + currentCustomer.getMilkRate() + "\n"
                             + "Total: ₹" + totalAmount + "\n"
                             + "Status: " + paymentStatus;
-
             try {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
@@ -228,8 +239,21 @@ public class PaymentDetailsFragment extends Fragment {
                 return;
             }
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(
+                    Integer.parseInt(selectedMonth.substring(0, 4)),
+                    Integer.parseInt(selectedMonth.substring(5, 7)) - 1,
+                    1
+            );
+
+            String month = new SimpleDateFormat(
+                    "MMMM yyyy",
+                    Locale.getDefault()
+            ).format(cal.getTime());
+
             String message =
                     "Milk Invoice\n\n"
+                            + "Month: " + month + "\n\n"
                             + "Customer: " + currentCustomer.getName() + "\n"
                             + "Mobile: " + currentCustomer.getMobile() + "\n"
                             + "Days: " + deliveredDays + "\n"
@@ -276,8 +300,11 @@ public class PaymentDetailsFragment extends Fragment {
 
         new Thread(() -> {
 
-            deliveredDays = viewModel.getDeliveredDaysCount(customerId);
-
+            deliveredDays =
+                    viewModel.getDeliveredDaysCount(
+                            customerId,
+                            selectedMonth
+                    );
             totalAmount =
                     deliveredDays *
                             customer.getMilkQuantity() *

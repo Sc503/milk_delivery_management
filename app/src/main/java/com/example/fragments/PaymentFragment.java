@@ -188,10 +188,16 @@ public class PaymentFragment extends Fragment {
                     pending++;
                 }
 
+                int deliveredDays =
+                        viewModel.getDeliveredDaysCount(
+                                c.getId(),
+                                month
+                        );
+
                 totalCollection +=
-                        c.getMilkQuantity()
-                                * c.getMilkRate()
-                                * viewModel.getDeliveredDaysCount(c.getId());
+                        deliveredDays
+                                * c.getMilkQuantity()
+                                * c.getMilkRate();
             }
 
             final int finalTotal = total;

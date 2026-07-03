@@ -79,6 +79,11 @@ public class PaymentDashboardFragment extends Fragment {
 
     private void calculateStats() {
 
+
+        paid = 0;
+        pending = 0;
+        totalCollection = 0;
+
         new Thread(() -> {
 
             List<Customer> customers = viewModel.getAllCustomersSync();
@@ -98,9 +103,14 @@ public class PaymentDashboardFragment extends Fragment {
                     pending++;
                 }
 
+                int deliveredDays = viewModel.getDeliveredDaysCount(
+                        c.getId(),
+                        month
+                );
+
                 totalCollection += c.getMilkQuantity()
                         * c.getMilkRate()
-                        * viewModel.getDeliveredDaysCount(c.getId());
+                        * deliveredDays;
             }
 
             requireActivity().runOnUiThread(() -> {

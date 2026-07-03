@@ -261,9 +261,9 @@ public class MilkRepository {
         return deliveryDao.getDeliveriesForCustomer(customerId);
     }
 
-    public int getDeliveredDaysCount(long customerId){
+    public int getDeliveredDaysCount(long customerId, String month) {
 
-        return deliveryDao.getDeliveredDaysCount(customerId);
+        return deliveryDao.getDeliveredDaysCount(customerId, month);
 
     }
     public List<Customer> getAllCustomersSync() {

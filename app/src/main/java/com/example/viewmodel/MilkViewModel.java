@@ -77,9 +77,9 @@ public class MilkViewModel extends AndroidViewModel {
         return repository.getDeliveriesForCustomer(customerId);
     }
 
-    public int getDeliveredDaysCount(long customerId) {
+    public int getDeliveredDaysCount(long customerId, String month) {
 
-        return repository.getDeliveredDaysCount(customerId);
+        return repository.getDeliveredDaysCount(customerId, month);
 
     }
     public LiveData<List<Delivery>> getDeliveriesForDate(String date) {

@@ -51,6 +51,8 @@ public class CustomerCalendarActivity extends AppCompatActivity {
 
     private boolean readOnly;
 
+    private Customer currentCustomer;
+
     private final String[] months = {
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -156,6 +158,8 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     private void loadCustomerProfile() {
         viewModel.getCustomerById(customerId).observe(this, customer -> {
             if (customer != null) {
+
+                currentCustomer = customer;
                 binding.customerProfileName.setText(customer.getName());
                 binding.customerProfileMobile.setText(customer.getMobile());
                 binding.customerProfileAddress.setText(customer.getAddress());
@@ -176,6 +180,8 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     }
 
     private void renderCalendarDaysAndStats() {
+
+
         final int totalDaysInMonth = DateUtils.getDaysInMonth(currentMonth, currentYear);
         final String yearMonthPrefix = DateUtils.getYearMonthString(currentMonth, currentYear); // YYYY-MM
 
@@ -249,6 +255,24 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             final int finalPending = totalDaysInMonth - deliveredCount;
             final double finalPercentage = totalDaysInMonth > 0 ? ((double) finalDelivered / totalDaysInMonth) * 100.0 : 0.0;
 
+            int deliveredDaysResult = 0;
+            double amountResult = 0;
+            double quantityResult = 0;
+            double rateResult = 0;
+
+            if (currentCustomer != null) {
+                String month = DateUtils.getYearMonthString(currentMonth, currentYear);
+                deliveredDaysResult = viewModel.getDeliveredDaysCount(customerId, month);
+                quantityResult = currentCustomer.getMilkQuantity();
+                rateResult = currentCustomer.getMilkRate();
+                amountResult = deliveredDaysResult * quantityResult * rateResult;
+            }
+
+            final int finalDeliveredDays = deliveredDaysResult;
+            final double finalAmount = amountResult;
+            final double finalQuantity = quantityResult;
+            final double finalRate = rateResult;
+
             // Render details back on UI
             runOnUiThread(() -> {
                 gridAdapter = new CalendarGridAdapter(gridList, clickedDay -> {
@@ -264,7 +288,28 @@ public class CustomerCalendarActivity extends AppCompatActivity {
                 binding.statDeliveredDays.setText(String.valueOf(finalDelivered));
                 binding.statPendingDays.setText(String.valueOf(finalPending));
                 binding.statDeliveryPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", finalPercentage));
+
+                if (currentCustomer != null) {
+                    binding.tvRate.setText("₹" + finalRate);
+                    binding.tvQuantity.setText(finalQuantity + " L");
+                    binding.tvDeliveredDays.setText(String.valueOf(finalDeliveredDays));
+                    binding.tvTotalAmount.setText("₹" + finalAmount);
+                }
             });
+
+            for (Delivery d : allDeliveries) {
+
+                dateLookup.put(
+                        d.getDeliveryDate(),
+                        d
+                );
+
+                Log.d(
+                        "ROOM_DATA",
+                        d.getDeliveryDate() + " -> " + d.getStatus()
+                );
+            }
+
         });
     }
 
