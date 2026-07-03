@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MilkFlow</string>
+    <string name="share_invoice">Share Invoice</string>
 </resources>

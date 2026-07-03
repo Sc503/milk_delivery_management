@@ -24,6 +24,10 @@
         "source": "com.example.app-main-88:/drawable/ic_whatsapp_logo.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_card_highlight.xml.flat",
+        "source": "com.example.app-main-88:/drawable/card_highlight.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/drawable_status_background.xml.flat",
         "source": "com.example.app-main-88:/drawable/status_background.xml"
     },
@@ -92,6 +96,14 @@
         "source": "com.example.app-main-88:/drawable/info_background.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_ic_arrow_right.xml.flat",
+        "source": "com.example.app-main-88:/drawable/ic_arrow_right.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_ic_arrow_left.xml.flat",
+        "source": "com.example.app-main-88:/drawable/ic_arrow_left.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/mipmap-hdpi_ic_launcher_round.webp.flat",
         "source": "com.example.app-main-88:/mipmap-hdpi/ic_launcher_round.webp"
     },
@@ -106,6 +118,10 @@
     {
         "merged": "com.example.app-debug-86:/drawable_drawer_item_selector.xml.flat",
         "source": "com.example.app-main-88:/drawable/drawer_item_selector.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_ic_download.xml.flat",
+        "source": "com.example.app-main-88:/drawable/ic_download.xml"
     },
     {
         "merged": "com.example.app-debug-86:/layout_activity_my_backups.xml.flat",
@@ -196,6 +212,10 @@
         "source": "com.example.app-main-88:/drawable/bg_status_active.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_payment_slip_bg.xml.flat",
+        "source": "com.example.app-main-88:/drawable/payment_slip_bg.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/drawable_ic_person.xml.flat",
         "source": "com.example.app-main-88:/drawable/ic_person.xml"
     },
@@ -206,6 +226,10 @@
     {
         "merged": "com.example.app-debug-86:/anim_slide_in_left.xml.flat",
         "source": "com.example.app-main-88:/anim/slide_in_left.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_status_badge_paid.xml.flat",
+        "source": "com.example.app-main-88:/drawable/status_badge_paid.xml"
     },
     {
         "merged": "com.example.app-debug-86:/layout_fragment_about_us.xml.flat",
@@ -236,6 +260,10 @@
         "source": "com.example.app-main-88:/drawable/ic_phone.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_legend_today.xml.flat",
+        "source": "com.example.app-main-88:/drawable/legend_today.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/drawable_ic_person_add.png.flat",
         "source": "com.example.app-main-88:/drawable/ic_person_add.png"
     },
@@ -264,6 +292,14 @@
         "source": "com.example.app-main-88:/drawable/splash_bg.png"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_avatar_gradient.xml.flat",
+        "source": "com.example.app-main-88:/drawable/avatar_gradient.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_legend_delivered.xml.flat",
+        "source": "com.example.app-main-88:/drawable/legend_delivered.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/mipmap-mdpi_ic_launcher.webp.flat",
         "source": "com.example.app-main-88:/mipmap-mdpi/ic_launcher.webp"
     },
@@ -288,6 +324,10 @@
         "source": "com.example.app-main-88:/anim/right_to_left.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_ic_share.xml.flat",
+        "source": "com.example.app-main-88:/drawable/ic_share.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/drawable_payments.png.flat",
         "source": "com.example.app-main-88:/drawable/payments.png"
     },
@@ -296,12 +336,16 @@
         "source": "com.example.app-main-88:/anim/blink.xml"
     },
     {
-        "merged": "com.example.app-debug-86:/drawable_ic_map.xml.flat",
-        "source": "com.example.app-main-88:/drawable/ic_map.xml"
+        "merged": "com.example.app-debug-86:/drawable_toolbar_gradient.xml.flat",
+        "source": "com.example.app-main-88:/drawable/toolbar_gradient.xml"
     },
     {
         "merged": "com.example.app-debug-86:/drawable_edit_text_background.xml.flat",
         "source": "com.example.app-main-88:/drawable/edit_text_background.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_ic_map.xml.flat",
+        "source": "com.example.app-main-88:/drawable/ic_map.xml"
     },
     {
         "merged": "com.example.app-debug-86:/drawable_ic_scan.xml.flat",
@@ -384,6 +428,10 @@
         "source": "com.example.app-main-88:/layout/dialog_edit_customer.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_day_header_bg.xml.flat",
+        "source": "com.example.app-main-88:/drawable/day_header_bg.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/layout_activity_encrypted_file_viewer.xml.flat",
         "source": "com.example.app-main-88:/layout/activity_encrypted_file_viewer.xml"
     },
@@ -398,6 +446,14 @@
     {
         "merged": "com.example.app-debug-86:/drawable_file_icon_background.xml.flat",
         "source": "com.example.app-main-88:/drawable/file_icon_background.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_stat_bg.xml.flat",
+        "source": "com.example.app-main-88:/drawable/stat_bg.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_gradient_divider_horizontal.xml.flat",
+        "source": "com.example.app-main-88:/drawable/gradient_divider_horizontal.xml"
     },
     {
         "merged": "com.example.app-debug-86:/drawable_circle_background.xml.flat",
@@ -420,6 +476,10 @@
         "source": "com.example.app-main-88:/layout/fragment_settings.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_nav_button_bg.xml.flat",
+        "source": "com.example.app-main-88:/drawable/nav_button_bg.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
         "source": "com.example.app-main-88:/mipmap-xhdpi/ic_launcher_foreground.webp"
     },
@@ -436,8 +496,16 @@
         "source": "com.example.app-main-88:/layout/activity_backup_center.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_status_badge_active.xml.flat",
+        "source": "com.example.app-main-88:/drawable/status_badge_active.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/drawable_login_button_bg.xml.flat",
         "source": "com.example.app-main-88:/drawable/login_button_bg.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_status_paid_badge.xml.flat",
+        "source": "com.example.app-main-88:/drawable/status_paid_badge.xml"
     },
     {
         "merged": "com.example.app-debug-86:/drawable_header_icon_background.xml.flat",
@@ -468,6 +536,18 @@
         "source": "com.example.app-main-88:/drawable/ic_add_user.xml"
     },
     {
+        "merged": "com.example.app-debug-86:/drawable_toolbar_gradient_green.xml.flat",
+        "source": "com.example.app-main-88:/drawable/toolbar_gradient_green.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_stat_card_bg.xml.flat",
+        "source": "com.example.app-main-88:/drawable/stat_card_bg.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_legend_pending.xml.flat",
+        "source": "com.example.app-main-88:/drawable/legend_pending.xml"
+    },
+    {
         "merged": "com.example.app-debug-86:/layout_item_invoice_card.xml.flat",
         "source": "com.example.app-main-88:/layout/item_invoice_card.xml"
     },
@@ -478,6 +558,10 @@
     {
         "merged": "com.example.app-debug-86:/drawable_circle_today_solid.xml.flat",
         "source": "com.example.app-main-88:/drawable/circle_today_solid.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_gradient_divider.xml.flat",
+        "source": "com.example.app-main-88:/drawable/gradient_divider.xml"
     },
     {
         "merged": "com.example.app-debug-86:/drawable_icon_background.xml.flat",
@@ -494,6 +578,10 @@
     {
         "merged": "com.example.app-debug-86:/layout_item_backup_file.xml.flat",
         "source": "com.example.app-main-88:/layout/item_backup_file.xml"
+    },
+    {
+        "merged": "com.example.app-debug-86:/drawable_status_badge_pending.xml.flat",
+        "source": "com.example.app-main-88:/drawable/status_badge_pending.xml"
     },
     {
         "merged": "com.example.app-debug-86:/layout_fragment_payment_dashboard.xml.flat",

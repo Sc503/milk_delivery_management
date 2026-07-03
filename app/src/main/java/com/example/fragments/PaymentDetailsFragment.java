@@ -229,8 +229,8 @@ public class PaymentDetailsFragment extends Fragment {
             }
         });
 
-        // FAB SHARE
-        binding.fabShare.setOnClickListener(v -> {
+        // SHARE PDF
+        binding.btnSharePdf.setOnClickListener(v -> {
 
             if (currentCustomer == null) {
                 Toast.makeText(getContext(),
@@ -337,6 +337,7 @@ public class PaymentDetailsFragment extends Fragment {
 
                     // 💾 Save to Room + Firebase (via repository)
                     viewModel.savePayment(newPayment);
+
 
 
 

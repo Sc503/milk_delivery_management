@@ -5,55 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background">
+    android:background="@drawable/gradient_background">
 
-    <!-- Material 3 Toolbar wrapper -->
+
+    <!-- Premium Green Gradient Toolbar with Back Button -->
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/calendar_toolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
+        android:background="@drawable/toolbar_gradient_green"
         app:titleTextColor="@color/white"
         app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/white"
         app:title="Customer Calendar"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar" />
+        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+        app:titleCentered="true"
+        app:elevation="0dp" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/reportContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:paddingBottom="100dp">
 
-            <!-- Customer Info Card -->
+            <!-- Premium Customer Card with Gradient Border -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:padding="20dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/card_highlight">
 
+                    <!-- Animated Avatar -->
                     <ImageView
                         android:id="@+id/customer_profile_avatar"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
                         android:src="@drawable/ic_user"
-                        android:background="@drawable/circle_background"
-                        android:padding="12dp"
-                        android:contentDescription="Customer Avatar" />
+                        android:background="@drawable/avatar_gradient"
+                        android:padding="16dp"
+                        android:contentDescription="Customer Avatar"
+                        android:elevation="4dp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -67,63 +78,67 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="John Doe"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                             android:textStyle="bold"
-                            android:textColor="@color/on_surface" />
+                            android:textColor="#1A237E" />
 
                         <TextView
                             android:id="@+id/customer_profile_mobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="9876543210"
+                            android:text="📱 +91 98765 43210"
                             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/on_surface_variant" />
+                            android:textColor="#546E7A" />
 
                         <TextView
                             android:id="@+id/customer_profile_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="221B Baker Street, London"
+                            android:text="📍 221B Baker Street, London"
                             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                            android:textColor="@color/gray_dark" />
+                            android:textColor="#90A4AE" />
 
                     </LinearLayout>
+
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Calendar Card -->
+            <!-- Calendar Card with Premium Design -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
-                    <!-- Calendar Navigation Header -->
+                    <!-- Calendar Navigation -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="16dp">
 
                         <ImageButton
                             android:id="@+id/btn_prev_month"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_back"
-                            app:tint="@color/primary"
-                            android:contentDescription="Previous Month" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/nav_button_bg"
+                            android:src="@drawable/ic_arrow_left"
+                            app:tint="#1A237E"
+                            android:contentDescription="Previous Month"
+                            android:elevation="2dp" />
 
                         <TextView
                             android:id="@+id/txt_calendar_month_year"
@@ -132,108 +147,120 @@
                             android:layout_weight="1"
                             android:text="June 2026"
                             android:textAlignment="center"
-                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                             android:textStyle="bold"
-                            android:textColor="@color/primary" />
+                            android:textColor="#1A237E"
+                            android:letterSpacing="0.05" />
 
                         <ImageButton
                             android:id="@+id/btn_next_month"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/ic_back"
-                            android:rotation="180"
-                            app:tint="@color/primary"
-                            android:contentDescription="Next Month" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/nav_button_bg"
+                            android:src="@drawable/ic_arrow_right"
+                            app:tint="#1A237E"
+                            android:contentDescription="Next Month"
+                            android:elevation="2dp" />
 
                     </LinearLayout>
 
-                    <!-- Days Header Row (Sun-Sat) -->
+                    <!-- Days Header with Premium Styling -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginBottom="8dp">
 
-                        <TextView style="@style/CalendarDayHeader" android:text="Sun" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Mon" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Tue" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Wed" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Thu" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Fri" />
-                        <TextView style="@style/CalendarDayHeader" android:text="Sat" />
+                        <TextView style="@style/PremiumDayHeader" android:text="S" />
+                        <TextView style="@style/PremiumDayHeader" android:text="M" />
+                        <TextView style="@style/PremiumDayHeader" android:text="T" />
+                        <TextView style="@style/PremiumDayHeader" android:text="W" />
+                        <TextView style="@style/PremiumDayHeader" android:text="T" />
+                        <TextView style="@style/PremiumDayHeader" android:text="F" />
+                        <TextView style="@style/PremiumDayHeader" android:text="S" />
 
                     </LinearLayout>
 
-                    <!-- RecyclerView Calendar Days Grid -->
+                    <!-- Calendar Grid -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_calendar_grid"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        tools:spanCount="7" />
+                        android:nestedScrollingEnabled="false" />
 
-                    <!-- Custom Divider -->
+                    <!-- Premium Divider -->
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/gray_light"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="12dp" />
+                        android:layout_height="2dp"
+                        android:background="@drawable/gradient_divider_horizontal"
+                        android:layout_marginVertical="16dp" />
 
-                    <!-- Legend indicators -->
+                    <!-- Premium Legend -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:weightSum="3">
 
-                        <!-- Delivered -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:layout_marginEnd="16dp"
                             android:gravity="center">
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/legend_delivered"
+                                android:elevation="2dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="✓ Delivered"
-                                android:textColor="@color/delivered_green"
-                                android:textStyle="bold"
-                                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                                android:text=" Delivered"
+                                android:textColor="#2E7D32"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
-                        <!-- Pending -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal"
-                            android:layout_marginEnd="16dp"
                             android:gravity="center">
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/legend_pending"
+                                android:elevation="2dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="✗ Pending"
-                                android:textColor="@color/pending_red"
-                                android:textStyle="bold"
-                                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                                android:text=" Pending"
+                                android:textColor="#C62828"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
-                        <!-- Today -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal"
                             android:gravity="center">
+                            <View
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:background="@drawable/legend_today"
+                                android:elevation="2dp" />
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="○ Today"
-                                android:textColor="@color/today_blue"
-                                android:textStyle="bold"
-                                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+                                android:text=" Today"
+                                android:textColor="#1565C0"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -241,324 +268,383 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Statistics Section Title -->
+            <!-- Statistics Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Monthly Statistics"
-                android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                android:textColor="@color/on_surface"
+                android:text="📊 Monthly Statistics"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="#1A237E"
                 android:textStyle="bold"
-                android:layout_weight="1"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="12dp"
+                android:letterSpacing="0.05" />
 
-            <!-- Statistics Grid Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:alignmentMode="alignBounds"
                     android:columnCount="2"
                     android:rowCount="2"
                     android:padding="8dp">
 
-                    <!-- Stat 1: Total Days -->
+                    <!-- Premium Stat 1 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_bg"
+                        android:layout_margin="4dp">
                         <TextView
                             android:id="@+id/stat_total_days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                            android:textColor="@color/on_surface"
+                            android:textColor="#1A237E"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Total Days"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark" />
+                            android:textColor="#78909C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Stat 2: Delivered Days -->
+                    <!-- Premium Stat 2 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_bg"
+                        android:layout_margin="4dp">
                         <TextView
                             android:id="@+id/stat_delivered_days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="28"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                            android:textColor="@color/delivered_green"
+                            android:textColor="#2E7D32"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Delivered"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark" />
+                            android:textColor="#78909C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Stat 3: Pending Days -->
+                    <!-- Premium Stat 3 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_bg"
+                        android:layout_margin="4dp">
                         <TextView
                             android:id="@+id/stat_pending_days"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                            android:textColor="@color/pending_red"
+                            android:textColor="#C62828"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pending"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark" />
+                            android:textColor="#78909C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Stat 4: Percentage -->
+                    <!-- Premium Stat 4 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
                         android:orientation="vertical"
-                        android:padding="12dp"
-                        android:gravity="center">
+                        android:padding="16dp"
+                        android:gravity="center"
+                        android:background="@drawable/stat_card_bg"
+                        android:layout_margin="4dp">
                         <TextView
                             android:id="@+id/stat_delivery_percentage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="93.33%"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                            android:textColor="@color/primary"
+                            android:textColor="#1565C0"
                             android:textStyle="bold" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Delivery %"
-                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                            android:textColor="@color/gray_dark" />
+                            android:textColor="#78909C"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                 </GridLayout>
             </com.google.android.material.card.MaterialCardView>
-            <!-- Monthly Payment Slip -->
+
+            <!-- Payment Slip Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Monthly Payment Slip"
+                android:text="💰 Payment Slip"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="#1A237E"
                 android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="@color/primary"
-                android:paddingBottom="8dp"/>
+                android:layout_marginBottom="12dp"
+                android:letterSpacing="0.05" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
-                    <!-- Rate -->
+                    <!-- Premium Payment Details -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:background="@drawable/payment_slip_bg"
+                        android:padding="16dp"
+                        android:layout_marginBottom="12dp">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <!-- Rate -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rate (Per Litre)"
-                            android:textStyle="bold"/>
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="💵 Rate (Per Litre)"
+                                android:textColor="#546E7A"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tvRate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹100"
+                                android:textColor="#1A237E"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvRate"
-                            android:layout_width="wrap_content"
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E8EAF6" />
+
+                        <!-- Quantity -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="₹100"/>
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="📦 Quantity"
+                                android:textColor="#546E7A"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tvQuantity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23 L"
+                                android:textColor="#1A237E"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E8EAF6" />
+
+                        <!-- Delivered Days -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="✅ Delivered Days"
+                                android:textColor="#546E7A"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tvDeliveredDays"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23"
+                                android:textColor="#1A237E"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@drawable/gradient_divider_horizontal"
+                            android:layout_marginVertical="4dp" />
+
+                        <!-- Total Amount -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="💰 Total Amount"
+                                android:textColor="#546E7A"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/tvTotalAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹2,300"
+                                android:textColor="#1B5E20"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E8EAF6" />
+
+                        <!-- Payment Status -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingVertical="8dp">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="📌 Payment Status"
+                                android:textColor="#546E7A"
+                                android:textSize="14sp" />
+                            <TextView
+                                android:id="@+id/tvPaymentStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="PAID"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/white"
+                                android:paddingHorizontal="24dp"
+                                android:paddingVertical="8dp"
+                                android:background="@drawable/status_paid_badge"
+                                android:elevation="4dp" />
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Quantity -->
+                    <!-- Premium Action Buttons -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Quantity"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/tvQuantity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23 L"/>
-                    </LinearLayout>
-
-                    <!-- Delivered Days -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Delivered Days"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/tvDeliveredDays"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23"/>
-                    </LinearLayout>
-
-                    <!-- Total Amount -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Total Amount"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/tvTotalAmount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="₹2300"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-
-                    <!-- Payment Status -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Payment Status"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:id="@+id/tvPaymentStatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="PAID"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/white"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:paddingTop="6dp"
-                            android:paddingBottom="6dp"
-                            android:background="@drawable/bg_paid"/>
-                    </LinearLayout>
-
-                    <!-- Buttons -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnDownloadPdf"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
+                            android:layout_height="52dp"
                             android:layout_weight="1"
-                            android:text="DOWNLOAD PDF"
-                            android:textAllCaps="true"
+                            android:text="📄 Download"
+                            android:textAllCaps="false"
                             android:textStyle="bold"
                             android:textColor="@android:color/white"
-                            android:backgroundTint="@color/primary"
-                            app:cornerRadius="12dp"/>
+                            android:backgroundTint="#1976D2"
+                            app:cornerRadius="14dp"
+                            app:iconGravity="textStart"
+                            app:iconPadding="8dp"
+                            android:elevation="4dp" />
 
                         <Space
-                            android:layout_width="8dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="12dp"
+                            android:layout_height="wrap_content" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnSharePdf"
                             android:layout_width="0dp"
-                            android:layout_height="48dp"
+                            android:layout_height="52dp"
                             android:layout_weight="1"
-                            android:text="SHARE PDF"
-                            android:textAllCaps="true"
+                            android:text="📤 Share"
+                            android:textAllCaps="false"
                             android:textStyle="bold"
                             android:textColor="@android:color/white"
-                            android:backgroundTint="@color/primary"
-                            app:cornerRadius="12dp"/>
+                            android:backgroundTint="#FF6F00"
+                            app:cornerRadius="14dp"
+                            app:iconGravity="textStart"
+                            app:iconPadding="8dp"
+                            android:elevation="4dp" />
                     </LinearLayout>
 
+                    <!-- Premium Screenshot Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnScreenshot"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="16dp"
-                        android:text="SCREENSHOT"
-                        android:textAllCaps="true"
+                        android:layout_height="54dp"
+                        android:layout_marginTop="12dp"
+                        android:text="📸 Take Screenshot"
+                        android:textAllCaps="false"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
                         android:backgroundTint="#6750A4"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_camera"
+                        app:cornerRadius="14dp"
                         app:iconGravity="textStart"
-                        app:iconPadding="8dp"/>
+                        app:iconPadding="8dp"
+                        android:elevation="4dp" />
 
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>

@@ -65,4 +65,7 @@ public interface DeliveryDao {
 
     @Query("DELETE FROM deliveries")
     void deleteAll();
+
+    @Query("UPDATE deliveries SET status = 'Pending', deliveredTime = '--'")
+    void resetAllToPending();
 }

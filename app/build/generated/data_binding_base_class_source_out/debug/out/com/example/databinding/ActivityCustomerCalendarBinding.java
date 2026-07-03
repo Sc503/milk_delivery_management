@@ -41,9 +41,6 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   public final MaterialButton btnSharePdf;
 
   @NonNull
-  public final MaterialToolbar calendarToolbar;
-
-  @NonNull
   public final TextView customerProfileAddress;
 
   @NonNull
@@ -74,6 +71,9 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   public final TextView statTotalDays;
 
   @NonNull
+  public final MaterialToolbar toolbar;
+
+  @NonNull
   public final TextView tvDeliveredDays;
 
   @NonNull
@@ -94,12 +94,12 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
   private ActivityCustomerCalendarBinding(@NonNull LinearLayout rootView,
       @NonNull MaterialButton btnDownloadPdf, @NonNull ImageButton btnNextMonth,
       @NonNull ImageButton btnPrevMonth, @NonNull MaterialButton btnScreenshot,
-      @NonNull MaterialButton btnSharePdf, @NonNull MaterialToolbar calendarToolbar,
-      @NonNull TextView customerProfileAddress, @NonNull ImageView customerProfileAvatar,
-      @NonNull TextView customerProfileMobile, @NonNull TextView customerProfileName,
-      @NonNull NestedScrollView reportContainer, @NonNull RecyclerView rvCalendarGrid,
-      @NonNull TextView statDeliveredDays, @NonNull TextView statDeliveryPercentage,
-      @NonNull TextView statPendingDays, @NonNull TextView statTotalDays,
+      @NonNull MaterialButton btnSharePdf, @NonNull TextView customerProfileAddress,
+      @NonNull ImageView customerProfileAvatar, @NonNull TextView customerProfileMobile,
+      @NonNull TextView customerProfileName, @NonNull NestedScrollView reportContainer,
+      @NonNull RecyclerView rvCalendarGrid, @NonNull TextView statDeliveredDays,
+      @NonNull TextView statDeliveryPercentage, @NonNull TextView statPendingDays,
+      @NonNull TextView statTotalDays, @NonNull MaterialToolbar toolbar,
       @NonNull TextView tvDeliveredDays, @NonNull TextView tvPaymentStatus,
       @NonNull TextView tvQuantity, @NonNull TextView tvRate, @NonNull TextView tvTotalAmount,
       @NonNull TextView txtCalendarMonthYear) {
@@ -109,7 +109,6 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
     this.btnPrevMonth = btnPrevMonth;
     this.btnScreenshot = btnScreenshot;
     this.btnSharePdf = btnSharePdf;
-    this.calendarToolbar = calendarToolbar;
     this.customerProfileAddress = customerProfileAddress;
     this.customerProfileAvatar = customerProfileAvatar;
     this.customerProfileMobile = customerProfileMobile;
@@ -120,6 +119,7 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
     this.statDeliveryPercentage = statDeliveryPercentage;
     this.statPendingDays = statPendingDays;
     this.statTotalDays = statTotalDays;
+    this.toolbar = toolbar;
     this.tvDeliveredDays = tvDeliveredDays;
     this.tvPaymentStatus = tvPaymentStatus;
     this.tvQuantity = tvQuantity;
@@ -185,12 +185,6 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.calendar_toolbar;
-      MaterialToolbar calendarToolbar = ViewBindings.findChildViewById(rootView, id);
-      if (calendarToolbar == null) {
-        break missingId;
-      }
-
       id = R.id.customer_profile_address;
       TextView customerProfileAddress = ViewBindings.findChildViewById(rootView, id);
       if (customerProfileAddress == null) {
@@ -251,6 +245,12 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.toolbar;
+      MaterialToolbar toolbar = ViewBindings.findChildViewById(rootView, id);
+      if (toolbar == null) {
+        break missingId;
+      }
+
       id = R.id.tvDeliveredDays;
       TextView tvDeliveredDays = ViewBindings.findChildViewById(rootView, id);
       if (tvDeliveredDays == null) {
@@ -288,11 +288,11 @@ public final class ActivityCustomerCalendarBinding implements ViewBinding {
       }
 
       return new ActivityCustomerCalendarBinding((LinearLayout) rootView, btnDownloadPdf,
-          btnNextMonth, btnPrevMonth, btnScreenshot, btnSharePdf, calendarToolbar,
-          customerProfileAddress, customerProfileAvatar, customerProfileMobile, customerProfileName,
-          reportContainer, rvCalendarGrid, statDeliveredDays, statDeliveryPercentage,
-          statPendingDays, statTotalDays, tvDeliveredDays, tvPaymentStatus, tvQuantity, tvRate,
-          tvTotalAmount, txtCalendarMonthYear);
+          btnNextMonth, btnPrevMonth, btnScreenshot, btnSharePdf, customerProfileAddress,
+          customerProfileAvatar, customerProfileMobile, customerProfileName, reportContainer,
+          rvCalendarGrid, statDeliveredDays, statDeliveryPercentage, statPendingDays, statTotalDays,
+          toolbar, tvDeliveredDays, tvPaymentStatus, tvQuantity, tvRate, tvTotalAmount,
+          txtCalendarMonthYear);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

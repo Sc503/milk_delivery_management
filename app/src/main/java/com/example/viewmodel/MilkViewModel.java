@@ -94,6 +94,7 @@ public class MilkViewModel extends AndroidViewModel {
         repository.savePayment(payment);
     }
 
+
     public List<Customer> getAllCustomersSync() {
         return repository.getAllCustomersSync();
     }

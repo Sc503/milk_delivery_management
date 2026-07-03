@@ -214,14 +214,6 @@ public class MilkRepository {
 
     // Add this method to MilkRepository.java
     public void resetAllToPending() {
-        executorService.execute(() -> {
-            List<Delivery> allDeliveries = deliveryDao.getAllDeliveriesSync();
-            for (Delivery d : allDeliveries) {
-                d.setStatus("Pending");
-                d.setDeliveredTime("--");
-                deliveryDao.update(d);
-            }
-            Log.d("RESET", "✅ All deliveries set to Pending");
-        });
+        executorService.execute(deliveryDao::resetAllToPending);
     }
 }

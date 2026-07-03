@@ -38,6 +38,7 @@
     <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDNsl0MU5SRmeA6ORMknMDFe2ZIpyh_VBI</string>
     <string name="google_storage_bucket" translatable="false">milk-delivery-96dc0.firebasestorage.app</string>
     <string name="project_id" translatable="false">milk-delivery-96dc0</string>
+    <string name="share_invoice">Share Invoice</string>
     <style name="CalendarDayHeader">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -46,6 +47,17 @@
         <item name="android:textAppearance">@style/TextAppearance.Material3.BodySmall</item>
         <item name="android:textColor">@color/gray_dark</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PremiumDayHeader">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#1A237E</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:background">@drawable/day_header_bg</item>
     </style>
     <style name="Theme.MilkDelivery" parent="Theme.Material3.DayNight.NoActionBar">
         
