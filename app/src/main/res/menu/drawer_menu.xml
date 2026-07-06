@@ -19,10 +19,6 @@
                     android:id="@+id/nav_staff_list"
                     android:icon="@drawable/ic_person"
                     android:title="Staff List" />
-                <item
-                    android:id="@+id/nav_add_staff"
-                    android:title="Add Staff"
-                    android:icon="@drawable/ic_person_add" />
             </menu>
         </item>
 

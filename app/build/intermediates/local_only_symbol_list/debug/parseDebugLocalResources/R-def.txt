@@ -49,6 +49,7 @@ drawable dot_separator
 drawable drawer_item_selector
 drawable edit_text_background
 drawable file_icon_background
+drawable filter
 drawable gradient_background
 drawable gradient_divider
 drawable gradient_divider_horizontal
@@ -56,6 +57,7 @@ drawable header_icon_background
 drawable ic_add
 drawable ic_add_user
 drawable ic_address
+drawable ic_addstaff
 drawable ic_arrow_left
 drawable ic_arrow_right
 drawable ic_back
@@ -83,6 +85,7 @@ drawable ic_person_add
 drawable ic_phone
 drawable ic_rightarrow
 drawable ic_scan
+drawable ic_search
 drawable ic_settings
 drawable ic_share
 drawable ic_support
@@ -113,7 +116,10 @@ drawable toolbar_gradient
 drawable toolbar_gradient_green
 id action_add_shortcut
 id action_add_staff
+id action_filter
+id action_search_staff
 id bgImage
+id bottom_card
 id btnApply
 id btnCall
 id btnCancel
@@ -210,11 +216,11 @@ id et_longitude
 id et_milk_quantity
 id et_milk_rate
 id et_mobile_number
-id fabFilter
 id fab_show_calendar
 id fragmentContainer
 id fragment_container
 id headerLayout
+id header_card
 id history_item_date
 id history_item_icon
 id history_item_status
@@ -223,6 +229,7 @@ id imgDocument
 id imgLogo
 id imgSplash
 id imgStaff
+id iv_filter
 id lay_address
 id lay_customer_name
 id lay_latitude
@@ -233,12 +240,12 @@ id lay_mobile_number
 id layoutContent
 id layoutPassword
 id loginCard
+id main
 id mainCard
 id map
 id mobileLayout
 id nav_about_us
 id nav_add_customer
-id nav_add_staff
 id nav_home
 id nav_logout
 id nav_monthly_recap
@@ -273,7 +280,6 @@ id rv_monthly_recap
 id rv_payment_customers
 id scrollView
 id searchBar
-id searchView
 id spinMonthFilter
 id spinYearFilter
 id stat_delivered_days
@@ -352,6 +358,7 @@ id txt_recap_pending_count
 id txt_recap_percentage
 id txt_recap_total_days
 id userTypeLayout
+layout activity_add_staff
 layout activity_backup_center
 layout activity_create_account
 layout activity_customer_calendar
@@ -359,6 +366,7 @@ layout activity_customer_recap_details
 layout activity_encrypted_file_viewer
 layout activity_login
 layout activity_main
+layout activity_monthly_recap
 layout activity_my_backups
 layout activity_received_backups
 layout activity_splash

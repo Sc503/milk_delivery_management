@@ -47,6 +47,7 @@ int drawable dot_separator 0x0
 int drawable drawer_item_selector 0x0
 int drawable edit_text_background 0x0
 int drawable file_icon_background 0x0
+int drawable filter 0x0
 int drawable gradient_background 0x0
 int drawable gradient_divider 0x0
 int drawable gradient_divider_horizontal 0x0
@@ -54,6 +55,7 @@ int drawable header_icon_background 0x0
 int drawable ic_add 0x0
 int drawable ic_add_user 0x0
 int drawable ic_address 0x0
+int drawable ic_addstaff 0x0
 int drawable ic_arrow_left 0x0
 int drawable ic_arrow_right 0x0
 int drawable ic_back 0x0
@@ -81,6 +83,7 @@ int drawable ic_person_add 0x0
 int drawable ic_phone 0x0
 int drawable ic_rightarrow 0x0
 int drawable ic_scan 0x0
+int drawable ic_search 0x0
 int drawable ic_settings 0x0
 int drawable ic_share 0x0
 int drawable ic_support 0x0
@@ -111,7 +114,10 @@ int drawable toolbar_gradient 0x0
 int drawable toolbar_gradient_green 0x0
 int id action_add_shortcut 0x0
 int id action_add_staff 0x0
+int id action_filter 0x0
+int id action_search_staff 0x0
 int id bgImage 0x0
+int id bottom_card 0x0
 int id btnApply 0x0
 int id btnCall 0x0
 int id btnCancel 0x0
@@ -208,11 +214,11 @@ int id et_longitude 0x0
 int id et_milk_quantity 0x0
 int id et_milk_rate 0x0
 int id et_mobile_number 0x0
-int id fabFilter 0x0
 int id fab_show_calendar 0x0
 int id fragmentContainer 0x0
 int id fragment_container 0x0
 int id headerLayout 0x0
+int id header_card 0x0
 int id history_item_date 0x0
 int id history_item_icon 0x0
 int id history_item_status 0x0
@@ -221,6 +227,7 @@ int id imgDocument 0x0
 int id imgLogo 0x0
 int id imgSplash 0x0
 int id imgStaff 0x0
+int id iv_filter 0x0
 int id lay_address 0x0
 int id lay_customer_name 0x0
 int id lay_latitude 0x0
@@ -231,12 +238,12 @@ int id lay_mobile_number 0x0
 int id layoutContent 0x0
 int id layoutPassword 0x0
 int id loginCard 0x0
+int id main 0x0
 int id mainCard 0x0
 int id map 0x0
 int id mobileLayout 0x0
 int id nav_about_us 0x0
 int id nav_add_customer 0x0
-int id nav_add_staff 0x0
 int id nav_home 0x0
 int id nav_logout 0x0
 int id nav_monthly_recap 0x0
@@ -271,7 +278,6 @@ int id rv_monthly_recap 0x0
 int id rv_payment_customers 0x0
 int id scrollView 0x0
 int id searchBar 0x0
-int id searchView 0x0
 int id spinMonthFilter 0x0
 int id spinYearFilter 0x0
 int id stat_delivered_days 0x0
@@ -350,6 +356,7 @@ int id txt_recap_pending_count 0x0
 int id txt_recap_percentage 0x0
 int id txt_recap_total_days 0x0
 int id userTypeLayout 0x0
+int layout activity_add_staff 0x0
 int layout activity_backup_center 0x0
 int layout activity_create_account 0x0
 int layout activity_customer_calendar 0x0
@@ -357,6 +364,7 @@ int layout activity_customer_recap_details 0x0
 int layout activity_encrypted_file_viewer 0x0
 int layout activity_login 0x0
 int layout activity_main 0x0
+int layout activity_monthly_recap 0x0
 int layout activity_my_backups 0x0
 int layout activity_received_backups 0x0
 int layout activity_splash 0x0

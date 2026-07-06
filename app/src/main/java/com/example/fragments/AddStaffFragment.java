@@ -153,6 +153,7 @@ public class AddStaffFragment extends Fragment {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (binding == null) return;
                 // ✅ Re-enable button FIRST
                 resetButtonState();
 
@@ -173,17 +174,21 @@ public class AddStaffFragment extends Fragment {
                     if (status != null && status) {
                         // ✅ Success
                         String msg = message != null ? message : "Staff created successfully!";
-                        Toast.makeText(requireContext(), "✅ " + msg, Toast.LENGTH_LONG).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "✅ " + msg, Toast.LENGTH_LONG).show();
+                        }
                         clearFields();
 
                         // Navigate back to staff list
-                        if (getParentFragmentManager() != null) {
+                        if (isAdded() && getParentFragmentManager() != null) {
                             getParentFragmentManager().popBackStack();
                         }
                     } else {
                         // ❌ Error from API
                         String msg = message != null ? message : "Failed to create staff";
-                        Toast.makeText(requireContext(), "❌ " + msg, Toast.LENGTH_LONG).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "❌ " + msg, Toast.LENGTH_LONG).show();
+                        }
                     }
                 } else {
                     // ❌ Response not successful
@@ -197,17 +202,22 @@ public class AddStaffFragment extends Fragment {
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing error body: " + e.getMessage());
                     }
-                    Toast.makeText(requireContext(), "❌ " + errorMsg, Toast.LENGTH_LONG).show();
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "❌ " + errorMsg, Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
+                if (binding == null) return;
                 // ✅ Re-enable button on network error
                 resetButtonState();
 
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                Toast.makeText(requireContext(), "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -66,6 +66,7 @@ secrets {
 // Some unused dependencies are commented out below instead of being removed.
 // This makes it easy to add them back in the future if needed.
 dependencies {
+  implementation(libs.androidx.activity.ktx)
   implementation(libs.appcompat)
   implementation(libs.material)
   implementation(libs.constraintlayout)
