@@ -3,6 +3,8 @@ package com.example.models;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "staff")
 public class Staff {
     @PrimaryKey(autoGenerate = true)
@@ -16,6 +18,8 @@ public class Staff {
     private String documentPath;
     private String documentType;
     private int isactive;
+
+    private String password;
 
     // ── Constructors ──────────────────────────────────────────────
     public Staff() {}
@@ -68,4 +72,7 @@ public class Staff {
 
     public int getIsactive() { return isactive; }
     public void setIsactive(int isactive) { this.isactive = isactive; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 }

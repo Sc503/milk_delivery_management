@@ -10,7 +10,7 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-    // ✅ 1. Create Account (Registration)
+    //  Create Account (Registration)
     @FormUrlEncoded
     @POST("createaccount.php")
     Call<LoginResponse> createAccount(
@@ -22,7 +22,7 @@ public interface ApiService {
             @Field("password") String password
     );
 
-    // ✅ 2. Admin Login
+    //   Admin Login
     @FormUrlEncoded
     @POST("loginadmin.php")
     Call<LoginResponse> loginAdmin(
@@ -30,7 +30,7 @@ public interface ApiService {
             @Field("password") String password
     );
 
-    // ✅ 3. Staff Login
+    //  Staff Login
     @FormUrlEncoded
     @POST("loginstaff.php")
     Call<LoginResponse> loginStaff(
@@ -39,7 +39,7 @@ public interface ApiService {
             @Field("accountid") String accountId
     );
 
-    // ✅ 4. Create Staff
+    //  Create Staff
     @FormUrlEncoded
     @POST("createstaff.php")
     Call<LoginResponse> createStaff(
@@ -49,7 +49,19 @@ public interface ApiService {
             @Field("password") String password
     );
 
-    // ✅ 5. List All Staff
+    // update staff
+    @FormUrlEncoded
+    @POST("createstaff.php")
+    Call<LoginResponse> updateStaff(
+            @Field("staff_id") String staffId,
+            @Field("account_id") String accountId,
+            @Field("name") String name,
+            @Field("mobile") String mobile,
+            @Field("password") String password,
+            @Field("status") String status
+    );
+
+    //  List All Staff
     @FormUrlEncoded
     @POST("listallstaff.php")
     Call<StaffListResponse> listStaff(

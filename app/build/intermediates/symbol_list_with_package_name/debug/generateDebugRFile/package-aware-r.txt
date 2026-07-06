@@ -123,6 +123,7 @@ id btnCreateAccount
 id btnDecrypt
 id btnDisconnect
 id btnDownloadPdf
+id btnEdit
 id btnEditCustomer
 id btnExportExcel
 id btnLogin
@@ -136,6 +137,7 @@ id btnSelectMonth
 id btnSendFile
 id btnShare
 id btnSharePdf
+id btnUpdateStaff
 id btnWhatsApp
 id btnWifiDirect
 id btn_backup_center
@@ -198,6 +200,7 @@ id etName
 id etOwnerName
 id etPassword
 id etPending
+id etStaffId
 id etStaffName
 id et_address
 id et_customer_name
@@ -249,6 +252,8 @@ id passwordLayout
 id pieChart
 id previewImage
 id progressBar
+id rbActive
+id rbInactive
 id recap_average_percentage
 id recap_details_toolbar
 id recap_total_customers
@@ -259,6 +264,7 @@ id recyclerDevices
 id recyclerReceivedBackups
 id recyclerStaff
 id reportContainer
+id rgStatus
 id rvPaymentHistory
 id rv_calendar_grid
 id rv_delivery_history
@@ -292,6 +298,7 @@ id tvRate
 id tvStaffId
 id tvStaffMobile
 id tvStaffName
+id tvStaffPassword
 id tvStaffStatus
 id tvTotalAmount
 id txtAddress
@@ -363,6 +370,7 @@ layout dialog_staff_details
 layout fragment_about_us
 layout fragment_add_customer
 layout fragment_add_staff
+layout fragment_edit_staff
 layout fragment_map
 layout fragment_monthly_recap
 layout fragment_payment

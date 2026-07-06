@@ -278,7 +278,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (loginResponse.getData() != null) {
                     MyData data = loginResponse.getData();
-                    Toast.makeText(LoginActivity.this, "11", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "11", Toast.LENGTH_SHORT).show();
 
                     // Save user data
                     SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
@@ -292,7 +292,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        editor.putString("city", data.getCity());
 //                        editor.putString("address", data.getAddress());
                     } else {
-                        Toast.makeText(LoginActivity.this, "22", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "22", Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -320,7 +320,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
 
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(LoginActivity.this, "33", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(LoginActivity.this, "33", Toast.LENGTH_SHORT).show();
                 }
 
         }

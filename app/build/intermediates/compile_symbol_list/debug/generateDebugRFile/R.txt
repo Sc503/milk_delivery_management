@@ -122,6 +122,7 @@ int id btnCreateAccount 0x0
 int id btnDecrypt 0x0
 int id btnDisconnect 0x0
 int id btnDownloadPdf 0x0
+int id btnEdit 0x0
 int id btnEditCustomer 0x0
 int id btnExportExcel 0x0
 int id btnLogin 0x0
@@ -135,6 +136,7 @@ int id btnSelectMonth 0x0
 int id btnSendFile 0x0
 int id btnShare 0x0
 int id btnSharePdf 0x0
+int id btnUpdateStaff 0x0
 int id btnWhatsApp 0x0
 int id btnWifiDirect 0x0
 int id btn_backup_center 0x0
@@ -197,6 +199,7 @@ int id etName 0x0
 int id etOwnerName 0x0
 int id etPassword 0x0
 int id etPending 0x0
+int id etStaffId 0x0
 int id etStaffName 0x0
 int id et_address 0x0
 int id et_customer_name 0x0
@@ -248,6 +251,8 @@ int id passwordLayout 0x0
 int id pieChart 0x0
 int id previewImage 0x0
 int id progressBar 0x0
+int id rbActive 0x0
+int id rbInactive 0x0
 int id recap_average_percentage 0x0
 int id recap_details_toolbar 0x0
 int id recap_total_customers 0x0
@@ -258,6 +263,7 @@ int id recyclerDevices 0x0
 int id recyclerReceivedBackups 0x0
 int id recyclerStaff 0x0
 int id reportContainer 0x0
+int id rgStatus 0x0
 int id rvPaymentHistory 0x0
 int id rv_calendar_grid 0x0
 int id rv_delivery_history 0x0
@@ -291,6 +297,7 @@ int id tvRate 0x0
 int id tvStaffId 0x0
 int id tvStaffMobile 0x0
 int id tvStaffName 0x0
+int id tvStaffPassword 0x0
 int id tvStaffStatus 0x0
 int id tvTotalAmount 0x0
 int id txtAddress 0x0
@@ -362,6 +369,7 @@ int layout dialog_staff_details 0x0
 int layout fragment_about_us 0x0
 int layout fragment_add_customer 0x0
 int layout fragment_add_staff 0x0
+int layout fragment_edit_staff 0x0
 int layout fragment_map 0x0
 int layout fragment_monthly_recap 0x0
 int layout fragment_payment 0x0

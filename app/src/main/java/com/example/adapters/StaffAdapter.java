@@ -2,17 +2,21 @@ package com.example.adapters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
 import com.example.databinding.ItemStaffBinding;
+import com.example.fragments.EditStaffFragment;
 import com.example.models.Staff;
+import com.google.gson.Gson;  // ✅ ADD THIS IMPORT
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +91,14 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         holder.binding.tvStaffMobile.setText("📱 " + staff.getMobile());
         holder.binding.tvStaffId.setText("ID: " + staff.getId());
 
+        // Set Password
+        if (staff.getPassword() != null && !staff.getPassword().isEmpty()) {
+            holder.binding.tvStaffPassword.setText("🔑 " + staff.getPassword());
+            holder.binding.tvStaffPassword.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.tvStaffPassword.setVisibility(View.GONE);
+        }
+
         // Set status
         if (staff.getIsactive() == 1) {
             holder.binding.tvStaffStatus.setText("Active");
@@ -101,7 +113,27 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         // Profile image - placeholder
         holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
 
-        // ✅ Call button
+        // ✅ Edit button - Using Gson to pass staff data
+        holder.binding.btnEdit.setOnClickListener(v -> {
+            if (parentFragment != null) {
+                // Convert Staff to JSON string
+                Gson gson = new Gson();
+                String staffJson = gson.toJson(staff);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("staff_data_json", staffJson);
+
+                EditStaffFragment editFragment = new EditStaffFragment();
+                editFragment.setArguments(bundle);
+
+                FragmentTransaction transaction = parentFragment.getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, editFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        // Call button
         holder.binding.btnCall.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + staff.getMobile()));
             if (parentFragment != null) {
@@ -111,12 +143,12 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
             }
         });
 
-        // ✅ Click for details
+        // Click for details
         holder.itemView.setOnClickListener(v -> {
             listener.onDetails(staff);
         });
 
-        // ✅ Long press for details
+        // Long press for details
         holder.itemView.setOnLongClickListener(v -> {
             listener.onDetails(staff);
             return true;

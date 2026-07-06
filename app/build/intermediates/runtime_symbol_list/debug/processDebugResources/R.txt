@@ -1370,10 +1370,10 @@ int attr yearTodayStyle 0x7f040503
 int attr zOrderOnTop 0x7f040504
 int bool abc_action_bar_embed_tabs 0x7f050000
 int bool abc_config_actionMenuItemAllCaps 0x7f050001
-int bool enable_system_alarm_service_default 0x7f050003
-int bool enable_system_foreground_service_default 0x7f050004
-int bool enable_system_job_service_default 0x7f050005
-int bool mtrl_btn_textappearance_all_caps 0x7f050002
+int bool enable_system_alarm_service_default 0x7f050002
+int bool enable_system_foreground_service_default 0x7f050003
+int bool enable_system_job_service_default 0x7f050004
+int bool mtrl_btn_textappearance_all_caps 0x7f050005
 int bool workmanager_test_configuration 0x7f050006
 int color abc_background_cache_hint_selector_material_dark 0x7f060000
 int color abc_background_cache_hint_selector_material_light 0x7f060001
@@ -3786,6 +3786,7 @@ int id btnCreateAccount 0x7f090073
 int id btnDecrypt 0x7f090074
 int id btnDisconnect 0x7f090075
 int id btnDownloadPdf 0x7f090076
+int id btnEdit 0x7f090310
 int id btnEditCustomer 0x7f090077
 int id btnExportExcel 0x7f090078
 int id btnLogin 0x7f090079
@@ -3799,6 +3800,7 @@ int id btnSelectMonth 0x7f090080
 int id btnSendFile 0x7f090081
 int id btnShare 0x7f090082
 int id btnSharePdf 0x7f090083
+int id btnUpdateStaff 0x7f090311
 int id btnWhatsApp 0x7f090084
 int id btnWifiDirect 0x7f090085
 int id btn_backup_center 0x7f090086
@@ -3947,6 +3949,7 @@ int id etName 0x7f090114
 int id etOwnerName 0x7f090115
 int id etPassword 0x7f090116
 int id etPending 0x7f090117
+int id etStaffId 0x7f090312
 int id etStaffName 0x7f090118
 int id et_address 0x7f090119
 int id et_customer_name 0x7f09011a
@@ -4206,6 +4209,8 @@ int id progress_circular 0x7f090217
 int id progress_horizontal 0x7f090218
 int id radio 0x7f090219
 int id ratio 0x7f09021a
+int id rbActive 0x7f090313
+int id rbInactive 0x7f090314
 int id recap_average_percentage 0x7f09021b
 int id recap_details_toolbar 0x7f09021c
 int id recap_total_customers 0x7f09021d
@@ -4219,6 +4224,7 @@ int id recyclerStaff 0x7f090224
 int id reportContainer 0x7f090225
 int id report_drawn 0x7f090226
 int id reverseSawtooth 0x7f090227
+int id rgStatus 0x7f090315
 int id right 0x7f090228
 int id rightToLeft 0x7f090229
 int id right_icon 0x7f09022a
@@ -4372,6 +4378,7 @@ int id tvRate 0x7f0902bd
 int id tvStaffId 0x7f0902be
 int id tvStaffMobile 0x7f0902bf
 int id tvStaffName 0x7f0902c0
+int id tvStaffPassword 0x7f09030f
 int id tvStaffStatus 0x7f0902c1
 int id tvTotalAmount 0x7f0902c2
 int id txtAddress 0x7f0902c3
@@ -4603,6 +4610,7 @@ int layout dialog_staff_details 0x7f0c003d
 int layout fragment_about_us 0x7f0c003e
 int layout fragment_add_customer 0x7f0c003f
 int layout fragment_add_staff 0x7f0c0040
+int layout fragment_edit_staff 0x7f0c0099
 int layout fragment_map 0x7f0c0041
 int layout fragment_monthly_recap 0x7f0c0042
 int layout fragment_payment 0x7f0c0043
