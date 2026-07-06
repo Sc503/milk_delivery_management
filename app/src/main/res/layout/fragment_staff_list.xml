@@ -7,21 +7,13 @@
     android:padding="16dp"
     android:background="#F5F7FA">
 
-    <!-- Search View -->
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:queryHint="Search staff..."
-        app:iconifiedByDefault="false" />
-
     <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone" />
+
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView

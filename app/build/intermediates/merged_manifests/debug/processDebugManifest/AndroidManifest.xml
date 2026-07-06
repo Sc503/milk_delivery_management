@@ -24,9 +24,7 @@
         </intent>
         <!-- Needs to be explicitly declared on Android R+ -->
         <package android:name="com.google.android.apps.maps" />
-    </queries>
-
-    <!-- Permissions -->
+    </queries> <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -70,8 +68,12 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.MilkDelivery" >
-
-        <!-- Google Maps API Key -->
+        <activity
+            android:name="com.example.activities.MonthlyRecap_Activity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.activities.AddStaff_Activity"
+            android:exported="false" /> <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY" />
@@ -87,15 +89,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider>
-
-        <!-- WiFi Direct Service -->
+        </provider> <!-- WiFi Direct Service -->
         <service
             android:name="com.example.service.WifiDirectService"
             android:exported="false"
-            android:foregroundServiceType="dataSync" />
-
-        <!-- Auto Backup Receivers -->
+            android:foregroundServiceType="dataSync" /> <!-- Auto Backup Receivers -->
         <receiver
             android:name="com.example.Receivers.BootReceiver"
             android:enabled="true"
@@ -108,9 +106,7 @@
         <receiver
             android:name="com.example.Receivers.AutoBackupReceiver"
             android:enabled="true"
-            android:exported="false" />
-
-        <!-- Activities -->
+            android:exported="false" /> <!-- Activities -->
         <activity
             android:name="com.example.activities.SplashActivity"
             android:exported="true"
@@ -161,9 +157,7 @@
         <activity
             android:name="com.example.activities.WifiDirectActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- ✅ Handle .enc files (Both Open & Share) -->
+            android:screenOrientation="portrait" /> <!-- ✅ Handle .enc files (Both Open & Share) -->
         <activity
             android:name="com.example.activities.EncryptedFileViewerActivity"
             android:exported="true"
@@ -418,10 +412,11 @@
             android:exported="false" />
 
         <activity
-            android:name="androidx.compose.ui.tooling.PreviewActivity"
-            android:exported="true" />
-        <activity
             android:name="androidx.activity.ComponentActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <activity
+            android:name="androidx.compose.ui.tooling.PreviewActivity"
             android:exported="true" />
 
         <receiver

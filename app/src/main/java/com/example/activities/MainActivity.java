@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Fragment activeFragment;
     private String currentUserType;
 
+    private ActionBarDrawerToggle toggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -85,9 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // UI / MENU SETUP FIRST
         setupMenuByRole();
 
-
-
-
         setSupportActionBar(binding.toolbar);
 
         if (getSupportActionBar() != null) {
@@ -95,9 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // Navigation slide-toggle drawer hooks
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, binding.drawerLayout, binding.toolbar,
-                R.string.app_name, R.string.app_name);
+        toggle = new ActionBarDrawerToggle(
+                this,
+                binding.drawerLayout,
+                binding.toolbar,
+                R.string.app_name,
+                R.string.app_name);
+
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         binding.navView.setItemIconTintList(getResources().getColorStateList(R.color.primary));
@@ -153,20 +157,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "STAFF_LIST_FRAGMENT";
             toolbarTitle = "Staff List";
             binding.navView.setCheckedItem(R.id.nav_staff_list);
-        } else if (itemId == R.id.nav_add_staff) {
-            if (!"Owner".equals(currentUserType)) {
-                Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            fragment = new AddStaffFragment();
-            tag = "ADD_STAFF_FRAGMENT";
-            toolbarTitle = "Add Staff";
-            binding.navView.setCheckedItem(R.id.nav_add_staff);
         } else if (itemId == R.id.nav_monthly_recap) {
-            fragment = new MonthlyRecapFragment();
-            tag = "MONTHLY_RECAP_FRAGMENT";
-            toolbarTitle = "Monthly Recap";
-            binding.navView.setCheckedItem(R.id.nav_monthly_recap);
+//            fragment = new MonthlyRecapFragment();
+
+            Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
+            startActivity(intent);
+
+//            tag = "MONTHLY_RECAP_FRAGMENT";
+//            toolbarTitle = "Monthly Recap";
+//            binding.navView.setCheckedItem(R.id.nav_monthly_recap);
         } else if (itemId == R.id.nav_payments) {
             fragment = new PaymentFragment();
             tag = "PAYMENT_FRAGMENT";
@@ -206,12 +205,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (fragment != null) {
             activeFragment = fragment;
+
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragment_container, fragment, tag);
             transaction.commit();
 
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(toolbarTitle);
+
+                // 👇 Show/hide back button based on fragment
+                if (fragment instanceof AddStaffFragment) {
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    toggle.setDrawerIndicatorEnabled(false);
+
+                } else {
+
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                    toggle.setDrawerIndicatorEnabled(true);
+                    toggle.syncState();
+                }
             }
         }
 
@@ -226,37 +239,118 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (!(activeFragment instanceof MapFragment)) {
-            navigateToMenuItem(R.id.nav_home);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search_staff);
+
+        SearchView searchView =
+                (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint("Search Staff");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                Fragment fragment = getSupportFragmentManager()
+                        .findFragmentById(R.id.fragment_container);
+
+                if (fragment instanceof StaffListFragment) {
+                    ((StaffListFragment) fragment).filterStaff(newText);
+                }
+
+                return true;
+            }
+        });
+
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem addCustomerItem = menu.findItem(R.id.action_add_shortcut);
-        if (addCustomerItem != null) {
-            addCustomerItem.setVisible(activeFragment instanceof MapFragment);
-        }
-        return super.onPrepareOptionsMenu(menu);
+
+        MenuItem addCustomer = menu.findItem(R.id.action_add_shortcut);
+        MenuItem addStaff = menu.findItem(R.id.action_add_staff);
+        MenuItem filter = menu.findItem(R.id.action_filter);
+        MenuItem searchStaff = menu.findItem(R.id.action_search_staff);
+
+        if (addCustomer != null)
+            addCustomer.setVisible(activeFragment instanceof MapFragment);
+
+        if (addStaff != null)
+            addStaff.setVisible(activeFragment instanceof StaffListFragment);
+
+        if (filter != null)
+            filter.setVisible(activeFragment instanceof MonthlyRecapFragment);
+
+        if (searchStaff != null)
+            searchStaff.setVisible(activeFragment instanceof StaffListFragment);
+
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+
+            if (activeFragment instanceof AddStaffFragment) {
+                navigateToMenuItem(R.id.nav_staff_list);
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+            }
+
+            return true;
+        }
+
         if (item.getItemId() == R.id.action_add_shortcut) {
             navigateToMenuItem(R.id.nav_add_customer);
             return true;
         }
+
+        if (item.getItemId() == R.id.action_add_staff) {
+
+//            activeFragment = new AddStaffFragment();
+
+            // Create Account link
+                Intent intent = new Intent(MainActivity.this, AddStaff_Activity.class);
+                startActivity(intent);
+
+
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragment_container, activeFragment)
+//                    .commit();
+
+//            if (getSupportActionBar() != null) {
+//                getSupportActionBar().setTitle("Add Staff");
+//                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            }
+//
+//            invalidateOptionsMenu();
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_filter) {
+
+            Fragment fragment = getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container);
+
+            if (fragment instanceof MonthlyRecapFragment) {
+                ((MonthlyRecapFragment) fragment).showFilterDialog();
+            }
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -276,18 +370,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if ("Owner".equals(currentUserType)) {
             Log.d("CHECK", "Owner menu loaded - everything visible");
             // Owner sees everything
-            // Staff List & Add Staff are visible (already visible)
-
         } else if ("Staff".equals(currentUserType)) {
             Log.d("CHECK", "Staff menu loaded - limited access");
             // Staff: Hide admin-only items
             hide(menu, R.id.nav_add_customer);
-            hide(menu, R.id.nav_payment);
+            hide(menu, R.id.nav_payments);
             hide(menu, R.id.nav_staff_list);
-            hide(menu, R.id.nav_add_staff);
         }
-
-        // ✅ No Customer case anymore
     }
 
     private void hide(Menu menu, int id) {

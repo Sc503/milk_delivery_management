@@ -95,15 +95,9 @@ public class MonthlyRecapFragment extends Fragment {
 
         setupRecyclerView();
 
-        // ROLE BASED UI CONTROL
-        if (currentUserType.equals("Customer")) {
 
-            binding.fabFilter.setVisibility(View.GONE);
-        }
 
-        binding.fabFilter.setOnClickListener(v -> {
-            showFilterBottomSheet();
-        });
+
 
 
 
@@ -137,7 +131,9 @@ public class MonthlyRecapFragment extends Fragment {
 
         sheet.show(getChildFragmentManager(), "FILTER_SHEET");
     }
-
+    public void showFilterDialog() {
+        showFilterBottomSheet();
+    }
 
 
     private void setupRecyclerView() {

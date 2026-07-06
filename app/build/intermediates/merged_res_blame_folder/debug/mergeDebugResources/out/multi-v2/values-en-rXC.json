@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.app-mergeDebugResources-86:/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "com.example.app-mergeDebugResources-74:/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\b64667ea96ab079bcf4a975b946c477d\\workspace\\transformed\\appcompat-1.7.0\\res\\values-en-rXC\\values-en-rXC.xml",
@@ -38,23 +38,6 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\9ed964d1d8ad94c7796e19a38fc159ed\\workspace\\transformed\\foundation-release\\res\\values-en-rXC\\values-en-rXC.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,243",
-                        "endColumns": "187,186",
-                        "endOffsets": "238,425"
-                    },
-                    "to": {
-                        "startLines": "119,120",
-                        "startColumns": "4,4",
-                        "startOffsets": "23868,24056",
-                        "endColumns": "187,186",
-                        "endOffsets": "24051,24238"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\eaf36e8480770da849418bac92ea9736\\workspace\\transformed\\material3-release\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58",
@@ -72,6 +55,23 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\4bf4f34a7de48ec56b1380d8f7c44e6e\\workspace\\transformed\\foundation-release\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,243",
+                        "endColumns": "187,186",
+                        "endOffsets": "238,425"
+                    },
+                    "to": {
+                        "startLines": "120,121",
+                        "startColumns": "4,4",
+                        "startOffsets": "24054,24242",
+                        "endColumns": "187,186",
+                        "endOffsets": "24237,24424"
+                    }
+                },
+                {
                     "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\8f522a7cac51777816a011387f37fb92\\workspace\\transformed\\core-1.18.0\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
@@ -81,28 +81,28 @@
                         "endOffsets": "246,451,652,853,1060,1265,1477,1681"
                     },
                     "to": {
-                        "startLines": "31,32,33,34,35,36,37,115",
+                        "startLines": "31,32,33,34,35,36,37,116",
                         "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "5959,6155,6360,6561,6762,6969,7174,23080",
+                        "startOffsets": "5959,6155,6360,6561,6762,6969,7174,23266",
                         "endColumns": "195,204,200,200,206,204,211,203",
-                        "endOffsets": "6150,6355,6556,6757,6964,7169,7381,23279"
+                        "endOffsets": "6150,6355,6556,6757,6964,7169,7381,23465"
                     }
                 },
                 {
-                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\db4c1fb91aa32e091e1a8eb23c5b7018\\workspace\\transformed\\ui-release\\res\\values-en-rXC\\values-en-rXC.xml",
+                    "source": "C:\\Users\\Lenovo\\.gradle\\caches\\9.3.1\\transforms\\34fb76b843ee4f85416a7f3a0d7bc31d\\workspace\\transformed\\ui-release\\res\\values-en-rXC\\values-en-rXC.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,296,481,678,880,1067,1252,1445,1633,1820,2001,2186,2352,2530,2705,2876,3055,3222",
-                        "endColumns": "190,184,196,201,186,184,192,187,186,180,184,165,177,174,170,178,166,237",
-                        "endOffsets": "291,476,673,875,1062,1247,1440,1628,1815,1996,2181,2347,2525,2700,2871,3050,3217,3455"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,296,481,678,880,1067,1252,1445,1633,1820,2001,2186,2352,2538,2716,2891,3062,3241,3408",
+                        "endColumns": "190,184,196,201,186,184,192,187,186,180,184,165,185,177,174,170,178,166,237",
+                        "endOffsets": "291,476,673,875,1062,1247,1440,1628,1815,1996,2181,2347,2533,2711,2886,3057,3236,3403,3641"
                     },
                     "to": {
-                        "startLines": "38,39,41,42,43,47,48,106,107,108,109,111,112,113,114,116,117,118",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "7386,7577,7962,8159,8361,9160,9345,21463,21651,21838,22019,22390,22556,22734,22909,23284,23463,23630",
-                        "endColumns": "190,184,196,201,186,184,192,187,186,180,184,165,177,174,170,178,166,237",
-                        "endOffsets": "7572,7757,8154,8356,8543,9340,9533,21646,21833,22014,22199,22551,22729,22904,23075,23458,23625,23863"
+                        "startLines": "38,39,41,42,43,47,48,106,107,108,109,111,112,113,114,115,117,118,119",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "7386,7577,7962,8159,8361,9160,9345,21463,21651,21838,22019,22390,22556,22742,22920,23095,23470,23649,23816",
+                        "endColumns": "190,184,196,201,186,184,192,187,186,180,184,165,185,177,174,170,178,166,237",
+                        "endOffsets": "7572,7757,8154,8356,8543,9340,9533,21646,21833,22014,22199,22551,22737,22915,23090,23261,23644,23811,24049"
                     }
                 },
                 {

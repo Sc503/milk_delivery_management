@@ -79,18 +79,18 @@ public class StaffListFragment extends Fragment {
         binding.recyclerStaff.setAdapter(adapter);
 
         // Search
-        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filter(newText);
-                return true;
-            }
-        });
+//        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                adapter.filter(newText);
+//                return true;
+//            }
+//        });
 
         // ❌ REMOVED: btnSharePdf click listener
 
@@ -112,6 +112,7 @@ public class StaffListFragment extends Fragment {
         call.enqueue(new Callback<StaffListResponse>() {
             @Override
             public void onResponse(Call<StaffListResponse> call, Response<StaffListResponse> response) {
+                if (binding == null) return;
                 binding.progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful() && response.body() != null) {
@@ -124,26 +125,37 @@ public class StaffListFragment extends Fragment {
                             staffList.clear();
                             staffList.addAll(staffData);
                             adapter.setData(staffList);
-                            Toast.makeText(requireContext(), "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(requireContext(), "No staff members found", Toast.LENGTH_SHORT).show();
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), "No staff members found", Toast.LENGTH_SHORT).show();
+                            }
                             staffList.clear();
                             adapter.setData(staffList);
                         }
                     } else {
                         String msg = staffResponse.getMessage() != null ? staffResponse.getMessage() : "Error loading staff";
-                        Toast.makeText(requireContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Failed to load staff list", Toast.LENGTH_SHORT).show();
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Failed to load staff list", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<StaffListResponse> call, Throwable t) {
+                if (binding == null) return;
                 binding.progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -158,6 +170,14 @@ public class StaffListFragment extends Fragment {
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
+    }
+
+    public void filterStaff(String text) {
+
+        if (adapter != null) {
+            adapter.filter(text);
+        }
+
     }
 
     private void showStaffDetails(Staff staff) {

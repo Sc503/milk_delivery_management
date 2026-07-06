@@ -142,35 +142,36 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" /><com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lay_milk_quantity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Milk Quantity (Litre)">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_milk_quantity"
+            android:layout_weight="1" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lay_milk_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Milk Quantity (Litre)"
+            app:suffixText="Litre / Day">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_milk_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_milk_rate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Rate Per Litre">
+            android:hint="Rate Per Litre"
+            app:suffixText="₹ / Litre">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_milk_rate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"/>
+
         </com.google.android.material.textfield.TextInputLayout>
-
-
-
         <!-- Save button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_customer"
