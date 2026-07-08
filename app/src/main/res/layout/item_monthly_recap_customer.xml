@@ -6,8 +6,8 @@
     android:gravity="center_vertical"
     android:paddingTop="14dp"
     android:paddingBottom="14dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="8dp"
     android:background="?attr/selectableItemBackground">
 
     <!-- Customer Name -->
@@ -15,65 +15,72 @@
         android:id="@+id/txt_recap_customer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.6"
-        android:text="John Doe"
+        android:layout_weight="1.35"
+        android:gravity="start|center_vertical"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="Saurabh C..."
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="@color/on_surface" />
+        android:textColor="@color/on_surface"/>
 
     <!-- Total Days -->
     <TextView
         android:id="@+id/txt_recap_total_days"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="30"
-        android:textAlignment="center"
+        android:layout_weight="0.75"
+        android:gravity="center"
+        android:text="31"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textColor="@color/on_surface" />
+        android:textColor="@color/on_surface"/>
 
     <!-- Delivered Count -->
     <TextView
         android:id="@+id/txt_recap_delivered_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="28"
+        android:layout_weight="0.85"
+        android:gravity="center"
+        android:text="1"
         android:textColor="@color/delivered_green"
-        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <!-- Pending Count -->
     <TextView
         android:id="@+id/txt_recap_pending_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="2"
+        android:layout_weight="0.95"
+        android:gravity="center"
+        android:text="30"
         android:textColor="@color/pending_red"
-        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <!-- Percentage -->
     <TextView
         android:id="@+id/txt_recap_percentage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:text="93.33%"
+        android:layout_weight="0.75"
+        android:gravity="center"
+        android:text="3.2%"
         android:textStyle="bold"
         android:textColor="@color/primary"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
+    <!-- Edit Button -->
     <ImageButton
         android:id="@+id/btnEditCustomer"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="6dp"
-        android:background="@android:color/transparent"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:contentDescription="Edit Customer"
         android:src="@drawable/ic_edit"
         android:tint="@color/primary"/>
+
 </LinearLayout>

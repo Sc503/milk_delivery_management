@@ -123,7 +123,6 @@ id bottom_card
 id btnApply
 id btnCall
 id btnCancel
-id btnChangeLocation
 id btnClear
 id btnClose
 id btnCreateAccount
@@ -203,6 +202,7 @@ id etMilkQuantity
 id etMilkRate
 id etMobile
 id etMobile1
+id etMobileNumber
 id etName
 id etOwnerName
 id etPassword
@@ -302,7 +302,6 @@ id tvLoginLink
 id tvPaymentStatus
 id tvQuantity
 id tvRate
-id tvStaffId
 id tvStaffMobile
 id tvStaffName
 id tvStaffPassword
@@ -321,7 +320,6 @@ id txtDocumentType
 id txtEmptyState
 id txtFileCount
 id txtForgotPassword
-id txtLastAutoBackup
 id txtLoading
 id txtMobile
 id txtMobile1

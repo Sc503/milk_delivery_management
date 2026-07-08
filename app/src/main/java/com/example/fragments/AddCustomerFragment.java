@@ -37,6 +37,7 @@ import android.location.Geocoder;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import android.text.InputFilter;
 
 public class AddCustomerFragment extends Fragment {
 
@@ -59,6 +60,11 @@ public class AddCustomerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Mobile Number -> Only 10 digits
+        binding.etMobileNumber.setFilters(new InputFilter[]{
+                new InputFilter.LengthFilter(10)
+        });
 
 
         binding.btnGetLocation.setOnClickListener(v -> checkPermissionAndFetchGPS());
@@ -206,6 +212,10 @@ public class AddCustomerFragment extends Fragment {
 
         if (TextUtils.isEmpty(mobile)) {
             binding.layMobileNumber.setError("Mobile Number is required");
+            binding.etMobileNumber.requestFocus();
+            return;
+        } else if (!mobile.matches("^[6-9]\\d{9}$")) {
+            binding.layMobileNumber.setError("Enter valid 10 digit mobile number");
             binding.etMobileNumber.requestFocus();
             return;
         } else {

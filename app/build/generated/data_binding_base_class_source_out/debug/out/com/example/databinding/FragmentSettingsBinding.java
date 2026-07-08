@@ -43,17 +43,13 @@ public final class FragmentSettingsBinding implements ViewBinding {
   public final SwitchCompat switchAutoBackup;
 
   @NonNull
-  public final TextView txtLastAutoBackup;
-
-  @NonNull
   public final TextView txtLastBackup;
 
   private FragmentSettingsBinding(@NonNull ScrollView rootView,
       @NonNull MaterialButton btnBackupCenter, @NonNull MaterialButton btnBackupNow,
       @NonNull MaterialButton btnClearCache, @NonNull MaterialButton btnRestoreBackup,
       @NonNull MaterialButton btnShareBackup, @NonNull MaterialButton btnWifiDirect,
-      @NonNull SwitchCompat switchAutoBackup, @NonNull TextView txtLastAutoBackup,
-      @NonNull TextView txtLastBackup) {
+      @NonNull SwitchCompat switchAutoBackup, @NonNull TextView txtLastBackup) {
     this.rootView = rootView;
     this.btnBackupCenter = btnBackupCenter;
     this.btnBackupNow = btnBackupNow;
@@ -62,7 +58,6 @@ public final class FragmentSettingsBinding implements ViewBinding {
     this.btnShareBackup = btnShareBackup;
     this.btnWifiDirect = btnWifiDirect;
     this.switchAutoBackup = switchAutoBackup;
-    this.txtLastAutoBackup = txtLastAutoBackup;
     this.txtLastBackup = txtLastBackup;
   }
 
@@ -135,12 +130,6 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      id = R.id.txtLastAutoBackup;
-      TextView txtLastAutoBackup = ViewBindings.findChildViewById(rootView, id);
-      if (txtLastAutoBackup == null) {
-        break missingId;
-      }
-
       id = R.id.txt_last_backup;
       TextView txtLastBackup = ViewBindings.findChildViewById(rootView, id);
       if (txtLastBackup == null) {
@@ -149,7 +138,7 @@ public final class FragmentSettingsBinding implements ViewBinding {
 
       return new FragmentSettingsBinding((ScrollView) rootView, btnBackupCenter, btnBackupNow,
           btnClearCache, btnRestoreBackup, btnShareBackup, btnWifiDirect, switchAutoBackup,
-          txtLastAutoBackup, txtLastBackup);
+          txtLastBackup);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

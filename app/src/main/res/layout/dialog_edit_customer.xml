@@ -40,13 +40,6 @@
         android:hint="Longitude"
         android:inputType="numberDecimal"/>
 
-    <Button
-        android:id="@+id/btnChangeLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Change Location"
-        android:layout_marginTop="8dp"/>
-
     <EditText
         android:id="@+id/etMilkQuantity"
         android:layout_width="match_parent"

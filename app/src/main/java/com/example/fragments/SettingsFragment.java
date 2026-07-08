@@ -157,17 +157,17 @@ public class SettingsFragment extends Fragment {
     // ── Setup Auto Backup ──────────────────────────────────────────
     private void setupAutoBackup() {
         SwitchCompat switchAutoBackup = binding.switchAutoBackup;
-        TextView txtLastAutoBackup = binding.txtLastAutoBackup;
+
 
         boolean isEnabled = autoBackupManager.isAutoBackupEnabled();
         switchAutoBackup.setChecked(isEnabled);
-        txtLastAutoBackup.setText(autoBackupManager.getLastBackupTime());
+
 
         switchAutoBackup.setOnCheckedChangeListener((buttonView, isChecked) -> {
             autoBackupManager.setAutoBackupEnabled(isChecked);
             if (isChecked) {
                 Toast.makeText(getContext(), "✅ Auto backup enabled (every 24 hours)", Toast.LENGTH_LONG).show();
-                txtLastAutoBackup.setText(autoBackupManager.getLastBackupTime());
+
             } else {
                 Toast.makeText(getContext(), "❌ Auto backup disabled", Toast.LENGTH_SHORT).show();
             }

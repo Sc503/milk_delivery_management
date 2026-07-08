@@ -1,11 +1,11 @@
 [
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_login.xml",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_login.xml"
-    },
-    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_settings.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_settings.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_login.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_login.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_received_backups.xml",
@@ -68,6 +68,10 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\bottom_sheet_filter.xml"
     },
     {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_edit_staff.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_edit_staff.xml"
+    },
+    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_encrypted_file_viewer.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_encrypted_file_viewer.xml"
     },
@@ -82,6 +86,10 @@
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_main.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "com.example.app-mergeDebugResources-75:/layout/fragment_settings.xml",
+        "source": "com.example.app-main-78:/layout/fragment_settings.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_customer_recap_details.xml",
@@ -146,10 +154,6 @@
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_create_account.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_create_account.xml"
-    },
-    {
-        "merged": "com.example.app-mergeDebugResources-75:/layout/activity_monthly_recap.xml",
-        "source": "com.example.app-main-78:/layout/activity_monthly_recap.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_payment.xml",

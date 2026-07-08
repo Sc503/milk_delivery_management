@@ -3785,13 +3785,13 @@ int id browser_actions_menu_view 0x7f09006f
 int id btnApply 0x7f090070
 int id btnCall 0x7f090071
 int id btnCancel 0x7f090072
-int id btnChangeLocation 0x7f090073
 int id btnClear 0x7f090074
 int id btnClose 0x7f090075
 int id btnCreateAccount 0x7f090076
 int id btnDecrypt 0x7f090077
 int id btnDisconnect 0x7f090078
 int id btnDownloadPdf 0x7f090079
+int id btnEdit 0x7f090315
 int id btnEditCustomer 0x7f09007a
 int id btnExportExcel 0x7f09007b
 int id btnLogin 0x7f09007c
@@ -3805,6 +3805,7 @@ int id btnSelectMonth 0x7f090083
 int id btnSendFile 0x7f090084
 int id btnShare 0x7f090085
 int id btnSharePdf 0x7f090086
+int id btnUpdateStaff 0x7f090316
 int id btnWhatsApp 0x7f090087
 int id btnWifiDirect 0x7f090088
 int id btn_backup_center 0x7f090089
@@ -3950,10 +3951,12 @@ int id etMilkQuantity 0x7f090115
 int id etMilkRate 0x7f090116
 int id etMobile 0x7f090117
 int id etMobile1 0x7f090118
+int id etMobileNumber 0x7f09031c
 int id etName 0x7f090119
 int id etOwnerName 0x7f09011a
 int id etPassword 0x7f09011b
 int id etPending 0x7f09011c
+int id etStaffId 0x7f090317
 int id etStaffName 0x7f09011d
 int id et_address 0x7f09011e
 int id et_customer_name 0x7f09011f
@@ -4214,6 +4217,8 @@ int id progress_circular 0x7f09021c
 int id progress_horizontal 0x7f09021d
 int id radio 0x7f09021e
 int id ratio 0x7f09021f
+int id rbActive 0x7f090318
+int id rbInactive 0x7f090319
 int id recap_average_percentage 0x7f090220
 int id recap_details_toolbar 0x7f090221
 int id recap_total_customers 0x7f090222
@@ -4227,6 +4232,7 @@ int id recyclerStaff 0x7f090229
 int id reportContainer 0x7f09022a
 int id report_drawn 0x7f09022b
 int id reverseSawtooth 0x7f09022c
+int id rgStatus 0x7f09031a
 int id right 0x7f09022d
 int id rightToLeft 0x7f09022e
 int id right_icon 0x7f09022f
@@ -4376,9 +4382,9 @@ int id tvLoginLink 0x7f0902be
 int id tvPaymentStatus 0x7f0902bf
 int id tvQuantity 0x7f0902c0
 int id tvRate 0x7f0902c1
-int id tvStaffId 0x7f0902c2
 int id tvStaffMobile 0x7f0902c3
 int id tvStaffName 0x7f0902c4
+int id tvStaffPassword 0x7f09031b
 int id tvStaffStatus 0x7f0902c5
 int id tvTotalAmount 0x7f0902c6
 int id txtAddress 0x7f0902c7
@@ -4394,7 +4400,6 @@ int id txtDocumentType 0x7f0902d0
 int id txtEmptyState 0x7f0902d1
 int id txtFileCount 0x7f0902d2
 int id txtForgotPassword 0x7f0902d3
-int id txtLastAutoBackup 0x7f0902d4
 int id txtLoading 0x7f0902d5
 int id txtMobile 0x7f0902d6
 int id txtMobile1 0x7f0902d7
@@ -4613,6 +4618,7 @@ int layout dialog_staff_details 0x7f0c003f
 int layout fragment_about_us 0x7f0c0040
 int layout fragment_add_customer 0x7f0c0041
 int layout fragment_add_staff 0x7f0c0042
+int layout fragment_edit_staff 0x7f0c009b
 int layout fragment_map 0x7f0c0043
 int layout fragment_monthly_recap 0x7f0c0044
 int layout fragment_payment 0x7f0c0045

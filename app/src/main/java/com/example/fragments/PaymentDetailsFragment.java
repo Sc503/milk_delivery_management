@@ -28,6 +28,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import com.example.activities.MainActivity;
 
 public class PaymentDetailsFragment extends Fragment {
 
@@ -67,6 +68,15 @@ public class PaymentDetailsFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+
+        MainActivity activity = (MainActivity) requireActivity();
+
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setTitle("Payment Details");
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        activity.getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Calendar calendar = Calendar.getInstance();
 
@@ -352,6 +362,18 @@ public class PaymentDetailsFragment extends Fragment {
             });
 
         }).start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        MainActivity activity = (MainActivity) requireActivity();
+
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            activity.getSupportActionBar().setTitle("Payments");
+        }
     }
 
     @Override

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://tools.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background">
 
-
-    <!-- Tabular Header Row -->
+    <!-- Header Card -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="2dp">
 
@@ -22,57 +20,79 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:background="@color/primary_container"
-            android:padding="12dp">
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="8dp">
 
+            <!-- Customer -->
+
+            <!-- Days -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.6"
+                android:layout_weight="0.90"
+                android:gravity="start|center_vertical"
                 android:text="Customer"
-                android:textStyle="bold"
-                android:textColor="@color/on_primary_container"/>
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/on_primary_container"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.75"
                 android:gravity="center"
                 android:text="Days"
                 android:textStyle="bold"
-                android:textColor="@color/on_primary_container"/>
+                android:textColor="@color/on_primary_container"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
+            <!-- Done -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.85"
                 android:gravity="center"
                 android:text="Done"
                 android:textStyle="bold"
-                android:textColor="@color/on_primary_container"/>
+                android:textColor="@color/on_primary_container"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
+            <!-- Pending -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.95"
                 android:gravity="center"
                 android:text="Pending"
                 android:textStyle="bold"
-                android:textColor="@color/on_primary_container"/>
+                android:textColor="@color/on_primary_container"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
 
+            <!-- Percentage -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.8"
+                android:layout_weight="0.75"
                 android:gravity="center"
                 android:text="%"
                 android:textStyle="bold"
-                android:textColor="@color/on_primary_container"/>
+                android:textColor="@color/on_primary_container"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"/>
+
+            <!-- Edit Column Space -->
+            <View
+                android:layout_width="42dp"
+                android:layout_height="42dp"/>
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-    <!-- Scrollable Customer Aggregation Rows -->
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_monthly_recap"
         android:layout_width="match_parent"
@@ -80,127 +100,130 @@
         android:layout_weight="1"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:background="@color/white" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/white"/>
 
-    <!-- Bottom summary status cards section -->
+    <!-- Bottom Summary -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
         app:cardCornerRadius="12dp"
-        app:cardElevation="3dp"
-        app:strokeWidth="0dp">
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
-            android:baselineAligned="false">
+            android:padding="12dp"
+            android:baselineAligned="false"
+            android:weightSum="4">
 
-            <!-- Stat 1: Total Customers -->
+            <!-- Total Customers -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:padding="4dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/recap_total_customers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="1"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Cust."
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                    android:textColor="@color/gray_dark" />
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"/>
             </LinearLayout>
 
-            <!-- Stat 2: Total Deliveries -->
+            <!-- Deliveries -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:padding="4dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/recap_total_deliveries"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="1"
                     android:textColor="@color/delivered_green"
                     android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Deliveries"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                    android:textColor="@color/gray_dark" />
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"/>
             </LinearLayout>
 
-            <!-- Stat 3: Total Pending -->
+            <!-- Pending -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
                 android:gravity="center"
-                android:padding="4dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/recap_total_pending"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="30"
                     android:textColor="@color/pending_red"
                     android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pending"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                    android:textColor="@color/gray_dark" />
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"/>
             </LinearLayout>
 
-            <!-- Stat 4: Average Percentage -->
+            <!-- Percentage -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.2"
-                android:orientation="vertical"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:padding="4dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/recap_average_percentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.00%"
+                    android:text="3.23%"
                     android:textColor="@color/primary"
                     android:textStyle="bold"
-                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium" />
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivery %"
-                    android:textAlignment="center"
-                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
-                    android:textColor="@color/gray_dark" />
+                    android:textColor="@color/on_surface_variant"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"/>
             </LinearLayout>
 
-
-
         </LinearLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>

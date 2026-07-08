@@ -1,5 +1,6 @@
 package com.example.activities;
 
+import com.example.fragments.PaymentDetailsFragment;
 import com.example.fragments.PaymentFragment;
 
 import android.content.Intent;
@@ -303,12 +304,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (item.getItemId() == android.R.id.home) {
 
-            if (activeFragment instanceof AddStaffFragment) {
-                navigateToMenuItem(R.id.nav_staff_list);
-            } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START);
+            Fragment currentFragment = getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container);
+
+            if (currentFragment instanceof PaymentDetailsFragment) {
+
+                getSupportFragmentManager().popBackStack();
+
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                toggle.setDrawerIndicatorEnabled(true);
+                toggle.syncState();
+
+                return true;
             }
 
+            if (currentFragment instanceof AddStaffFragment) {
+
+                navigateToMenuItem(R.id.nav_staff_list);
+                return true;
+            }
+
+            binding.drawerLayout.openDrawer(GravityCompat.START);
             return true;
         }
 

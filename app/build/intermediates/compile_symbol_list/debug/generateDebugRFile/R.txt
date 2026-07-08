@@ -121,7 +121,6 @@ int id bottom_card 0x0
 int id btnApply 0x0
 int id btnCall 0x0
 int id btnCancel 0x0
-int id btnChangeLocation 0x0
 int id btnClear 0x0
 int id btnClose 0x0
 int id btnCreateAccount 0x0
@@ -201,6 +200,7 @@ int id etMilkQuantity 0x0
 int id etMilkRate 0x0
 int id etMobile 0x0
 int id etMobile1 0x0
+int id etMobileNumber 0x0
 int id etName 0x0
 int id etOwnerName 0x0
 int id etPassword 0x0
@@ -300,7 +300,6 @@ int id tvLoginLink 0x0
 int id tvPaymentStatus 0x0
 int id tvQuantity 0x0
 int id tvRate 0x0
-int id tvStaffId 0x0
 int id tvStaffMobile 0x0
 int id tvStaffName 0x0
 int id tvStaffPassword 0x0
@@ -319,7 +318,6 @@ int id txtDocumentType 0x0
 int id txtEmptyState 0x0
 int id txtFileCount 0x0
 int id txtForgotPassword 0x0
-int id txtLastAutoBackup 0x0
 int id txtLoading 0x0
 int id txtMobile 0x0
 int id txtMobile1 0x0

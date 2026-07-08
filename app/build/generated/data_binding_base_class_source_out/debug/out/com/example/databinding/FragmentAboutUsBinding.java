@@ -4,7 +4,7 @@ package com.example.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
@@ -14,15 +14,15 @@ import java.lang.Override;
 
 public final class FragmentAboutUsBinding implements ViewBinding {
   @NonNull
-  private final LinearLayout rootView;
+  private final ScrollView rootView;
 
-  private FragmentAboutUsBinding(@NonNull LinearLayout rootView) {
+  private FragmentAboutUsBinding(@NonNull ScrollView rootView) {
     this.rootView = rootView;
   }
 
   @Override
   @NonNull
-  public LinearLayout getRoot() {
+  public ScrollView getRoot() {
     return rootView;
   }
 
@@ -47,6 +47,6 @@ public final class FragmentAboutUsBinding implements ViewBinding {
       throw new NullPointerException("rootView");
     }
 
-    return new FragmentAboutUsBinding((LinearLayout) rootView);
+    return new FragmentAboutUsBinding((ScrollView) rootView);
   }
 }

@@ -89,7 +89,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         holder.binding.txtNumber.setText(String.valueOf(position + 1));
         holder.binding.tvStaffName.setText(staff.getName());
         holder.binding.tvStaffMobile.setText("📱 " + staff.getMobile());
-        holder.binding.tvStaffId.setText("ID: " + staff.getId());
+
 
         // Set Password
         if (staff.getPassword() != null && !staff.getPassword().isEmpty()) {

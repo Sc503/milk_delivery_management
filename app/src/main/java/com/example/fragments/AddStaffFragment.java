@@ -72,7 +72,7 @@ public class AddStaffFragment extends Fragment {
 
     private void saveStaff() {
         String name = binding.etStaffName.getText().toString().trim();
-        String mobile = binding.etMobile1.getText().toString().trim();
+        String mobile = binding.etMobileNumber.getText().toString().trim();
         String password = binding.etPassword.getText().toString().trim();
         String confirmPassword = binding.etConfirmPassword.getText().toString().trim();
 
@@ -91,14 +91,29 @@ public class AddStaffFragment extends Fragment {
 
         // Validate Mobile
         if (TextUtils.isEmpty(mobile)) {
-            binding.etMobile1.setError("Enter Mobile Number");
-            binding.etMobile1.requestFocus();
+            binding.etMobileNumber.setError("Enter Mobile Number");
+            binding.etMobileNumber.requestFocus();
             return;
         }
 
-        if (mobile.length() < 10) {
-            binding.etMobile1.setError("Enter valid 10-digit mobile number");
-            binding.etMobile1.requestFocus();
+        // Validate Mobile
+        if (TextUtils.isEmpty(mobile)) {
+            binding.etMobileNumber.setError("Enter Mobile Number");
+            binding.etMobileNumber.requestFocus();
+            return;
+        }
+
+// Exactly 10 digits only
+        if (mobile.length() != 10) {
+            binding.etMobileNumber.setError("Mobile Number must be exactly 10 digits");
+            binding.etMobileNumber.requestFocus();
+            return;
+        }
+
+// Optional: Valid Indian mobile number
+        if (!mobile.matches("^[6-9][0-9]{9}$")) {
+            binding.etMobileNumber.setError("Enter valid Indian mobile number");
+            binding.etMobileNumber.requestFocus();
             return;
         }
 
@@ -224,7 +239,7 @@ public class AddStaffFragment extends Fragment {
 
     private void clearFields() {
         binding.etStaffName.setText("");
-        binding.etMobile1.setText("");
+        binding.etMobileNumber.setText("");
         binding.etPassword.setText("");
         binding.etConfirmPassword.setText("");
         binding.etAddress.setText("");
