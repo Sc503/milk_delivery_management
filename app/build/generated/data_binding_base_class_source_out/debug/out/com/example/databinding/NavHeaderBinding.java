@@ -4,20 +4,46 @@ package com.example.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewbinding.ViewBindings;
 import com.example.R;
 import java.lang.NullPointerException;
 import java.lang.Override;
+import java.lang.String;
 
 public final class NavHeaderBinding implements ViewBinding {
   @NonNull
   private final LinearLayout rootView;
 
-  private NavHeaderBinding(@NonNull LinearLayout rootView) {
+  @NonNull
+  public final ImageView imgCamera;
+
+  @NonNull
+  public final ImageView imgProfile;
+
+  @NonNull
+  public final TextView txtHeaderBusiness;
+
+  @NonNull
+  public final TextView txtHeaderName;
+
+  @NonNull
+  public final TextView txtHeaderRole;
+
+  private NavHeaderBinding(@NonNull LinearLayout rootView, @NonNull ImageView imgCamera,
+      @NonNull ImageView imgProfile, @NonNull TextView txtHeaderBusiness,
+      @NonNull TextView txtHeaderName, @NonNull TextView txtHeaderRole) {
     this.rootView = rootView;
+    this.imgCamera = imgCamera;
+    this.imgProfile = imgProfile;
+    this.txtHeaderBusiness = txtHeaderBusiness;
+    this.txtHeaderName = txtHeaderName;
+    this.txtHeaderRole = txtHeaderRole;
   }
 
   @Override
@@ -43,10 +69,44 @@ public final class NavHeaderBinding implements ViewBinding {
 
   @NonNull
   public static NavHeaderBinding bind(@NonNull View rootView) {
-    if (rootView == null) {
-      throw new NullPointerException("rootView");
-    }
+    // The body of this method is generated in a way you would not otherwise write.
+    // This is done to optimize the compiled bytecode for size and performance.
+    int id;
+    missingId: {
+      id = R.id.imgCamera;
+      ImageView imgCamera = ViewBindings.findChildViewById(rootView, id);
+      if (imgCamera == null) {
+        break missingId;
+      }
 
-    return new NavHeaderBinding((LinearLayout) rootView);
+      id = R.id.imgProfile;
+      ImageView imgProfile = ViewBindings.findChildViewById(rootView, id);
+      if (imgProfile == null) {
+        break missingId;
+      }
+
+      id = R.id.txtHeaderBusiness;
+      TextView txtHeaderBusiness = ViewBindings.findChildViewById(rootView, id);
+      if (txtHeaderBusiness == null) {
+        break missingId;
+      }
+
+      id = R.id.txtHeaderName;
+      TextView txtHeaderName = ViewBindings.findChildViewById(rootView, id);
+      if (txtHeaderName == null) {
+        break missingId;
+      }
+
+      id = R.id.txtHeaderRole;
+      TextView txtHeaderRole = ViewBindings.findChildViewById(rootView, id);
+      if (txtHeaderRole == null) {
+        break missingId;
+      }
+
+      return new NavHeaderBinding((LinearLayout) rootView, imgCamera, imgProfile, txtHeaderBusiness,
+          txtHeaderName, txtHeaderRole);
+    }
+    String missingId = rootView.getResources().getResourceName(id);
+    throw new NullPointerException("Missing required view with ID: ".concat(missingId));
   }
 }

@@ -20,6 +20,10 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\dialog_edit_customer.xml"
     },
     {
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_map_picker.xml",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_map_picker.xml"
+    },
+    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_monthly_recap.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_monthly_recap.xml"
     },
@@ -88,10 +92,6 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_main.xml"
     },
     {
-        "merged": "com.example.app-mergeDebugResources-75:/layout/fragment_settings.xml",
-        "source": "com.example.app-main-78:/layout/fragment_settings.xml"
-    },
-    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\activity_customer_recap_details.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_customer_recap_details.xml"
     },
@@ -126,6 +126,10 @@
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_add_customer.xml",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_add_customer.xml"
+    },
+    {
+        "merged": "com.example.app-mergeDebugResources-75:/layout/activity_map_picker.xml",
+        "source": "com.example.app-main-78:/layout/activity_map_picker.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-mergeDebugResources-75:\\layout\\fragment_about_us.xml",

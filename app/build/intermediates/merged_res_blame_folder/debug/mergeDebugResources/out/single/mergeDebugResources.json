@@ -44,12 +44,12 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\drawable\\circle_background.xml"
     },
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\layout_fragment_staff_list.xml.flat",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_staff_list.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\layout_activity_map_picker.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\activity_map_picker.xml"
     },
     {
-        "merged": "com.example.app-debug-76:/layout_fragment_settings.xml.flat",
-        "source": "com.example.app-main-78:/layout/fragment_settings.xml"
+        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\layout_fragment_staff_list.xml.flat",
+        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_staff_list.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
@@ -412,16 +412,16 @@
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\drawable\\ic_add_user.xml"
     },
     {
-        "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\drawable_setting_item_background.xml.flat",
-        "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\drawable\\setting_item_background.xml"
-    },
-    {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\layout_fragment_add_staff.xml.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\layout\\fragment_add_staff.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\drawable_nav_button_bg.xml.flat",
         "source": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-main-78:\\drawable\\nav_button_bg.xml"
+    },
+    {
+        "merged": "com.example.app-debug-76:/layout_activity_map_picker.xml.flat",
+        "source": "com.example.app-main-78:/layout/activity_map_picker.xml"
     },
     {
         "merged": "C:\\Users\\Lenovo\\.gradle\\daemon\\9.3.1\\com.example.app-debug-76:\\drawable_status_badge_paid.xml.flat",

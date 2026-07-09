@@ -23,6 +23,7 @@
     <color name="primary_container">#D1EEDC</color>
     <color name="primary_dark">#00402E</color>
     <color name="primary_light">#00815C</color>
+    <color name="red">#F44336</color>
     <color name="secondary">#03DAC6</color>
     <color name="surface">#FFFFFF</color>
     <color name="surface_variant">#F4F4F4</color>

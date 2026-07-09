@@ -67,4 +67,11 @@ public interface ApiService {
     Call<StaffListResponse> listStaff(
             @Field("account_id") String accountId
     );
+
+    // Get Profile Details
+    @FormUrlEncoded
+    @POST("getprofile.php")
+    Call<LoginResponse> getProfile(
+            @Field("account_id") String accountId
+    );
 }

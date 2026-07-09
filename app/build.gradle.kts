@@ -5,7 +5,7 @@ plugins {
   alias(libs.plugins.roborazzi)
   alias(libs.plugins.secrets)
 
-    id("com.google.gms.google-services")
+  id("com.google.gms.google-services")
 
 }
 
@@ -126,9 +126,9 @@ dependencies {
 
   implementation("androidx.work:work-runtime:2.10.1")
 
-
-
-
+  // ✅ Step 9.1: Glide Dependency for image loading
+  implementation("com.github.bumptech.glide:glide:4.16.0")
+  annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)

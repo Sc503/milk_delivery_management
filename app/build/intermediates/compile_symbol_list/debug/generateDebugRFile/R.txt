@@ -21,6 +21,7 @@ int color primary 0x0
 int color primary_container 0x0
 int color primary_dark 0x0
 int color primary_light 0x0
+int color red 0x0
 int color secondary 0x0
 int color surface 0x0
 int color surface_variant 0x0
@@ -121,6 +122,7 @@ int id bottom_card 0x0
 int id btnApply 0x0
 int id btnCall 0x0
 int id btnCancel 0x0
+int id btnChangeLocation 0x0
 int id btnClear 0x0
 int id btnClose 0x0
 int id btnCreateAccount 0x0
@@ -146,6 +148,7 @@ int id btnWhatsApp 0x0
 int id btnWifiDirect 0x0
 int id btn_backup_center 0x0
 int id btn_backup_now 0x0
+int id btn_cancel 0x0
 int id btn_clear_cache 0x0
 int id btn_detail_next 0x0
 int id btn_detail_prev 0x0
@@ -156,6 +159,7 @@ int id btn_prev_month 0x0
 int id btn_restore_backup 0x0
 int id btn_save_customer 0x0
 int id btn_search_address 0x0
+int id btn_select_location 0x0
 int id btn_share_backup 0x0
 int id btn_wifi_direct 0x0
 int id buttonLayout 0x0
@@ -178,6 +182,7 @@ int id detail_name 0x0
 int id dialog_btn_call 0x0
 int id dialog_btn_cancel 0x0
 int id dialog_btn_deliver 0x0
+int id dialog_btn_edit 0x0
 int id dialog_btn_navigate 0x0
 int id dialog_txt_address 0x0
 int id dialog_txt_mobile 0x0
@@ -223,8 +228,10 @@ int id history_item_date 0x0
 int id history_item_icon 0x0
 int id history_item_status 0x0
 int id history_item_time 0x0
+int id imgCamera 0x0
 int id imgDocument 0x0
 int id imgLogo 0x0
+int id imgProfile 0x0
 int id imgSplash 0x0
 int id imgStaff 0x0
 int id iv_filter 0x0
@@ -318,6 +325,9 @@ int id txtDocumentType 0x0
 int id txtEmptyState 0x0
 int id txtFileCount 0x0
 int id txtForgotPassword 0x0
+int id txtHeaderBusiness 0x0
+int id txtHeaderName 0x0
+int id txtHeaderRole 0x0
 int id txtLoading 0x0
 int id txtMobile 0x0
 int id txtMobile1 0x0
@@ -362,6 +372,7 @@ int layout activity_customer_recap_details 0x0
 int layout activity_encrypted_file_viewer 0x0
 int layout activity_login 0x0
 int layout activity_main 0x0
+int layout activity_map_picker 0x0
 int layout activity_monthly_recap 0x0
 int layout activity_my_backups 0x0
 int layout activity_received_backups 0x0

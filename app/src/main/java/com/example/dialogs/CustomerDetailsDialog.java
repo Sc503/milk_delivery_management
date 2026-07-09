@@ -28,6 +28,7 @@ public class CustomerDetailsDialog extends DialogFragment {
 
     public interface DialogCallback {
         void onDeliver(Customer customer);
+        void onEdit(Customer customer);  // ✅ Edit callback
         void onCancel();
     }
 
@@ -49,7 +50,6 @@ public class CustomerDetailsDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         binding.dialogTxtName.setText(customer.getName());
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
@@ -66,13 +66,10 @@ public class CustomerDetailsDialog extends DialogFragment {
                         );
 
         if (!PermissionManager.canDeliver(currentUserType)) {
-
-            binding.dialogBtnDeliver.setVisibility(
-                    View.GONE
-            );
-
+            binding.dialogBtnDeliver.setVisibility(View.GONE);
         }
 
+        // ✅ Call button
         binding.dialogBtnCall.setOnClickListener(v -> {
             Intent dialIntent = new Intent(
                     Intent.ACTION_DIAL,
@@ -81,6 +78,7 @@ public class CustomerDetailsDialog extends DialogFragment {
             startActivity(dialIntent);
         });
 
+        // ✅ Navigate button
         binding.dialogBtnNavigate.setOnClickListener(v -> {
             Uri gmmIntentUri = Uri.parse(
                     "google.navigation:q="
@@ -93,18 +91,26 @@ public class CustomerDetailsDialog extends DialogFragment {
             startActivity(mapIntent);
         });
 
+        // ✅ Deliver button
         binding.dialogBtnDeliver.setOnClickListener(v -> {
             if (callback != null) callback.onDeliver(customer);
             dismiss();
         });
 
+        // ✅ NEW: Edit button
+        binding.dialogBtnEdit.setOnClickListener(v -> {
+            if (callback != null) {
+                dismiss();  // Close this dialog first
+                callback.onEdit(customer);  // Open EditCustomerDialog
+            }
+        });
 
+        // ✅ Cancel button
         binding.dialogBtnCancel.setOnClickListener(v -> {
             if (callback != null) callback.onCancel();
             dismiss();
         });
     }
-
 
     @Override
     public void onStart() {

@@ -30,6 +30,9 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
   public final MaterialButton dialogBtnDeliver;
 
   @NonNull
+  public final MaterialButton dialogBtnEdit;
+
+  @NonNull
   public final MaterialButton dialogBtnNavigate;
 
   @NonNull
@@ -43,13 +46,14 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
 
   private DialogCustomerDetailsBinding(@NonNull MaterialCardView rootView,
       @NonNull MaterialButton dialogBtnCall, @NonNull TextView dialogBtnCancel,
-      @NonNull MaterialButton dialogBtnDeliver, @NonNull MaterialButton dialogBtnNavigate,
-      @NonNull TextView dialogTxtAddress, @NonNull TextView dialogTxtMobile,
-      @NonNull TextView dialogTxtName) {
+      @NonNull MaterialButton dialogBtnDeliver, @NonNull MaterialButton dialogBtnEdit,
+      @NonNull MaterialButton dialogBtnNavigate, @NonNull TextView dialogTxtAddress,
+      @NonNull TextView dialogTxtMobile, @NonNull TextView dialogTxtName) {
     this.rootView = rootView;
     this.dialogBtnCall = dialogBtnCall;
     this.dialogBtnCancel = dialogBtnCancel;
     this.dialogBtnDeliver = dialogBtnDeliver;
+    this.dialogBtnEdit = dialogBtnEdit;
     this.dialogBtnNavigate = dialogBtnNavigate;
     this.dialogTxtAddress = dialogTxtAddress;
     this.dialogTxtMobile = dialogTxtMobile;
@@ -101,6 +105,12 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.dialog_btn_edit;
+      MaterialButton dialogBtnEdit = ViewBindings.findChildViewById(rootView, id);
+      if (dialogBtnEdit == null) {
+        break missingId;
+      }
+
       id = R.id.dialog_btn_navigate;
       MaterialButton dialogBtnNavigate = ViewBindings.findChildViewById(rootView, id);
       if (dialogBtnNavigate == null) {
@@ -126,8 +136,8 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
       }
 
       return new DialogCustomerDetailsBinding((MaterialCardView) rootView, dialogBtnCall,
-          dialogBtnCancel, dialogBtnDeliver, dialogBtnNavigate, dialogTxtAddress, dialogTxtMobile,
-          dialogTxtName);
+          dialogBtnCancel, dialogBtnDeliver, dialogBtnEdit, dialogBtnNavigate, dialogTxtAddress,
+          dialogTxtMobile, dialogTxtName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));
