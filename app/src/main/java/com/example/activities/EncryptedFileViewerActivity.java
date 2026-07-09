@@ -78,7 +78,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String action = intent.getAction();
 
-        // ✅ Check for both VIEW and SEND actions
+        //  Check for both VIEW and SEND actions
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
@@ -176,11 +176,11 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
             layoutPassword.setVisibility(View.GONE);
             btnShare.setVisibility(View.VISIBLE);
 
-            Toast.makeText(this, "✅ Decrypted successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " Decrypted successfully!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-            Toast.makeText(this, "❌ Wrong password or corrupted file!", Toast.LENGTH_LONG).show();
-            tvContent.setText("❌ Decryption failed.\n\n" + e.getMessage());
+            Toast.makeText(this, " Wrong password or corrupted file!", Toast.LENGTH_LONG).show();
+            tvContent.setText(" Decryption failed.\n\n" + e.getMessage());
             layoutContent.setVisibility(View.VISIBLE);
         }
     }

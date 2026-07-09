@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.models.Customer;
 import com.example.models.Delivery;
+import com.example.models.DeliveryWithStaff;
 import com.example.models.Payment;
 import com.example.models.Staff;
 import com.example.repository.MilkRepository;
@@ -58,11 +59,15 @@ public class MilkViewModel extends AndroidViewModel {
 
     // --- Delivery Operations ---
 
-    public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
-        repository.deliverCustomer(customerId, date, time, onCompleted);
+    //  UPDATED: accept staffId
+    public void deliverCustomer(long customerId, String date, String time, long staffId, Runnable onCompleted) {
+        repository.deliverCustomer(customerId, date, time, staffId, onCompleted);
     }
 
-    // ❌ REMOVED: public void readDeliveriesFromFirebase() { ... }
+    // KEEP OLD METHOD for backward compatibility
+    public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
+        repository.deliverCustomer(customerId, date, time, 0, onCompleted);
+    }
 
     public void markDeliveryPending(long customerId, String date, Runnable onCompleted) {
         repository.markDeliveryPending(customerId, date, onCompleted);
@@ -80,6 +85,11 @@ public class MilkViewModel extends AndroidViewModel {
         return repository.getDeliveriesForDate(date);
     }
 
+    //  Get delivery with staff name
+    public DeliveryWithStaff getDeliveryWithStaff(long customerId, String date) {
+        return repository.getDeliveryWithStaff(customerId, date);
+    }
+
     // --- Payment Operations ---
 
     public Payment getPayment(long customerId, String month) {
@@ -93,7 +103,6 @@ public class MilkViewModel extends AndroidViewModel {
     public void savePayment(Payment payment) {
         repository.savePayment(payment);
     }
-
 
     public List<Customer> getAllCustomersSync() {
         return repository.getAllCustomersSync();
@@ -115,9 +124,8 @@ public class MilkViewModel extends AndroidViewModel {
 
     public void deleteStaff(Staff staff) {
         repository.deleteStaff(staff);
-
-
     }
+
     public void resetAllToPending() {
         repository.resetAllToPending();
     }

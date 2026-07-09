@@ -2,6 +2,7 @@ package com.example.activities;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -297,45 +298,43 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         });
     }
 
-    private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day) {
-
-        if(readOnly){
-
-            Toast.makeText(
-                    this,
-                    "Read Only Mode",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+     private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day)  {
+        if (readOnly) {
+            Toast.makeText(this, "Read Only Mode", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(currentUserType.equals("Customer")){
-
-            Toast.makeText(
-                    this,
-                    "Access Denied",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+        if (currentUserType.equals("Customer")) {
+            Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
             return;
         }
+
         if ("Delivered".equalsIgnoreCase(day.status)) {
             // Switch to Pending
-            viewModel.markDeliveryPending(customerId, day.dateString, () -> 
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
-                    renderCalendarDaysAndStats();
-                })
+            viewModel.markDeliveryPending(customerId, day.dateString, () ->
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
+                        renderCalendarDaysAndStats();
+                    })
             );
         } else {
-            // Switch to Delivered
             String nowTime = DateUtils.getCurrentTimeString();
-            viewModel.deliverCustomer(customerId, day.dateString, nowTime, () -> 
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Marked as Delivered!", Toast.LENGTH_SHORT).show();
-                    renderCalendarDaysAndStats();
-                })
+
+            //  GET STAFF ID
+            SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
+            long staffId = prefs.getLong("staff_id", 0);
+
+            //  FORCE SHOW TOAST - This will confirm if the code reaches here
+            Toast.makeText(this, "🔵 Staff ID: " + staffId, Toast.LENGTH_LONG).show();
+
+            //  PASS STAFF ID
+            viewModel.deliverCustomer(customerId, day.dateString, nowTime, staffId, () ->
+                    runOnUiThread(() -> {
+                        //  Show delivery confirmation with staff name
+                        String staffName = prefs.getString("name", "Staff");
+                        Toast.makeText(this, " Delivered by: " + staffName, Toast.LENGTH_LONG).show();
+                        renderCalendarDaysAndStats();
+                    })
             );
         }
     }
@@ -390,7 +389,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 
             out.flush();
-            out.close();   // <-- हे add कर
+            out.close();
 
             Toast.makeText(
                     this,

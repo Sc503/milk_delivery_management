@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -17,6 +18,10 @@ public interface StaffDao {
     @Insert
     long insert(Staff staff);
 
+    //  ADD THIS METHOD - Insert multiple staff members
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<Staff> staffList);
+
     @Update
     void update(Staff staff);
 
@@ -29,5 +34,7 @@ public interface StaffDao {
     @Query("SELECT * FROM staff WHERE id=:id LIMIT 1")
     Staff getStaffById(long id);
 
-
+    //  ADD THIS METHOD - Delete all staff (optional, for clean sync)
+    @Query("DELETE FROM staff")
+    void deleteAll();
 }

@@ -8,6 +8,7 @@ import androidx.room.util.getColumnIndexOrThrow
 import androidx.room.util.performBlocking
 import androidx.sqlite.SQLiteStatement
 import com.example.models.Delivery
+import com.example.models.DeliveryWithStaff
 import javax.`annotation`.processing.Generated
 import kotlin.Int
 import kotlin.Long
@@ -35,7 +36,7 @@ public class DeliveryDao_Impl(
     this.__db = __db
     this.__insertAdapterOfDelivery = object : EntityInsertAdapter<Delivery>() {
       protected override fun createQuery(): String =
-          "INSERT OR REPLACE INTO `deliveries` (`id`,`customerId`,`deliveryDate`,`deliveredTime`,`status`) VALUES (nullif(?, 0),?,?,?,?)"
+          "INSERT OR REPLACE INTO `deliveries` (`id`,`customerId`,`deliveryDate`,`deliveredTime`,`status`,`staffId`) VALUES (nullif(?, 0),?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: Delivery) {
         statement.bindLong(1, entity.getId())
@@ -58,6 +59,7 @@ public class DeliveryDao_Impl(
         } else {
           statement.bindText(5, _tmpStatus)
         }
+        statement.bindLong(6, entity.getStaffId())
       }
     }
     this.__deleteAdapterOfDelivery = object : EntityDeleteOrUpdateAdapter<Delivery>() {
@@ -69,7 +71,7 @@ public class DeliveryDao_Impl(
     }
     this.__updateAdapterOfDelivery = object : EntityDeleteOrUpdateAdapter<Delivery>() {
       protected override fun createQuery(): String =
-          "UPDATE OR REPLACE `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ? WHERE `id` = ?"
+          "UPDATE OR REPLACE `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ?,`staffId` = ? WHERE `id` = ?"
 
       protected override fun bind(statement: SQLiteStatement, entity: Delivery) {
         statement.bindLong(1, entity.getId())
@@ -92,7 +94,8 @@ public class DeliveryDao_Impl(
         } else {
           statement.bindText(5, _tmpStatus)
         }
-        statement.bindLong(6, entity.getId())
+        statement.bindLong(6, entity.getStaffId())
+        statement.bindLong(7, entity.getId())
       }
     }
   }
@@ -136,6 +139,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: Delivery?
         if (_stmt.step()) {
           _result = Delivery()
@@ -166,6 +170,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _result.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _result.setStaffId(_tmpStaffId)
         } else {
           _result = null
         }
@@ -189,6 +196,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -220,6 +228,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -241,6 +252,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -272,6 +284,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -298,6 +313,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -329,6 +345,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -354,6 +373,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -385,6 +405,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -410,6 +433,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -441,6 +465,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -460,6 +487,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -491,6 +519,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -510,6 +541,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -541,6 +573,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -560,6 +595,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -591,6 +627,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _item.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _item.setStaffId(_tmpStaffId)
           _result.add(_item)
         }
         _result
@@ -618,6 +657,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
         val _result: Delivery?
         if (_stmt.step()) {
           _result = Delivery()
@@ -648,6 +688,9 @@ public class DeliveryDao_Impl(
             _tmpStatus = _stmt.getText(_columnIndexOfStatus)
           }
           _result.setStatus(_tmpStatus)
+          val _tmpStaffId: Long
+          _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
+          _result.setStaffId(_tmpStaffId)
         } else {
           _result = null
         }
@@ -677,6 +720,63 @@ public class DeliveryDao_Impl(
           _result = _stmt.getLong(0).toInt()
         } else {
           _result = 0
+        }
+        _result
+      } finally {
+        _stmt.close()
+      }
+    }
+  }
+
+  public override fun getDeliveryWithStaff(customerId: Long, date: String?): DeliveryWithStaff? {
+    val _sql: String =
+        "SELECT d.*, s.name as staffName FROM deliveries d LEFT JOIN staff s ON d.staffId = s.id WHERE d.customerId = ? AND d.deliveryDate = ?"
+    return performBlocking(__db, true, false) { _connection ->
+      val _stmt: SQLiteStatement = _connection.prepare(_sql)
+      try {
+        var _argIndex: Int = 1
+        _stmt.bindLong(_argIndex, customerId)
+        _argIndex = 2
+        if (date == null) {
+          _stmt.bindNull(_argIndex)
+        } else {
+          _stmt.bindText(_argIndex, date)
+        }
+        val _columnIndexOfId: Int = getColumnIndexOrThrow(_stmt, "id")
+        val _columnIndexOfCustomerId: Int = getColumnIndexOrThrow(_stmt, "customerId")
+        val _columnIndexOfDeliveryDate: Int = getColumnIndexOrThrow(_stmt, "deliveryDate")
+        val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
+        val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
+        val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
+        val _result: DeliveryWithStaff?
+        if (_stmt.step()) {
+          _result = DeliveryWithStaff()
+          _result.id = _stmt.getLong(_columnIndexOfId)
+          _result.customerId = _stmt.getLong(_columnIndexOfCustomerId)
+          if (_stmt.isNull(_columnIndexOfDeliveryDate)) {
+            _result.deliveryDate = null
+          } else {
+            _result.deliveryDate = _stmt.getText(_columnIndexOfDeliveryDate)
+          }
+          if (_stmt.isNull(_columnIndexOfDeliveredTime)) {
+            _result.deliveredTime = null
+          } else {
+            _result.deliveredTime = _stmt.getText(_columnIndexOfDeliveredTime)
+          }
+          if (_stmt.isNull(_columnIndexOfStatus)) {
+            _result.status = null
+          } else {
+            _result.status = _stmt.getText(_columnIndexOfStatus)
+          }
+          _result.staffId = _stmt.getLong(_columnIndexOfStaffId)
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _result.staffName = null
+          } else {
+            _result.staffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+        } else {
+          _result = null
         }
         _result
       } finally {

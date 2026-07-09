@@ -184,6 +184,7 @@ id dialog_btn_navigate
 id dialog_txt_address
 id dialog_txt_mobile
 id dialog_txt_name
+id dialog_txt_staff_name
 id divider1
 id drawer_layout
 id edtMobile

@@ -182,6 +182,7 @@ int id dialog_btn_navigate 0x0
 int id dialog_txt_address 0x0
 int id dialog_txt_mobile 0x0
 int id dialog_txt_name 0x0
+int id dialog_txt_staff_name 0x0
 int id divider1 0x0
 int id drawer_layout 0x0
 int id edtMobile 0x0

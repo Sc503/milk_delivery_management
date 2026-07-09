@@ -10,6 +10,7 @@ import com.example.dao.DeliveryDao;
 import com.example.database.AppDatabase;
 import com.example.models.Customer;
 import com.example.models.Delivery;
+import com.example.models.DeliveryWithStaff;
 import com.example.dao.PaymentDao;
 import com.example.models.Payment;
 import com.example.dao.StaffDao;
@@ -89,33 +90,40 @@ public class MilkRepository {
         return customerDao.getCustomerByMobile(mobile);
     }
 
-    // --- Delivery Functions ---
 
-    public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
+
+    //  accept staffId
+    public void deliverCustomer(long customerId, String date, String time, long staffId, Runnable onCompleted) {
         executorService.execute(() -> {
             Delivery existing = deliveryDao.getDeliveryForCustomerAndDate(customerId, date);
 
             if (existing == null) {
-                Delivery d = new Delivery(customerId, date, time, "Delivered");
+                Delivery d = new Delivery(customerId, date, time, "Delivered", staffId);
                 deliveryDao.insert(d);
-                Log.d("DELIVERY_SAVE", "✅ New delivery saved: " + date + " -> Delivered");
+                Log.d("DELIVERY_SAVE", " New delivery saved: " + date + " -> Delivered by staff: " + staffId);
             } else {
                 existing.setStatus("Delivered");
                 existing.setDeliveredTime(time);
+                existing.setStaffId(staffId);
                 deliveryDao.update(existing);
-                Log.d("DELIVERY_SAVE", "✅ Delivery updated: " + date + " -> Delivered");
+                Log.d("DELIVERY_SAVE", " Delivery updated: " + date + " -> Delivered by staff: " + staffId);
             }
 
-            // ✅ Verify it was saved
+            // Verify it was saved
             Delivery check = deliveryDao.getDeliveryForCustomerAndDate(customerId, date);
             if (check != null) {
-                Log.d("DELIVERY_VERIFY", "✅ Verified: " + check.getDeliveryDate() + " | " + check.getStatus());
+                Log.d("DELIVERY_VERIFY", "Verified: " + check.getDeliveryDate() + " | " + check.getStatus() + " | Staff: " + check.getStaffId());
             }
 
             if (onCompleted != null) {
                 onCompleted.run();
             }
         });
+    }
+
+
+    public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
+        deliverCustomer(customerId, date, time, 0, onCompleted);
     }
 
     public void markDeliveryPending(long customerId, String date, Runnable onCompleted) {
@@ -125,18 +133,19 @@ public class MilkRepository {
             if (existing == null) {
                 Delivery d = new Delivery(customerId, date, "--", "Pending");
                 deliveryDao.insert(d);
-                Log.d("DELIVERY_SAVE", "✅ New delivery saved: " + date + " -> Pending");
+                Log.d("DELIVERY_SAVE", " New delivery saved: " + date + " -> Pending");
             } else {
                 existing.setStatus("Pending");
                 existing.setDeliveredTime("--");
+                existing.setStaffId(0); // Reset staff when pending
                 deliveryDao.update(existing);
-                Log.d("DELIVERY_SAVE", "✅ Delivery updated: " + date + " -> Pending");
+                Log.d("DELIVERY_SAVE", "Delivery updated: " + date + " -> Pending");
             }
 
-            // ✅ Verify it was saved
+            // Verify it was saved
             Delivery check = deliveryDao.getDeliveryForCustomerAndDate(customerId, date);
             if (check != null) {
-                Log.d("DELIVERY_VERIFY", "✅ Verified: " + check.getDeliveryDate() + " | " + check.getStatus());
+                Log.d("DELIVERY_VERIFY", " Verified: " + check.getDeliveryDate() + " | " + check.getStatus());
             }
 
             if (onCompleted != null) {
@@ -171,6 +180,11 @@ public class MilkRepository {
 
     public LiveData<List<Delivery>> getDeliveriesForDate(String date) {
         return deliveryDao.getDeliveriesForDate(date);
+    }
+
+    //  Get delivery with staff name
+    public DeliveryWithStaff getDeliveryWithStaff(long customerId, String date) {
+        return deliveryDao.getDeliveryWithStaff(customerId, date);
     }
 
     // --- Payment Functions ---
@@ -212,7 +226,6 @@ public class MilkRepository {
         void onError(String message);
     }
 
-    // Add this method to MilkRepository.java
     public void resetAllToPending() {
         executorService.execute(deliveryDao::resetAllToPending);
     }

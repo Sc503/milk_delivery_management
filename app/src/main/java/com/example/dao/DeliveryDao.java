@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.models.Delivery;
+import com.example.models.DeliveryWithStaff;
 
 import java.util.List;
 
@@ -68,4 +69,10 @@ public interface DeliveryDao {
 
     @Query("UPDATE deliveries SET status = 'Pending', deliveredTime = '--'")
     void resetAllToPending();
+
+    //  Get delivery with staff name
+    @Query("SELECT d.*, s.name as staffName FROM deliveries d " +
+            "LEFT JOIN staff s ON d.staffId = s.id " +
+            "WHERE d.customerId = :customerId AND d.deliveryDate = :date")
+    DeliveryWithStaff getDeliveryWithStaff(long customerId, String date);
 }

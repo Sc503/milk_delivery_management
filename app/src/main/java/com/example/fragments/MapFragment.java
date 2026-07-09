@@ -1,7 +1,10 @@
 package com.example.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -22,6 +25,7 @@ import com.example.databinding.FragmentMapBinding;
 import com.example.dialogs.CustomerDetailsDialog;
 import com.example.models.Customer;
 import com.example.models.Delivery;
+import com.example.models.DeliveryWithStaff;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -80,25 +84,18 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 requireContext()
                         .getSharedPreferences(
                                 "UserSession",
-                                android.content.Context.MODE_PRIVATE)
+                                MODE_PRIVATE)
                         .getString(
                                 "userType",
                                 ""
                         );
 
         if(currentUserType.equals("Customer")){
-
-            Toast.makeText(
-                    getContext(),
-                    "Access Denied",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(getContext(), "Access Denied", Toast.LENGTH_SHORT).show();
             return;
         }
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize supporting Map Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -111,53 +108,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap map) {
         this.googleMap = map;
 
-        // Custom styling can be applied if needed
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         googleMap.setOnMarkerClickListener(marker -> {
-
             Customer customer = markerLookup.get(marker.getId());
-
             if (customer != null) {
-
-                // Smooth single tap zoom
                 googleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                                marker.getPosition(),
-                                18f
-                        )
+                        CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 18f)
                 );
-
-                // small delay for better UX (optional but smooth)
                 marker.showInfoWindow();
-
-                // open dialog
                 openCustomerDetailsDialog(customer);
-
-                googleMap.setOnCameraIdleListener(() -> {
-
-                    if (googleMap != null) {
-
-                        lastCameraPosition =
-                                googleMap.getCameraPosition().target;
-
-                        lastZoomLevel =
-                                googleMap.getCameraPosition().zoom;
-                    }
-                });
-
                 return true;
             }
-
             return false;
-
-
         });
 
-
-
-        // Load and watch pending deliveries for today
         viewModel.getAllCustomers()
                 .observe(getViewLifecycleOwner(), this::updateMapMarkers);
 
@@ -165,44 +131,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         viewModel.getDeliveriesForDate(today)
                 .observe(getViewLifecycleOwner(), deliveries -> {
-
-                    List<Customer> customers =
-                            viewModel.getAllCustomers().getValue();
-
+                    List<Customer> customers = viewModel.getAllCustomers().getValue();
                     if (customers != null) {
                         updateMapMarkers(customers);
                     }
                 });
-
-//        checkLocationPermissionAndCenter();
     }
 
     private void updateMapMarkers(List<Customer> customers) {
-
-
-        if (googleMap == null) {
-
+        if (googleMap == null || customers == null) {
             return;
         }
-
-        if (customers == null) {
-
-            return;
-        }
-
-
 
         final String today = DateUtils.getTodayDateString();
 
-
-
         viewModel.getRepository().getExecutor().execute(() -> {
-
-
             List<Delivery> todayDeliveries =
                     viewModel.getRepository().getDeliveriesForDateSync(today);
-
-
 
             Map<Long, Boolean> deliveryStatusMap = new HashMap<>();
 
@@ -214,28 +159,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
 
-
-
-            if (getActivity() != null) {
-
-                getActivity().runOnUiThread(() -> {
-
-
-
-                    renderMarkersOnUI(customers, deliveryStatusMap);
-
-                });
-
-            } else {
-
-
+            //  GET STAFF NAMES ON BACKGROUND THREAD
+            Map<Long, String> staffNameMap = new HashMap<>();
+            for (Customer customer : customers) {
+                DeliveryWithStaff delivery = viewModel.getDeliveryWithStaff(customer.getId(), today);
+                String staffName = "Not assigned";
+                if (delivery != null && delivery.staffName != null && !delivery.staffName.isEmpty()) {
+                    staffName = delivery.staffName;
+                }
+                staffNameMap.put(customer.getId(), staffName);
             }
 
+            final Map<Long, Boolean> finalDeliveryStatusMap = deliveryStatusMap;
+            final Map<Long, String> finalStaffNameMap = staffNameMap;
+
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    renderMarkersOnUI(customers, finalDeliveryStatusMap, finalStaffNameMap);
+                });
+            }
         });
-
-
     }
-    private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap) {
+
+    //  UPDATED - Now accepts staffNameMap
+    private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap, Map<Long, String> staffNameMap) {
         android.util.Log.d("MAP_TEST", "renderMarkersOnUI called");
 
         if (googleMap == null) return;
@@ -260,11 +207,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     ? BitmapDescriptorFactory.HUE_GREEN
                     : BitmapDescriptorFactory.HUE_RED;
 
+            // ✅ GET STAFF NAME FROM MAP
+            String staffName = staffNameMap.getOrDefault(customer.getId(), "Not assigned");
+            String snippet = customer.getAddress() + "\n👨‍💼 " + staffName;
+
             Marker marker = googleMap.addMarker(
                     new MarkerOptions()
                             .position(latLng)
                             .title(customer.getName())
-                            .snippet(customer.getAddress())
+                            .snippet(snippet)
                             .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
             );
 
@@ -272,118 +223,105 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 markerLookup.put(marker.getId(), customer);
             }
 
-            // select customer store कर
             if (customer.getId() == selectedCustomerId) {
                 selectedMarker = marker;
                 selectedLatLng = latLng;
             }
         }
 
-        // 🔥 PRIORITY 1: selected customer focus
         if (selectedLatLng != null) {
-
             googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                            selectedLatLng,
-                            18f
-                    )
+                    CameraUpdateFactory.newLatLngZoom(selectedLatLng, 18f)
             );
-
             if (selectedMarker != null) {
                 selectedMarker.showInfoWindow();
             }
-
-            return; // stop further camera logic
+            return;
         }
 
         try {
-            android.util.Log.d("MAP_TEST", "Moving To Nashik");
-            Toast.makeText(getContext(), "Moving to Nashik", Toast.LENGTH_SHORT).show();
-
             LatLng nashik = new LatLng(19.9975, 73.7898);
-
-            googleMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                            nashik,
-                            12f
-                    )
-            );
-
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nashik, 12f));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void openCustomerDetailsDialog(Customer customer) {
+
+     private void openCustomerDetailsDialog(Customer customer) {
         String currentUserType =
                 requireContext()
-                        .getSharedPreferences(
-                                "UserSession",
-                                android.content.Context.MODE_PRIVATE)
-                        .getString(
-                                "userType",
-                                ""
-                        );
+                        .getSharedPreferences("UserSession", MODE_PRIVATE)
+                        .getString("userType", "");
 
-        if(currentUserType.equals("Customer")){
-
-            Toast.makeText(
-                    getContext(),
-                    "Read Only Mode",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+        if (currentUserType.equals("Customer")) {
+            Toast.makeText(getContext(), "Read Only Mode", Toast.LENGTH_SHORT).show();
             return;
         }
-        CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, new CustomerDetailsDialog.DialogCallback() {
-            @Override
-            public void onDeliver(Customer c) {
-                String today = DateUtils.getTodayDateString();
-                String nowTime = DateUtils.getCurrentTimeString();
 
-                // Record the delivery as Delivered in database
-                viewModel.deliverCustomer(
-                        customer.getId(),
-                        today,
-                        nowTime,
-                        () -> {
+        //  GET STAFF ID FROM DATABASE (DELIVERY RECORD)
+        String today = DateUtils.getTodayDateString();
 
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> {
+        viewModel.getRepository().getExecutor().execute(() -> {
+            DeliveryWithStaff delivery = viewModel.getDeliveryWithStaff(customer.getId(), today);
 
-                                    viewModel.getRepository()
-                                            .getExecutor()
-                                            .execute(() -> {
+            //  Get staff ID from delivery record, not SharedPreferences
+            String staffDisplay = "Not assigned";
+            if (delivery != null) {
+                long staffId = delivery.staffId;
+                if (staffId > 0) {
+                    staffDisplay = "Staff ID: " + staffId;
+                }
+            }
 
-                                                List<Customer> freshCustomers =
-                                                        viewModel.getRepository()
-                                                                .getAllCustomersSync();
+            final String finalStaffDisplay = staffDisplay;
+            final long finalStaffId = (delivery != null) ? delivery.staffId : 0;
 
-                                                if (getActivity() != null) {
-                                                    getActivity().runOnUiThread(() -> {
-                                                        updateMapMarkers(freshCustomers);
+            requireActivity().runOnUiThread(() -> {
+                CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, finalStaffDisplay, new CustomerDetailsDialog.DialogCallback() {
+                    @Override
+                    public void onDeliver(Customer c) {
+                        String todayDate = DateUtils.getTodayDateString();
+                        String nowTime = DateUtils.getCurrentTimeString();
+
+                        //  GET STAFF ID FROM SharedPreferences (for marking delivery)
+                        SharedPreferences prefs = requireContext().getSharedPreferences("UserSession", MODE_PRIVATE);
+                        long staffId = prefs.getLong("staff_id", 0);
+
+                        viewModel.deliverCustomer(
+                                customer.getId(),
+                                todayDate,
+                                nowTime,
+                                staffId,
+                                () -> {
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(() -> {
+                                            viewModel.getRepository()
+                                                    .getExecutor()
+                                                    .execute(() -> {
+                                                        List<Customer> freshCustomers =
+                                                                viewModel.getRepository()
+                                                                        .getAllCustomersSync();
+                                                        if (getActivity() != null) {
+                                                            getActivity().runOnUiThread(() -> {
+                                                                updateMapMarkers(freshCustomers);
+                                                            });
+                                                        }
                                                     });
-                                                }
-                                            });
+                                            Toast.makeText(getContext(), " Delivered!", Toast.LENGTH_SHORT).show();
+                                        });
+                                    }
+                                }
+                        );
+                    }
 
-                                    Toast.makeText(
-                                            getContext(),
-                                            "Delivered",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                });
-                            }
-                        }
-                );
-
-            }
-
-
-            @Override
-            public void onCancel() {
-                // Smooth close
-            }
+                    @Override
+                    public void onCancel() {
+                        // Smooth close
+                    }
+                });
+                dialog.show(getChildFragmentManager(), "CustomerDetailsDialog");
+            });
         });
-        dialog.show(getChildFragmentManager(), "CustomerDetailsDialog");
     }
 
     private void checkLocationPermissionAndCenter() {
@@ -397,23 +335,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private void enableMyLocationAndCenter() {
-
         if (googleMap == null) return;
-
         googleMap.setMyLocationEnabled(true);
-
-        LatLng nashik = new LatLng(
-                19.9975,
-                73.7898
-        );
-
-        googleMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                        nashik,
-                        12f
-                )
-        );
+        LatLng nashik = new LatLng(19.9975, 73.7898);
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(nashik, 12f));
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

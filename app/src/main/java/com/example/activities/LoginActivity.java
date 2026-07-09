@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_REMEMBER = "rememberMe";
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_NAME = "name";
+    private static final String KEY_STAFF_ID = "staff_id"; //  NEW KEY
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,13 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ CHECK IF USER IS ALREADY LOGGED IN
+        //  CHECK IF USER IS ALREADY LOGGED IN
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
         String userType = prefs.getString(KEY_USER_TYPE, null);
         String mobile = prefs.getString(KEY_MOBILE, null);
 
-        // ✅ If Remember Me is checked and user is logged in, skip login screen
+        //  If Remember Me is checked and user is logged in, skip login screen
         if (rememberMe && userType != null && mobile != null) {
             // User is already logged in, go directly to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -145,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(KEY_PASSWORD);
         editor.remove(KEY_USER_TYPE);
         editor.remove(KEY_ACCOUNT_ID);
+        editor.remove(KEY_STAFF_ID); //  Also clear staff_id
         editor.putBoolean(KEY_REMEMBER, false);
         editor.apply();
         Log.d(TAG, "Credentials cleared");
@@ -274,55 +276,53 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLogin.setEnabled(true);
             binding.btnLogin.setText("LOGIN");
 
-                LoginResponse loginResponse = response.body();
+            LoginResponse loginResponse = response.body();
 
-                if (loginResponse.getData() != null) {
-                    MyData data = loginResponse.getData();
-//                    Toast.makeText(LoginActivity.this, "11", Toast.LENGTH_SHORT).show();
+            if (loginResponse.getData() != null) {
+                MyData data = loginResponse.getData();
 
-                    // Save user data
-                    SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
+                // Save user data
+                SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
 
+
+                    // NEW: Save staff_id for staff users
                     if (data != null) {
                         editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getId()));
                         editor.putString(KEY_NAME, data.getBusinessName());
                         editor.putString(KEY_MOBILE, data.getMobile());
-//                        editor.putString("business_name", data.ge());
-//                        editor.putString("city", data.getCity());
-//                        editor.putString("address", data.getAddress());
-                    } else {
-//                        Toast.makeText(LoginActivity.this, "22", Toast.LENGTH_SHORT).show();
+
+                        // ✅ THIS MUST BE HERE FOR STAFF USERS
+                        if (userType.equals("staff")) {
+                            editor.putLong("staff_id", data.getId());  // ← MUST BE "staff_id"
+                            Log.d("STAFF_DEBUG", "✅ Staff ID saved: " + data.getId());
+                        } else {
+                            editor.putLong("staff_id", 0);
+                        }
                     }
 
-
-                    // Save userType as "Owner" or "Staff" (matches MainActivity)
-                    if (userType.equals("admin")) {
-                        editor.putString(KEY_USER_TYPE, "Owner");
-                    } else {
-                        editor.putString(KEY_USER_TYPE, "Staff");
-                    }
-
-                    // Keep Remember Me preference
-                    if (binding.checkRemember.isChecked()) {
-                        editor.putBoolean(KEY_REMEMBER, true);
-                    }
-
-                    editor.apply();
-
-//                    Toast.makeText(LoginActivity.this, "✅ Login Successful!", Toast.LENGTH_LONG).show();
-
-                    // Go to MainActivity
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
+                // Save userType as "Owner" or "Staff" (matches MainActivity)
+                if (userType.equals("admin")) {
+                    editor.putString(KEY_USER_TYPE, "Owner");
                 } else {
-
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
-//                    Toast.makeText(LoginActivity.this, "33", Toast.LENGTH_SHORT).show();
+                    editor.putString(KEY_USER_TYPE, "Staff");
                 }
 
+                // Keep Remember Me preference
+                if (binding.checkRemember.isChecked()) {
+                    editor.putBoolean(KEY_REMEMBER, true);
+                }
+
+                editor.apply();
+
+                // Go to MainActivity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override
@@ -330,7 +330,7 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLogin.setEnabled(true);
             binding.btnLogin.setText("LOGIN");
             Log.e(TAG, "Network Error: " + t.getMessage());
-            Toast.makeText(LoginActivity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

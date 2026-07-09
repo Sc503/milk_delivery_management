@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.R;
 import com.example.adapters.StaffAdapter;
+import com.example.dao.StaffDao;
+import com.example.database.AppDatabase;
 import com.example.databinding.FragmentStaffListBinding;
 import com.example.models.Staff;
 import com.example.models.StaffListResponse;
@@ -98,6 +100,8 @@ public class StaffListFragment extends Fragment {
         loadStaffList();
     }
 
+
+
     private void loadStaffList() {
         if (accountId.isEmpty()) {
             Toast.makeText(requireContext(), "Account ID not found", Toast.LENGTH_SHORT).show();
@@ -112,7 +116,6 @@ public class StaffListFragment extends Fragment {
         call.enqueue(new Callback<StaffListResponse>() {
             @Override
             public void onResponse(Call<StaffListResponse> call, Response<StaffListResponse> response) {
-                if (binding == null) return;
                 binding.progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful() && response.body() != null) {
@@ -122,42 +125,49 @@ public class StaffListFragment extends Fragment {
                         List<Staff> staffData = staffResponse.getData();
 
                         if (staffData != null && !staffData.isEmpty()) {
+                            //  SAVE STAFF TO LOCAL DATABASE
+                            saveStaffToLocalDatabase(staffData);
+
                             staffList.clear();
                             staffList.addAll(staffData);
                             adapter.setData(staffList);
-                            if (getContext() != null) {
-                                Toast.makeText(getContext(), "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(requireContext(), "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (getContext() != null) {
-                                Toast.makeText(getContext(), "No staff members found", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(requireContext(), "No staff members found", Toast.LENGTH_SHORT).show();
                             staffList.clear();
                             adapter.setData(staffList);
                         }
                     } else {
                         String msg = staffResponse.getMessage() != null ? staffResponse.getMessage() : "Error loading staff";
-                        if (getContext() != null) {
-                            Toast.makeText(getContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(requireContext(), "Error: " + msg, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    if (getContext() != null) {
-                        Toast.makeText(getContext(), "Failed to load staff list", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(requireContext(), "Failed to load staff list", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<StaffListResponse> call, Throwable t) {
-                if (binding == null) return;
                 binding.progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                Toast.makeText(requireContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    // NEW METHOD - Save staff to local database
+    private void saveStaffToLocalDatabase(List<Staff> staffList) {
+        // Get staffDao from database
+        AppDatabase db = AppDatabase.getInstance(requireContext());
+        StaffDao staffDao = db.staffDao();
+
+        // Run on background thread
+        new Thread(() -> {
+            // Clear existing staff (optional) or insert all
+            staffDao.deleteAll();  // Optional: Clear old data first
+            staffDao.insertAll(staffList);  // Save new data
+            Log.d("STAFF_SYNC", " Saved " + staffList.size() + " staff members to local database");
+        }).start();
     }
 
     private void showDeleteDialog(Staff staff) {

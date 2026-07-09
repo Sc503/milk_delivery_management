@@ -23,6 +23,7 @@ import com.example.utils.PermissionManager;
 public class CustomerDetailsDialog extends DialogFragment {
 
     private final Customer customer;
+    private final String staffName;  // ✅ ADD THIS
     private final DialogCallback callback;
     private DialogCustomerDetailsBinding binding;
 
@@ -31,8 +32,10 @@ public class CustomerDetailsDialog extends DialogFragment {
         void onCancel();
     }
 
-    public CustomerDetailsDialog(Customer customer, DialogCallback callback) {
+    // ✅ UPDATE CONSTRUCTOR - Add staffName parameter
+    public CustomerDetailsDialog(Customer customer, String staffName, DialogCallback callback) {
         this.customer = customer;
+        this.staffName = staffName;  // ✅ ADD THIS
         this.callback = callback;
     }
 
@@ -49,10 +52,19 @@ public class CustomerDetailsDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         binding.dialogTxtName.setText(customer.getName());
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
+
+        //  ADD THIS - Show staff name
+        if (binding.dialogTxtStaffName != null) {
+            if (staffName != null && !staffName.isEmpty()) {
+                binding.dialogTxtStaffName.setText("👨‍💼 Delivered By: " + staffName);
+                binding.dialogTxtStaffName.setVisibility(View.VISIBLE);
+            } else {
+                binding.dialogTxtStaffName.setVisibility(View.GONE);
+            }
+        }
 
         String currentUserType =
                 requireActivity()
@@ -66,11 +78,7 @@ public class CustomerDetailsDialog extends DialogFragment {
                         );
 
         if (!PermissionManager.canDeliver(currentUserType)) {
-
-            binding.dialogBtnDeliver.setVisibility(
-                    View.GONE
-            );
-
+            binding.dialogBtnDeliver.setVisibility(View.GONE);
         }
 
         binding.dialogBtnCall.setOnClickListener(v -> {
@@ -98,13 +106,11 @@ public class CustomerDetailsDialog extends DialogFragment {
             dismiss();
         });
 
-
         binding.dialogBtnCancel.setOnClickListener(v -> {
             if (callback != null) callback.onCancel();
             dismiss();
         });
     }
-
 
     @Override
     public void onStart() {

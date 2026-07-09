@@ -76,7 +76,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    // 🔥 SAFE PRELOAD DATA
+    //  SAFE PRELOAD DATA
     private static final RoomDatabase.Callback roomCallback =
             new RoomDatabase.Callback() {
 
