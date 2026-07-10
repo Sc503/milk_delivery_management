@@ -5,7 +5,7 @@
     <queries>
         <package android:name="com.google.android.gms" />
 
-        <!-- ✅ Allow app to handle file viewing and sharing -->
+        <!--  Allow app to handle file viewing and sharing -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
 
@@ -131,7 +131,7 @@
         <activity
             android:name=".activities.WifiDirectActivity"
             android:exported="false"
-            android:screenOrientation="portrait" /> <!-- ✅ Handle .enc files (Both Open & Share) -->
+            android:screenOrientation="portrait" /> <!--  Handle .enc files (Both Open & Share) -->
         <activity
             android:name=".activities.EncryptedFileViewerActivity"
             android:exported="true"
@@ -154,7 +154,7 @@
                 <data android:pathPattern=".*\\..*\\..*\\.enc" />
             </intent-filter>
 
-            <!-- ✅ For "Share" menu -->
+            <!--  For "Share" menu -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

@@ -43,7 +43,7 @@ public class RestoreManager {
                 return false;
             }
 
-            // ✅ Find latest file (only .json, not .enc)
+            //  Find latest file (only .json, not .enc)
             File latestFile = null;
             for (File file : files) {
                 if (file.getName().endsWith(".json")) {
@@ -76,7 +76,7 @@ public class RestoreManager {
                 db.deliveryDao().insertAll(backupData.getDeliveries());
             }
 
-            Log.d(TAG, "✅ Restore successful!");
+            Log.d(TAG, " Restore successful!");
             return true;
 
         } catch (Exception e) {
@@ -121,7 +121,7 @@ public class RestoreManager {
                 }
             });
 
-            Log.d(TAG, "✅ Restore from URI successful!");
+            Log.d(TAG, " Restore from URI successful!");
             return true;
 
         } catch (Exception e) {

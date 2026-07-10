@@ -17,7 +17,7 @@ import com.example.models.LoginResponse;
 import com.example.models.Staff;
 import com.example.network.ApiClient;
 import com.example.network.ApiService;
-import com.google.gson.Gson;  // ✅ ADD THIS IMPORT
+import com.google.gson.Gson;
 
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -45,7 +45,7 @@ public class EditStaffFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // ✅ GET STAFF DATA FROM JSON STRING - ADD THIS HERE
+        //  GET STAFF DATA FROM JSON STRING - ADD THIS HERE
         if (getArguments() != null) {
             String staffJson = getArguments().getString("staff_data_json");
             if (staffJson != null) {
@@ -194,17 +194,17 @@ public class EditStaffFragment extends Fragment {
                     Log.d(TAG, "Message: " + loginResponse.getMessage());
 
                     if (loginResponse.getStatus() != null && loginResponse.getStatus()) {
-                        Toast.makeText(requireContext(), "✅ Staff updated successfully!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), " Staff updated successfully!", Toast.LENGTH_LONG).show();
                         // Navigate back to staff list
                         if (getParentFragmentManager() != null) {
                             getParentFragmentManager().popBackStack();
                         }
                     } else {
                         String msg = loginResponse.getMessage() != null ? loginResponse.getMessage() : "Unknown error";
-                        Toast.makeText(requireContext(), "❌ Error: " + msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(requireContext(), " Error: " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(requireContext(), "❌ Failed to update staff", Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), " Failed to update staff", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -213,7 +213,7 @@ public class EditStaffFragment extends Fragment {
                 binding.btnUpdateStaff.setEnabled(true);
                 binding.btnUpdateStaff.setText("Update Staff");
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                Toast.makeText(requireContext(), "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(requireContext(), " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -63,7 +63,7 @@ public class EditCustomerDialog extends DialogFragment {
         binding.etLatitude.setText(String.valueOf(customer.getLatitude()));
         binding.etLongitude.setText(String.valueOf(customer.getLongitude()));
 
-        // ✅ ActivityResultLauncher for MapPicker
+        //  ActivityResultLauncher for MapPicker
         ActivityResultLauncher<Intent> launcher =
                 registerForActivityResult(
                         new ActivityResultContracts.StartActivityForResult(),
@@ -90,7 +90,7 @@ public class EditCustomerDialog extends DialogFragment {
                             }
                         });
 
-        // ✅ MapPicker button click
+        //  MapPicker button click
         binding.btnChangeLocation.setOnClickListener(v -> {
 
             Intent intent =

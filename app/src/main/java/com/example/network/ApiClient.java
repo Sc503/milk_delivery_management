@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    // ✅ Make sure this URL matches your Postman URL
+
     private static final String BASE_URL = "https://smartmr.in/milkflowapp/";
     private static Retrofit retrofit = null;
 

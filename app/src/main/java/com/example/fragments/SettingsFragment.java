@@ -296,10 +296,10 @@ public class SettingsFragment extends Fragment {
 
             try {
                 if (password != null) {
-                    // ✅ ENCRYPTED FILE: Read from Uri and decrypt
+                    //  ENCRYPTED FILE: Read from Uri and decrypt
                     result = BackupManager.restoreEncryptedBackupFromUri(requireContext(), uri, password);
                 } else {
-                    // ✅ REGULAR JSON FILE: Restore directly
+                    //  REGULAR JSON FILE: Restore directly
                     result = RestoreManager.restoreFromUri(requireContext(), uri);
                 }
             } catch (Exception e) {

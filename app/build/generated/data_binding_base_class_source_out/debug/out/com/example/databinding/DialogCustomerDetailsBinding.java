@@ -44,11 +44,15 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
   @NonNull
   public final TextView dialogTxtName;
 
+  @NonNull
+  public final TextView dialogTxtStaffName;
+
   private DialogCustomerDetailsBinding(@NonNull MaterialCardView rootView,
       @NonNull MaterialButton dialogBtnCall, @NonNull TextView dialogBtnCancel,
       @NonNull MaterialButton dialogBtnDeliver, @NonNull MaterialButton dialogBtnEdit,
       @NonNull MaterialButton dialogBtnNavigate, @NonNull TextView dialogTxtAddress,
-      @NonNull TextView dialogTxtMobile, @NonNull TextView dialogTxtName) {
+      @NonNull TextView dialogTxtMobile, @NonNull TextView dialogTxtName,
+      @NonNull TextView dialogTxtStaffName) {
     this.rootView = rootView;
     this.dialogBtnCall = dialogBtnCall;
     this.dialogBtnCancel = dialogBtnCancel;
@@ -58,6 +62,7 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
     this.dialogTxtAddress = dialogTxtAddress;
     this.dialogTxtMobile = dialogTxtMobile;
     this.dialogTxtName = dialogTxtName;
+    this.dialogTxtStaffName = dialogTxtStaffName;
   }
 
   @Override
@@ -135,9 +140,15 @@ public final class DialogCustomerDetailsBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.dialog_txt_staff_name;
+      TextView dialogTxtStaffName = ViewBindings.findChildViewById(rootView, id);
+      if (dialogTxtStaffName == null) {
+        break missingId;
+      }
+
       return new DialogCustomerDetailsBinding((MaterialCardView) rootView, dialogBtnCall,
           dialogBtnCancel, dialogBtnDeliver, dialogBtnEdit, dialogBtnNavigate, dialogTxtAddress,
-          dialogTxtMobile, dialogTxtName);
+          dialogTxtMobile, dialogTxtName, dialogTxtStaffName);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

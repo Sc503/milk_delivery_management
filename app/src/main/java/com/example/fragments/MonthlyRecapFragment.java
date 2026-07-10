@@ -372,7 +372,7 @@ public class MonthlyRecapFragment extends Fragment {
             if (getActivity() != null && isAdded()) {
                 getActivity().runOnUiThread(() -> {
 
-                    if (binding == null) return; // 🔥 IMPORTANT FIX
+                    if (binding == null) return;
 
                     adapter.setData(recapItems);
 

@@ -371,7 +371,7 @@ public class BackupManager {
                 }
             });
 
-            Log.d(TAG, "✅ Encrypted restore successful!");
+            Log.d(TAG, " Encrypted restore successful!");
             return true;
 
         } catch (Exception e) {
@@ -448,7 +448,7 @@ public class BackupManager {
         }
     }
 
-    // ── ✅ MERGE BACKUP FROM URI ──────────────────────────────────────────
+    //  MERGE BACKUP FROM URI ──────────────────────────────────────────
     public static boolean mergeBackupFromUri(Context context, Uri uri) {
         try {
             // Read the file content
@@ -522,7 +522,7 @@ public class BackupManager {
                 }
             });
 
-            Log.d(TAG, "✅ Merge successful!");
+            Log.d(TAG, " Merge successful!");
             return true;
 
         } catch (Exception e) {
@@ -531,7 +531,7 @@ public class BackupManager {
         }
     }
 
-    // ── ✅ MERGE BACKUP FROM FILE (DIRECT) ──────────────────────────────
+    //  MERGE BACKUP FROM FILE (DIRECT) ──────────────────────────────
     public static boolean mergeBackupFromFile(Context context, File file) {
         try {
             Log.d(TAG, "========== MERGE FROM FILE ==========");
@@ -540,16 +540,16 @@ public class BackupManager {
             Log.d(TAG, "File size: " + file.length() + " bytes");
 
             if (!file.exists()) {
-                Log.e(TAG, "❌ File does not exist");
+                Log.e(TAG, " File does not exist");
                 return false;
             }
 
             if (file.length() == 0) {
-                Log.e(TAG, "❌ File is empty");
+                Log.e(TAG, " File is empty");
                 return false;
             }
 
-            // ✅ Read file content directly using FileReader
+            // Read file content directly using FileReader
             FileReader fileReader = new FileReader(file);
             BufferedReader reader = new BufferedReader(fileReader);
             StringBuilder builder = new StringBuilder();
@@ -561,10 +561,10 @@ public class BackupManager {
             fileReader.close();
 
             String jsonData = builder.toString();
-            Log.d(TAG, "✅ JSON data length: " + jsonData.length() + " characters");
+            Log.d(TAG, " JSON data length: " + jsonData.length() + " characters");
 
             if (jsonData.isEmpty()) {
-                Log.e(TAG, "❌ JSON data is empty");
+                Log.e(TAG, " JSON data is empty");
                 return false;
             }
 
@@ -573,19 +573,19 @@ public class BackupManager {
             BackupData backupData;
             try {
                 backupData = gson.fromJson(jsonData, BackupData.class);
-                Log.d(TAG, "✅ JSON parsed successfully");
+                Log.d(TAG, " JSON parsed successfully");
             } catch (Exception e) {
-                Log.e(TAG, "❌ JSON parse error: " + e.getMessage());
+                Log.e(TAG, " JSON parse error: " + e.getMessage());
                 return false;
             }
 
             // Check if data exists
             int customerCount = backupData.getCustomers() != null ? backupData.getCustomers().size() : 0;
             int deliveryCount = backupData.getDeliveries() != null ? backupData.getDeliveries().size() : 0;
-            Log.d(TAG, "✅ Found " + customerCount + " customers and " + deliveryCount + " deliveries");
+            Log.d(TAG, " Found " + customerCount + " customers and " + deliveryCount + " deliveries");
 
             if (customerCount == 0 && deliveryCount == 0) {
-                Log.e(TAG, "❌ No data found in backup file");
+                Log.e(TAG, " No data found in backup file");
                 return false;
             }
 
@@ -604,10 +604,10 @@ public class BackupManager {
                             backupCustomer.setId(0);
                             long newId = db.customerDao().insert(backupCustomer);
                             customerIdMap.put(oldBackupId, newId);
-                            Log.d(TAG, "✅ Added customer: " + backupCustomer.getName());
+                            Log.d(TAG, " Added customer: " + backupCustomer.getName());
                         } else {
                             customerIdMap.put(backupCustomer.getId(), existingCustomer.getId());
-                            Log.d(TAG, "⏭️ Skipped duplicate: " + backupCustomer.getName());
+                            Log.d(TAG, "⏭ Skipped duplicate: " + backupCustomer.getName());
                         }
                     }
                 }
@@ -627,38 +627,38 @@ public class BackupManager {
                             backupDelivery.setId(0);
                             backupDelivery.setCustomerId(localCustomerId);
                             db.deliveryDao().insert(backupDelivery);
-                            Log.d(TAG, "✅ Added delivery");
+                            Log.d(TAG, " Added delivery");
                         } else {
                             if ("Delivered".equalsIgnoreCase(backupDelivery.getStatus()) &&
                                     !"Delivered".equalsIgnoreCase(existingDelivery.getStatus())) {
                                 existingDelivery.setStatus("Delivered");
                                 existingDelivery.setDeliveredTime(backupDelivery.getDeliveredTime());
                                 db.deliveryDao().update(existingDelivery);
-                                Log.d(TAG, "✅ Updated delivery to Delivered");
+                                Log.d(TAG, " Updated delivery to Delivered");
                             }
                         }
                     }
                 }
             });
 
-            Log.d(TAG, "✅ Merge successful!");
+            Log.d(TAG, " Merge successful!");
             return true;
 
         } catch (Exception e) {
-            Log.e(TAG, "❌ Merge from file failed: " + e.getMessage(), e);
+            Log.e(TAG, " Merge from file failed: " + e.getMessage(), e);
             e.printStackTrace();
             return false;
         }
     }
 
-    // ── ✅ RESTORE BACKUP FROM FILE ──────────────────────────────────────
+    //  RESTORE BACKUP FROM FILE ──────────────────────────────────────
     public static boolean restoreBackupFromFile(Context context, File file) {
         try {
             Log.d(TAG, "========== RESTORE FROM FILE ==========");
             Log.d(TAG, "File path: " + file.getAbsolutePath());
 
             if (!file.exists()) {
-                Log.e(TAG, "❌ File does not exist");
+                Log.e(TAG, " File does not exist");
                 return false;
             }
 
@@ -691,11 +691,11 @@ public class BackupManager {
                 }
             });
 
-            Log.d(TAG, "✅ Restore successful!");
+            Log.d(TAG, " Restore successful!");
             return true;
 
         } catch (Exception e) {
-            Log.e(TAG, "❌ Restore from file failed: " + e.getMessage(), e);
+            Log.e(TAG, " Restore from file failed: " + e.getMessage(), e);
             e.printStackTrace();
             return false;
         }

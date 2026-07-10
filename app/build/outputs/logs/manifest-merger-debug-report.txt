@@ -11,10 +11,10 @@ INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:59:13-62
 manifest
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-169:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-169:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-169:12
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-169:12
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-173:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-173:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-173:12
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:2:1-173:12
 MERGED from [androidx.databinding:databinding-adapters:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\78664155b2f33762fa79af2220f5124a\workspace\transformed\databinding-adapters-9.1.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-ktx:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\c754c006ee5a3187cc48f7be59cef0af\workspace\transformed\databinding-ktx-9.1.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.databinding:databinding-runtime:9.1.1] C:\Users\Karan\.gradle\caches\9.3.1\transforms\7b089d7dce10a93d960ef25a01077b63\workspace\transformed\databinding-runtime-9.1.1\AndroidManifest.xml:2:1-7:12
@@ -262,8 +262,8 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 	android:name
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:32:22-76
 application
-ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:34:5-167:19
-INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:34:5-167:19
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:34:5-171:19
+INJECTED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:34:5-171:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\0a2bf96d8b02a0b5a4bbc5f38793c077\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\Karan\.gradle\caches\9.3.1\transforms\0a2bf96d8b02a0b5a4bbc5f38793c077\workspace\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\Karan\.gradle\caches\9.3.1\transforms\bc49d61ed8725b6b31946a2f76cc51da\workspace\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -532,6 +532,12 @@ ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src
 		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:146:27-75
 intent-filter#action:name:android.intent.action.SEND+category:name:android.intent.category.DEFAULT+data:mimeType:*/*+data:mimeType:application/octet-stream
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:158:13-165:29
+activity#com.example.activities.MapPickerActivity
+ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:168:9-170:40
+	android:exported
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:170:13-37
+	android:name
+		ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:169:13-57
 meta-data#android.support.FILE_PROVIDER_PATHS
 ADDED from C:\Users\Karan\AndroidStudioProjects\milk_delivery_management\app\src\main\AndroidManifest.xml:63:13-65:54
 	android:resource

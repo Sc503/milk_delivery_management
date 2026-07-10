@@ -17,7 +17,7 @@ public class Payment {
 
     private String status;   // Paid / Pending
 
-    // ✅ REQUIRED for Room
+    //  REQUIRED for Room
     public Payment() {
     }
 

@@ -57,9 +57,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
-    // ✅ Flag to track if map is ready
+    //  Flag to track if map is ready
     private boolean isMapReady = false;
-    // ✅ Cache customers for refresh
+    //  Cache customers for refresh
     private List<Customer> cachedCustomers = null;
 
     @Override
@@ -146,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        // ✅ Load and watch pending deliveries for today
+        //  Load and watch pending deliveries for today
         viewModel.getAllCustomers()
                 .observe(getViewLifecycleOwner(), customers -> {
                     cachedCustomers = customers;
@@ -158,14 +158,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         String today = DateUtils.getTodayDateString();
         viewModel.getDeliveriesForDate(today)
                 .observe(getViewLifecycleOwner(), deliveries -> {
-                    // ✅ Refresh markers when deliveries change
+                    //  Refresh markers when deliveries change
                     if (cachedCustomers != null && isMapReady) {
                         updateMapMarkers(cachedCustomers);
                     }
                 });
     }
 
-    // ✅ Public method to refresh map from outside (called after edit)
+    //  Public method to refresh map from outside (called after edit)
     public void refreshMap() {
         if (isMapReady && viewModel != null) {
             viewModel.getAllCustomers().observe(getViewLifecycleOwner(), customers -> {
@@ -218,7 +218,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         LatLng selectedLatLng = null;
 
         for (Customer customer : customers) {
-            // ✅ Skip customers with invalid coordinates
+            //  Skip customers with invalid coordinates
             if (customer.getLatitude() == 0 && customer.getLongitude() == 0) {
                 android.util.Log.d("MAP_TEST", "Skipping customer with zero coordinates: " + customer.getName());
                 continue;
@@ -243,7 +243,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             if (marker != null) {
                 markerLookup.put(marker.getId(), customer);
-                android.util.Log.d("MAP_TEST", "✅ Marker added for: " + customer.getName() +
+                android.util.Log.d("MAP_TEST", " Marker added for: " + customer.getName() +
                         " Lat: " + customer.getLatitude() + " Lng: " + customer.getLongitude());
             }
 
@@ -254,7 +254,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
-        // 🔥 PRIORITY 1: selected customer focus
+        //  PRIORITY 1: selected customer focus
         if (selectedLatLng != null) {
             googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
@@ -268,7 +268,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return; // stop further camera logic
         }
 
-        // 🔥 PRIORITY 2: If there are customers, zoom to fit all
+        //  PRIORITY 2: If there are customers, zoom to fit all
         if (!customers.isEmpty()) {
             try {
                 LatLngBounds bounds = boundsBuilder.build();
@@ -276,14 +276,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 googleMap.animateCamera(
                         CameraUpdateFactory.newLatLngBounds(bounds, padding)
                 );
-                android.util.Log.d("MAP_TEST", "✅ Zooming to fit all customers");
+                android.util.Log.d("MAP_TEST", " Zooming to fit all customers");
                 return;
             } catch (Exception e) {
                 android.util.Log.e("MAP_TEST", "Error building bounds: " + e.getMessage());
             }
         }
 
-        // 🔥 PRIORITY 3: Default - Nashik
+        //  PRIORITY 3: Default - Nashik
         try {
             android.util.Log.d("MAP_TEST", "Moving To Nashik");
             LatLng nashik = new LatLng(19.9975, 73.7898);
@@ -356,15 +356,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 );
             }
 
-            // ✅ onEdit callback
+            //  onEdit callback
             @Override
             public void onEdit(Customer c) {
                 // Open EditCustomerDialog
                 EditCustomerDialog editDialog = new EditCustomerDialog(c, editedCustomer -> {
-                    // ✅ Save edited customer to database
+                    //  Save edited customer to database
                     viewModel.updateCustomer(editedCustomer);
 
-                    // ✅ Refresh map after a short delay
+                    //  Refresh map after a short delay
                     new Handler().postDelayed(() -> {
                         refreshMap();
                         Toast.makeText(getContext(),

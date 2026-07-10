@@ -36,7 +36,7 @@ public class WifiDirectService extends Service {
     public static String  connectedDeviceName  = "";
     public static String  pendingFilePath      = null;
     public static String  myHostAddress        = null;
-    public static String  clientAddress        = null; // ✅ Store client IP
+    public static String  clientAddress        = null; //  Store client IP
 
     // ── Callbacks ─────────────────────────────────────────────────
     public interface StateListener {
@@ -115,7 +115,7 @@ public class WifiDirectService extends Service {
         myHostAddress        = null;
         clientAddress        = null;
 
-        // ✅ Client also starts a server to receive files from host
+        //  Client also starts a server to receive files from host
         if (!serverRunning) {
             serverRunning = true;
             new ReceiveThread().start();
@@ -172,14 +172,14 @@ public class WifiDirectService extends Service {
                 while (serverRunning) {
                     Socket client = activeSocket.accept();
 
-                    // ✅ Get client IP address and store it
+                    //  Get client IP address and store it
                     String clientIp = client.getInetAddress().getHostAddress();
 
-                    // ✅ Store client IP for future communication
+                    //  Store client IP for future communication
                     if (!connectedClients.contains(clientIp)) {
                         connectedClients.add(clientIp);
                     }
-                    clientAddress = clientIp;  // ✅ Update client address
+                    clientAddress = clientIp;  //  Update client address
 
                     File dir = new File(
                             android.os.Environment
@@ -230,7 +230,7 @@ public class WifiDirectService extends Service {
             String targetAddress = null;
 
             try {
-                // ✅ Determine target address based on role
+                //  Determine target address based on role
                 if (isGroupOwner) {
                     // HOST sends to client - use stored client address
                     targetAddress = clientAddress;

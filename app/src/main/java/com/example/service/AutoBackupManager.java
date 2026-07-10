@@ -31,12 +31,12 @@ public class AutoBackupManager {
     private static final String KEY_BACKUP_RUNNING = "backup_running";
 
     // ============================================================
-    // 🧪 TESTING: 2 minutes for testing
+    //  TESTING: 2 minutes for testing
     // ============================================================
-//    private static final int BACKUP_INTERVAL = 2 * 60 * 1000; // 2 minutes
+    //    private static final int BACKUP_INTERVAL = 2 * 60 * 1000; // 2 minutes
 
     // ============================================================
-    // ✅ PRODUCTION: 24 HOURS (FIXED)
+    //  PRODUCTION: 24 HOURS (FIXED)
     // ============================================================
     private static final int BACKUP_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -82,12 +82,12 @@ public class AutoBackupManager {
         return getPrefs().getLong(KEY_LAST_BACKUP, 0);
     }
 
-    // ── ✅ FIXED: Update Last Backup Time ──────────────────────────
+    //FIXED: Update Last Backup Time ──────────────────────────
     private void updateLastBackupTime() {
-        // ✅ Update auto backup preference
+        //  Update auto backup preference
         getPrefs().edit().putLong(KEY_LAST_BACKUP, System.currentTimeMillis()).apply();
 
-        // ✅ Also update the main backup preference for consistency
+        //  Also update the main backup preference for consistency
         SharedPreferences mainPrefs = context.getSharedPreferences("backup_prefs", Context.MODE_PRIVATE);
         String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
                 .format(new Date());
@@ -118,7 +118,7 @@ public class AutoBackupManager {
                 .cancelUniqueWork("AUTO_BACKUP");
     }
 
-    // ── ✅ FIXED: Perform Auto Backup ──────────────────────────────
+    //  FIXED: Perform Auto Backup ──────────────────────────────
     public void performAutoBackup() {
         // Prevent multiple backups running simultaneously
         if (isBackupRunning()) {
@@ -129,11 +129,11 @@ public class AutoBackupManager {
 
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
-                // ✅ Create backup (creates .json file)
+                //  Create backup (creates .json file)
                 boolean success = BackupManager.createBackup(context);
 
                 if (success) {
-                    // ✅ Update last backup time
+                    //  Update last backup time
                     updateLastBackupTime();
                 }
             } catch (Exception e) {

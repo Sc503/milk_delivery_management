@@ -280,7 +280,7 @@ public class PaymentDetailsFragment extends Fragment {
         });
     }
 
-    // ✅ STEP 9.14.4 - STATUS UI METHOD
+    //  STATUS UI METHOD
     private void updateStatusUI(String status) {
 
         if (status == null) return;
@@ -345,7 +345,7 @@ public class PaymentDetailsFragment extends Fragment {
                                     "Paid"
                             );
 
-                    // 💾 Save to Room + Firebase (via repository)
+                    //  Save to Room
                     viewModel.savePayment(newPayment);
 
 
