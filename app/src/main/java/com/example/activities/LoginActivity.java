@@ -40,7 +40,15 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_REMEMBER = "rememberMe";
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_NAME = "name";
-    private static final String KEY_STAFF_ID = "staff_id"; //  NEW KEY
+
+    // ✅ New keys for user information
+    private static final String KEY_OWNER_NAME = "owner_name";
+    private static final String KEY_STAFF_NAME = "staff_name";
+    private static final String KEY_BUSINESS_NAME = "business_name";
+    private static final String KEY_ROLE = "role";
+
+    // Old keys (keeping for compatibility)
+    private static final String KEY_HEADER_NAME = "header_name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +56,13 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //  CHECK IF USER IS ALREADY LOGGED IN
+        // ✅ CHECK IF USER IS ALREADY LOGGED IN
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
         String userType = prefs.getString(KEY_USER_TYPE, null);
         String mobile = prefs.getString(KEY_MOBILE, null);
 
-        //  If Remember Me is checked and user is logged in, skip login screen
+        // ✅ If Remember Me is checked and user is logged in, skip login screen
         if (rememberMe && userType != null && mobile != null) {
             // User is already logged in, go directly to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -146,7 +154,12 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(KEY_PASSWORD);
         editor.remove(KEY_USER_TYPE);
         editor.remove(KEY_ACCOUNT_ID);
-        editor.remove(KEY_STAFF_ID); //  Also clear staff_id
+        editor.remove(KEY_NAME);
+        editor.remove(KEY_HEADER_NAME);
+        editor.remove(KEY_OWNER_NAME);
+        editor.remove(KEY_STAFF_NAME);
+        editor.remove(KEY_BUSINESS_NAME);
+        editor.remove(KEY_ROLE);
         editor.putBoolean(KEY_REMEMBER, false);
         editor.apply();
         Log.d(TAG, "Credentials cleared");
@@ -248,6 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(KEY_USER_TYPE, "staff");
                 editor.putBoolean(KEY_REMEMBER, true);
                 editor.apply();
+                Log.d(TAG, "✅ Staff account_id saved: " + accountId);
             }
 
             ApiService apiService = ApiClient.getClient().create(ApiService.class);
@@ -276,52 +290,106 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLogin.setEnabled(true);
             binding.btnLogin.setText("LOGIN");
 
-            LoginResponse loginResponse = response.body();
+            if (response.isSuccessful() && response.body() != null) {
+                LoginResponse loginResponse = response.body();
 
-            if (loginResponse.getData() != null) {
-                MyData data = loginResponse.getData();
+                if (loginResponse.getData() != null) {
+                    MyData data = loginResponse.getData();
 
-                // Save user data
-                SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
+                    // Save user data
+                    SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
 
-
-                    // NEW: Save staff_id for staff users
+                    // ✅ Updated data saving block
                     if (data != null) {
-                        editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getId()));
-                        editor.putString(KEY_NAME, data.getBusinessName());
                         editor.putString(KEY_MOBILE, data.getMobile());
 
-                        // ✅ THIS MUST BE HERE FOR STAFF USERS
-                        if (userType.equals("staff")) {
-                            editor.putLong("staff_id", data.getId());  // ← MUST BE "staff_id"
-                            Log.d("STAFF_DEBUG", "✅ Staff ID saved: " + data.getId());
+                        // ✅ Save header_name and business_name based on user type
+                        if (userType.equals("admin")) {
+                            // ============================================
+                            // ✅ Owner Login - Direct save from Login API
+                            // ============================================
+                            editor.putString(KEY_HEADER_NAME, data.getOwnername());
+                            editor.putString(KEY_BUSINESS_NAME, data.getBusinessName());
+                            editor.putString(KEY_OWNER_NAME, data.getOwnername());
+                            editor.putString(KEY_ROLE, "Owner");
+                            editor.putString(KEY_NAME, data.getBusinessName());
+
+                            Log.d(TAG, "✅ Owner header_name: " + data.getOwnername());
+                            Log.d(TAG, "✅ Owner business_name: " + data.getBusinessName());
+
+                            // Save account_id for Owner
+                            if (data.getId() != null) {
+                                editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getId()));
+                                Log.d(TAG, "✅ Owner account_id saved: " + data.getId());
+                            } else {
+                                editor.putString(KEY_ACCOUNT_ID, "0");
+                                Log.e(TAG, "❌ Owner ID is null!");
+                            }
+
                         } else {
-                            editor.putLong("staff_id", 0);
+                            // ============================================
+                            // ✅ Staff Login - Direct save from Login API
+                            // ============================================
+                            editor.putString(KEY_HEADER_NAME, data.getName()); // staff name
+                            editor.putString(KEY_STAFF_NAME, data.getName());
+                            editor.putString(KEY_ROLE, "Staff");
+                            editor.putString(KEY_NAME, data.getName());
+
+                            Log.d(TAG, "✅ Staff header_name: " + data.getName());
+
+                            // Staff business_name - API मधून आल्यास save करा
+                            if (data.getBusinessName() != null && !data.getBusinessName().isEmpty()) {
+                                editor.putString(KEY_BUSINESS_NAME, data.getBusinessName());
+                                Log.d(TAG, "✅ Staff business_name: " + data.getBusinessName());
+                            } else {
+                                // Empty for now - MainActivity मध्ये getProfile() API call करून fetch होईल
+                                editor.putString(KEY_BUSINESS_NAME, "");
+                                Log.d(TAG, "⏳ Staff business_name: Empty (will fetch later)");
+                            }
+
+                            // Save account_id for Staff
+                            if (data.getAccountId() != null) {
+                                editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getAccountId()));
+                                Log.d(TAG, "✅ Staff account_id saved: " + data.getAccountId());
+                            } else {
+                                editor.putString(KEY_ACCOUNT_ID, "0");
+                                Log.e(TAG, "❌ Staff account_id is null!");
+                            }
                         }
                     }
 
-                // Save userType as "Owner" or "Staff" (matches MainActivity)
-                if (userType.equals("admin")) {
-                    editor.putString(KEY_USER_TYPE, "Owner");
+                    // ✅ Save user type
+                    if (userType.equals("admin")) {
+                        editor.putString(KEY_USER_TYPE, "Owner");
+                    } else {
+                        editor.putString(KEY_USER_TYPE, "Staff");
+                    }
+
+                    // Keep Remember Me preference
+                    if (binding.checkRemember.isChecked()) {
+                        editor.putBoolean(KEY_REMEMBER, true);
+                    }
+
+                    editor.apply();
+
+                    // Log all saved data for debugging
+                    Log.d(TAG, "✅ Login Successful!");
+                    Log.d(TAG, "User Type: " + prefs.getString(KEY_USER_TYPE, ""));
+                    Log.d(TAG, "Header Name: " + prefs.getString(KEY_HEADER_NAME, ""));
+                    Log.d(TAG, "Business Name: " + prefs.getString(KEY_BUSINESS_NAME, ""));
+                    Log.d(TAG, "Account ID: " + prefs.getString(KEY_ACCOUNT_ID, ""));
+
+                    // Go to MainActivity
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    editor.putString(KEY_USER_TYPE, "Staff");
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }
-
-                // Keep Remember Me preference
-                if (binding.checkRemember.isChecked()) {
-                    editor.putBoolean(KEY_REMEMBER, true);
-                }
-
-                editor.apply();
-
-                // Go to MainActivity
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
             } else {
-                Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Login failed. Please try again.", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -330,7 +398,7 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLogin.setEnabled(true);
             binding.btnLogin.setText("LOGIN");
             Log.e(TAG, "Network Error: " + t.getMessage());
-            Toast.makeText(LoginActivity.this, " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

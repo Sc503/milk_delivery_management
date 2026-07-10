@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.widget.SearchView;
+
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,39 @@ import com.example.dao.DeliveryDao;
 import com.example.database.AppDatabase;
 import com.example.models.User;
 
+//  Import for header views
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.models.LoginResponse;
+import com.example.models.MyData;
+import com.example.network.ApiClient;
+import com.example.network.ApiService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+//  Step 8.1: Imports for ActivityResultLauncher
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.app.Activity;
+
+//  Step 9.2: Imports for Glide and File operations
+import com.bumptech.glide.Glide;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+//  Step 10.3: Import for AlertDialog
+import androidx.appcompat.app.AlertDialog;
+
+//  Import for Gson (optional - if needed for debugging)
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +88,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActionBarDrawerToggle toggle;
 
+    //  Header views
+    private ImageView imgProfile;
+    private ImageView imgCamera;
+    private TextView txtHeaderName;
+    private TextView txtHeaderBusiness;
+    private TextView txtHeaderRole;
+
+    //  Step 8.2: Variables for image picking
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,12 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ CHECK SESSION - If no userType or mobile, redirect to Login
+        //  CHECK SESSION - If no userType or mobile, redirect to Login
         SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
         currentUserType = pref.getString("userType", null);
         String mobile = pref.getString("mobile", null);
 
-        // ✅ If not logged in, redirect to Login
+        //  If not logged in, redirect to Login
         if (currentUserType == null || mobile == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -107,6 +152,168 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         binding.navView.setItemIconTintList(getResources().getColorStateList(R.color.primary));
         binding.navView.setNavigationItemSelectedListener(this);
+
+        //  Step 8.3: Register ActivityResultLauncher for image picking
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK
+                            && result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+                        if (imageUri != null) {
+                            //  Save image and load with Glide
+                            String path = saveProfileImage(imageUri);
+
+                            if (!path.isEmpty()) {
+                                //  Step 10.9: Animation
+                                imgProfile.setAlpha(0f);
+                                Glide.with(MainActivity.this)
+                                        .load(new File(path))
+                                        .circleCrop()
+                                        .placeholder(R.drawable.ic_user)
+                                        .into(imgProfile);
+                                imgProfile.animate()
+                                        .alpha(1f)
+                                        .setDuration(400)
+                                        .start();
+
+                                SharedPreferences prefs =
+                                        getSharedPreferences("UserSession", MODE_PRIVATE);
+                                String accountId =
+                                        prefs.getString("account_id", "");
+
+                                //  Save path
+                                prefs.edit()
+                                        .putString("profile_" + accountId, path)
+                                        .apply();
+
+                                Log.d("MainActivity", " Photo saved at: " + path);
+                                Log.d("MainActivity", " Account ID: " + accountId);
+
+                                Toast.makeText(this, "Profile photo updated!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, "Failed to save photo", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+        //  Drawer Header - Bind views and load data
+        View headerView = binding.navView.getHeaderView(0);
+        imgProfile = headerView.findViewById(R.id.imgProfile);
+        imgCamera = headerView.findViewById(R.id.imgCamera);
+        txtHeaderName = headerView.findViewById(R.id.txtHeaderName);
+        txtHeaderBusiness = headerView.findViewById(R.id.txtHeaderBusiness);
+        txtHeaderRole = headerView.findViewById(R.id.txtHeaderRole);
+
+        loadHeaderData();
+
+        //  Camera icon click - Always opens gallery (to add/change photo)
+        imgCamera.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            imagePickerLauncher.launch(intent);
+        });
+
+        //  Profile Image click - Add photo if empty, else show full image
+        imgProfile.setOnClickListener(v -> {
+
+            SharedPreferences pref1 =
+                    getSharedPreferences("UserSession", MODE_PRIVATE);
+
+            String accountId =
+                    pref1.getString("account_id", "");
+
+            String image =
+                    pref1.getString("profile_" + accountId, "");
+
+            Log.d("MainActivity", "🔍 Click - Account ID: " + accountId);
+            Log.d("MainActivity", "🔍 Click - Image Path: " + image);
+
+            //  जर photo नसेल तर Gallery उघडा
+            if (image.isEmpty()) {
+                Log.d("MainActivity", "📷 No photo found, opening gallery...");
+                Intent intent = new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                imagePickerLauncher.launch(intent);
+                return;
+            }
+
+            //  जर photo असेल तर full screen मध्ये दाखवा
+            File imageFile = new File(image);
+            if (!imageFile.exists()) {
+                Log.d("MainActivity", "❌ Photo file not found, opening gallery...");
+                Intent intent = new Intent(
+                        Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                imagePickerLauncher.launch(intent);
+                return;
+            }
+
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(this);
+            ImageView imageView = new ImageView(this);
+
+            Glide.with(this)
+                    .load(imageFile)
+                    .into(imageView);
+
+            builder.setView(imageView);
+            builder.setPositiveButton("Close", (d, w) -> d.dismiss());
+
+            builder.setNegativeButton("Delete", (d, w) -> {
+                new AlertDialog.Builder(this)
+                        .setTitle("Remove Photo")
+                        .setMessage("Delete profile photo?")
+                        .setPositiveButton("Delete", (d2, w2) -> {
+                            SharedPreferences prefs =
+                                    getSharedPreferences("UserSession", MODE_PRIVATE);
+                            String accId = prefs.getString("account_id", "");
+                            String path = prefs.getString("profile_" + accId, "");
+                            File file = new File(path);
+                            if (file.exists())
+                                file.delete();
+                            prefs.edit()
+                                    .remove("profile_" + accId)
+                                    .apply();
+                            imgProfile.setImageResource(R.drawable.ic_user);
+                            Toast.makeText(this, "Photo removed", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            });
+
+            builder.show();
+        });
+
+        //  Step 10.7: Long Press - Remove Photo (alternative way)
+        imgProfile.setOnLongClickListener(v -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Remove Photo")
+                    .setMessage("Delete profile photo?")
+                    .setPositiveButton("Delete", (d, w) -> {
+                        SharedPreferences pref1 =
+                                getSharedPreferences("UserSession",
+                                        MODE_PRIVATE);
+                        String accountId =
+                                pref1.getString("account_id", "");
+                        String path =
+                                pref1.getString("profile_" + accountId, "");
+                        File file = new File(path);
+                        if (file.exists())
+                            file.delete();
+                        pref1.edit()
+                                .remove("profile_" + accountId)
+                                .apply();
+                        imgProfile.setImageResource(R.drawable.ic_user);
+                        Toast.makeText(this, "Photo removed", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+            return true;
+        });
 
         if (getIntent().getBooleanExtra("OPEN_CUSTOMER_LOCATION", false)) {
             long customerId = getIntent().getLongExtra("CUSTOMER_ID", -1);
@@ -159,14 +366,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbarTitle = "Staff List";
             binding.navView.setCheckedItem(R.id.nav_staff_list);
         } else if (itemId == R.id.nav_monthly_recap) {
-//            fragment = new MonthlyRecapFragment();
-
             Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
             startActivity(intent);
-
-//            tag = "MONTHLY_RECAP_FRAGMENT";
-//            toolbarTitle = "Monthly Recap";
-//            binding.navView.setCheckedItem(R.id.nav_monthly_recap);
         } else if (itemId == R.id.nav_payments) {
             fragment = new PaymentFragment();
             tag = "PAYMENT_FRAGMENT";
@@ -187,13 +388,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setTitle("Logout")
                     .setMessage("Are you sure you want to logout?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        // ✅ Clear all session data
+                        //  Clear all session data
                         getSharedPreferences("UserSession", MODE_PRIVATE)
                                 .edit()
                                 .clear()
                                 .apply();
 
-                        // ✅ Redirect to Login
+                        //  Redirect to Login
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -215,14 +416,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(toolbarTitle);
 
-                // 👇 Show/hide back button based on fragment
                 if (fragment instanceof AddStaffFragment) {
-
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     toggle.setDrawerIndicatorEnabled(false);
-
                 } else {
-
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     toggle.setDrawerIndicatorEnabled(true);
                     toggle.syncState();
@@ -334,25 +531,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (item.getItemId() == R.id.action_add_staff) {
-
-//            activeFragment = new AddStaffFragment();
-
-            // Create Account link
-                Intent intent = new Intent(MainActivity.this, AddStaff_Activity.class);
-                startActivity(intent);
-
-
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, activeFragment)
-//                    .commit();
-
-//            if (getSupportActionBar() != null) {
-//                getSupportActionBar().setTitle("Add Staff");
-//                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            }
-//
-//            invalidateOptionsMenu();
+            Intent intent = new Intent(MainActivity.this, AddStaff_Activity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -386,10 +566,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if ("Owner".equals(currentUserType)) {
             Log.d("CHECK", "Owner menu loaded - everything visible");
-            // Owner sees everything
         } else if ("Staff".equals(currentUserType)) {
             Log.d("CHECK", "Staff menu loaded - limited access");
-            // Staff: Hide admin-only items
             hide(menu, R.id.nav_add_customer);
             hide(menu, R.id.nav_payments);
             hide(menu, R.id.nav_staff_list);
@@ -401,5 +579,175 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item != null) {
             item.setVisible(false);
         }
+    }
+
+    //  Step 9.3: Method to save profile image to internal storage
+    private String saveProfileImage(Uri uri) {
+        try {
+            SharedPreferences prefs =
+                    getSharedPreferences("UserSession", MODE_PRIVATE);
+            String accountId =
+                    prefs.getString("account_id", "");
+
+            if (accountId.isEmpty()) {
+                Log.e("MainActivity", "❌ Account ID is empty!");
+                return "";
+            }
+
+            File folder =
+                    new File(getFilesDir(), "profile");
+            if (!folder.exists()) {
+                boolean created = folder.mkdirs();
+                Log.d("MainActivity", "📁 Folder created: " + created);
+            }
+
+            File file =
+                    new File(folder,
+                            "profile_" + accountId + ".jpg");
+
+            Log.d("MainActivity", "📁 Saving to: " + file.getAbsolutePath());
+
+            InputStream input =
+                    getContentResolver().openInputStream(uri);
+
+            if (input == null) {
+                Log.e("MainActivity", "❌ Failed to open input stream");
+                return "";
+            }
+
+            FileOutputStream output =
+                    new FileOutputStream(file);
+
+            byte[] buffer = new byte[4096];
+            int len;
+
+            while ((len = input.read(buffer)) != -1) {
+                output.write(buffer, 0, len);
+            }
+
+            input.close();
+            output.close();
+
+            Log.d("MainActivity", " Image saved successfully: " + file.getAbsolutePath());
+            Log.d("MainActivity", " File size: " + file.length() + " bytes");
+
+            return file.getAbsolutePath();
+
+        } catch (Exception e) {
+            Log.e("MainActivity", "❌ Error saving image: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    //  Method to load header data - Direct from SharedPreferences
+    private void loadHeaderData() {
+
+        SharedPreferences pref =
+                getSharedPreferences("UserSession", MODE_PRIVATE);
+
+        String role =
+                pref.getString("userType", "");
+
+        String accountId =
+                pref.getString("account_id", "");
+
+        String headerName =
+                pref.getString("header_name", "");
+
+        //  Directly get business_name from SharedPreferences (saved during login)
+        String business =
+                pref.getString("business_name", "");
+
+        Log.d("MainActivity", "📋 Loading header data...");
+        Log.d("MainActivity", "📋 Account ID: " + accountId);
+        Log.d("MainActivity", "📋 Header Name: " + headerName);
+        Log.d("MainActivity", "📋 Business Name: " + business);
+        Log.d("MainActivity", "📋 Role: " + role);
+
+        //  Set header text
+        txtHeaderName.setText(headerName);
+
+        //  Set business name with fallback
+        if (business == null || business.trim().isEmpty()) {
+            business = "Milk Delivery";
+        }
+        txtHeaderBusiness.setText(business);
+
+        txtHeaderRole.setText(role);
+
+        //  Load profile photo from internal storage
+        String imagePath = pref.getString("profile_" + accountId, "");
+        Log.d("MainActivity", "📋 Image Path from prefs: " + imagePath);
+
+        if (!imagePath.isEmpty()) {
+            File imageFile = new File(imagePath);
+            if (imageFile.exists()) {
+                Log.d("MainActivity", " Loading saved photo from: " + imagePath);
+                Glide.with(this)
+                        .load(imageFile)
+                        .circleCrop()
+                        .placeholder(R.drawable.ic_user)
+                        .into(imgProfile);
+            } else {
+                Log.d("MainActivity", "❌ Image file not found at: " + imagePath);
+                imgProfile.setImageResource(R.drawable.ic_user);
+            }
+        } else {
+            imgProfile.setImageResource(R.drawable.ic_user);
+        }
+
+        //  For Staff only: If business_name is empty, fetch from API
+        // Owner business_name is already saved during login
+        if ("Staff".equals(role) && (business == null || business.trim().isEmpty())) {
+            Log.d("MainActivity", "📋 Staff: Fetching business_name from API...");
+            fetchBusinessNameFromAPI(accountId);
+        }
+    }
+
+    //  Helper method to fetch business_name for Staff from API
+    private void fetchBusinessNameFromAPI(String accountId) {
+        ApiService api =
+                ApiClient.getClient().create(ApiService.class);
+
+        api.getProfile(accountId).enqueue(new Callback<LoginResponse>() {
+
+            @Override
+            public void onResponse(Call<LoginResponse> call,
+                                   Response<LoginResponse> response) {
+
+                Log.d("PROFILE_API", "📡 Code = " + response.code());
+                Log.d("PROFILE_API", "📡 Success = " + response.isSuccessful());
+
+                if (response.body() == null || response.body().getData() == null) {
+                    Log.d("PROFILE_API", "❌ No data in response");
+                    return;
+                }
+
+                MyData owner = response.body().getData();
+                String businessName = owner.getBusinessName();
+
+                Log.d("PROFILE", "🏢 Business Name from API: " + businessName);
+
+                if (businessName != null && !businessName.trim().isEmpty()) {
+                    //  Save business_name to SharedPreferences for future use
+                    SharedPreferences prefs =
+                            getSharedPreferences("UserSession", MODE_PRIVATE);
+                    prefs.edit()
+                            .putString("business_name", businessName)
+                            .apply();
+
+                    //  Update UI
+                    txtHeaderBusiness.setText(businessName);
+                    Log.d("MainActivity", " Staff business_name updated: " + businessName);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call,
+                                  Throwable t) {
+                Log.e("PROFILE_API", "❌ Failure = " + t.getMessage());
+            }
+        });
     }
 }

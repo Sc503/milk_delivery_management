@@ -23,19 +23,17 @@ import com.example.utils.PermissionManager;
 public class CustomerDetailsDialog extends DialogFragment {
 
     private final Customer customer;
-    private final String staffName;  // ✅ ADD THIS
     private final DialogCallback callback;
     private DialogCustomerDetailsBinding binding;
 
     public interface DialogCallback {
         void onDeliver(Customer customer);
+        void onEdit(Customer customer);  // ✅ Edit callback
         void onCancel();
     }
 
-    // ✅ UPDATE CONSTRUCTOR - Add staffName parameter
-    public CustomerDetailsDialog(Customer customer, String staffName, DialogCallback callback) {
+    public CustomerDetailsDialog(Customer customer, DialogCallback callback) {
         this.customer = customer;
-        this.staffName = staffName;  // ✅ ADD THIS
         this.callback = callback;
     }
 
@@ -56,16 +54,6 @@ public class CustomerDetailsDialog extends DialogFragment {
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
 
-        //  ADD THIS - Show staff name
-        if (binding.dialogTxtStaffName != null) {
-            if (staffName != null && !staffName.isEmpty()) {
-                binding.dialogTxtStaffName.setText("👨‍💼 Delivered By: " + staffName);
-                binding.dialogTxtStaffName.setVisibility(View.VISIBLE);
-            } else {
-                binding.dialogTxtStaffName.setVisibility(View.GONE);
-            }
-        }
-
         String currentUserType =
                 requireActivity()
                         .getSharedPreferences(
@@ -81,6 +69,7 @@ public class CustomerDetailsDialog extends DialogFragment {
             binding.dialogBtnDeliver.setVisibility(View.GONE);
         }
 
+        // ✅ Call button
         binding.dialogBtnCall.setOnClickListener(v -> {
             Intent dialIntent = new Intent(
                     Intent.ACTION_DIAL,
@@ -89,6 +78,7 @@ public class CustomerDetailsDialog extends DialogFragment {
             startActivity(dialIntent);
         });
 
+        // ✅ Navigate button
         binding.dialogBtnNavigate.setOnClickListener(v -> {
             Uri gmmIntentUri = Uri.parse(
                     "google.navigation:q="
@@ -101,11 +91,21 @@ public class CustomerDetailsDialog extends DialogFragment {
             startActivity(mapIntent);
         });
 
+        // ✅ Deliver button
         binding.dialogBtnDeliver.setOnClickListener(v -> {
             if (callback != null) callback.onDeliver(customer);
             dismiss();
         });
 
+        // ✅ NEW: Edit button
+        binding.dialogBtnEdit.setOnClickListener(v -> {
+            if (callback != null) {
+                dismiss();  // Close this dialog first
+                callback.onEdit(customer);  // Open EditCustomerDialog
+            }
+        });
+
+        // ✅ Cancel button
         binding.dialogBtnCancel.setOnClickListener(v -> {
             if (callback != null) callback.onCancel();
             dismiss();

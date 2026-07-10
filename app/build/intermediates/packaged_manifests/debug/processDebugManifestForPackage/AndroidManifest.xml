@@ -191,6 +191,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.example.activities.MapPickerActivity"
+            android:exported="false" />
+        <activity
             android:name="com.google.android.libraries.places.widget.AutocompleteActivity"
             android:exported="false"
             android:label="@string/places_autocomplete_label"

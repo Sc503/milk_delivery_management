@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_call"
@@ -106,7 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="6dp"
+                android:layout_marginEnd="4dp"
                 android:text="📞 Call"
                 android:textAllCaps="false"
                 app:iconGravity="textStart"
@@ -119,8 +119,23 @@
                 android:layout_width="0dp"
                 android:layout_height="52dp"
                 android:layout_weight="1"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:text="🗺 Navigate"
+                android:textAllCaps="false"
+                app:iconGravity="textStart"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"/>
+
+            <!-- ✅ NEW: EDIT BUTTON -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/dialog_btn_edit"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="✏️ Edit"
                 android:textAllCaps="false"
                 app:iconGravity="textStart"
                 app:strokeColor="@color/primary"
@@ -133,7 +148,7 @@
             android:id="@+id/dialog_btn_deliver"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:backgroundTint="@color/primary"
             android:text="Mark Delivered"
             android:textAllCaps="false"

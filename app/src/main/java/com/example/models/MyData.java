@@ -12,30 +12,57 @@ public class MyData implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;
+
     @SerializedName("ownername")
     @Expose
     private String ownername;
+
     @SerializedName("business_name")
     @Expose
     private String businessName;
+
     @SerializedName("mobile")
     @Expose
     private String mobile;
+
     @SerializedName("city")
     @Expose
     private String city;
+
     @SerializedName("address")
     @Expose
     private String address;
+
     @SerializedName("reg_date_time")
     @Expose
     private String regDateTime;
+
     @SerializedName("status")
     @Expose
     private Integer status;
+
     @SerializedName("remarks")
     @Expose
     private String remarks;
+
+    // ✅ New fields for staff/owner details
+    @SerializedName("name")
+    @Expose
+    private String name;
+
+    @SerializedName("usertype")
+    @Expose
+    private String usertype;
+
+    @SerializedName("account_id")
+    @Expose
+    private Integer accountId;
+
+    @SerializedName("isactive")
+    @Expose
+    private Integer isactive;
+
+    // ============ Existing Getters and Setters ============
 
     public Integer getId() {
         return id;
@@ -109,4 +136,53 @@ public class MyData implements Serializable {
         this.remarks = remarks;
     }
 
+    // ============ New Getters and Setters ============
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public Integer getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(Integer isactive) {
+        this.isactive = isactive;
+    }
+
+    // ============ Optional: Helper Methods ============
+
+    @Override
+    public String toString() {
+        return "MyData{" +
+                "id=" + id +
+                ", ownername='" + ownername + '\'' +
+                ", businessName='" + businessName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", name='" + name + '\'' +
+                ", usertype='" + usertype + '\'' +
+                ", accountId=" + accountId +
+                ", isactive=" + isactive +
+                '}';
+    }
 }

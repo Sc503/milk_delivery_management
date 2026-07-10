@@ -164,6 +164,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activities.MapPickerActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -22,6 +22,7 @@ color primary
 color primary_container
 color primary_dark
 color primary_light
+color red
 color secondary
 color surface
 color surface_variant
@@ -122,6 +123,7 @@ id bottom_card
 id btnApply
 id btnCall
 id btnCancel
+id btnChangeLocation
 id btnClear
 id btnClose
 id btnCreateAccount
@@ -147,6 +149,7 @@ id btnWhatsApp
 id btnWifiDirect
 id btn_backup_center
 id btn_backup_now
+id btn_cancel
 id btn_clear_cache
 id btn_detail_next
 id btn_detail_prev
@@ -157,6 +160,7 @@ id btn_prev_month
 id btn_restore_backup
 id btn_save_customer
 id btn_search_address
+id btn_select_location
 id btn_share_backup
 id btn_wifi_direct
 id buttonLayout
@@ -179,6 +183,7 @@ id detail_name
 id dialog_btn_call
 id dialog_btn_cancel
 id dialog_btn_deliver
+id dialog_btn_edit
 id dialog_btn_navigate
 id dialog_txt_address
 id dialog_txt_mobile
@@ -225,8 +230,10 @@ id history_item_date
 id history_item_icon
 id history_item_status
 id history_item_time
+id imgCamera
 id imgDocument
 id imgLogo
+id imgProfile
 id imgSplash
 id imgStaff
 id iv_filter
@@ -320,6 +327,9 @@ id txtDocumentType
 id txtEmptyState
 id txtFileCount
 id txtForgotPassword
+id txtHeaderBusiness
+id txtHeaderName
+id txtHeaderRole
 id txtLoading
 id txtMobile
 id txtMobile1
@@ -364,6 +374,7 @@ layout activity_customer_recap_details
 layout activity_encrypted_file_viewer
 layout activity_login
 layout activity_main
+layout activity_map_picker
 layout activity_monthly_recap
 layout activity_my_backups
 layout activity_received_backups
