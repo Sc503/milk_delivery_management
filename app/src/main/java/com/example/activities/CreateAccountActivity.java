@@ -115,7 +115,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Disable button and show progress
+        //  Disable button and show progress
         binding.btnCreateAccount.setEnabled(false);
         binding.btnCreateAccount.setText("Creating...");
 
@@ -134,7 +134,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                // ✅ RE-ENABLE BUTTON
+                //  RE-ENABLE BUTTON
                 binding.btnCreateAccount.setEnabled(true);
                 binding.btnCreateAccount.setText("Create Account");
 
@@ -148,10 +148,10 @@ public class CreateAccountActivity extends AppCompatActivity {
                     Log.d(TAG, "Message: " + loginResponse.getMessage());
                     Log.d(TAG, "Account ID: " + loginResponse.getAccountID());
 
-                    // ✅ Check if account was created successfully
+                    //  Check if account was created successfully
                     if (loginResponse.getStatus().equals("true") || loginResponse.getStatus().equals(true)) {
                         Toast.makeText(CreateAccountActivity.this,
-                                "✅ Account created successfully! \n\nAccount ID: " + loginResponse.getAccountID(),
+                                " Account created successfully! \n\nAccount ID: " + loginResponse.getAccountID(),
                                 Toast.LENGTH_LONG).show();
                         finish();
                     } else {
@@ -159,7 +159,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Toast.makeText(CreateAccountActivity.this, "❌ " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    // ✅ Handle error response
+                    //  Handle error response
                     String errorMsg = "Failed to create account";
                     try {
                         if (response.errorBody() != null) {
@@ -176,7 +176,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                // ✅ RE-ENABLE BUTTON
+                //  RE-ENABLE BUTTON
                 binding.btnCreateAccount.setEnabled(true);
                 binding.btnCreateAccount.setText("Create Account");
 

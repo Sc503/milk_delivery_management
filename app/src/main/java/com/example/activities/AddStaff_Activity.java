@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -33,20 +34,31 @@ public class AddStaff_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         EdgeToEdge.enable(this);
 
-        // ✅ Use View Binding
+
         binding = ActivityAddStaffBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ Handle Window Insets
+        //  Handle Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ✅ Setup Toolbar with Back Button
+        //  Setup Toolbar with Back Button
         setupToolbar();
 
         // Get account_id from SharedPreferences
@@ -71,19 +83,17 @@ public class AddStaff_Activity extends AppCompatActivity {
         binding.btnSaveStaff.setOnClickListener(v -> saveStaff());
     }
 
-    // ✅ Setup Toolbar with Back Button
+    //  Setup Toolbar with Back Button
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Add Staff");
-            // Optional: Change back button color
-            // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white);
         }
     }
 
-    // ✅ Handle Back Button Click
+    //  Handle Back Button Click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -161,7 +171,7 @@ public class AddStaff_Activity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Disable button and show progress
+        //  Disable button and show progress
         binding.btnSaveStaff.setEnabled(false);
         binding.btnSaveStaff.setText("Creating...");
 
@@ -182,7 +192,7 @@ public class AddStaff_Activity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (binding == null) return;
-                // ✅ Re-enable button FIRST
+                //  Re-enable button FIRST
                 resetButtonState();
 
                 Log.d(TAG, "Response Code: " + response.code());
@@ -191,21 +201,21 @@ public class AddStaff_Activity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     LoginResponse loginResponse = response.body();
 
-                    // ✅ Get status - returns Boolean
+                    //  Get status - returns Boolean
                     Boolean status = loginResponse.getStatus();
                     String message = loginResponse.getMessage();
 
                     Log.d(TAG, "Status: " + status);
                     Log.d(TAG, "Message: " + message);
 
-                    // ✅ Check if status is true
+                    //  Check if status is true
                     if (status != null && status) {
-                        // ✅ Success
+                        //  Success
                         String msg = message != null ? message : "Staff created successfully!";
                         Toast.makeText(AddStaff_Activity.this, "✅ " + msg, Toast.LENGTH_LONG).show();
                         clearFields();
 
-                        // ✅ Navigate back to previous activity after success
+                        //  Navigate back to previous activity after success
                         finish();
                     } else {
                         // ❌ Error from API
@@ -231,7 +241,7 @@ public class AddStaff_Activity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 if (binding == null) return;
-                // ✅ Re-enable button on network error
+                //  Re-enable button on network error
                 resetButtonState();
 
                 Log.e(TAG, "Network Error: " + t.getMessage());

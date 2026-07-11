@@ -36,7 +36,7 @@ import com.example.models.Staff;
                 Staff.class,
                 Attendance.class,
         },
-        version = 10,
+        version = 11,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {

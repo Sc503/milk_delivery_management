@@ -1,6 +1,5 @@
 package com.example.activities;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -62,6 +62,17 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //  THEME CHECK - Apply saved theme BEFORE loading layout
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         binding = ActivityCustomerCalendarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -95,7 +106,6 @@ public class CustomerCalendarActivity extends AppCompatActivity {
                                 false
                         );
 
-
         Calendar cal = Calendar.getInstance();
         if (currentMonth == -1) {
             currentMonth = cal.get(Calendar.MONTH);
@@ -123,8 +133,6 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             }
             updateMonthYearHeader();
             renderCalendarDaysAndStats();
-
-
         });
 
         binding.btnNextMonth.setOnClickListener(v -> {
@@ -136,9 +144,9 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             updateMonthYearHeader();
             renderCalendarDaysAndStats();
         });
+
         binding.btnScreenshot.setOnClickListener(v -> {
             captureAndShareReport();
-
         });
 
         binding.btnDownloadPdf.setOnClickListener(v -> {
@@ -159,19 +167,21 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     private void loadCustomerProfile() {
         viewModel.getCustomerById(customerId).observe(this, customer -> {
             if (customer != null) {
-
                 currentCustomer = customer;
                 binding.customerProfileName.setText(customer.getName());
                 binding.customerProfileMobile.setText(customer.getMobile());
                 binding.customerProfileAddress.setText(customer.getAddress());
-                if(currentUserType.equals("Customer")){
 
+                if (currentUserType.equals("Customer")) {
                     binding.customerProfileMobile.setVisibility(View.GONE);
-
                 }
+
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(customer.getName() + " Calendar");
                 }
+
+                // Refresh data when customer updates
+                renderCalendarDaysAndStats();
             }
         });
     }
@@ -181,63 +191,55 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     }
 
     private void renderCalendarDaysAndStats() {
-
-
         final int totalDaysInMonth = DateUtils.getDaysInMonth(currentMonth, currentYear);
-        final String yearMonthPrefix = DateUtils.getYearMonthString(currentMonth, currentYear); // YYYY-MM
+        final String yearMonthPrefix = DateUtils.getYearMonthString(currentMonth, currentYear);
 
-        // Find weekday offset for the first day of this month (June 1st, 2026 is e.g. Monday)
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, currentYear);
         cal.set(Calendar.MONTH, currentMonth);
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        int weekdayFirst = cal.get(Calendar.DAY_OF_WEEK); // Sunday = 1, Monday = 2 ...
-
-        // Sunday(1)->0 blank cells, Monday(2)->1 blank, ... Saturday(7)->6 blank cells
+        int weekdayFirst = cal.get(Calendar.DAY_OF_WEEK);
         final int blankPaddingCells = weekdayFirst - 1;
 
         viewModel.getRepository().getExecutor().execute(() -> {
+            //  STEP 1: Refresh customer data from database
+            Customer freshCustomer = viewModel.getRepository().getCustomerByIdSync(customerId);
+            if (freshCustomer != null) {
+                runOnUiThread(() -> {
+                    currentCustomer = freshCustomer;
+                    binding.customerProfileName.setText(freshCustomer.getName());
+                    binding.customerProfileMobile.setText(freshCustomer.getMobile());
+                    binding.customerProfileAddress.setText(freshCustomer.getAddress());
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setTitle(freshCustomer.getName() + " Calendar");
+                    }
+                });
+            }
+
             // Read customer deliveries
             List<Delivery> deliveriesResult = viewModel.getRepository().getDeliveriesForCustomerSync(customerId);
             final List<Delivery> allDeliveries = (deliveriesResult != null) ? deliveriesResult : new ArrayList<>();
 
-            // Index them by Date key "YYYY-MM-DD"
             Map<String, Delivery> dateLookup = new HashMap<>();
             for (Delivery d : allDeliveries) {
-
-                dateLookup.put(
-                        d.getDeliveryDate(),
-                        d
-                );
-
-                Log.d(
-                        "ROW_ID",
-                        d.getId()
-                                + " | "
-                                + d.getCustomerId()
-                                + " | "
-                                + d.getDeliveryDate()
-                                + " | "
-                                + d.getStatus()
-                );
+                dateLookup.put(d.getDeliveryDate(), d);
+                Log.d("ROW_ID", d.getId() + " | " + d.getCustomerId() + " | " + d.getDeliveryDate() + " | " + d.getStatus());
             }
 
             final List<CalendarGridAdapter.CalendarDay> gridList = new ArrayList<>();
             int deliveredCount = 0;
 
-            // Step 1: Prepend empty cells for correct column alignments
             for (int p = 0; p < blankPaddingCells; p++) {
                 gridList.add(new CalendarGridAdapter.CalendarDay("", 0, "", false));
             }
 
-            // Step 2: Build actual month dates
             String todayStr = DateUtils.getTodayDateString();
 
             for (int dayNum = 1; dayNum <= totalDaysInMonth; dayNum++) {
                 String matchKey = String.format(Locale.getDefault(), "%s-%02d", yearMonthPrefix, dayNum);
                 boolean isToday = matchKey.equals(todayStr);
 
-                String status = "Pending"; // default to Pending
+                String status = "Pending";
                 Delivery recorded = dateLookup.get(matchKey);
                 if (recorded != null) {
                     status = recorded.getStatus();
@@ -254,17 +256,28 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             final int finalPending = totalDaysInMonth - deliveredCount;
             final double finalPercentage = totalDaysInMonth > 0 ? ((double) finalDelivered / totalDaysInMonth) * 100.0 : 0.0;
 
+            //  STEP 2: Calculate Payment Slip data using FRESH customer data
             int deliveredDaysResult = 0;
-            double amountResult = 0;
             double quantityResult = 0;
             double rateResult = 0;
+            double amountResult = 0;
 
-            if (currentCustomer != null) {
+            //  Use freshCustomer (not currentCustomer) for latest data
+            Customer customerToUse = freshCustomer != null ? freshCustomer : currentCustomer;
+
+            if (customerToUse != null) {
                 String month = DateUtils.getYearMonthString(currentMonth, currentYear);
                 deliveredDaysResult = viewModel.getDeliveredDaysCount(customerId, month);
-                quantityResult = currentCustomer.getMilkQuantity();
-                rateResult = currentCustomer.getMilkRate();
+
+                //  Get latest values from fresh customer
+                quantityResult = customerToUse.getMilkQuantity();
+                rateResult = customerToUse.getMilkRate();
                 amountResult = deliveredDaysResult * quantityResult * rateResult;
+
+                Log.d("PAYMENT_SLIP", "Delivered Days: " + deliveredDaysResult);
+                Log.d("PAYMENT_SLIP", "Quantity: " + quantityResult);
+                Log.d("PAYMENT_SLIP", "Rate: " + rateResult);
+                Log.d("PAYMENT_SLIP", "Total Amount: " + amountResult);
             }
 
             final int finalDeliveredDays = deliveredDaysResult;
@@ -272,33 +285,54 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             final double finalQuantity = quantityResult;
             final double finalRate = rateResult;
 
-            // Render details back on UI
+            //  STEP 3: Determine Payment Status
+            String paymentStatus = "PENDING";
+            if (customerToUse != null) {
+                if (finalAmount > 0) {
+                    paymentStatus = "PAID";
+                } else {
+                    paymentStatus = "PENDING";
+                }
+            }
+
+            final String finalPaymentStatus = paymentStatus;
+
             runOnUiThread(() -> {
                 gridAdapter = new CalendarGridAdapter(gridList, clickedDay -> {
                     if (clickedDay.dayNumber != 0) {
-                        // Commercial-grade feature: Toggle delivery status on tapping day!
                         toggleDeliveryState(clickedDay);
                     }
                 });
                 binding.rvCalendarGrid.setAdapter(gridAdapter);
 
-                // Update text fields
+                // Update statistics
                 binding.statTotalDays.setText(String.valueOf(totalDaysInMonth));
                 binding.statDeliveredDays.setText(String.valueOf(finalDelivered));
                 binding.statPendingDays.setText(String.valueOf(finalPending));
                 binding.statDeliveryPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", finalPercentage));
 
-                if (currentCustomer != null) {
-                    binding.tvRate.setText("₹" + finalRate);
-                    binding.tvQuantity.setText(finalQuantity + " L");
-                    binding.tvDeliveredDays.setText(String.valueOf(finalDeliveredDays));
-                    binding.tvTotalAmount.setText("₹" + finalAmount);
+                //  Update Payment Slip with latest data
+                binding.tvRate.setText("₹" + String.format(Locale.getDefault(), "%.2f", finalRate));
+                binding.tvQuantity.setText(String.format(Locale.getDefault(), "%.2f", finalQuantity) + " L");
+                binding.tvDeliveredDays.setText(String.valueOf(finalDeliveredDays));
+                binding.tvTotalAmount.setText("₹" + String.format(Locale.getDefault(), "%.2f", finalAmount));
+
+                // Update Payment Status
+                binding.tvPaymentStatus.setText(finalPaymentStatus);
+
+                //  Change badge color based on status
+                if (finalPaymentStatus.equalsIgnoreCase("PAID")) {
+                    binding.tvPaymentStatus.setBackgroundResource(R.drawable.status_paid_badge);
+                    binding.tvPaymentStatus.setTextColor(getColor(android.R.color.white));
+                } else {
+                    binding.tvPaymentStatus.setBackgroundResource(R.drawable.status_pending_badge);
+                    binding.tvPaymentStatus.setTextColor(getColor(android.R.color.white));
                 }
             });
         });
     }
 
-     private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day)  {
+    private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day) {
         if (readOnly) {
             Toast.makeText(this, "Read Only Mode", Toast.LENGTH_SHORT).show();
             return;
@@ -310,7 +344,6 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         }
 
         if ("Delivered".equalsIgnoreCase(day.status)) {
-            // Switch to Pending
             viewModel.markDeliveryPending(customerId, day.dateString, () ->
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
@@ -319,20 +352,15 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             );
         } else {
             String nowTime = DateUtils.getCurrentTimeString();
-
-            //  GET STAFF ID
             SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
             long staffId = prefs.getLong("staff_id", 0);
 
-            //  FORCE SHOW TOAST - This will confirm if the code reaches here
             Toast.makeText(this, "🔵 Staff ID: " + staffId, Toast.LENGTH_LONG).show();
 
-            //  PASS STAFF ID
             viewModel.deliverCustomer(customerId, day.dateString, nowTime, staffId, () ->
                     runOnUiThread(() -> {
-                        //  Show delivery confirmation with staff name
                         String staffName = prefs.getString("name", "Staff");
-                        Toast.makeText(this, " Delivered by: " + staffName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Delivered by: " + staffName, Toast.LENGTH_LONG).show();
                         renderCalendarDaysAndStats();
                     })
             );
@@ -342,121 +370,86 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // return back to details page
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-
-
     private void captureAndShareReport() {
-
         View content = binding.reportContainer.getChildAt(0);
-
         Bitmap bitmap = Bitmap.createBitmap(
                 content.getWidth(),
                 content.getHeight(),
                 Bitmap.Config.ARGB_8888);
-
         Canvas canvas = new Canvas(bitmap);
         content.draw(canvas);
-
         saveBitmap(bitmap);
-
         shareBitmap(bitmap);
     }
+
     private void saveBitmap(Bitmap bitmap) {
-
         try {
-
             File folder = new File(
                     getExternalFilesDir(Environment.DIRECTORY_PICTURES),
                     "Reports"
             );
-
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-
             File file = new File(
                     folder,
                     "CustomerReport_" + System.currentTimeMillis() + ".png"
             );
-
             FileOutputStream out = new FileOutputStream(file);
-
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-
             out.flush();
             out.close();
-
-            Toast.makeText(
-                    this,
-                    "Screenshot Saved",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(this, "Screenshot Saved", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-
             e.printStackTrace();
         }
     }
+
     private void shareBitmap(Bitmap bitmap) {
-
         try {
-
             File folder = new File(getCacheDir(), "reports");
-
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-
             File file = new File(folder, "MonthlyReport.png");
-
             FileOutputStream out = new FileOutputStream(file);
-
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-
             out.flush();
             out.close();
-
             Uri uri = androidx.core.content.FileProvider.getUriForFile(
                     this,
                     getPackageName() + ".provider",
                     file
             );
-
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("image/png");
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
             startActivity(Intent.createChooser(share, "Share Report"));
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void createPdf(boolean share) {
-
         View view = binding.reportContainer.getChildAt(0);
-
         Bitmap bitmap = Bitmap.createBitmap(
                 view.getWidth(),
                 view.getHeight(),
                 Bitmap.Config.ARGB_8888);
-
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
 
         try {
-
             File folder = new File(
                     getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
                     "Reports");
-
             if (!folder.exists())
                 folder.mkdirs();
 
@@ -477,54 +470,30 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             android.graphics.pdf.PdfDocument.Page page =
                     document.startPage(pageInfo);
 
-            page.getCanvas().drawBitmap(bitmap,0,0,null);
-
+            page.getCanvas().drawBitmap(bitmap, 0, 0, null);
             document.finishPage(page);
 
             FileOutputStream out = new FileOutputStream(pdfFile);
-
             document.writeTo(out);
-
             out.close();
-
             document.close();
 
-            if(share){
-
-                Uri uri =
-                        androidx.core.content.FileProvider.getUriForFile(
-                                this,
-                                getPackageName()+".provider",
-                                pdfFile);
-
-                Intent intent = new Intent(Intent.ACTION_SEND);
-
-                intent.setType("application/pdf");
-
-                intent.putExtra(Intent.EXTRA_STREAM,uri);
-
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                startActivity(Intent.createChooser(intent,"Share PDF"));
-
-            }else{
-
-                Toast.makeText(
+            if (share) {
+                Uri uri = androidx.core.content.FileProvider.getUriForFile(
                         this,
-                        "PDF Saved Successfully",
-                        Toast.LENGTH_SHORT
-                ).show();
+                        getPackageName() + ".provider",
+                        pdfFile);
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("application/pdf");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(intent, "Share PDF"));
+            } else {
+                Toast.makeText(this, "PDF Saved Successfully", Toast.LENGTH_SHORT).show();
             }
-
-        }catch (Exception e){
-
+        } catch (Exception e) {
             e.printStackTrace();
-
-            Toast.makeText(
-                    this,
-                    e.getMessage(),
-                    Toast.LENGTH_LONG
-            ).show();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

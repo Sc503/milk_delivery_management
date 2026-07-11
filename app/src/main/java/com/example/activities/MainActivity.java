@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;  // ✅ Import add kara
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -29,7 +30,6 @@ import com.example.fragments.AboutUsFragment;
 import com.example.fragments.AddCustomerFragment;
 import com.example.fragments.AddStaffFragment;
 import com.example.fragments.MapFragment;
-import com.example.fragments.MonthlyRecapFragment;
 import com.example.fragments.SettingsFragment;
 import com.example.fragments.StaffListFragment;
 import com.example.models.Customer;
@@ -100,8 +100,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
+        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -366,8 +376,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbarTitle = "Staff List";
             binding.navView.setCheckedItem(R.id.nav_staff_list);
         } else if (itemId == R.id.nav_monthly_recap) {
+            // ✅ Open MonthlyRecap_Activity directly
             Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
             startActivity(intent);
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            return;
         } else if (itemId == R.id.nav_payments) {
             fragment = new PaymentFragment();
             tag = "PAYMENT_FRAGMENT";
@@ -487,8 +500,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (addStaff != null)
             addStaff.setVisible(activeFragment instanceof StaffListFragment);
 
-        if (filter != null)
-            filter.setVisible(activeFragment instanceof MonthlyRecapFragment);
+        // ✅ Filter button hide kara - MonthlyRecap_Activity madhe already filter ahe
+        if (filter != null) {
+            filter.setVisible(false);
+        }
 
         if (searchStaff != null)
             searchStaff.setVisible(activeFragment instanceof StaffListFragment);
@@ -533,18 +548,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (item.getItemId() == R.id.action_add_staff) {
             Intent intent = new Intent(MainActivity.this, AddStaff_Activity.class);
             startActivity(intent);
-            return true;
-        }
-
-        if (item.getItemId() == R.id.action_filter) {
-
-            Fragment fragment = getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment_container);
-
-            if (fragment instanceof MonthlyRecapFragment) {
-                ((MonthlyRecapFragment) fragment).showFilterDialog();
-            }
-
             return true;
         }
 

@@ -60,7 +60,6 @@
             </LinearLayout>
         </LinearLayout>
 
-
         <!-- Main Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -75,12 +74,13 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Option 1: Auto Camera Zoom Toggle -->
+                <!-- ✅ Theme Mode Toggle -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -88,9 +88,28 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🌓 Theme Mode"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#1A2332" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Switch between Light and Dark mode"
+                            android:textSize="13sp"
+                            android:textColor="#7B8794"
+                            android:layout_marginTop="2dp" />
 
                     </LinearLayout>
 
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -99,44 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="#E8ECF1"
-                    android:layout_marginVertical="16dp" />
-
-                <!-- Database Administration -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Database Administration"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#1A2332" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Maintenance and diagnostic functions"
-                    android:textSize="13sp"
-                    android:textColor="#7B8794"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="12dp" />
-
-                <!-- Reset Database Button -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_clear_cache"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🗑️ Reset Local Database"
-                    android:textAllCaps="false"
-                    android:textColor="#EF4444"
-                    app:strokeColor="#EF4444"
-                    app:strokeWidth="1.5dp"
-                    style="@style/Widget.Material3.Button.OutlinedButton" />
-
-                <!-- Divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E8ECF1"
-                    android:layout_marginVertical="16dp" />
+                    android:layout_marginBottom="16dp" />
 
                 <!-- Backup Section -->
                 <TextView
@@ -156,7 +138,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_marginBottom="12dp" />
 
-                <!-- ✅ NEW: Auto Backup Card -->
+                <!-- Auto Backup Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -173,7 +155,6 @@
                         android:orientation="vertical"
                         android:padding="14dp">
 
-                        <!-- Auto Backup Toggle -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -208,22 +189,6 @@
                                 android:id="@+id/switchAutoBackup"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
-
-                        </LinearLayout>
-
-                        <!-- Divider -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#E8ECF1"
-                            android:layout_marginVertical="10dp" />
-
-                        <!-- Last Auto Backup -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
 
                         </LinearLayout>
 
@@ -342,6 +307,44 @@
                         app:backgroundTint="#10B981" />
 
                 </LinearLayout>
+
+                <!-- ============================================= -->
+                <!-- ✅ Database Administration - खाली हलवलं -->
+                <!-- ============================================= -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E8ECF1"
+                    android:layout_marginVertical="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🗄️ Database Administration"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A2332" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Maintenance and diagnostic functions"
+                    android:textSize="13sp"
+                    android:textColor="#7B8794"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="12dp" />
+
+                <!-- ✅ Reset Database Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_clear_cache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🗑️ Reset Local Database"
+                    android:textAllCaps="false"
+                    android:textColor="#EF4444"
+                    app:strokeColor="#EF4444"
+                    app:strokeWidth="1.5dp"
+                    style="@style/Widget.Material3.Button.OutlinedButton" />
 
             </LinearLayout>
 

@@ -8,13 +8,11 @@
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity">
 
-    <!-- Primary content overlay -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Modern Teal Material 3 Toolbar wrapper -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -26,16 +24,14 @@
             android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
             app:popupTheme="@style/Theme.MilkDelivery" />
 
-        <!-- Container for swapping our active screens (fragments) -->
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background" />
+            android:background="?attr/colorSurface" />
 
     </LinearLayout>
 
-    <!-- Navigation Drawer sliding panel -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -44,7 +40,10 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_menu"
-        app:itemTextColor="@color/on_surface"
-        app:itemBackground="@drawable/drawer_item_selector" />
+        app:itemTextColor="?attr/colorOnSurface"
+        app:itemIconTint="?attr/colorOnSurface"
+        app:itemBackground="?attr/colorSurface"
+        app:itemTextAppearance="@style/NavigationViewText"
+        android:background="?attr/colorSurface" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
