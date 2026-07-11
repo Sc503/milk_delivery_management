@@ -100,7 +100,7 @@ public class CustomerCardAdapter extends RecyclerView.Adapter<CustomerCardAdapte
             tvMobile = itemView.findViewById(R.id.txt_customer_mobile);
             tvAddress = itemView.findViewById(R.id.txt_customer_address);
             tvStatus = itemView.findViewById(R.id.txt_customer_status);
-            tvStaffName = itemView.findViewById(R.id.txt_customer_staff_name);  // ✅ NEW
+            tvStaffName = itemView.findViewById(R.id.txt_customer_staff_name);
             btnCall = itemView.findViewById(R.id.btn_call);
             btnNavigate = itemView.findViewById(R.id.btn_navigate);
             btnEdit = itemView.findViewById(R.id.btn_edit);
