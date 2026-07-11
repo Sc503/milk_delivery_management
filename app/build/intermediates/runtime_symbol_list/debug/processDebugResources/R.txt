@@ -1410,6 +1410,7 @@ int color background_floating_material_light 0x7f06001f
 int color background_material_dark 0x7f060020
 int color background_material_light 0x7f060021
 int color black 0x7f060022
+int color bottom_nav_color 0x7f060494
 int color bright_foreground_disabled_material_dark 0x7f060023
 int color bright_foreground_disabled_material_light 0x7f060024
 int color bright_foreground_inverse_material_dark 0x7f060025
@@ -3774,6 +3775,7 @@ int id bgImage 0x7f090063
 int id blocking 0x7f090064
 int id bottom 0x7f090065
 int id bottom_card 0x7f090066
+int id bottom_navigation 0x7f090324
 int id bounce 0x7f090067
 int id bounceBoth 0x7f090068
 int id bounceEnd 0x7f090069
@@ -3812,12 +3814,16 @@ int id btnWhatsApp 0x7f090089
 int id btnWifiDirect 0x7f09008a
 int id btn_backup_center 0x7f09008b
 int id btn_backup_now 0x7f09008c
+int id btn_call 0x7f090325
 int id btn_cancel 0x7f09008d
 int id btn_clear_cache 0x7f09008e
+int id btn_deliver 0x7f090326
 int id btn_detail_next 0x7f09008f
 int id btn_detail_prev 0x7f090090
+int id btn_edit 0x7f090327
 int id btn_get_location 0x7f090091
 int id btn_location_finder 0x7f090092
+int id btn_navigate 0x7f090328
 int id btn_next_month 0x7f090093
 int id btn_prev_month 0x7f090094
 int id btn_restore_backup 0x7f090095
@@ -4133,8 +4139,10 @@ int id mtrl_view_tag_bottom_padding 0x7f0901ca
 int id multiply 0x7f0901cb
 int id nav_about_us 0x7f0901cc
 int id nav_add_customer 0x7f0901cd
+int id nav_customer_list 0x7f090329
 int id nav_home 0x7f0901ce
 int id nav_logout 0x7f0901cf
+int id nav_map 0x7f09032a
 int id nav_monthly_recap 0x7f0901d0
 int id nav_payment 0x7f0901d1
 int id nav_payments 0x7f0901d2
@@ -4237,6 +4245,7 @@ int id recyclerBackups 0x7f090232
 int id recyclerDevices 0x7f090233
 int id recyclerReceivedBackups 0x7f090234
 int id recyclerStaff 0x7f090235
+int id recycler_customer_list 0x7f09032b
 int id reportContainer 0x7f090236
 int id report_drawn 0x7f090237
 int id reverseSawtooth 0x7f090238
@@ -4433,6 +4442,11 @@ int id txtTotal 0x7f0902f6
 int id txtTotalCollection 0x7f0902f7
 int id txtTotalCustomers 0x7f0902f8
 int id txt_calendar_month_year 0x7f0902f9
+int id txt_customer_address 0x7f09032c
+int id txt_customer_mobile 0x7f09032d
+int id txt_customer_name 0x7f09032e
+int id txt_customer_staff_name 0x7f09032f
+int id txt_customer_status 0x7f090330
 int id txt_day_number 0x7f0902fa
 int id txt_day_status 0x7f0902fb
 int id txt_detail_month_year 0x7f0902fc
@@ -4446,6 +4460,7 @@ int id txt_recap_delivered_count 0x7f090303
 int id txt_recap_pending_count 0x7f090304
 int id txt_recap_percentage 0x7f090305
 int id txt_recap_total_days 0x7f090306
+int id txt_today_indicator 0x7f090323
 int id unchecked 0x7f090307
 int id uniform 0x7f090308
 int id unlabeled 0x7f090309
@@ -4630,6 +4645,7 @@ int layout dialog_staff_details 0x7f0c0040
 int layout fragment_about_us 0x7f0c0041
 int layout fragment_add_customer 0x7f0c0042
 int layout fragment_add_staff 0x7f0c0043
+int layout fragment_customer_list 0x7f0c009d
 int layout fragment_edit_staff 0x7f0c0044
 int layout fragment_map 0x7f0c0045
 int layout fragment_monthly_recap 0x7f0c0046
@@ -4643,6 +4659,7 @@ int layout ime_base_split_test_activity 0x7f0c004d
 int layout ime_secondary_split_test_activity 0x7f0c004e
 int layout item_backup_file 0x7f0c004f
 int layout item_calendar_day 0x7f0c0050
+int layout item_customer_card 0x7f0c009e
 int layout item_delivery_history 0x7f0c0051
 int layout item_device 0x7f0c0052
 int layout item_invoice_card 0x7f0c0053
@@ -4719,6 +4736,7 @@ int layout select_dialog_item_material 0x7f0c0099
 int layout select_dialog_multichoice_material 0x7f0c009a
 int layout select_dialog_singlechoice_material 0x7f0c009b
 int layout support_simple_spinner_dropdown_item 0x7f0c009c
+int menu bottom_nav_menu 0x7f0e0003
 int menu drawer_menu 0x7f0e0000
 int menu staff_toolbar_menu 0x7f0e0001
 int menu toolbar_menu 0x7f0e0002

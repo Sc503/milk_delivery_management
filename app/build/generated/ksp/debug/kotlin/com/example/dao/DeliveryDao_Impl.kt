@@ -36,7 +36,7 @@ public class DeliveryDao_Impl(
     this.__db = __db
     this.__insertAdapterOfDelivery = object : EntityInsertAdapter<Delivery>() {
       protected override fun createQuery(): String =
-          "INSERT OR REPLACE INTO `deliveries` (`id`,`customerId`,`deliveryDate`,`deliveredTime`,`status`,`staffId`) VALUES (nullif(?, 0),?,?,?,?,?)"
+          "INSERT OR REPLACE INTO `deliveries` (`id`,`customerId`,`deliveryDate`,`deliveredTime`,`status`,`staffId`,`staffName`) VALUES (nullif(?, 0),?,?,?,?,?,?)"
 
       protected override fun bind(statement: SQLiteStatement, entity: Delivery) {
         statement.bindLong(1, entity.getId())
@@ -60,6 +60,12 @@ public class DeliveryDao_Impl(
           statement.bindText(5, _tmpStatus)
         }
         statement.bindLong(6, entity.getStaffId())
+        val _tmpStaffName: String? = entity.getStaffName()
+        if (_tmpStaffName == null) {
+          statement.bindNull(7)
+        } else {
+          statement.bindText(7, _tmpStaffName)
+        }
       }
     }
     this.__deleteAdapterOfDelivery = object : EntityDeleteOrUpdateAdapter<Delivery>() {
@@ -71,7 +77,7 @@ public class DeliveryDao_Impl(
     }
     this.__updateAdapterOfDelivery = object : EntityDeleteOrUpdateAdapter<Delivery>() {
       protected override fun createQuery(): String =
-          "UPDATE OR REPLACE `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ?,`staffId` = ? WHERE `id` = ?"
+          "UPDATE OR REPLACE `deliveries` SET `id` = ?,`customerId` = ?,`deliveryDate` = ?,`deliveredTime` = ?,`status` = ?,`staffId` = ?,`staffName` = ? WHERE `id` = ?"
 
       protected override fun bind(statement: SQLiteStatement, entity: Delivery) {
         statement.bindLong(1, entity.getId())
@@ -95,7 +101,13 @@ public class DeliveryDao_Impl(
           statement.bindText(5, _tmpStatus)
         }
         statement.bindLong(6, entity.getStaffId())
-        statement.bindLong(7, entity.getId())
+        val _tmpStaffName: String? = entity.getStaffName()
+        if (_tmpStaffName == null) {
+          statement.bindNull(7)
+        } else {
+          statement.bindText(7, _tmpStaffName)
+        }
+        statement.bindLong(8, entity.getId())
       }
     }
   }
@@ -140,6 +152,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: Delivery?
         if (_stmt.step()) {
           _result = Delivery()
@@ -173,6 +186,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _result.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _result.setStaffName(_tmpStaffName)
         } else {
           _result = null
         }
@@ -197,6 +217,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -231,6 +252,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -253,6 +281,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -287,6 +316,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -314,6 +350,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -348,6 +385,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -374,6 +418,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -408,6 +453,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -434,6 +486,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -468,6 +521,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -488,6 +548,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -522,6 +583,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -542,6 +610,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -576,6 +645,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -596,6 +672,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: MutableList<Delivery?> = mutableListOf()
         while (_stmt.step()) {
           val _item: Delivery?
@@ -630,6 +707,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _item.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _item.setStaffName(_tmpStaffName)
           _result.add(_item)
         }
         _result
@@ -658,6 +742,7 @@ public class DeliveryDao_Impl(
         val _columnIndexOfDeliveredTime: Int = getColumnIndexOrThrow(_stmt, "deliveredTime")
         val _columnIndexOfStatus: Int = getColumnIndexOrThrow(_stmt, "status")
         val _columnIndexOfStaffId: Int = getColumnIndexOrThrow(_stmt, "staffId")
+        val _columnIndexOfStaffName: Int = getColumnIndexOrThrow(_stmt, "staffName")
         val _result: Delivery?
         if (_stmt.step()) {
           _result = Delivery()
@@ -691,6 +776,13 @@ public class DeliveryDao_Impl(
           val _tmpStaffId: Long
           _tmpStaffId = _stmt.getLong(_columnIndexOfStaffId)
           _result.setStaffId(_tmpStaffId)
+          val _tmpStaffName: String?
+          if (_stmt.isNull(_columnIndexOfStaffName)) {
+            _tmpStaffName = null
+          } else {
+            _tmpStaffName = _stmt.getText(_columnIndexOfStaffName)
+          }
+          _result.setStaffName(_tmpStaffName)
         } else {
           _result = null
         }

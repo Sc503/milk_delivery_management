@@ -9,6 +9,7 @@ anim slide_in_left
 array document_types
 color background
 color black
+color bottom_nav_color
 color color_outline
 color delivered_green
 color gray_dark
@@ -121,6 +122,7 @@ id action_filter
 id action_search_staff
 id bgImage
 id bottom_card
+id bottom_navigation
 id btnApply
 id btnCall
 id btnCancel
@@ -150,12 +152,16 @@ id btnWhatsApp
 id btnWifiDirect
 id btn_backup_center
 id btn_backup_now
+id btn_call
 id btn_cancel
 id btn_clear_cache
+id btn_deliver
 id btn_detail_next
 id btn_detail_prev
+id btn_edit
 id btn_get_location
 id btn_location_finder
+id btn_navigate
 id btn_next_month
 id btn_prev_month
 id btn_restore_backup
@@ -254,8 +260,10 @@ id map
 id mobileLayout
 id nav_about_us
 id nav_add_customer
+id nav_customer_list
 id nav_home
 id nav_logout
+id nav_map
 id nav_monthly_recap
 id nav_payment
 id nav_payments
@@ -279,6 +287,7 @@ id recyclerBackups
 id recyclerDevices
 id recyclerReceivedBackups
 id recyclerStaff
+id recycler_customer_list
 id reportContainer
 id rgStatus
 id rvPaymentHistory
@@ -353,6 +362,11 @@ id txtTotal
 id txtTotalCollection
 id txtTotalCustomers
 id txt_calendar_month_year
+id txt_customer_address
+id txt_customer_mobile
+id txt_customer_name
+id txt_customer_staff_name
+id txt_customer_status
 id txt_day_number
 id txt_day_status
 id txt_detail_month_year
@@ -366,6 +380,7 @@ id txt_recap_delivered_count
 id txt_recap_pending_count
 id txt_recap_percentage
 id txt_recap_total_days
+id txt_today_indicator
 id userTypeLayout
 layout activity_add_staff
 layout activity_backup_center
@@ -389,6 +404,7 @@ layout dialog_staff_details
 layout fragment_about_us
 layout fragment_add_customer
 layout fragment_add_staff
+layout fragment_customer_list
 layout fragment_edit_staff
 layout fragment_map
 layout fragment_monthly_recap
@@ -400,6 +416,7 @@ layout fragment_settings
 layout fragment_staff_list
 layout item_backup_file
 layout item_calendar_day
+layout item_customer_card
 layout item_delivery_history
 layout item_device
 layout item_invoice_card
@@ -407,6 +424,7 @@ layout item_monthly_recap_customer
 layout item_payment_history
 layout item_staff
 layout nav_header
+menu bottom_nav_menu
 menu drawer_menu
 menu staff_toolbar_menu
 menu toolbar_menu

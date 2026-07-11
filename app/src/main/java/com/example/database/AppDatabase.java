@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.dao.CustomerDao;
@@ -26,7 +27,6 @@ import com.example.dao.AttendanceDao;
 import com.example.dao.StaffDao;
 import com.example.models.Staff;
 
-
 @Database(
         entities = {
                 Customer.class,
@@ -36,7 +36,7 @@ import com.example.models.Staff;
                 Staff.class,
                 Attendance.class,
         },
-        version = 10,
+        version = 11,  // ✅ CHANGED FROM 10 TO 11
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -46,14 +46,18 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CustomerDao customerDao();
     public abstract DeliveryDao deliveryDao();
     public abstract UserDao userDao();
-
     public abstract PaymentDao paymentDao();
-
     public abstract StaffDao staffDao();
-
-
-
     public abstract AttendanceDao attendanceDao();
+
+    // ✅ ADD MIGRATION HERE - FROM VERSION 10 TO 11
+    static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Add staffName column to deliveries table
+            database.execSQL("ALTER TABLE deliveries ADD COLUMN staffName TEXT DEFAULT ''");
+        }
+    };
 
     public static AppDatabase getInstance(Context context) {
 
@@ -68,6 +72,8 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "milk_delivery_db"
                             )
+                            // ✅ ADD MIGRATION HERE
+                            .addMigrations(MIGRATION_10_11)
                             .fallbackToDestructiveMigration()
                             .build();
                 }
@@ -76,7 +82,7 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    //  SAFE PRELOAD DATA
+    // SAFE PRELOAD DATA
     private static final RoomDatabase.Callback roomCallback =
             new RoomDatabase.Callback() {
 
@@ -92,10 +98,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
                         UserDao dao = instance.userDao();
 
-
                     });
                 }
             };
-
-
 }

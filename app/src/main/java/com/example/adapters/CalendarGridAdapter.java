@@ -104,11 +104,24 @@ public class CalendarGridAdapter extends RecyclerView.Adapter<CalendarGridAdapte
                     txtDayStatus.setText("");
                 }
 
-                itemView.setOnClickListener(v -> {
-                    if (listener != null) {
-                        listener.onDayClick(day);
-                    }
-                });
+                //  ONLY TODAY IS CLICKABLE - OTHER DAYS ARE FROZEN
+                if (day.isToday) {
+                    // Today is clickable
+                    root.setAlpha(1.0f);
+                    root.setClickable(true);
+                    itemView.setClickable(true);
+                    itemView.setOnClickListener(v -> {
+                        if (listener != null) {
+                            listener.onDayClick(day);
+                        }
+                    });
+                } else {
+                    // All other days are frozen (not clickable)
+                    root.setAlpha(0.6f);  // Dim frozen days
+                    root.setClickable(false);
+                    itemView.setClickable(false);
+                    itemView.setOnClickListener(null);
+                }
             }
         }
     }

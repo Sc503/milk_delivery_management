@@ -31,7 +31,9 @@ public class Delivery {
     private String deliveryDate; // YYYY-MM-DD
     private String deliveredTime; // e.g. "07:45 AM"
     private String status; // "Pending" or "Delivered"
-    private long staffId; //  Staff who delivered
+    private long staffId;//  Staff who delivered
+
+    private String staffName;
 
     public Delivery() {
     }
@@ -45,12 +47,14 @@ public class Delivery {
     }
 
     //  Constructor with staffId
-    public Delivery(long customerId, String deliveryDate, String deliveredTime, String status, long staffId) {
+    public Delivery(long customerId, String deliveryDate, String deliveredTime, String status, long staffId,String staffName) {
         this.customerId = customerId;
         this.deliveryDate = deliveryDate;
         this.deliveredTime = deliveredTime;
         this.status = status;
         this.staffId = staffId;
+        this.staffName = staffName;
+
     }
 
     // ── Getters and Setters ──────────────────────────────────────
@@ -72,4 +76,7 @@ public class Delivery {
     //  Getter and Setter for staffId
     public long getStaffId() { return staffId; }
     public void setStaffId(long staffId) { this.staffId = staffId; }
+
+    public String getStaffName() { return staffName; }
+    public void setStaffName(String staffName) { this.staffName = staffName; }
 }

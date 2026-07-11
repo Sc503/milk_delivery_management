@@ -237,7 +237,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
                 String matchKey = String.format(Locale.getDefault(), "%s-%02d", yearMonthPrefix, dayNum);
                 boolean isToday = matchKey.equals(todayStr);
 
-                String status = "Pending"; // default to Pending
+                String status = "Pending";
                 Delivery recorded = dateLookup.get(matchKey);
                 if (recorded != null) {
                     status = recorded.getStatus();
@@ -298,7 +298,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         });
     }
 
-     private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day)  {
+      private void toggleDeliveryState(CalendarGridAdapter.CalendarDay day) {
         if (readOnly) {
             Toast.makeText(this, "Read Only Mode", Toast.LENGTH_SHORT).show();
             return;
@@ -309,8 +309,13 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             return;
         }
 
+        //  ONLY ALLOW TOGGLE IF DAY IS TODAY
+        if (!day.isToday) {
+            Toast.makeText(this, "❌ You can only toggle today's delivery status!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if ("Delivered".equalsIgnoreCase(day.status)) {
-            // Switch to Pending
             viewModel.markDeliveryPending(customerId, day.dateString, () ->
                     runOnUiThread(() -> {
                         Toast.makeText(this, "Marked as Pending", Toast.LENGTH_SHORT).show();
@@ -320,19 +325,14 @@ public class CustomerCalendarActivity extends AppCompatActivity {
         } else {
             String nowTime = DateUtils.getCurrentTimeString();
 
-            //  GET STAFF ID
+            // GET STAFF ID AND NAME
             SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
             long staffId = prefs.getLong("staff_id", 0);
+            String staffName = prefs.getString("staff_name", "Staff");
 
-            //  FORCE SHOW TOAST - This will confirm if the code reaches here
-            Toast.makeText(this, "🔵 Staff ID: " + staffId, Toast.LENGTH_LONG).show();
-
-            //  PASS STAFF ID
-            viewModel.deliverCustomer(customerId, day.dateString, nowTime, staffId, () ->
+            viewModel.deliverCustomer(customerId, day.dateString, nowTime, staffId, staffName, () ->
                     runOnUiThread(() -> {
-                        //  Show delivery confirmation with staff name
-                        String staffName = prefs.getString("name", "Staff");
-                        Toast.makeText(this, " Delivered by: " + staffName, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, " Delivered by " + staffName, Toast.LENGTH_LONG).show();
                         renderCalendarDaysAndStats();
                     })
             );

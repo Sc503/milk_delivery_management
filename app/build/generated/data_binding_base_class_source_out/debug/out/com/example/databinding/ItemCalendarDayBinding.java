@@ -28,12 +28,17 @@ public final class ItemCalendarDayBinding implements ViewBinding {
   @NonNull
   public final TextView txtDayStatus;
 
+  @NonNull
+  public final TextView txtTodayIndicator;
+
   private ItemCalendarDayBinding(@NonNull LinearLayout rootView, @NonNull LinearLayout dayCellRoot,
-      @NonNull TextView txtDayNumber, @NonNull TextView txtDayStatus) {
+      @NonNull TextView txtDayNumber, @NonNull TextView txtDayStatus,
+      @NonNull TextView txtTodayIndicator) {
     this.rootView = rootView;
     this.dayCellRoot = dayCellRoot;
     this.txtDayNumber = txtDayNumber;
     this.txtDayStatus = txtDayStatus;
+    this.txtTodayIndicator = txtTodayIndicator;
   }
 
   @Override
@@ -77,8 +82,14 @@ public final class ItemCalendarDayBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.txt_today_indicator;
+      TextView txtTodayIndicator = ViewBindings.findChildViewById(rootView, id);
+      if (txtTodayIndicator == null) {
+        break missingId;
+      }
+
       return new ItemCalendarDayBinding((LinearLayout) rootView, dayCellRoot, txtDayNumber,
-          txtDayStatus);
+          txtDayStatus, txtTodayIndicator);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

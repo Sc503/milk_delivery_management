@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Customer Name and Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/txt_customer_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="John Doe"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#1A2332" />
+
+            <TextView
+                android:id="@+id/txt_customer_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="✅ Delivered"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:background="@drawable/bg_status_active"
+                android:textColor="#10B981" />
+
+        </LinearLayout>
+
+        <!-- Mobile -->
+        <TextView
+            android:id="@+id/txt_customer_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📱 9876543210"
+            android:textSize="14sp"
+            android:textColor="#7B8794"
+            android:layout_marginTop="4dp" />
+
+        <!-- Address -->
+        <TextView
+            android:id="@+id/txt_customer_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍 123 Main Street, Mumbai"
+            android:textSize="14sp"
+            android:textColor="#7B8794"
+            android:layout_marginTop="4dp" />
+
+        <!-- Staff Name -->
+        <TextView
+            android:id="@+id/txt_customer_staff_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="👨‍💼 Staff: Not assigned"
+            android:textSize="13sp"
+            android:textColor="#10B981"
+            android:textStyle="bold"
+            android:layout_marginTop="4dp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E8EDF2"
+            android:layout_marginVertical="12dp" />
+
+        <!-- Action Buttons - Text Only, Perfectly Aligned -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:gravity="center">
+
+            <!-- Call Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_call"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="Call"
+                android:textSize="10sp"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="8dp" />
+
+            <!-- Navigate Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_navigate"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="Route"
+                android:textSize="10sp"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="8dp" />
+
+            <!-- Edit Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:text="Edit"
+                android:textSize="10sp"
+                android:textColor="@color/primary"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="8dp" />
+
+            <!-- Deliver Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_deliver"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="DElIVER"
+                android:textSize="9sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:backgroundTint="@color/primary"
+                app:cornerRadius="8dp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -28,6 +28,7 @@ import com.example.databinding.ActivityMainBinding;
 import com.example.fragments.AboutUsFragment;
 import com.example.fragments.AddCustomerFragment;
 import com.example.fragments.AddStaffFragment;
+import com.example.fragments.CustomerListFragment;
 import com.example.fragments.MapFragment;
 import com.example.fragments.MonthlyRecapFragment;
 import com.example.fragments.SettingsFragment;
@@ -38,13 +39,13 @@ import com.example.utils.DateUtils;
 import com.example.utils.PermissionManager;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.content.SharedPreferences;
 import com.example.dao.CustomerDao;
 import com.example.dao.DeliveryDao;
 import com.example.database.AppDatabase;
 import com.example.models.User;
 
-//  Import for header views
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -57,7 +58,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//  Step 8.1: Imports for ActivityResultLauncher
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
@@ -65,16 +65,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.app.Activity;
 
-//  Step 9.2: Imports for Glide and File operations
 import com.bumptech.glide.Glide;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-//  Step 10.3: Import for AlertDialog
 import androidx.appcompat.app.AlertDialog;
 
-//  Import for Gson (optional - if needed for debugging)
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -88,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActionBarDrawerToggle toggle;
 
-    //  Header views
+    // Header views
     private ImageView imgProfile;
     private ImageView imgCamera;
     private TextView txtHeaderName;
     private TextView txtHeaderBusiness;
     private TextView txtHeaderRole;
 
-    //  Step 8.2: Variables for image picking
+    // Image picking
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
     @Override
@@ -105,12 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //  CHECK SESSION - If no userType or mobile, redirect to Login
+        // CHECK SESSION
         SharedPreferences pref = getSharedPreferences("UserSession", MODE_PRIVATE);
         currentUserType = pref.getString("userType", null);
         String mobile = pref.getString("mobile", null);
 
-        //  If not logged in, redirect to Login
         if (currentUserType == null || mobile == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -119,19 +115,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        // Setup MVVM and DB ViewModel
         viewModel = new ViewModelProvider(this).get(MilkViewModel.class);
 
-        // DEBUG LOGS
         Log.d("CHECK", "UserType = " + currentUserType);
         Log.d("CHECK", "Mobile = " + mobile);
 
-        // SAFE DEFAULT (important)
         if (currentUserType == null) {
             currentUserType = "Guest";
         }
 
-        // UI / MENU SETUP FIRST
         setupMenuByRole();
 
         setSupportActionBar(binding.toolbar);
@@ -140,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportActionBar().setTitle("Welcome " + currentUserType);
         }
 
-        // Navigation slide-toggle drawer hooks
         toggle = new ActionBarDrawerToggle(
                 this,
                 binding.drawerLayout,
@@ -153,7 +144,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.navView.setItemIconTintList(getResources().getColorStateList(R.color.primary));
         binding.navView.setNavigationItemSelectedListener(this);
 
-        //  Step 8.3: Register ActivityResultLauncher for image picking
+        setupBottomNavigation();
+
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -161,11 +153,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
-                            //  Save image and load with Glide
                             String path = saveProfileImage(imageUri);
 
                             if (!path.isEmpty()) {
-                                //  Step 10.9: Animation
                                 imgProfile.setAlpha(0f);
                                 Glide.with(MainActivity.this)
                                         .load(new File(path))
@@ -182,13 +172,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 String accountId =
                                         prefs.getString("account_id", "");
 
-                                //  Save path
                                 prefs.edit()
                                         .putString("profile_" + accountId, path)
                                         .apply();
-
-                                Log.d("MainActivity", " Photo saved at: " + path);
-                                Log.d("MainActivity", " Account ID: " + accountId);
 
                                 Toast.makeText(this, "Profile photo updated!", Toast.LENGTH_SHORT).show();
                             } else {
@@ -198,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
-        //  Drawer Header - Bind views and load data
         View headerView = binding.navView.getHeaderView(0);
         imgProfile = headerView.findViewById(R.id.imgProfile);
         imgCamera = headerView.findViewById(R.id.imgCamera);
@@ -208,7 +193,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         loadHeaderData();
 
-        //  Camera icon click - Always opens gallery (to add/change photo)
         imgCamera.setOnClickListener(v -> {
             Intent intent = new Intent(
                     Intent.ACTION_PICK,
@@ -216,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             imagePickerLauncher.launch(intent);
         });
 
-        //  Profile Image click - Add photo if empty, else show full image
         imgProfile.setOnClickListener(v -> {
 
             SharedPreferences pref1 =
@@ -228,12 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String image =
                     pref1.getString("profile_" + accountId, "");
 
-            Log.d("MainActivity", "🔍 Click - Account ID: " + accountId);
-            Log.d("MainActivity", "🔍 Click - Image Path: " + image);
-
-            //  जर photo नसेल तर Gallery उघडा
             if (image.isEmpty()) {
-                Log.d("MainActivity", "📷 No photo found, opening gallery...");
                 Intent intent = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -241,10 +219,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return;
             }
 
-            //  जर photo असेल तर full screen मध्ये दाखवा
             File imageFile = new File(image);
             if (!imageFile.exists()) {
-                Log.d("MainActivity", "❌ Photo file not found, opening gallery...");
                 Intent intent = new Intent(
                         Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -288,7 +264,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             builder.show();
         });
 
-        //  Step 10.7: Long Press - Remove Photo (alternative way)
         imgProfile.setOnLongClickListener(v -> {
             new AlertDialog.Builder(this)
                     .setTitle("Remove Photo")
@@ -328,16 +303,63 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        // Load map as initial starting fragment
         if (savedInstanceState == null) {
-            navigateToMenuItem(R.id.nav_home);
+            BottomNavigationView bottomNav = binding.bottomNavigation;
+            if (bottomNav != null) {
+                bottomNav.setSelectedItemId(R.id.nav_map);
+            }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new MapFragment())
+                    .commit();
         }
     }
 
-    /**
-     * Public helper to let fragments or menus route actions
-     */
-    public void navigateToMenuItem(int itemId) {
+    // ✅ Show bottom navigation
+    private void showBottomNavigation() {
+        if (binding.bottomNavigation != null) {
+            binding.bottomNavigation.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // ✅ Hide bottom navigation
+    private void hideBottomNavigation() {
+        if (binding.bottomNavigation != null) {
+            binding.bottomNavigation.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNav = binding.bottomNavigation;
+
+        if (bottomNav == null) return;
+
+        // ✅ Show bottom nav by default on main screen
+        bottomNav.setVisibility(View.VISIBLE);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_map) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MapFragment())
+                        .commit();
+                showBottomNavigation();
+                return true;
+            } else if (itemId == R.id.nav_customer_list) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new CustomerListFragment())
+                        .commit();
+                showBottomNavigation();
+                return true;
+            }
+            return false;
+        });
+    }
+
+     public void navigateToMenuItem(int itemId) {
         Fragment fragment = null;
         String tag = "";
         String toolbarTitle = "Milk Delivery";
@@ -347,6 +369,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "MAP_FRAGMENT";
             toolbarTitle = "Milk Delivery";
             binding.navView.setCheckedItem(R.id.nav_home);
+            showBottomNavigation();
+
         } else if (itemId == R.id.nav_add_customer) {
             if (!"Owner".equals(currentUserType)) {
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
@@ -356,6 +380,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "ADD_CUSTOMER_FRAGMENT";
             toolbarTitle = "Add New Customer";
             binding.navView.setCheckedItem(R.id.nav_add_customer);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_staff_list) {
             if (!"Owner".equals(currentUserType)) {
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
@@ -365,36 +391,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "STAFF_LIST_FRAGMENT";
             toolbarTitle = "Staff List";
             binding.navView.setCheckedItem(R.id.nav_staff_list);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_monthly_recap) {
-            Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
-            startActivity(intent);
+
+            fragment = new MonthlyRecapFragment();
+            tag = "MONTHLY_RECAP_FRAGMENT";
+            toolbarTitle = "Monthly Recap";
+            binding.navView.setCheckedItem(R.id.nav_monthly_recap);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_payments) {
             fragment = new PaymentFragment();
             tag = "PAYMENT_FRAGMENT";
             toolbarTitle = "Payments";
             binding.navView.setCheckedItem(R.id.nav_payments);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_settings) {
             fragment = new SettingsFragment();
             tag = "SETTINGS_FRAGMENT";
             toolbarTitle = "Settings";
             binding.navView.setCheckedItem(R.id.nav_settings);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_about_us) {
             fragment = new AboutUsFragment();
             tag = "ABOUT_FRAGMENT";
             toolbarTitle = "About Us";
             binding.navView.setCheckedItem(R.id.nav_about_us);
+            hideBottomNavigation();
+
         } else if (itemId == R.id.nav_logout) {
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("Logout")
                     .setMessage("Are you sure you want to logout?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        //  Clear all session data
                         getSharedPreferences("UserSession", MODE_PRIVATE)
                                 .edit()
                                 .clear()
                                 .apply();
 
-                        //  Redirect to Login
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
@@ -559,7 +596,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d("CHECK", "UserType = " + currentUserType);
 
-        // First: show all items (reset state)
         for (int i = 0; i < menu.size(); i++) {
             menu.getItem(i).setVisible(true);
         }
@@ -581,7 +617,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    //  Step 9.3: Method to save profile image to internal storage
     private String saveProfileImage(Uri uri) {
         try {
             SharedPreferences prefs =
@@ -605,8 +640,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new File(folder,
                             "profile_" + accountId + ".jpg");
 
-            Log.d("MainActivity", "📁 Saving to: " + file.getAbsolutePath());
-
             InputStream input =
                     getContentResolver().openInputStream(uri);
 
@@ -628,9 +661,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             input.close();
             output.close();
 
-            Log.d("MainActivity", " Image saved successfully: " + file.getAbsolutePath());
-            Log.d("MainActivity", " File size: " + file.length() + " bytes");
-
             return file.getAbsolutePath();
 
         } catch (Exception e) {
@@ -640,7 +670,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return "";
     }
 
-    //  Method to load header data - Direct from SharedPreferences
     private void loadHeaderData() {
 
         SharedPreferences pref =
@@ -655,20 +684,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String headerName =
                 pref.getString("header_name", "");
 
-        //  Directly get business_name from SharedPreferences (saved during login)
         String business =
                 pref.getString("business_name", "");
 
-        Log.d("MainActivity", "📋 Loading header data...");
-        Log.d("MainActivity", "📋 Account ID: " + accountId);
-        Log.d("MainActivity", "📋 Header Name: " + headerName);
-        Log.d("MainActivity", "📋 Business Name: " + business);
-        Log.d("MainActivity", "📋 Role: " + role);
-
-        //  Set header text
         txtHeaderName.setText(headerName);
 
-        //  Set business name with fallback
         if (business == null || business.trim().isEmpty()) {
             business = "Milk Delivery";
         }
@@ -676,36 +696,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         txtHeaderRole.setText(role);
 
-        //  Load profile photo from internal storage
         String imagePath = pref.getString("profile_" + accountId, "");
-        Log.d("MainActivity", "📋 Image Path from prefs: " + imagePath);
-
         if (!imagePath.isEmpty()) {
             File imageFile = new File(imagePath);
             if (imageFile.exists()) {
-                Log.d("MainActivity", " Loading saved photo from: " + imagePath);
                 Glide.with(this)
                         .load(imageFile)
                         .circleCrop()
                         .placeholder(R.drawable.ic_user)
                         .into(imgProfile);
             } else {
-                Log.d("MainActivity", "❌ Image file not found at: " + imagePath);
                 imgProfile.setImageResource(R.drawable.ic_user);
             }
         } else {
             imgProfile.setImageResource(R.drawable.ic_user);
         }
 
-        //  For Staff only: If business_name is empty, fetch from API
-        // Owner business_name is already saved during login
         if ("Staff".equals(role) && (business == null || business.trim().isEmpty())) {
-            Log.d("MainActivity", "📋 Staff: Fetching business_name from API...");
             fetchBusinessNameFromAPI(accountId);
         }
     }
 
-    //  Helper method to fetch business_name for Staff from API
     private void fetchBusinessNameFromAPI(String accountId) {
         ApiService api =
                 ApiClient.getClient().create(ApiService.class);
@@ -716,30 +727,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onResponse(Call<LoginResponse> call,
                                    Response<LoginResponse> response) {
 
-                Log.d("PROFILE_API", "📡 Code = " + response.code());
-                Log.d("PROFILE_API", "📡 Success = " + response.isSuccessful());
-
                 if (response.body() == null || response.body().getData() == null) {
-                    Log.d("PROFILE_API", "❌ No data in response");
                     return;
                 }
 
                 MyData owner = response.body().getData();
                 String businessName = owner.getBusinessName();
 
-                Log.d("PROFILE", "🏢 Business Name from API: " + businessName);
-
                 if (businessName != null && !businessName.trim().isEmpty()) {
-                    //  Save business_name to SharedPreferences for future use
                     SharedPreferences prefs =
                             getSharedPreferences("UserSession", MODE_PRIVATE);
                     prefs.edit()
                             .putString("business_name", businessName)
                             .apply();
 
-                    //  Update UI
                     txtHeaderBusiness.setText(businessName);
-                    Log.d("MainActivity", " Staff business_name updated: " + businessName);
                 }
             }
 
@@ -749,5 +751,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.e("PROFILE_API", "❌ Failure = " + t.getMessage());
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (!(activeFragment instanceof MapFragment) && !(activeFragment instanceof CustomerListFragment)) {
+            // If not on main screen, go back to Map and show bottom nav
+            navigateToMenuItem(R.id.nav_home);
+            showBottomNavigation();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -31,4 +31,15 @@
         android:textColor="@color/delivered_green"
         android:textStyle="bold" />
 
+    <!-- ✅ TODAY INDICATOR - Shows "TODAY" text below status -->
+    <TextView
+        android:id="@+id/txt_today_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TODAY"
+        android:textSize="8sp"
+        android:textColor="#3B82F6"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
 </LinearLayout>

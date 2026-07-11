@@ -92,15 +92,7 @@ public class MonthlyRecapFragment extends Fragment {
                                 ""
                         );
 
-
         setupRecyclerView();
-
-
-
-
-
-
-
 
         runMonthlyCalculation();
     }
@@ -147,13 +139,9 @@ public class MonthlyRecapFragment extends Fragment {
                         new MonthlyRecapAdapter.OnItemClickListener() {
 
                             @Override
-                            public void onItemClick(
-                                    MonthlyRecapAdapter.RecapItem item) {
+                            public void onItemClick(MonthlyRecapAdapter.RecapItem item) {
 
-                                Intent intent =
-                                        new Intent(
-                                                getContext(),
-                                                CustomerRecapDetailsActivity.class);
+                                Intent intent = new Intent(getContext(), CustomerRecapDetailsActivity.class);
 
                                 if(currentUserType.equals("Customer")){
 
@@ -196,10 +184,7 @@ public class MonthlyRecapFragment extends Fragment {
                                                 return;
                                             }
 
-                                            requireActivity().runOnUiThread(() -> {
-
-                                                EditCustomerDialog dialog =
-                                                        new EditCustomerDialog(
+                                            requireActivity().runOnUiThread(() -> {EditCustomerDialog dialog = new EditCustomerDialog(
 
                                                                 customer,
 
@@ -213,23 +198,15 @@ public class MonthlyRecapFragment extends Fragment {
                                                                             "Customer Updated",
                                                                             Toast.LENGTH_SHORT
                                                                     ).show();
-
                                                                     runMonthlyCalculation();
-
                                                                 });
 
                                                 dialog.show(
                                                         getChildFragmentManager(),
                                                         "EDIT_CUSTOMER");
-
                                             });
-
                                         });
-
-
                             }
-
-
                         });
 
         adapter.setOwner(

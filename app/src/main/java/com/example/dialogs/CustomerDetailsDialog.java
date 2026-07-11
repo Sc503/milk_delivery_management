@@ -1,5 +1,7 @@
 package com.example.dialogs;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,17 +25,19 @@ import com.example.utils.PermissionManager;
 public class CustomerDetailsDialog extends DialogFragment {
 
     private final Customer customer;
+    private final String staffDisplay;
     private final DialogCallback callback;
     private DialogCustomerDetailsBinding binding;
 
     public interface DialogCallback {
         void onDeliver(Customer customer);
-        void onEdit(Customer customer);  // ✅ Edit callback
+        void onEdit(Customer customer);
         void onCancel();
     }
 
-    public CustomerDetailsDialog(Customer customer, DialogCallback callback) {
+    public CustomerDetailsDialog(Customer customer, String staffDisplay, DialogCallback callback) {
         this.customer = customer;
+        this.staffDisplay = staffDisplay;
         this.callback = callback;
     }
 
@@ -54,58 +58,48 @@ public class CustomerDetailsDialog extends DialogFragment {
         binding.dialogTxtMobile.setText(customer.getMobile());
         binding.dialogTxtAddress.setText(customer.getAddress());
 
+        //  SET STAFF DISPLAY
+        if (binding.dialogTxtStaffName != null) {
+            String displayText = (staffDisplay != null && !staffDisplay.isEmpty() && !staffDisplay.equals("Not assigned"))
+                    ?  staffDisplay
+                    : "Not assigned";
+            binding.dialogTxtStaffName.setText(displayText);
+            binding.dialogTxtStaffName.setVisibility(View.VISIBLE);
+        }
+
         String currentUserType =
                 requireActivity()
-                        .getSharedPreferences(
-                                "UserSession",
-                                android.content.Context.MODE_PRIVATE
-                        )
-                        .getString(
-                                "userType",
-                                ""
-                        );
+                        .getSharedPreferences("UserSession", MODE_PRIVATE)
+                        .getString("userType", "");
 
         if (!PermissionManager.canDeliver(currentUserType)) {
             binding.dialogBtnDeliver.setVisibility(View.GONE);
         }
 
-        // ✅ Call button
         binding.dialogBtnCall.setOnClickListener(v -> {
-            Intent dialIntent = new Intent(
-                    Intent.ACTION_DIAL,
-                    Uri.parse("tel:" + customer.getMobile())
-            );
+            Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + customer.getMobile()));
             startActivity(dialIntent);
         });
 
-        // ✅ Navigate button
         binding.dialogBtnNavigate.setOnClickListener(v -> {
-            Uri gmmIntentUri = Uri.parse(
-                    "google.navigation:q="
-                            + customer.getLatitude()
-                            + ","
-                            + customer.getLongitude()
-            );
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + customer.getLatitude() + "," + customer.getLongitude());
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
         });
 
-        // ✅ Deliver button
         binding.dialogBtnDeliver.setOnClickListener(v -> {
             if (callback != null) callback.onDeliver(customer);
             dismiss();
         });
 
-        // ✅ NEW: Edit button
         binding.dialogBtnEdit.setOnClickListener(v -> {
             if (callback != null) {
-                dismiss();  // Close this dialog first
-                callback.onEdit(customer);  // Open EditCustomerDialog
+                dismiss();
+                callback.onEdit(customer);
             }
         });
 
-        // ✅ Cancel button
         binding.dialogBtnCancel.setOnClickListener(v -> {
             if (callback != null) callback.onCancel();
             dismiss();
@@ -117,14 +111,9 @@ public class CustomerDetailsDialog extends DialogFragment {
         super.onStart();
         Window window = getDialog().getWindow();
         if (window != null) {
-            window.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            );
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             window.setGravity(Gravity.CENTER);
-            window.setBackgroundDrawable(
-                    new ColorDrawable(Color.TRANSPARENT)
-            );
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 

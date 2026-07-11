@@ -61,12 +61,12 @@ public class MilkViewModel extends AndroidViewModel {
 
     //  UPDATED: accept staffId
     public void deliverCustomer(long customerId, String date, String time, long staffId, Runnable onCompleted) {
-        repository.deliverCustomer(customerId, date, time, staffId, onCompleted);
+        repository.deliverCustomer(customerId, date, time, staffId, "", onCompleted);
     }
 
     // KEEP OLD METHOD for backward compatibility
-    public void deliverCustomer(long customerId, String date, String time, Runnable onCompleted) {
-        repository.deliverCustomer(customerId, date, time, 0, onCompleted);
+    public void deliverCustomer(long customerId, String date, String time, long staffId, String staffName, Runnable onCompleted) {
+        repository.deliverCustomer(customerId, date, time, staffId, staffName, onCompleted);
     }
 
     public void markDeliveryPending(long customerId, String date, Runnable onCompleted) {

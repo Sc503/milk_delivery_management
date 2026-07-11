@@ -1,7 +1,10 @@
 package com.example.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import com.example.dialogs.CustomerDetailsDialog;
 import com.example.dialogs.EditCustomerDialog;
 import com.example.models.Customer;
 import com.example.models.Delivery;
+import com.example.models.DeliveryWithStaff;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -57,9 +61,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
-    //  Flag to track if map is ready
     private boolean isMapReady = false;
-    //  Cache customers for refresh
     private List<Customer> cachedCustomers = null;
 
     @Override
@@ -67,11 +69,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            selectedCustomerId =
-                    getArguments().getLong(
-                            "CUSTOMER_ID",
-                            -1
-                    );
+            selectedCustomerId = getArguments().getLong("CUSTOMER_ID", -1);
         }
     }
 
@@ -84,27 +82,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        String currentUserType =
-                requireContext()
-                        .getSharedPreferences(
-                                "UserSession",
-                                android.content.Context.MODE_PRIVATE)
-                        .getString(
-                                "userType",
-                                ""
-                        );
+        String currentUserType = requireContext()
+                .getSharedPreferences("UserSession", MODE_PRIVATE)
+                .getString("userType", "");
 
-        if(currentUserType.equals("Customer")){
-            Toast.makeText(
-                    getContext(),
-                    "Access Denied",
-                    Toast.LENGTH_SHORT
-            ).show();
+        if (currentUserType.equals("Customer")) {
+            Toast.makeText(getContext(), "Access Denied", Toast.LENGTH_SHORT).show();
             return;
         }
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize supporting Map Fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
@@ -118,20 +105,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         this.googleMap = map;
         this.isMapReady = true;
 
-        // Custom styling can be applied if needed
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         googleMap.setOnMarkerClickListener(marker -> {
             Customer customer = markerLookup.get(marker.getId());
             if (customer != null) {
-                // Smooth single tap zoom
-                googleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(
-                                marker.getPosition(),
-                                18f
-                        )
-                );
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 18f));
                 marker.showInfoWindow();
                 openCustomerDetailsDialog(customer);
                 return true;
@@ -146,26 +126,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        //  Load and watch pending deliveries for today
-        viewModel.getAllCustomers()
-                .observe(getViewLifecycleOwner(), customers -> {
-                    cachedCustomers = customers;
-                    if (isMapReady) {
-                        updateMapMarkers(customers);
-                    }
-                });
+        viewModel.getAllCustomers().observe(getViewLifecycleOwner(), customers -> {
+            cachedCustomers = customers;
+            if (isMapReady) {
+                updateMapMarkers(customers);
+            }
+        });
 
         String today = DateUtils.getTodayDateString();
-        viewModel.getDeliveriesForDate(today)
-                .observe(getViewLifecycleOwner(), deliveries -> {
-                    //  Refresh markers when deliveries change
-                    if (cachedCustomers != null && isMapReady) {
-                        updateMapMarkers(cachedCustomers);
-                    }
-                });
+        viewModel.getDeliveriesForDate(today).observe(getViewLifecycleOwner(), deliveries -> {
+            if (cachedCustomers != null && isMapReady) {
+                updateMapMarkers(cachedCustomers);
+            }
+        });
     }
 
-    //  Public method to refresh map from outside (called after edit)
     public void refreshMap() {
         if (isMapReady && viewModel != null) {
             viewModel.getAllCustomers().observe(getViewLifecycleOwner(), customers -> {
@@ -183,8 +158,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         final String today = DateUtils.getTodayDateString();
 
         viewModel.getRepository().getExecutor().execute(() -> {
-            List<Delivery> todayDeliveries =
-                    viewModel.getRepository().getDeliveriesForDateSync(today);
+            List<Delivery> todayDeliveries = viewModel.getRepository().getDeliveriesForDateSync(today);
 
             Map<Long, Boolean> deliveryStatusMap = new HashMap<>();
             if (todayDeliveries != null) {
@@ -204,8 +178,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap) {
-        android.util.Log.d("MAP_TEST", "renderMarkersOnUI called - Customer count: " + customers.size());
-
         if (googleMap == null) return;
 
         googleMap.clear();
@@ -213,14 +185,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         binding.cardNoMarkers.setVisibility(View.GONE);
 
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-
         Marker selectedMarker = null;
         LatLng selectedLatLng = null;
 
         for (Customer customer : customers) {
-            //  Skip customers with invalid coordinates
             if (customer.getLatitude() == 0 && customer.getLongitude() == 0) {
-                android.util.Log.d("MAP_TEST", "Skipping customer with zero coordinates: " + customer.getName());
                 continue;
             }
 
@@ -228,10 +197,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             boundsBuilder.include(latLng);
 
             boolean delivered = deliveryStatusMap.getOrDefault(customer.getId(), false);
-
-            float markerColor = delivered
-                    ? BitmapDescriptorFactory.HUE_GREEN
-                    : BitmapDescriptorFactory.HUE_RED;
+            float markerColor = delivered ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_RED;
 
             Marker marker = googleMap.addMarker(
                     new MarkerOptions()
@@ -243,144 +209,142 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             if (marker != null) {
                 markerLookup.put(marker.getId(), customer);
-                android.util.Log.d("MAP_TEST", " Marker added for: " + customer.getName() +
-                        " Lat: " + customer.getLatitude() + " Lng: " + customer.getLongitude());
             }
 
-            // select customer store कर
             if (customer.getId() == selectedCustomerId) {
                 selectedMarker = marker;
                 selectedLatLng = latLng;
             }
         }
 
-        //  PRIORITY 1: selected customer focus
         if (selectedLatLng != null) {
-            googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                            selectedLatLng,
-                            18f
-                    )
-            );
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(selectedLatLng, 18f));
             if (selectedMarker != null) {
                 selectedMarker.showInfoWindow();
             }
-            return; // stop further camera logic
+            return;
         }
 
-        //  PRIORITY 2: If there are customers, zoom to fit all
         if (!customers.isEmpty()) {
             try {
                 LatLngBounds bounds = boundsBuilder.build();
-                int padding = 100; // offset from edges of the map in pixels
-                googleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngBounds(bounds, padding)
-                );
-                android.util.Log.d("MAP_TEST", " Zooming to fit all customers");
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
                 return;
             } catch (Exception e) {
-                android.util.Log.e("MAP_TEST", "Error building bounds: " + e.getMessage());
+                Log.e("MAP_TEST", "Error building bounds: " + e.getMessage());
             }
         }
 
-        //  PRIORITY 3: Default - Nashik
         try {
-            android.util.Log.d("MAP_TEST", "Moving To Nashik");
             LatLng nashik = new LatLng(19.9975, 73.7898);
-            googleMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                            nashik,
-                            12f
-                    )
-            );
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nashik, 12f));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    //  FIXED: openCustomerDetailsDialog
     private void openCustomerDetailsDialog(Customer customer) {
-        String currentUserType =
-                requireContext()
-                        .getSharedPreferences(
-                                "UserSession",
-                                android.content.Context.MODE_PRIVATE)
-                        .getString(
-                                "userType",
-                                ""
-                        );
+        String currentUserType = requireContext()
+                .getSharedPreferences("UserSession", MODE_PRIVATE)
+                .getString("userType", "");
 
-        if(currentUserType.equals("Customer")){
-            Toast.makeText(
-                    getContext(),
-                    "Read Only Mode",
-                    Toast.LENGTH_SHORT
-            ).show();
+        if (currentUserType.equals("Customer")) {
+            Toast.makeText(getContext(), "Read Only Mode", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, new CustomerDetailsDialog.DialogCallback() {
-            @Override
-            public void onDeliver(Customer c) {
-                String today = DateUtils.getTodayDateString();
-                String nowTime = DateUtils.getCurrentTimeString();
+        // GET STAFF NAME FROM DELIVERY RECORD
+        String today = DateUtils.getTodayDateString();
 
-                viewModel.deliverCustomer(
-                        customer.getId(),
-                        today,
-                        nowTime,
-                        () -> {
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> {
-                                    viewModel.getRepository()
-                                            .getExecutor()
-                                            .execute(() -> {
-                                                List<Customer> freshCustomers =
-                                                        viewModel.getRepository()
-                                                                .getAllCustomersSync();
+        viewModel.getRepository().getExecutor().execute(() -> {
+            // Get delivery with staff name from database
+            DeliveryWithStaff delivery = viewModel.getDeliveryWithStaff(customer.getId(), today);
 
-                                                if (getActivity() != null) {
-                                                    getActivity().runOnUiThread(() -> {
-                                                        updateMapMarkers(freshCustomers);
+            String staffDisplay = "Not assigned";
+            long staffId = 0;
+
+            if (delivery != null) {
+                // Your custom display format
+                if (delivery.staffName != null && !delivery.staffName.isEmpty()) {
+                    staffDisplay = "Staff Name: " + delivery.staffName + "\n Staff ID: " + delivery.staffId;
+                } else if (delivery.staffId > 0) {
+                    staffDisplay = "Staff Name: NA \n Staff ID: " + delivery.staffId;
+                } else {
+                    staffDisplay = "Staff Name: NA \n Staff ID: NA";
+                }
+            }
+
+            final String finalStaffDisplay = staffDisplay;
+            final long finalStaffId = staffId;
+
+            requireActivity().runOnUiThread(() -> {
+                // Show Toast to confirm
+//                Toast.makeText(getContext(), "📌 " + finalStaffDisplay, Toast.LENGTH_LONG).show();
+
+                // Create callback
+                CustomerDetailsDialog.DialogCallback callback = new CustomerDetailsDialog.DialogCallback() {
+                    @Override
+                    public void onDeliver(Customer c) {
+                        String todayDate = DateUtils.getTodayDateString();
+                        String nowTime = DateUtils.getCurrentTimeString();
+
+                        // Get logged-in staff ID for marking delivery
+                        SharedPreferences prefs = requireContext().getSharedPreferences("UserSession", MODE_PRIVATE);
+                        long loggedInStaffId = prefs.getLong("staff_id", 0);
+                        String staffName = prefs.getString("staff_name", "Staff");
+
+                        viewModel.deliverCustomer(
+                                customer.getId(),
+                                todayDate,
+                                nowTime,
+                                loggedInStaffId,
+                                staffName,
+                                () -> {
+                                    if (getActivity() != null) {
+                                        getActivity().runOnUiThread(() -> {
+                                            viewModel.getRepository()
+                                                    .getExecutor()
+                                                    .execute(() -> {
+                                                        List<Customer> freshCustomers =
+                                                                viewModel.getRepository()
+                                                                        .getAllCustomersSync();
+                                                        if (getActivity() != null) {
+                                                            getActivity().runOnUiThread(() -> {
+                                                                updateMapMarkers(freshCustomers);
+                                                            });
+                                                        }
                                                     });
-                                                }
-                                            });
+                                            Toast.makeText(getContext(), "Delivered!", Toast.LENGTH_SHORT).show();
+                                        });
+                                    }
+                                }
+                        );
+                    }
 
-                                    Toast.makeText(
-                                            getContext(),
-                                            "Delivered",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                });
-                            }
-                        }
-                );
-            }
+                    @Override
+                    public void onEdit(Customer c) {
+                        EditCustomerDialog editDialog = new EditCustomerDialog(c, editedCustomer -> {
+                            viewModel.updateCustomer(editedCustomer);
+                            new Handler().postDelayed(() -> {
+                                refreshMap();
+                                Toast.makeText(getContext(), "Customer updated!", Toast.LENGTH_SHORT).show();
+                            }, 300);
+                        });
+                        editDialog.show(getChildFragmentManager(), "EditCustomerDialog");
+                    }
 
-            //  onEdit callback
-            @Override
-            public void onEdit(Customer c) {
-                // Open EditCustomerDialog
-                EditCustomerDialog editDialog = new EditCustomerDialog(c, editedCustomer -> {
-                    //  Save edited customer to database
-                    viewModel.updateCustomer(editedCustomer);
+                    @Override
+                    public void onCancel() {
+                        // Smooth close
+                    }
+                };
 
-                    //  Refresh map after a short delay
-                    new Handler().postDelayed(() -> {
-                        refreshMap();
-                        Toast.makeText(getContext(),
-                                "Customer updated! Location refreshed on map.",
-                                Toast.LENGTH_SHORT).show();
-                    }, 300);
-                });
-                editDialog.show(getChildFragmentManager(), "EditCustomerDialog");
-            }
-
-            @Override
-            public void onCancel() {
-                // Smooth close
-            }
+                //  Create dialog with callback
+                CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, finalStaffDisplay, callback);
+                dialog.show(getChildFragmentManager(), "CustomerDetailsDialog");
+            });
         });
-        dialog.show(getChildFragmentManager(), "CustomerDetailsDialog");
     }
 
     private void checkLocationPermissionAndCenter() {
@@ -397,17 +361,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (googleMap == null) return;
         googleMap.setMyLocationEnabled(true);
 
-        // If there are cached customers, zoom to them instead of Nashik
         if (cachedCustomers != null && !cachedCustomers.isEmpty()) {
             updateMapMarkers(cachedCustomers);
         } else {
             LatLng nashik = new LatLng(19.9975, 73.7898);
-            googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                            nashik,
-                            12f
-                    )
-            );
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(nashik, 12f));
         }
     }
 
@@ -418,7 +376,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 enableMyLocationAndCenter();
             } else {
-                Toast.makeText(getContext(), "Location services are required to auto position and fetch GPS coordinates.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Location services are required.", Toast.LENGTH_LONG).show();
             }
         }
     }
