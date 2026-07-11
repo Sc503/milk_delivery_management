@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MilkDelivery" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.MilkDelivery" parent="Theme.Material3.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorSecondary">@color/secondary</item>
         <item name="android:statusBarColor">@color/primary</item>
         <item name="android:windowLightStatusBar">false</item>
-        
+
         <!-- Customize your theme here. -->
         <item name="colorSurface">@color/surface</item>
         <item name="colorOnSurface">@color/on_surface</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="colorSurfaceVariant">@color/surface_variant</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant</item>
-        
+
         <!-- Material 3 component overrides -->
         <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+
+        <!-- ✅ Navigation Drawer Colors for Light Mode -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
     </style>
+
 
     <!-- Custom calendar weekday header styling -->
     <style name="CalendarDayHeader">

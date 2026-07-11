@@ -64,7 +64,7 @@
                     android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/status_badge_pending"
+                    android:background="@drawable/status_pending_badge"
                     android:paddingHorizontal="14dp"
                     android:paddingVertical="6dp"
                     android:text="PENDING"

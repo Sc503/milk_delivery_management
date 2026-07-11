@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.R;
 import com.example.databinding.ActivityMonthlyRecapBinding;
-import com.example.dialogs.EditCustomerDialog;
 import com.example.fragments.FilterBottomSheet;
 import com.example.models.Customer;
 import com.example.models.Delivery;
@@ -51,6 +51,17 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         EdgeToEdge.enable(this);
 
         // ✅ Use View Binding
@@ -151,6 +162,8 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
+                    // ❌ Remove onEditClick - Edit button आता हवा नाही
+                    /*
                     @Override
                     public void onEditClick(MonthlyRecapAdapter.RecapItem item) {
                         viewModel.getRepository().getExecutor().execute(() -> {
@@ -175,10 +188,12 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                             });
                         });
                     }
+                    */
                 }
         );
 
-        adapter.setOwner(currentUserType.equals("Owner"));
+        // ❌ Remove setOwner - Edit button नाहीये
+        // adapter.setOwner(currentUserType.equals("Owner"));
         binding.rvMonthlyRecap.setAdapter(adapter);
     }
 
@@ -205,6 +220,9 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
             if (allCustomers == null) {
                 allCustomers = new ArrayList<>();
             }
+
+            // ✅ IMPORTANT: Store total customers count BEFORE filtering
+            final int totalCustomersCount = allCustomers.size();
 
             final List<Customer> customersList = allCustomers;
 
@@ -249,6 +267,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         ? ((double) deliveredCount / totalDaysInMonth) * 100.0
                         : 0.0;
 
+                // ✅ Apply filters for RecyclerView items only
                 if (!customerFilter.trim().isEmpty()
                         && !customer.getName().toLowerCase().contains(customerFilter.toLowerCase())) {
                     continue;
@@ -275,7 +294,8 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 totalPendingSum += pendingCount;
             }
 
-            final int finalTotalCustomers = customersList.size();
+            // ✅ Use totalCustomersCount (ALL customers, not filtered)
+            final int finalTotalCustomers = totalCustomersCount;
             final int finalTotalDeliveries = totalDeliveriesSum;
             final int finalTotalPending = totalPendingSum;
             final double finalAveragePercentage = (finalTotalDeliveries + finalTotalPending) > 0
@@ -285,9 +305,14 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (binding == null) return;
 
+                // ✅ Set filtered data to RecyclerView
                 adapter.setData(recapItems);
 
-                binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));
+                // ✅ Update BOTH Total Customers TextViews
+                binding.tvTotalCustomers.setText(String.valueOf(finalTotalCustomers));      // Top Card
+                binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));   // Bottom Card
+
+                // ✅ Update other stats
                 binding.recapTotalDeliveries.setText(String.valueOf(finalTotalDeliveries));
                 binding.recapTotalPending.setText(String.valueOf(finalTotalPending));
                 binding.recapAveragePercentage.setText(

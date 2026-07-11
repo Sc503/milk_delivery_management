@@ -12,6 +12,9 @@
         <item name="android:paddingVertical">8dp</item>
         <item name="android:background">@drawable/day_header_bg</item>
     </style>
+    <style name="NavigationViewText" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
 
 
 </resources>

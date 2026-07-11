@@ -3,7 +3,6 @@ package com.example.fragments;
 import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -21,6 +20,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -41,6 +41,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import android.net.Uri;
 
 public class SettingsFragment extends Fragment {
 
@@ -88,16 +90,35 @@ public class SettingsFragment extends Fragment {
             binding.btnShareBackup.setVisibility(View.GONE);
         }
 
-        // ── Clear Database ─────────────────────────────────────────
+        // ✅ Setup Theme Toggle
+        setupThemeToggle();
+
+        // ── ✅ Clear Database with Confirmation Dialog ─────────────────────────
         binding.btnClearCache.setOnClickListener(v -> {
-            viewModel.getRepository().getExecutor().execute(() -> {
-                com.example.database.AppDatabase.getInstance(requireContext()).clearAllTables();
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() ->
-                            Toast.makeText(getContext(), "Local database reset successfully!", Toast.LENGTH_LONG).show()
-                    );
-                }
-            });
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("⚠️ Reset Database")
+                    .setMessage("Are you sure you want to reset the local database?\n\n" +
+                            "This will permanently delete ALL data including:\n" +
+                            "• All Customers\n" +
+                            "• All Deliveries\n" +
+                            "• All Payments\n\n" +
+                            "This action cannot be undone!")
+                    .setPositiveButton("Yes, Reset", (dialog, which) -> {
+                        // Perform reset
+                        viewModel.getRepository().getExecutor().execute(() -> {
+                            com.example.database.AppDatabase.getInstance(requireContext()).clearAllTables();
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(() ->
+                                        Toast.makeText(getContext(), "✅ Database reset successfully!", Toast.LENGTH_LONG).show()
+                                );
+                            }
+                        });
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .setIcon(R.drawable.ic_warning)
+                    .show();
         });
 
         // ── Backup Now with Encryption ────────────────────────────
@@ -126,9 +147,7 @@ public class SettingsFragment extends Fragment {
                         new ActivityResultContracts.GetContent(),
                         uri -> {
                             if (uri != null) {
-                                // Check if file is encrypted
                                 boolean isEncrypted = uri.toString().endsWith(".enc");
-
                                 if (isEncrypted) {
                                     showRestorePasswordDialog(uri);
                                 } else {
@@ -154,20 +173,40 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    // ── ✅ THEME TOGGLE ──────────────────────────────────────────────
+    private void setupThemeToggle() {
+        SwitchCompat switchTheme = binding.switchTheme;
+
+        SharedPreferences prefs = requireContext().getSharedPreferences("ThemePrefs", android.content.Context.MODE_PRIVATE);
+        boolean isDarkMode = prefs.getBoolean("dark_mode", false);
+        switchTheme.setChecked(isDarkMode);
+
+        switchTheme.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            prefs.edit().putBoolean("dark_mode", isChecked).apply();
+
+            // Apply theme
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+
+            requireActivity().recreate();
+            Toast.makeText(getContext(), isChecked ? "🌙 Dark Mode Enabled" : "☀️ Light Mode Enabled", Toast.LENGTH_SHORT).show();
+        });
+    }
+
     // ── Setup Auto Backup ──────────────────────────────────────────
     private void setupAutoBackup() {
         SwitchCompat switchAutoBackup = binding.switchAutoBackup;
 
-
         boolean isEnabled = autoBackupManager.isAutoBackupEnabled();
         switchAutoBackup.setChecked(isEnabled);
-
 
         switchAutoBackup.setOnCheckedChangeListener((buttonView, isChecked) -> {
             autoBackupManager.setAutoBackupEnabled(isChecked);
             if (isChecked) {
                 Toast.makeText(getContext(), "✅ Auto backup enabled (every 24 hours)", Toast.LENGTH_LONG).show();
-
             } else {
                 Toast.makeText(getContext(), "❌ Auto backup disabled", Toast.LENGTH_SHORT).show();
             }
@@ -286,8 +325,7 @@ public class SettingsFragment extends Fragment {
                 .show();
     }
 
-
-   // ── Perform restore with or without password ──────────────────────────
+    // ── Perform restore with or without password ──────────────────────────
     private void performRestore(Uri uri, String password) {
         AtomicBoolean success = new AtomicBoolean(false);
 
@@ -296,10 +334,8 @@ public class SettingsFragment extends Fragment {
 
             try {
                 if (password != null) {
-                    //  ENCRYPTED FILE: Read from Uri and decrypt
                     result = BackupManager.restoreEncryptedBackupFromUri(requireContext(), uri, password);
                 } else {
-                    //  REGULAR JSON FILE: Restore directly
                     result = RestoreManager.restoreFromUri(requireContext(), uri);
                 }
             } catch (Exception e) {

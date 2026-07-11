@@ -1,198 +1,129 @@
 package com.example.fragments;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
 
 public class FilterBottomSheet extends BottomSheetDialogFragment {
 
-    public interface FilterCallback {
-        void onApply(
-                int month,
-                String year,
-                String customer,
-                int deliveries,
-                int pending
-        );
-    }
+    private Spinner spinMonthFilter, spinYearFilter;
+    private TextInputEditText etCustomerName;
+    private MaterialButton btnClear, btnApply;
 
-    private final int selectedMonth;
-    private final String selectedYear;
-    private final String customerName;
-    private final int deliveries;
-    private final int pending;
-    private final FilterCallback callback;
+    private OnFilterApplyListener listener;
+
+    private int selectedMonth;
+    private String selectedYear;
+    private String customerFilter;
+
+    public interface OnFilterApplyListener {
+        void onApply(int month, String year, String customerName, int deliveries, int pending);
+    }
 
     public FilterBottomSheet(
             int selectedMonth,
             String selectedYear,
-            String customerName,
-            int deliveries,
-            int pending,
-            FilterCallback callback
-    ) {
+            String customerFilter,
+            int minDeliveries,
+            int minPending,
+            OnFilterApplyListener listener) {
         this.selectedMonth = selectedMonth;
         this.selectedYear = selectedYear;
-        this.customerName = customerName;
-        this.deliveries = deliveries;
-        this.pending = pending;
-        this.callback = callback;
+        this.customerFilter = customerFilter;
+        this.listener = listener;
     }
 
-    @NonNull
+    @Nullable
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        // ✅ XML name - bottom_sheet_filter (tumcha exact file name)
+        View view = inflater.inflate(R.layout.bottom_sheet_filter, container, false);
 
-        com.google.android.material.bottomsheet.BottomSheetDialog dialog =
-                (com.google.android.material.bottomsheet.BottomSheetDialog)
-                        super.onCreateDialog(savedInstanceState);
+        initViews(view);
+        setupSpinners();
+        setupListeners();
 
-        View view = LayoutInflater.from(getContext())
-                .inflate(R.layout.bottom_sheet_filter, null);
+        return view;
+    }
 
-        dialog.setContentView(view);
+    private void initViews(View view) {
+        spinMonthFilter = view.findViewById(R.id.spinMonthFilter);
+        spinYearFilter = view.findViewById(R.id.spinYearFilter);
+        etCustomerName = view.findViewById(R.id.etCustomerName);
+        btnClear = view.findViewById(R.id.btnClear);
+        btnApply = view.findViewById(R.id.btnApply);
+    }
 
-        Spinner spinMonth =
-                view.findViewById(R.id.spinMonthFilter);
+    private void setupSpinners() {
+        // Months
+        String[] months = {"January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"};
+        ArrayAdapter<String> monthAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, months);
+        monthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMonthFilter.setAdapter(monthAdapter);
+        spinMonthFilter.setSelection(selectedMonth);
 
-        Spinner spinYear =
-                view.findViewById(R.id.spinYearFilter);
+        // Years
+        String[] years = {"2025", "2026", "2027", "2028"};
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, years);
+        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinYearFilter.setAdapter(yearAdapter);
 
-        EditText etCustomer =
-                view.findViewById(R.id.etCustomerName);
-
-        EditText etDeliveries =
-                view.findViewById(R.id.etDeliveries);
-
-        EditText etPending =
-                view.findViewById(R.id.etPending);
-
-        Button btnApply =
-                view.findViewById(R.id.btnApply);
-
-        Button btnClear =
-                view.findViewById(R.id.btnClear);
-
-        String[] months = {
-                "January","February","March","April",
-                "May","June","July","August",
-                "September","October","November","December"
-        };
-
-        String[] years = {
-                "2025","2026","2027","2028"
-        };
-
-        ArrayAdapter<String> monthAdapter =
-                new ArrayAdapter<>(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        months
-                );
-
-        monthAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
-
-        spinMonth.setAdapter(monthAdapter);
-
-        ArrayAdapter<String> yearAdapter =
-                new ArrayAdapter<>(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        years
-                );
-
-        yearAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
-
-        spinYear.setAdapter(yearAdapter);
-
-        spinMonth.setSelection(selectedMonth);
-
+        int yearPosition = 0;
         for (int i = 0; i < years.length; i++) {
             if (years[i].equals(selectedYear)) {
-                spinYear.setSelection(i);
+                yearPosition = i;
                 break;
             }
         }
+        spinYearFilter.setSelection(yearPosition);
 
-        etCustomer.setText(customerName);
+        // Set customer name
+        etCustomerName.setText(customerFilter);
+    }
 
-        if (deliveries > 0) {
-            etDeliveries.setText(String.valueOf(deliveries));
-        }
-
-        if (pending > 0) {
-            etPending.setText(String.valueOf(pending));
-        }
-
+    private void setupListeners() {
         btnApply.setOnClickListener(v -> {
+            int month = spinMonthFilter.getSelectedItemPosition();
+            String year = spinYearFilter.getSelectedItem().toString();
+            String customerName = etCustomerName.getText().toString().trim();
 
-            int month =
-                    spinMonth.getSelectedItemPosition();
-
-            String year =
-                    spinYear.getSelectedItem().toString();
-
-            String customer =
-                    etCustomer.getText().toString().trim();
-
-            int deliveryCount = 0;
-            int pendingCount = 0;
-
-            if (!TextUtils.isEmpty(
-                    etDeliveries.getText().toString())) {
-
-                deliveryCount =
-                        Integer.parseInt(
-                                etDeliveries.getText().toString());
+            if (listener != null) {
+                listener.onApply(month, year, customerName, 0, 0);
             }
-
-            if (!TextUtils.isEmpty(
-                    etPending.getText().toString())) {
-
-                pendingCount =
-                        Integer.parseInt(
-                                etPending.getText().toString());
-            }
-
-            callback.onApply(
-                    month,
-                    year,
-                    customer,
-                    deliveryCount,
-                    pendingCount
-            );
-
             dismiss();
         });
 
         btnClear.setOnClickListener(v -> {
+            etCustomerName.setText("");
+            spinMonthFilter.setSelection(Calendar.getInstance().get(Calendar.MONTH));
 
-            callback.onApply(
-                    selectedMonth,
-                    selectedYear,
-                    "",
-                    0,
-                    0
-            );
-
-            dismiss();
+            String[] years = {"2025", "2026", "2027", "2028"};
+            int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+            int yearPosition = 0;
+            for (int i = 0; i < years.length; i++) {
+                if (years[i].equals(String.valueOf(currentYear))) {
+                    yearPosition = i;
+                    break;
+                }
+            }
+            spinYearFilter.setSelection(yearPosition);
         });
-
-        return dialog;
     }
 }

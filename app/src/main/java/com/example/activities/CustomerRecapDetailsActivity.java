@@ -1,13 +1,14 @@
 package com.example.activities;
 
-
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;  // ✅ Import add kara
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 
 public class CustomerRecapDetailsActivity extends AppCompatActivity {
 
@@ -45,6 +45,17 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         binding = ActivityCustomerRecapDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -55,7 +66,6 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
 
         customerId = getIntent().getLongExtra("CUSTOMER_ID", -1);
         filterMonthIdx = getIntent().getIntExtra("FILTER_MONTH_INDEX", -1);
@@ -103,38 +113,21 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         });
 
         binding.fabShowCalendar.setOnClickListener(v -> {
+            Intent calendarIntent = new Intent(
+                    CustomerRecapDetailsActivity.this,
+                    CustomerCalendarActivity.class);
 
-            Intent calendarIntent =
-                    new Intent(
-                            CustomerRecapDetailsActivity.this,
-                            CustomerCalendarActivity.class);
-
-            calendarIntent.putExtra(
-                    "CUSTOMER_ID",
-                    customerId);
-
-            calendarIntent.putExtra(
-                    "SELECTED_MONTH",
-                    filterMonthIdx);
-
-            calendarIntent.putExtra(
-                    "SELECTED_YEAR",
-                    filterYearInt);
-
-            calendarIntent.putExtra(
-                    "READ_ONLY",
-                    getIntent().getBooleanExtra(
-                            "READ_ONLY",
-                            false
-                    )
-            );
+            calendarIntent.putExtra("CUSTOMER_ID", customerId);
+            calendarIntent.putExtra("SELECTED_MONTH", filterMonthIdx);
+            calendarIntent.putExtra("SELECTED_YEAR", filterYearInt);
+            calendarIntent.putExtra("READ_ONLY",
+                    getIntent().getBooleanExtra("READ_ONLY", false));
 
             startActivity(calendarIntent);
         });
 
         calculateDetailedHistoryAndStats();
     }
-
 
     @Override
     protected void onResume() {
@@ -143,7 +136,6 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         loadCustomerProfile();
         updateMonthYearHeader();
         calculateDetailedHistoryAndStats();
-
     }
 
     private void setupRecyclerView() {
@@ -155,7 +147,6 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     private void loadCustomerProfile() {
         viewModel.getCustomerById(customerId).observe(this, customer -> {
             if (customer != null) {
-
                 binding.detailName.setText(customer.getName());
                 binding.detailMobile.setText(customer.getMobile());
                 binding.detailAddress.setText(customer.getAddress());
@@ -165,12 +156,9 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
                 }
 
                 binding.detailName.setOnClickListener(v -> {
-
-                    Intent intent =
-                            new Intent(
-                                    CustomerRecapDetailsActivity.this,
-                                    MainActivity.class
-                            );
+                    Intent intent = new Intent(
+                            CustomerRecapDetailsActivity.this,
+                            MainActivity.class);
 
                     intent.putExtra("CUSTOMER_ID", customerId);
                     intent.putExtra("OPEN_CUSTOMER_LOCATION", true);
@@ -187,15 +175,13 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
 
     private void calculateDetailedHistoryAndStats() {
         final int daysInMonth = DateUtils.getDaysInMonth(filterMonthIdx, filterYearInt);
-        final String yearMonthPrefix = DateUtils.getYearMonthString(filterMonthIdx, filterYearInt); // YYYY-MM
+        final String yearMonthPrefix = DateUtils.getYearMonthString(filterMonthIdx, filterYearInt);
 
         viewModel.getRepository().getExecutor().execute(() -> {
-
             List<Delivery> allCustomerDeliveries = viewModel.getRepository().getDeliveriesForCustomerSync(customerId);
             if (allCustomerDeliveries == null) {
                 allCustomerDeliveries = new ArrayList<>();
             }
-
 
             Map<String, Delivery> dateMap = new HashMap<>();
             for (Delivery d : allCustomerDeliveries) {
@@ -215,18 +201,15 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
                         deliveredCount++;
                     }
                 } else {
-                    // If no delivery record is saved in SQLite, represent it as Pending
                     detailHistory.add(new Delivery(customerId, targetDateKey, "--", "Pending"));
                 }
             }
 
-            // Calculate ratios
             final List<Delivery> finalHistory = detailHistory;
             final int finalDelivered = deliveredCount;
             final int finalPending = daysInMonth - deliveredCount;
             final double finalPercentage = daysInMonth > 0 ? ((double) finalDelivered / daysInMonth) * 100.0 : 0.0;
 
-            // Step 3: Publish variables back to UI
             runOnUiThread(() -> {
                 historyAdapter.setData(finalHistory);
 
@@ -241,7 +224,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // return to MonthlyRecap fragment smoothly
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
