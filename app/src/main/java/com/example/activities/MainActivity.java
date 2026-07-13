@@ -1,15 +1,10 @@
 package com.example.activities;
 
-import com.example.fragments.PaymentDetailsFragment;
-import com.example.fragments.PaymentFragment;
-
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.appcompat.widget.SearchView;
 
 import android.view.View;
 import android.widget.Toast;
@@ -26,25 +21,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.R;
 import com.example.databinding.ActivityMainBinding;
 
-import com.example.fragments.AboutUsFragment;
-import com.example.fragments.AddCustomerFragment;
-import com.example.fragments.AddStaffFragment;
 import com.example.fragments.CustomerListFragment;
 import com.example.fragments.MapFragment;
-import com.example.fragments.SettingsFragment;
-import com.example.fragments.StaffListFragment;
-import com.example.models.Customer;
-import com.example.models.Delivery;
-import com.example.utils.DateUtils;
-import com.example.utils.PermissionManager;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.content.SharedPreferences;
-import com.example.dao.CustomerDao;
-import com.example.dao.DeliveryDao;
-import com.example.database.AppDatabase;
-import com.example.models.User;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,7 +45,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.app.Activity;
 
 import com.bumptech.glide.Glide;
 import java.io.File;
@@ -71,10 +52,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import androidx.appcompat.app.AlertDialog;
-
-import com.google.gson.Gson;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -136,10 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setSupportActionBar(binding.toolbar);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Welcome " + currentUserType);
-        }
-
         toggle = new ActionBarDrawerToggle(
                 this,
                 binding.drawerLayout,
@@ -152,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.navView.setItemIconTintList(getResources().getColorStateList(R.color.primary));
         binding.navView.setNavigationItemSelectedListener(this);
 
-        // ✅ SETUP BOTTOM NAVIGATION
+        // SETUP BOTTOM NAVIGATION
         setupBottomNavigation();
 
         imagePickerLauncher = registerForActivityResult(
@@ -273,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (savedInstanceState == null) {
-            // ✅ Show MapFragment by default with bottom nav
+            // Show MapFragment by default with bottom nav
             BottomNavigationView bottomNav = binding.bottomNavigation;
             if (bottomNav != null) {
                 bottomNav.setSelectedItemId(R.id.nav_map);
@@ -283,10 +256,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .beginTransaction()
                     .replace(R.id.fragment_container, new MapFragment())
                     .commit();
+            activeFragment = new MapFragment();
         }
     }
 
-    // ✅ SHOW bottom navigation (only for Map and Customer List)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showBottomNavigation();
+        invalidateOptionsMenu();
+    }
+
+    // SHOW bottom navigation (only for Map and Customer List)
     private void showBottomNavigation() {
         if (binding.bottomNavigation != null) {
             binding.bottomNavigation.setVisibility(View.VISIBLE);
@@ -294,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // ✅ HIDE bottom navigation (for all other fragments)
+    // HIDE bottom navigation (for all other fragments)
     private void hideBottomNavigation() {
         if (binding.bottomNavigation != null) {
             binding.bottomNavigation.setVisibility(View.GONE);
@@ -302,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    // ✅ SETUP BOTTOM NAVIGATION
+    // SETUP BOTTOM NAVIGATION
     private void setupBottomNavigation() {
         BottomNavigationView bottomNav = binding.bottomNavigation;
 
@@ -319,18 +300,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_map) {
+                MapFragment mapFragment = new MapFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new MapFragment())
+                        .replace(R.id.fragment_container, mapFragment)
                         .commit();
+                activeFragment = mapFragment;
                 showBottomNavigation();
+                invalidateOptionsMenu();
                 return true;
             } else if (itemId == R.id.nav_customer_list) {
+                CustomerListFragment customerListFragment = new CustomerListFragment();
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new CustomerListFragment())
+                        .replace(R.id.fragment_container, customerListFragment)
                         .commit();
+                activeFragment = customerListFragment;
                 showBottomNavigation();
+                invalidateOptionsMenu();
                 return true;
             }
             return false;
@@ -347,7 +334,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             tag = "MAP_FRAGMENT";
             toolbarTitle = "Milk Delivery";
             binding.navView.setCheckedItem(R.id.nav_home);
-            // ✅ SHOW bottom nav for Map
             showBottomNavigation();
 
         } else if (itemId == R.id.nav_add_customer) {
@@ -355,56 +341,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return;
             }
-            fragment = new AddCustomerFragment();
-            tag = "ADD_CUSTOMER_FRAGMENT";
-            toolbarTitle = "Add New Customer";
-            binding.navView.setCheckedItem(R.id.nav_add_customer);
-            // ✅ HIDE bottom nav for Add Customer
+            // ✅ Opens AddCustomer_Activity
+            Intent intent = new Intent(MainActivity.this, AddCustomer_Activity.class);
+            startActivity(intent);
             hideBottomNavigation();
+            return;
 
         } else if (itemId == R.id.nav_staff_list) {
             if (!"Owner".equals(currentUserType)) {
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return;
             }
-            fragment = new StaffListFragment();
-            tag = "STAFF_LIST_FRAGMENT";
-            toolbarTitle = "Staff List";
-            binding.navView.setCheckedItem(R.id.nav_staff_list);
-            // ✅ HIDE bottom nav for Staff List
+            // ✅ Opens StaffList_Activity
+            Intent intent = new Intent(MainActivity.this, StaffList_Activity.class);
+            startActivity(intent);
             hideBottomNavigation();
+            return;
 
         } else if (itemId == R.id.nav_monthly_recap) {
+            // ✅ Opens MonthlyRecap_Activity
             Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
             startActivity(intent);
             binding.drawerLayout.closeDrawer(GravityCompat.START);
-            // ✅ HIDE bottom nav for Monthly Recap
             hideBottomNavigation();
             return;
 
         } else if (itemId == R.id.nav_payments) {
-            fragment = new PaymentFragment();
-            tag = "PAYMENT_FRAGMENT";
-            toolbarTitle = "Payments";
-            binding.navView.setCheckedItem(R.id.nav_payments);
-            // ✅ HIDE bottom nav for Payments
+            // ✅ Opens Payment_Activity
+            Intent intent = new Intent(MainActivity.this, Payment_Activity.class);
+            startActivity(intent);
             hideBottomNavigation();
+            return;
 
         } else if (itemId == R.id.nav_settings) {
-            fragment = new SettingsFragment();
-            tag = "SETTINGS_FRAGMENT";
-            toolbarTitle = "Settings";
-            binding.navView.setCheckedItem(R.id.nav_settings);
-            // ✅ HIDE bottom nav for Settings
+            // ✅ Opens Settings_Activity
+            Intent intent = new Intent(MainActivity.this, Settings_Activity.class);
+            startActivity(intent);
             hideBottomNavigation();
+            return;
 
         } else if (itemId == R.id.nav_about_us) {
-            fragment = new AboutUsFragment();
-            tag = "ABOUT_FRAGMENT";
-            toolbarTitle = "About Us";
-            binding.navView.setCheckedItem(R.id.nav_about_us);
-            // ✅ HIDE bottom nav for About Us
+            // ✅ Opens AboutUs_Activity
+            Intent intent = new Intent(MainActivity.this, AboutUs_Activity.class);
+            startActivity(intent);
             hideBottomNavigation();
+            return;
 
         } else if (itemId == R.id.nav_logout) {
             new AlertDialog.Builder(this)
@@ -436,18 +417,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setTitle(toolbarTitle);
 
-                if (fragment instanceof AddStaffFragment) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    toggle.setDrawerIndicatorEnabled(false);
-                } else {
+                if (fragment instanceof MapFragment || fragment instanceof CustomerListFragment) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     toggle.setDrawerIndicatorEnabled(true);
                     toggle.syncState();
+                } else {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    toggle.setDrawerIndicatorEnabled(false);
                 }
             }
+            invalidateOptionsMenu();
         }
-
-        invalidateOptionsMenu();
     }
 
     @Override
@@ -460,27 +440,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-
-        MenuItem searchItem = menu.findItem(R.id.action_search_staff);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Search Staff");
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-                if (fragment instanceof StaffListFragment) {
-                    ((StaffListFragment) fragment).filterStaff(newText);
-                }
-                return true;
-            }
-        });
-
         return true;
     }
 
@@ -491,52 +450,81 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem filter = menu.findItem(R.id.action_filter);
         MenuItem searchStaff = menu.findItem(R.id.action_search_staff);
 
-        if (addCustomer != null)
-            addCustomer.setVisible(activeFragment instanceof MapFragment);
+        boolean isOwner = "Owner".equals(currentUserType);
+        boolean isMap = activeFragment instanceof MapFragment;
 
-        if (addStaff != null)
-            addStaff.setVisible(activeFragment instanceof StaffListFragment);
+        // ✅ Add Customer - ONLY on Map
+        if (addCustomer != null) {
+            addCustomer.setVisible(isMap && isOwner);
+        }
 
+        // ✅ Add Staff - Hidden (it's in StaffList_Activity toolbar)
+        if (addStaff != null) {
+            addStaff.setVisible(false);
+        }
+
+        // ✅ Filter - Hidden (it's in MonthlyRecap_Activity toolbar)
         if (filter != null) {
             filter.setVisible(false);
         }
 
-        if (searchStaff != null)
-            searchStaff.setVisible(activeFragment instanceof StaffListFragment);
+        // ✅ Search Staff - Hidden (it's in StaffList_Activity toolbar)
+        if (searchStaff != null) {
+            searchStaff.setVisible(false);
+        }
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int itemId = item.getItemId();
+
+        // Handle back button
+        if (itemId == android.R.id.home) {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-            if (currentFragment instanceof PaymentDetailsFragment) {
-                getSupportFragmentManager().popBackStack();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                toggle.setDrawerIndicatorEnabled(true);
-                toggle.syncState();
+            if (currentFragment instanceof MapFragment || currentFragment instanceof CustomerListFragment) {
+                // On home screen, open drawer
+                binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             }
 
-            if (currentFragment instanceof AddStaffFragment) {
-                navigateToMenuItem(R.id.nav_staff_list);
+            // Go back to home
+            navigateToMenuItem(R.id.nav_home);
+            showBottomNavigation();
+            return true;
+        }
+
+        // ✅ Add Customer - Opens AddCustomer_Activity
+        if (itemId == R.id.action_add_shortcut) {
+            if (!"Owner".equals(currentUserType)) {
+                Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return true;
             }
-
-            binding.drawerLayout.openDrawer(GravityCompat.START);
+            Intent intent = new Intent(MainActivity.this, AddCustomer_Activity.class);
+            startActivity(intent);
             return true;
         }
 
-        if (item.getItemId() == R.id.action_add_shortcut) {
-            navigateToMenuItem(R.id.nav_add_customer);
-            return true;
-        }
-
-        if (item.getItemId() == R.id.action_add_staff) {
+        // ✅ Add Staff - Opens AddStaff_Activity
+        if (itemId == R.id.action_add_staff) {
+            if (!"Owner".equals(currentUserType)) {
+                Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
+                return true;
+            }
             Intent intent = new Intent(MainActivity.this, AddStaff_Activity.class);
             startActivity(intent);
+            return true;
+        }
+
+        // ✅ Filter - Handled in MonthlyRecap_Activity
+        if (itemId == R.id.action_filter) {
+            return true;
+        }
+
+        // ✅ Search Staff - Handled by SearchView
+        if (itemId == R.id.action_search_staff) {
             return true;
         }
 
@@ -684,13 +672,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // ✅ Handle back press - show bottom nav when returning to home
     @Override
     public void onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
         } else if (!(activeFragment instanceof MapFragment) && !(activeFragment instanceof CustomerListFragment)) {
-            // ✅ If not on main screen, go back to Map and show bottom nav
             navigateToMenuItem(R.id.nav_home);
             showBottomNavigation();
         } else {

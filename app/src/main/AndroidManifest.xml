@@ -5,7 +5,7 @@
     <queries>
         <package android:name="com.google.android.gms" />
 
-        <!--  Allow app to handle file viewing and sharing -->
+        <!-- Allow app to handle file viewing and sharing -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
 
@@ -42,6 +42,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MilkDelivery"
         tools:targetApi="31">
+        <activity
+            android:name=".activities.StaffList_Activity"
+            android:exported="false" />
         <activity
             android:name=".activities.MonthlyRecap_Activity"
             android:exported="false" />
@@ -131,7 +134,48 @@
         <activity
             android:name=".activities.WifiDirectActivity"
             android:exported="false"
-            android:screenOrientation="portrait" /> <!--  Handle .enc files (Both Open & Share) -->
+            android:screenOrientation="portrait" /> <!-- Handle .enc files (Both Open & Share) -->
+
+        <activity
+            android:name=".activities.AddCustomer_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.Settings_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.AboutUs_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.Payment_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.Payment_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.PaymentDetails_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.PaymentDashboard_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.PaymentHistory_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
         <activity
             android:name=".activities.EncryptedFileViewerActivity"
             android:exported="true"
@@ -154,7 +198,7 @@
                 <data android:pathPattern=".*\\..*\\..*\\.enc" />
             </intent-filter>
 
-            <!--  For "Share" menu -->
+            <!-- For "Share" menu -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -164,7 +208,6 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.MapPickerActivity"
             android:exported="false" />

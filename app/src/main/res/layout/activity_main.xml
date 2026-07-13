@@ -20,7 +20,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
             app:titleTextColor="@color/white"
-            app:title="Milk Delivery"
             app:subtitleTextColor="@color/white"
             android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
             app:popupTheme="@style/Theme.MilkDelivery" />

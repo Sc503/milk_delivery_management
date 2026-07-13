@@ -2,12 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- ✅ Add Customer - Opens AddCustomer_Activity -->
     <item
         android:id="@+id/action_add_shortcut"
         android:icon="@drawable/ic_add"
         android:title="Add Customer"
         app:showAsAction="always"/>
 
+    <!-- ✅ Add Staff - Opens AddStaff_Activity -->
     <item
         android:id="@+id/action_add_staff"
         android:icon="@drawable/ic_addstaff"

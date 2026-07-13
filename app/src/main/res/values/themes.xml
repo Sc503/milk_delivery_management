@@ -19,11 +19,16 @@
         <!-- Material 3 component overrides -->
         <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
 
-        <!-- ✅ Navigation Drawer Colors for Light Mode -->
+        <!-- Navigation Drawer Colors for Light Mode -->
         <item name="android:colorBackground">@color/background</item>
         <item name="android:navigationBarColor">@color/background</item>
     </style>
 
+    <!-- ✅ NO ACTION BAR THEME for child activities -->
+    <style name="Theme.MilkDelivery.NoActionBar" parent="Theme.MilkDelivery">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
     <!-- Custom calendar weekday header styling -->
     <style name="CalendarDayHeader">

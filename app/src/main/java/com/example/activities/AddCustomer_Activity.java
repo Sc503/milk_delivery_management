@@ -1,83 +1,87 @@
-package com.example.fragments;
+package com.example.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.R;
-import com.example.databinding.FragmentAddCustomerBinding;
+import com.example.databinding.ActivityAddCustomerBinding;
 import com.example.models.Customer;
 import com.example.repository.MilkRepository;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
-import com.example.repository.MilkRepository;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
-
-import java.util.Arrays;
-import java.util.List;
-
-import android.location.Address;
-import android.location.Geocoder;
+import com.google.android.gms.location.Priority;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import android.text.InputFilter;
 
-public class AddCustomerFragment extends Fragment {
+public class AddCustomer_Activity extends AppCompatActivity {
 
-    private FragmentAddCustomerBinding binding;
+    private ActivityAddCustomerBinding binding;
     private MilkViewModel viewModel;
     private FusedLocationProviderClient fusedLocationClient;
 
     private static final int REQ_LOCATION_COORDINATES = 2002;
 
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentAddCustomerBinding.inflate(inflater, container, false);
-        viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-        return binding.getRoot();
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityAddCustomerBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        // Setup Toolbar
+        setupToolbar();
+
+        viewModel = new ViewModelProvider(this).get(MilkViewModel.class);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // Mobile Number -> Only 10 digits
         binding.etMobileNumber.setFilters(new InputFilter[]{
                 new InputFilter.LengthFilter(10)
         });
 
-
         binding.btnGetLocation.setOnClickListener(v -> checkPermissionAndFetchGPS());
         binding.btnSaveCustomer.setOnClickListener(v -> validateAndSaveCustomer());
-        binding.btnSearchAddress.setOnClickListener(v -> {searchAddressCoordinates();
-        });
+        binding.btnSearchAddress.setOnClickListener(v -> searchAddressCoordinates());
+    }
 
+    private void setupToolbar() {
+        setSupportActionBar(binding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Add Customer");
+        }
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void checkPermissionAndFetchGPS() {
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_LOCATION_COORDINATES);
             return;
         }
@@ -86,122 +90,65 @@ public class AddCustomerFragment extends Fragment {
 
     @SuppressLint("MissingPermission")
     private void fetchCoordinates() {
-
-        Toast.makeText(getContext(),
-                "Getting current location...",
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Getting current location...", Toast.LENGTH_SHORT).show();
 
         fusedLocationClient.getCurrentLocation(
-                com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
+                Priority.PRIORITY_HIGH_ACCURACY,
                 null
         ).addOnSuccessListener(location -> {
-
             if (location != null) {
-
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
 
                 binding.etLatitude.setText(String.valueOf(latitude));
                 binding.etLongitude.setText(String.valueOf(longitude));
 
-                Toast.makeText(getContext(),
-                        "Location loaded successfully",
-                        Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, "Location loaded successfully", Toast.LENGTH_SHORT).show();
             } else {
-
-                Toast.makeText(getContext(),
-                        "Current location not available. Turn ON GPS.",
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Current location not available. Turn ON GPS.", Toast.LENGTH_LONG).show();
             }
-
         }).addOnFailureListener(e -> {
-
-            Toast.makeText(getContext(),
-                    "Location Error: " + e.getMessage(),
-                    Toast.LENGTH_LONG).show();
-
+            Toast.makeText(this, "Location Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         });
     }
-    private void searchAddressCoordinates() {
 
-        String addressText =
-                binding.etAddress.getText().toString().trim();
+    private void searchAddressCoordinates() {
+        String addressText = binding.etAddress.getText().toString().trim();
 
         if (addressText.isEmpty()) {
-
-            Toast.makeText(
-                    getContext(),
-                    "Enter Address First",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(this, "Enter Address First", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addressList = geocoder.getFromLocationName(addressText, 1);
 
-            Geocoder geocoder =
-                    new Geocoder(
-                            requireContext(),
-                            Locale.getDefault()
-                    );
+            if (addressList != null && !addressList.isEmpty()) {
+                Address address = addressList.get(0);
+                binding.etLatitude.setText(String.valueOf(address.getLatitude()));
+                binding.etLongitude.setText(String.valueOf(address.getLongitude()));
 
-            List<Address> addressList =
-                    geocoder.getFromLocationName(
-                            addressText,
-                            1
-                    );
-
-            if (addressList != null &&
-                    !addressList.isEmpty()) {
-
-                Address address =
-                        addressList.get(0);
-
-                binding.etLatitude.setText(
-                        String.valueOf(address.getLatitude()));
-
-                binding.etLongitude.setText(
-                        String.valueOf(address.getLongitude()));
-
-                Toast.makeText(
-                        getContext(),
-                        "Location Found",
-                        Toast.LENGTH_SHORT
-                ).show();
-
+                Toast.makeText(this, "Location Found", Toast.LENGTH_SHORT).show();
             } else {
-
-                Toast.makeText(
-                        getContext(),
-                        "Address Not Found",
-                        Toast.LENGTH_LONG
-                ).show();
+                Toast.makeText(this, "Address Not Found", Toast.LENGTH_LONG).show();
             }
-
         } catch (IOException e) {
-
-            Toast.makeText(
-                    getContext(),
-                    "Error Finding Address",
-                    Toast.LENGTH_LONG
-            ).show();
+            Toast.makeText(this, "Error Finding Address", Toast.LENGTH_LONG).show();
         }
     }
-    private void validateAndSaveCustomer() {
 
+    private void validateAndSaveCustomer() {
         final String name = binding.etCustomerName.getText().toString().trim();
         final String mobile = binding.etMobileNumber.getText().toString().trim();
         String rawAddress = binding.etAddress.getText().toString().trim();
         String latStr = binding.etLatitude.getText().toString().trim();
         String lngStr = binding.etLongitude.getText().toString().trim();
 
-        // NEW
         String qtyStr = binding.etMilkQuantity.getText().toString().trim();
         String rateStr = binding.etMilkRate.getText().toString().trim();
 
-        // Standard validation
+        // Validate Name
         if (TextUtils.isEmpty(name)) {
             binding.layCustomerName.setError("Customer Name is required");
             binding.etCustomerName.requestFocus();
@@ -210,6 +157,7 @@ public class AddCustomerFragment extends Fragment {
             binding.layCustomerName.setError(null);
         }
 
+        // Validate Mobile
         if (TextUtils.isEmpty(mobile)) {
             binding.layMobileNumber.setError("Mobile Number is required");
             binding.etMobileNumber.requestFocus();
@@ -224,6 +172,7 @@ public class AddCustomerFragment extends Fragment {
 
         final String address = TextUtils.isEmpty(rawAddress) ? "No Address Specified" : rawAddress;
 
+        // Validate Latitude
         if (TextUtils.isEmpty(latStr)) {
             binding.layLatitude.setError("Required");
             return;
@@ -231,6 +180,7 @@ public class AddCustomerFragment extends Fragment {
             binding.layLatitude.setError(null);
         }
 
+        // Validate Longitude
         if (TextUtils.isEmpty(lngStr)) {
             binding.layLongitude.setError("Required");
             return;
@@ -238,12 +188,13 @@ public class AddCustomerFragment extends Fragment {
             binding.layLongitude.setError(null);
         }
 
-        // NEW
+        // Validate Quantity
         if (TextUtils.isEmpty(qtyStr)) {
             binding.etMilkQuantity.setError("Enter Milk Quantity");
             return;
         }
 
+        // Validate Rate
         if (TextUtils.isEmpty(rateStr)) {
             binding.etMilkRate.setError("Enter Milk Rate");
             return;
@@ -255,28 +206,17 @@ public class AddCustomerFragment extends Fragment {
         double rate;
 
         try {
-
             latitude = Double.parseDouble(latStr);
             longitude = Double.parseDouble(lngStr);
-
-            // NEW
             quantity = Double.parseDouble(qtyStr);
             rate = Double.parseDouble(rateStr);
-
         } catch (NumberFormatException e) {
-
-            Toast.makeText(
-                    getContext(),
-                    "Invalid number format",
-                    Toast.LENGTH_SHORT
-            ).show();
-
+            Toast.makeText(this, "Invalid number format", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String today = DateUtils.getTodayDateString();
 
-        // NEW CUSTOMER OBJECT
         Customer customer = new Customer(
                 name,
                 mobile,
@@ -291,31 +231,21 @@ public class AddCustomerFragment extends Fragment {
         viewModel.insertCustomer(customer, new MilkRepository.OnIdReturnedListener() {
             @Override
             public void onIdReturned(long newId) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        Toast.makeText(
-                                getContext(),
-                                "Customer: " + name + " saved successfully!",
-                                Toast.LENGTH_LONG
-                        ).show();
+                runOnUiThread(() -> {
+                    Toast.makeText(AddCustomer_Activity.this,
+                            "✅ Customer: " + name + " saved successfully!",
+                            Toast.LENGTH_LONG).show();
 
-                        clearFields();
-
-                        if (getActivity() instanceof com.example.activities.MainActivity) {
-                            ((com.example.activities.MainActivity) getActivity())
-                                    .navigateToMenuItem(R.id.nav_home);
-                        }
-                    });
-                }
+                    clearFields();
+                    finish();
+                });
             }
 
             @Override
             public void onError(String message) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                    });
-                }
+                runOnUiThread(() -> {
+                    Toast.makeText(AddCustomer_Activity.this, "❌ " + message, Toast.LENGTH_LONG).show();
+                });
             }
         });
     }
@@ -339,14 +269,14 @@ public class AddCustomerFragment extends Fragment {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 fetchCoordinates();
             } else {
-                Toast.makeText(getContext(), "Permission denied. Location coordinates must be entered manually.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Permission denied. Location coordinates must be entered manually.", Toast.LENGTH_LONG).show();
             }
         }
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    protected void onDestroy() {
+        super.onDestroy();
         binding = null;
     }
 }

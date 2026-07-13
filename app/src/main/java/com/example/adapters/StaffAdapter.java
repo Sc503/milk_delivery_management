@@ -1,5 +1,6 @@
 package com.example.adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,17 +30,18 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
     }
 
     private final Listener listener;
+    Context mcontext;
     private List<Staff> list = new ArrayList<>();
     private List<Staff> fullList = new ArrayList<>();
-    private Fragment parentFragment;
 
     public StaffAdapter(Listener listener) {
         this.listener = listener;
+
     }
 
-    public StaffAdapter(Listener listener, Fragment fragment) {
+    public StaffAdapter(Listener listener, Context context) {
         this.listener = listener;
-        this.parentFragment = fragment;
+        this.mcontext = context;
     }
 
     public void setData(List<Staff> staffList) {
@@ -114,30 +116,30 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
 
         // ✅ Edit button - Using Gson to pass staff data
-        holder.binding.btnEdit.setOnClickListener(v -> {
-            if (parentFragment != null) {
-                // Convert Staff to JSON string
-                Gson gson = new Gson();
-                String staffJson = gson.toJson(staff);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("staff_data_json", staffJson);
-
-                EditStaffFragment editFragment = new EditStaffFragment();
-                editFragment.setArguments(bundle);
-
-                FragmentTransaction transaction = parentFragment.getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, editFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
+//        holder.binding.btnEdit.setOnClickListener(v -> {
+//            if (mcontext != null) {
+//                // Convert Staff to JSON string
+//                Gson gson = new Gson();
+//                String staffJson = gson.toJson(staff);
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putString("staff_data_json", staffJson);
+//
+//                EditStaffFragment editFragment = new EditStaffFragment();
+//                editFragment.setArguments(bundle);
+//
+//                FragmentTransaction transaction = mcontext.getParentFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, editFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//            }
+//        });
 
         // Call button
         holder.binding.btnCall.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + staff.getMobile()));
-            if (parentFragment != null) {
-                parentFragment.startActivity(intent);
+            if (mcontext != null) {
+                mcontext.startActivity(intent);
             } else {
                 v.getContext().startActivity(intent);
             }
