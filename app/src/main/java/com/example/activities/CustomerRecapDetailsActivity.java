@@ -46,7 +46,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //  THEME CHECK - Apply saved theme BEFORE loading layout
+        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 

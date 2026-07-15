@@ -3,19 +3,16 @@ package com.example.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
+import com.example.activities.EditStaff_Activity;
 import com.example.databinding.ItemStaffBinding;
-import com.example.fragments.EditStaffFragment;
 import com.example.models.Staff;
 import com.google.gson.Gson;
 
@@ -36,7 +33,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
 
     public StaffAdapter(Listener listener) {
         this.listener = listener;
-
     }
 
     public StaffAdapter(Listener listener, Context context) {
@@ -68,6 +64,10 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public int getFilteredCount() {
+        return list != null ? list.size() : 0;
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -92,7 +92,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         holder.binding.tvStaffName.setText(staff.getName());
         holder.binding.tvStaffMobile.setText("📱 " + staff.getMobile());
 
-
         // Set Password
         if (staff.getPassword() != null && !staff.getPassword().isEmpty()) {
             holder.binding.tvStaffPassword.setText("🔑 " + staff.getPassword());
@@ -115,25 +114,17 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         // Profile image - placeholder
         holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
 
-        //  Edit button - Using Gson to pass staff data
-//        holder.binding.btnEdit.setOnClickListener(v -> {
-//            if (mcontext != null) {
-//                // Convert Staff to JSON string
-//                Gson gson = new Gson();
-//                String staffJson = gson.toJson(staff);
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("staff_data_json", staffJson);
-//
-//                EditStaffFragment editFragment = new EditStaffFragment();
-//                editFragment.setArguments(bundle);
-//
-//                FragmentTransaction transaction = mcontext.getParentFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, editFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//            }
-//        });
+        // ✅ FIXED: Edit button - Open EditStaff_Activity
+        holder.binding.btnEdit.setOnClickListener(v -> {
+            if (mcontext != null) {
+                Gson gson = new Gson();
+                String staffJson = gson.toJson(staff);
+
+                Intent intent = new Intent(mcontext, EditStaff_Activity.class);
+                intent.putExtra("staff_data_json", staffJson);
+                mcontext.startActivity(intent);
+            }
+        });
 
         // Call button
         holder.binding.btnCall.setOnClickListener(v -> {

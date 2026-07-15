@@ -355,7 +355,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
             long staffId = prefs.getLong("staff_id", 0);
 
-            Toast.makeText(this, " Staff ID: " + staffId, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "🔵 Staff ID: " + staffId, Toast.LENGTH_LONG).show();
 
             viewModel.deliverCustomer(customerId, day.dateString, nowTime, staffId, () ->
                     runOnUiThread(() -> {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_xsmall">12sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="card_padding">24dp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_margin_small">8dp</dimen>
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="card_elevation">6dp</dimen>
+    <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="button_margin_small">8dp</dimen>
+    <dimen name="status_padding_horizontal">16dp</dimen>
+    <dimen name="status_padding_vertical">6dp</dimen>
+    <dimen name="icon_size_small">20dp</dimen>
+    <dimen name="icon_padding">6dp</dimen>
+    <dimen name="margin_tiny">6dp</dimen>
+    <dimen name="margin_small">12dp</dimen>
+    <dimen name="margin_medium">18dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+</resources>

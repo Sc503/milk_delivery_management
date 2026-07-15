@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search_staff"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
         android:id="@+id/action_add_staff"
         android:icon="@drawable/ic_add"
         android:title="Add Staff"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 
 </menu>

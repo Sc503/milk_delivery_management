@@ -1,65 +1,83 @@
-package com.example.fragments;
+package com.example.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.R;
-import com.example.databinding.FragmentEditStaffBinding;
+import com.example.databinding.ActivityEditStaffBinding;
 import com.example.models.LoginResponse;
 import com.example.models.Staff;
 import com.example.network.ApiClient;
 import com.example.network.ApiService;
 import com.google.gson.Gson;
 
-import android.content.SharedPreferences;
-import android.util.Log;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditStaffFragment extends Fragment {
+public class EditStaff_Activity extends AppCompatActivity {
 
-    private FragmentEditStaffBinding binding;
+    private ActivityEditStaffBinding binding;
     private Staff staffToEdit;
     private String accountId;
-    private static final String TAG = "EditStaffFragment";
-
-    public EditStaffFragment() {}
+    private static final String TAG = "EditStaff_Activity";
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentEditStaffBinding.inflate(inflater, container, false);
-        return binding.getRoot();
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        // ✅ THEME CHECK
+        SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
+        boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
-        //  GET STAFF DATA FROM JSON STRING - ADD THIS HERE
-        if (getArguments() != null) {
-            String staffJson = getArguments().getString("staff_data_json");
-            if (staffJson != null) {
-                Gson gson = new Gson();
-                staffToEdit = gson.fromJson(staffJson, Staff.class);
-            }
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        EdgeToEdge.enable(this);
+
+        binding = ActivityEditStaffBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // ✅ Handle Window Insets
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // ✅ Setup Toolbar
+        setupToolbar();
+
+        // Get Staff Data from Intent
+        String staffJson = getIntent().getStringExtra("staff_data_json");
+        if (staffJson != null) {
+            Gson gson = new Gson();
+            staffToEdit = gson.fromJson(staffJson, Staff.class);
         }
 
         // Get account_id from SharedPreferences
-        SharedPreferences prefs = requireActivity().getSharedPreferences("UserSession", android.content.Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         accountId = prefs.getString("account_id", "");
 
         if (accountId.isEmpty()) {
-            Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
             binding.btnUpdateStaff.setEnabled(false);
         }
 
@@ -84,13 +102,31 @@ public class EditStaffFragment extends Fragment {
 
         // Cancel button
         binding.btnCancel.setOnClickListener(v -> {
-            if (getParentFragmentManager() != null) {
-                getParentFragmentManager().popBackStack();
-            }
+            finish();
         });
 
         // Update button
         binding.btnUpdateStaff.setOnClickListener(v -> updateStaff());
+    }
+
+    // ✅ Setup Toolbar with Back Button
+    private void setupToolbar() {
+        setSupportActionBar(binding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setTitle("Edit Staff");
+        }
+    }
+
+    // ✅ Handle Back Button Click
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateStaff() {
@@ -150,7 +186,7 @@ public class EditStaffFragment extends Fragment {
         }
 
         if (accountId.isEmpty()) {
-            Toast.makeText(requireContext(), "Please login again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -194,17 +230,14 @@ public class EditStaffFragment extends Fragment {
                     Log.d(TAG, "Message: " + loginResponse.getMessage());
 
                     if (loginResponse.getStatus() != null && loginResponse.getStatus()) {
-                        Toast.makeText(requireContext(), " Staff updated successfully!", Toast.LENGTH_LONG).show();
-                        // Navigate back to staff list
-                        if (getParentFragmentManager() != null) {
-                            getParentFragmentManager().popBackStack();
-                        }
+                        Toast.makeText(EditStaff_Activity.this, "✅ Staff updated successfully!", Toast.LENGTH_LONG).show();
+                        finish();
                     } else {
                         String msg = loginResponse.getMessage() != null ? loginResponse.getMessage() : "Unknown error";
-                        Toast.makeText(requireContext(), " Error: " + msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditStaff_Activity.this, "❌ Error: " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(requireContext(), " Failed to update staff", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditStaff_Activity.this, "❌ Failed to update staff", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -213,14 +246,16 @@ public class EditStaffFragment extends Fragment {
                 binding.btnUpdateStaff.setEnabled(true);
                 binding.btnUpdateStaff.setText("Update Staff");
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                Toast.makeText(requireContext(), " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(EditStaff_Activity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    protected void onDestroy() {
+        super.onDestroy();
         binding = null;
     }
+
+
 }

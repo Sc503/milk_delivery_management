@@ -3,6 +3,7 @@ package com.example.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
@@ -104,34 +105,79 @@ public class Settings_Activity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Reset Database
-        binding.btnClearCache.setOnClickListener(v -> {
-            new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Reset Local Database")
-                    .setMessage("This will delete ALL local data. This action cannot be undone. Continue?")
-                    .setPositiveButton("Reset", (dialog, which) -> {
-                        new Thread(() -> {
-                            try {
-                                com.example.database.AppDatabase db =
-                                        com.example.database.AppDatabase.getInstance(this);
-                                db.customerDao().deleteAll();
-                                db.deliveryDao().deleteAll();
-                                db.staffDao().deleteAll();
+        // ── ✅ Reset Database - फक्त Owner/Admin ला दिसेल ──────────────────────────
+        String currentUserType = getSharedPreferences("UserSession", MODE_PRIVATE)
+                .getString("userType", "");
 
+        if (currentUserType.equals("Owner")) {
+            // Owner - Reset Database Visible
+            binding.btnClearCache.setVisibility(View.VISIBLE);
 
-                                runOnUiThread(() -> {
-                                    Toast.makeText(this, " Database reset successfully!", Toast.LENGTH_LONG).show();
-                                });
-                            } catch (Exception e) {
-                                runOnUiThread(() -> {
-                                    Toast.makeText(this, " Reset failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                });
-                            }
-                        }).start();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-        });
+            binding.btnClearCache.setOnClickListener(v -> {
+                new androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Reset Local Database")
+                        .setMessage("This will delete ALL local data. This action cannot be undone. Continue?")
+                        .setPositiveButton("Reset", (dialog, which) -> {
+                            new Thread(() -> {
+                                try {
+                                    com.example.database.AppDatabase db =
+                                            com.example.database.AppDatabase.getInstance(this);
+                                    db.customerDao().deleteAll();
+                                    db.deliveryDao().deleteAll();
+                                    db.staffDao().deleteAll();
+
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(this, "✅ Database reset successfully!", Toast.LENGTH_LONG).show();
+                                    });
+                                } catch (Exception e) {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(this, "❌ Reset failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    });
+                                }
+                            }).start();
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            });
+        } else {
+            // Staff or Customer - Reset Database Hidden
+            binding.btnClearCache.setVisibility(View.GONE);
+        }
+
+        // ── INFO / HELP BUTTON ──────────────────────────────────────────────
+        // ✅ Check if btnInfo exists (for activity_settings.xml)
+        View btnInfo = findViewById(R.id.btnInfo);
+        if (btnInfo != null) {
+            btnInfo.setOnClickListener(v -> {
+                showHelpDialog();
+            });
+        }
+    }
+
+    // ✅ Method to show Help Dialog
+    private void showHelpDialog() {
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("📖 Help & Tutorial")
+                .setMessage(
+                        "🎯 Theme Mode\n" +
+                                "• Switch between Light and Dark mode\n\n" +
+                                "📦 Backup & Restore\n" +
+                                "• Auto Backup every 24 hours\n" +
+                                "• Create Normal or Encrypted Backup\n" +
+                                "• Share or Restore backups\n\n" +
+                                "🔗 WiFi Direct\n" +
+                                "• Share data directly with other devices\n\n" +
+                                "🗄️ Database Administration\n" +
+                                "• Reset all local data (Cannot be undone)"
+                )
+                .setPositiveButton("Watch Tutorial", (dialog, which) -> {
+                    // Open YouTube tutorial
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://www.youtube.com/watch?v=YOUR_VIDEO_ID"));
+                    startActivity(intent);
+                })
+                .setNegativeButton("Close", null)
+                .show();
     }
 
     //  Professional Backup Options Dialog

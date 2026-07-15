@@ -43,6 +43,13 @@
         android:theme="@style/Theme.MilkDelivery"
         tools:targetApi="31">
 
+        <!-- ==================== EDIT STAFF ACTIVITY ==================== -->
+        <activity
+            android:name=".activities.EditStaff_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity" />
+
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -123,11 +130,17 @@
             android:name=".activities.StaffList_Activity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.AddStaff_Activity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <!-- ✅ EditStaff_Activity - ADDED HERE -->
+        <activity
+            android:name=".activities.EditStaff_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- ==================== CUSTOMER ACTIVITIES ==================== -->
         <activity
@@ -135,14 +148,12 @@
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
         <activity
             android:name=".activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
-
         <activity
             android:name=".activities.CustomerRecapDetailsActivity"
             android:exported="false"
@@ -156,19 +167,16 @@
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
         <activity
             android:name=".activities.PaymentDetails_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
         <activity
             android:name=".activities.PaymentDashboard_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
         <activity
             android:name=".activities.PaymentHistory_Activity"
             android:parentActivityName=".activities.MainActivity"
@@ -186,17 +194,14 @@
             android:name=".activities.BackupCenterActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.MyBackupsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.ReceivedBackupsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.WifiDirectActivity"
             android:exported="false"
@@ -208,7 +213,7 @@
             android:exported="true"
             android:label="Decrypt Backup"
             android:screenOrientation="portrait">
-            <!-- For "Open with" -->
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -221,7 +226,7 @@
                 <data android:pathPattern=".*\\..*\\.enc" />
                 <data android:pathPattern=".*\\..*\\..*\\.enc" />
             </intent-filter>
-            <!-- For "Share" menu -->
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -236,7 +241,6 @@
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
         <activity
             android:name=".activities.AboutUs_Activity"
             android:parentActivityName=".activities.MainActivity"

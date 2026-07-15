@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,12 +44,18 @@ public class StaffList_Activity extends AppCompatActivity {
     private String accountId;
     private static final String TAG = "StaffList_Activity";
 
+    // TextView for total count
+    private TextView tvTotalStaffCount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityStaffListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context = this;
+
+        // Initialize total staff TextView
+        tvTotalStaffCount = binding.tvTotalStaffCount;
 
         // Setup toolbar
         setupToolbar();
@@ -78,9 +85,6 @@ public class StaffList_Activity extends AppCompatActivity {
         binding.recyclerStaff.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerStaff.setAdapter(adapter);
 
-        // Setup SearchView
-        setupSearchView();
-
         // Load staff from API
         loadStaffList();
     }
@@ -91,30 +95,6 @@ public class StaffList_Activity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Staff List");
-        }
-    }
-
-    private void setupSearchView() {
-        MenuItem searchItem = binding.toolbar.getMenu().findItem(R.id.action_search_staff);
-        if (searchItem != null) {
-            SearchView searchView = (SearchView) searchItem.getActionView();
-            if (searchView != null) {
-                searchView.setQueryHint("Search staff...");
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        if (adapter != null) {
-                            adapter.filter(newText);
-                        }
-                        return true;
-                    }
-                });
-            }
         }
     }
 
@@ -141,18 +121,19 @@ public class StaffList_Activity extends AppCompatActivity {
                         List<Staff> staffData = staffResponse.getData();
 
                         if (staffData != null && !staffData.isEmpty()) {
-                            // Save staff to local database
                             saveStaffToLocalDatabase(staffData);
-
                             staffList.clear();
                             staffList.addAll(staffData);
                             adapter.setData(staffList);
+                            updateTotalStaffCount(staffList.size());
+
                             Toast.makeText(StaffList_Activity.this,
                                     "Loaded " + staffList.size() + " staff members", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(StaffList_Activity.this, "No staff members found", Toast.LENGTH_SHORT).show();
                             staffList.clear();
                             adapter.setData(staffList);
+                            updateTotalStaffCount(0);
                         }
                     } else {
                         String msg = staffResponse.getMessage() != null ? staffResponse.getMessage() : "Error loading staff";
@@ -170,6 +151,12 @@ public class StaffList_Activity extends AppCompatActivity {
                 Toast.makeText(StaffList_Activity.this, "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void updateTotalStaffCount(int count) {
+        if (tvTotalStaffCount != null) {
+            tvTotalStaffCount.setText(String.valueOf(count));
+        }
     }
 
     private void saveStaffToLocalDatabase(List<Staff> staffList) {
@@ -200,12 +187,39 @@ public class StaffList_Activity extends AppCompatActivity {
     public void filterStaff(String text) {
         if (adapter != null) {
             adapter.filter(text);
+            updateTotalStaffCount(adapter.getFilteredCount());
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.staff_toolbar_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search_staff);
+        if (searchItem != null) {
+            SearchView searchView = (SearchView) searchItem.getActionView();
+            if (searchView != null) {
+                searchView.setQueryHint("Search staff...");
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        filterStaff(newText);
+                        return true;
+                    }
+                });
+
+                searchView.setOnCloseListener(() -> {
+                    filterStaff("");
+                    return false;
+                });
+            }
+        }
+
         return true;
     }
 
@@ -217,12 +231,10 @@ public class StaffList_Activity extends AppCompatActivity {
             onBackPressed();
             return true;
         } else if (id == R.id.action_add_staff) {
-            // Navigate to AddStaff_Activity
             Intent intent = new Intent(this, AddStaff_Activity.class);
             startActivity(intent);
             return true;
         } else if (id == R.id.action_search_staff) {
-            // Search is handled by SearchView
             return true;
         }
 

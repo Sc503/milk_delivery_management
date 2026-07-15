@@ -5,17 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginStart="14dp"
-    android:layout_marginEnd="14dp"
+    android:layout_marginStart="@dimen/dialog_margin_horizontal"
+    android:layout_marginEnd="@dimen/dialog_margin_horizontal"
+    android:layout_marginTop="@dimen/dialog_margin_vertical"
+    android:layout_marginBottom="@dimen/dialog_margin_vertical"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="@dimen/dialog_corner_radius"
+    app:cardElevation="@dimen/dialog_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="@dimen/dialog_padding">
 
         <!-- NAME -->
         <TextView
@@ -25,15 +27,17 @@
             android:gravity="center"
             android:text="John Doe"
             android:textColor="@color/on_surface"
-            android:textSize="22sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_title_size"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:background="@color/gray_light"/>
+            android:layout_marginTop="@dimen/dialog_divider_margin_top"
+            android:layout_marginBottom="@dimen/dialog_divider_margin_bottom"
+            android:background="@color/gray_light" />
 
         <!-- MOBILE LABEL -->
         <TextView
@@ -41,62 +45,64 @@
             android:layout_height="wrap_content"
             android:text="Mobile Number"
             android:textColor="@color/gray_dark"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_label_size"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dialog_txt_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dialog_value_margin_top"
             android:text="9876543210"
             android:textColor="@color/on_surface"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/dialog_value_size" />
 
         <!-- ADDRESS LABEL -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dialog_section_margin_top"
             android:text="Address"
             android:textColor="@color/gray_dark"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_label_size"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dialog_txt_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dialog_value_margin_top"
             android:text="Customer Address"
             android:textColor="@color/on_surface"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/dialog_value_size"
+            android:maxLines="3"
+            android:ellipsize="end" />
 
         <!-- STAFF NAME SECTION -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dialog_section_margin_top"
             android:text="Delivered By"
             android:textColor="@color/gray_dark"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_label_size"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/dialog_txt_staff_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/dialog_value_margin_top"
             android:text="Not assigned"
             android:textColor="#10B981"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_value_size"
+            android:textStyle="bold" />
 
-        <!-- CALL & NAVIGATE BUTTONS IN A ROW -->
+        <!-- CALL & NAVIGATE & EDIT BUTTONS IN A ROW -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/dialog_button_row_margin_top"
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="horizontal"
@@ -106,42 +112,53 @@
                 android:id="@+id/dialog_btn_call"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/dialog_button_height"
                 android:layout_weight="1"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="@dimen/dialog_button_margin_small"
                 android:text="Call"
                 android:textAllCaps="false"
+                android:textSize="@dimen/dialog_button_text_size"
+                app:iconSize="@dimen/dialog_icon_size"
                 app:iconGravity="textStart"
+                app:iconPadding="@dimen/dialog_icon_padding"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="1.5dp"/>
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="@dimen/dialog_button_corner" />
 
-            <!-- ✅ NEW: EDIT BUTTON -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_navigate"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
+                android:layout_height="@dimen/dialog_button_height"
                 android:layout_weight="1"
-                android:text="Navigate"
+                android:layout_marginStart="@dimen/dialog_button_margin_small"
+                android:layout_marginEnd="@dimen/dialog_button_margin_small"
+                android:text="Route"
                 android:textAllCaps="false"
+                android:textSize="@dimen/dialog_button_text_size"
+                app:iconSize="@dimen/dialog_icon_size"
                 app:iconGravity="textStart"
+                app:iconPadding="@dimen/dialog_icon_padding"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="1.5dp" />
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="@dimen/dialog_button_corner" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialog_btn_edit"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/dialog_button_height"
                 android:layout_weight="1"
-                android:layout_marginStart="4dp"
+                android:layout_marginStart="@dimen/dialog_button_margin_small"
                 android:text="Edit"
                 android:textAllCaps="false"
+                android:textSize="@dimen/dialog_button_text_size"
+                app:iconSize="@dimen/dialog_icon_size"
                 app:iconGravity="textStart"
+                app:iconPadding="@dimen/dialog_icon_padding"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="1.5dp"/>
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="@dimen/dialog_button_corner" />
 
         </LinearLayout>
 
@@ -149,15 +166,19 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/dialog_btn_deliver"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="@dimen/dialog_deliver_button_height"
+            android:layout_marginTop="@dimen/dialog_deliver_button_margin_top"
             android:backgroundTint="@color/primary"
             android:text="Mark Delivered"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/dialog_deliver_button_text_size"
             android:textStyle="bold"
-            app:cornerRadius="28dp"/>
+            app:cornerRadius="@dimen/dialog_deliver_button_corner"
+            app:icon="@drawable/ic_check"
+            app:iconSize="@dimen/dialog_icon_size"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/dialog_icon_padding" />
 
         <!-- CANCEL -->
         <TextView
@@ -165,12 +186,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="14dp"
-            android:padding="8dp"
+            android:layout_marginTop="@dimen/dialog_cancel_margin_top"
+            android:padding="@dimen/dialog_cancel_padding"
             android:text="Cancel"
             android:textColor="@color/primary"
-            android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/dialog_cancel_text_size"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
