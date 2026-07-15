@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AlertDialog;
 
 import com.example.R;
 import com.example.backup.BackupManager;
@@ -33,13 +33,16 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
     private Button btnDecrypt;
     private Button btnShare;
     private Button btnClose;
+    private Button btnRestore; // ✅ NEW: Restore button
     private ScrollView scrollView;
     private LinearLayout layoutContent;
     private LinearLayout layoutPassword;
+    private LinearLayout layoutRestoreButton; // ✅ NEW: Restore button layout
 
     private String filePath = "";
     private String fileName = "";
     private long fileSize = 0;
+    private Uri fileUri = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +57,16 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         btnDecrypt = findViewById(R.id.btnDecrypt);
         btnShare = findViewById(R.id.btnShare);
         btnClose = findViewById(R.id.btnClose);
+        btnRestore = findViewById(R.id.btnRestore); // ✅ NEW
         scrollView = findViewById(R.id.scrollView);
         layoutContent = findViewById(R.id.layoutContent);
         layoutPassword = findViewById(R.id.layoutPassword);
+        layoutRestoreButton = findViewById(R.id.layoutRestoreButton); // ✅ NEW
 
         // Handle the intent
         handleIntent();
 
+        // ✅ Decrypt button
         btnDecrypt.setOnClickListener(v -> {
             String password = etPassword.getText().toString();
             if (password.isEmpty()) {
@@ -72,16 +78,25 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
 
         btnShare.setOnClickListener(v -> shareDecryptedContent());
         btnClose.setOnClickListener(v -> finish());
+
+        // ✅ NEW: Restore button click listener
+        btnRestore.setOnClickListener(v -> {
+            if (filePath.isEmpty()) {
+                Toast.makeText(this, "No file to restore", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            showRestoreOptions();
+        });
     }
 
     private void handleIntent() {
         Intent intent = getIntent();
         String action = intent.getAction();
 
-        //  Check for both VIEW and SEND actions
         if (Intent.ACTION_VIEW.equals(action)) {
             Uri uri = intent.getData();
             if (uri != null) {
+                fileUri = uri;
                 loadFileFromUri(uri);
                 return;
             }
@@ -90,6 +105,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action)) {
             Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (uri != null) {
+                fileUri = uri;
                 loadFileFromUri(uri);
                 return;
             }
@@ -100,11 +116,14 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         tvFileInfo.setText("");
         layoutPassword.setVisibility(View.GONE);
         layoutContent.setVisibility(View.GONE);
+        btnRestore.setVisibility(View.GONE);
+        if (layoutRestoreButton != null) {
+            layoutRestoreButton.setVisibility(View.GONE);
+        }
     }
 
     private void loadFileFromUri(Uri uri) {
         try {
-            // Get file name
             fileName = getFileNameFromUri(uri);
             filePath = uri.toString();
 
@@ -121,20 +140,23 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
             // Save the file to cache for processing
             saveFileToCache(uri);
 
-            // Show password input
+            // Show password input and restore button
             layoutPassword.setVisibility(View.VISIBLE);
             layoutContent.setVisibility(View.GONE);
+            btnRestore.setVisibility(View.VISIBLE);
 
         } catch (SecurityException e) {
             e.printStackTrace();
             tvFileName.setText("Access Denied");
-            tvFileInfo.setText("Permission error: The app cannot access this file. Please try sharing it again or opening it from a different file manager.");
+            tvFileInfo.setText("Permission error");
             layoutPassword.setVisibility(View.GONE);
+            btnRestore.setVisibility(View.GONE);
         } catch (Exception e) {
             e.printStackTrace();
             tvFileName.setText("Error loading file");
             tvFileInfo.setText(e.getMessage());
             layoutPassword.setVisibility(View.GONE);
+            btnRestore.setVisibility(View.GONE);
         }
     }
 
@@ -175,14 +197,169 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
             layoutContent.setVisibility(View.VISIBLE);
             layoutPassword.setVisibility(View.GONE);
             btnShare.setVisibility(View.VISIBLE);
+            btnRestore.setVisibility(View.GONE);
 
-            Toast.makeText(this, " Decrypted successfully!", Toast.LENGTH_SHORT).show();
+            // ✅ Show restore button at bottom
+            if (layoutRestoreButton != null) {
+                layoutRestoreButton.setVisibility(View.VISIBLE);
+                Button btnRestoreContent = findViewById(R.id.btnRestoreContent);
+                btnRestoreContent.setOnClickListener(v -> {
+                    showRestoreOptions();
+                });
+                Button btnCloseContent = findViewById(R.id.btnCloseContent);
+                btnCloseContent.setOnClickListener(v -> finish());
+            }
+
+            Toast.makeText(this, "✅ Decrypted successfully!", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e) {
-            Toast.makeText(this, " Wrong password or corrupted file!", Toast.LENGTH_LONG).show();
-            tvContent.setText(" Decryption failed.\n\n" + e.getMessage());
+            Toast.makeText(this, "❌ Wrong password or corrupted file!", Toast.LENGTH_LONG).show();
+            tvContent.setText("Decryption failed.\n\n" + e.getMessage());
             layoutContent.setVisibility(View.VISIBLE);
+            layoutPassword.setVisibility(View.GONE);
         }
+    }
+
+    // ✅ NEW: Show restore options dialog
+    private void showRestoreOptions() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("♻️ Restore Backup");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(60, 30, 60, 30);
+
+        TextView fileNameText = new TextView(this);
+        fileNameText.setText("📄 " + fileName);
+        fileNameText.setTextSize(16);
+        fileNameText.setPadding(0, 0, 0, 20);
+        layout.addView(fileNameText);
+
+        // Merge Button
+        Button mergeButton = new Button(this);
+        mergeButton.setText("🔄 Merge (Keep existing + Add backup)");
+        mergeButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor("#10B981")));
+        mergeButton.setTextColor(android.graphics.Color.WHITE);
+        mergeButton.setPadding(20, 20, 20, 20);
+        mergeButton.setOnClickListener(v -> {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Check if encrypted
+            if (file.getName().endsWith(".enc")) {
+                showPasswordDialog(file, "merge");
+            } else {
+                performRestore(file, "merge", null);
+            }
+        });
+        layout.addView(mergeButton);
+
+        View spacer = new View(this);
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 20));
+        layout.addView(spacer);
+
+        // Replace Button
+        Button replaceButton = new Button(this);
+        replaceButton.setText("🔁 Replace (Delete existing + Restore)");
+        replaceButton.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.parseColor("#EF4444")));
+        replaceButton.setTextColor(android.graphics.Color.WHITE);
+        replaceButton.setPadding(20, 20, 20, 20);
+        replaceButton.setOnClickListener(v -> {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (file.getName().endsWith(".enc")) {
+                showPasswordDialog(file, "replace");
+            } else {
+                performRestore(file, "replace", null);
+            }
+        });
+        layout.addView(replaceButton);
+
+        builder.setView(layout);
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    // ✅ NEW: Password dialog for encrypted files
+    private void showPasswordDialog(File file, String mode) {
+        final EditText passwordInput = new EditText(this);
+        passwordInput.setHint("Enter encryption password");
+        passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
+        String title = mode.equals("merge") ? "🔓 Decrypt & Merge" : "🔓 Decrypt & Replace";
+
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage("Enter the password to decrypt:\n" + file.getName())
+                .setView(passwordInput)
+                .setPositiveButton(mode.equals("merge") ? "Merge" : "Replace", (d, w) -> {
+                    String password = passwordInput.getText().toString();
+                    if (password.isEmpty()) {
+                        Toast.makeText(this, "Password required", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    performRestore(file, mode, password);
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    // ✅ NEW: Perform restore in background
+    private void performRestore(File file, String mode, String password) {
+        Toast.makeText(this, mode.equals("merge") ? "🔄 Merging..." : "🔁 Restoring...", Toast.LENGTH_LONG).show();
+
+        new Thread(() -> {
+            boolean success = false;
+            String errorMsg = "";
+
+            try {
+                if (password != null) {
+                    // Encrypted restore
+                    if (mode.equals("merge")) {
+                        success = BackupManager.mergeEncryptedBackup(this, file, password);
+                    } else {
+                        success = BackupManager.restoreEncryptedBackup(this, file, password);
+                    }
+                } else {
+                    // Regular restore
+                    if (mode.equals("merge")) {
+                        success = BackupManager.mergeBackupFromFile(this, file);
+                    } else {
+                        success = BackupManager.restoreBackupFromFile(this, file);
+                    }
+                }
+
+                if (!success) {
+                    errorMsg = "Restore operation failed";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                success = false;
+                errorMsg = e.getMessage();
+            }
+
+            final boolean finalSuccess = success;
+            final String finalError = errorMsg;
+            runOnUiThread(() -> {
+                if (finalSuccess) {
+                    Toast.makeText(this, "✅ Restore Successful!", Toast.LENGTH_LONG).show();
+                    // Close activity after success
+                    finish();
+                } else {
+                    Toast.makeText(this, "❌ Restore Failed: " + finalError, Toast.LENGTH_LONG).show();
+                }
+            });
+        }).start();
     }
 
     private void shareDecryptedContent() {

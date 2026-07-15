@@ -130,19 +130,39 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .setItems(options, (d, i) -> {
                     if (isEncrypted) {
                         switch (i) {
-                            case 0: showDecryptDialog(file); break;
-                            case 1: shareFile(file); break;
-                            case 2: sendViaWifi(file); break;
-                            case 3: restoreBackup(file); break;
-                            case 4: confirmDelete(file); break;
+                            case 0:
+                                showDecryptDialog(file);
+                                break;
+                            case 1:
+                                shareFile(file);
+                                break;
+                            case 2:
+                                sendViaWifi(file);
+                                break;
+                            case 3:
+                                restoreBackup(file);
+                                break;
+                            case 4:
+                                confirmDelete(file);
+                                break;
                         }
                     } else {
                         switch (i) {
-                            case 0: openFile(file); break;
-                            case 1: shareFile(file); break;
-                            case 2: sendViaWifi(file); break;
-                            case 3: restoreBackup(file); break;
-                            case 4: confirmDelete(file); break;
+                            case 0:
+                                openFile(file);
+                                break;
+                            case 1:
+                                shareFile(file);
+                                break;
+                            case 2:
+                                sendViaWifi(file);
+                                break;
+                            case 3:
+                                restoreBackup(file);
+                                break;
+                            case 4:
+                                confirmDelete(file);
+                                break;
                         }
                     }
                 })
@@ -292,19 +312,39 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .setItems(opts, (d, i) -> {
                     if (isEncrypted) {
                         switch (i) {
-                            case 0: showDecryptDialog(file); break;
-                            case 1: shareFile(file); break;
-                            case 2: sendViaWifi(file); break;
-                            case 3: restoreBackup(file); break;
-                            case 4: confirmDelete(file); break;
+                            case 0:
+                                showDecryptDialog(file);
+                                break;
+                            case 1:
+                                shareFile(file);
+                                break;
+                            case 2:
+                                sendViaWifi(file);
+                                break;
+                            case 3:
+                                restoreBackup(file);
+                                break;
+                            case 4:
+                                confirmDelete(file);
+                                break;
                         }
                     } else {
                         switch (i) {
-                            case 0: openFile(file); break;
-                            case 1: shareFile(file); break;
-                            case 2: sendViaWifi(file); break;
-                            case 3: restoreBackup(file); break;
-                            case 4: confirmDelete(file); break;
+                            case 0:
+                                openFile(file);
+                                break;
+                            case 1:
+                                shareFile(file);
+                                break;
+                            case 2:
+                                sendViaWifi(file);
+                                break;
+                            case 3:
+                                restoreBackup(file);
+                                break;
+                            case 4:
+                                confirmDelete(file);
+                                break;
                         }
                     }
                 }).show();
@@ -544,6 +584,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
             });
         });
     }
+
     // ──  Perform Replace Restore ──────────────────────────────────────
     private void performReplaceRestore(File file, String password) {
         Toast.makeText(this, "Restoring from: " + file.getName(), Toast.LENGTH_LONG).show();

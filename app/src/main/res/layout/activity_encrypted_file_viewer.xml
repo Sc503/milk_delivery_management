@@ -74,15 +74,47 @@
             android:background="@drawable/edit_text_background"
             android:layout_marginBottom="16dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnDecrypt"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="🔓 Decrypt"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            app:cornerRadius="10dp"
-            app:backgroundTint="#3B82F6" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDecrypt"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="🔓 Decrypt"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                app:cornerRadius="10dp"
+                app:backgroundTint="#3B82F6" />
+
+            <!-- ✅ NEW: Restore Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRestore"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="♻️ Restore"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                app:cornerRadius="10dp"
+                app:backgroundTint="#8B5CF6" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="💡 Tap 'Restore' to restore this backup directly"
+            android:textSize="12sp"
+            android:textColor="#7B8794"
+            android:gravity="center"
+            android:layout_marginTop="12dp" />
 
     </LinearLayout>
 
@@ -135,7 +167,42 @@
 
     </LinearLayout>
 
-    <!-- Buttons -->
+    <!-- ✅ NEW: Restore button when content is visible -->
+    <LinearLayout
+        android:id="@+id/layoutRestoreButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRestoreContent"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="♻️ Restore This Backup"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            app:backgroundTint="#8B5CF6"
+            android:layout_marginEnd="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCloseContent"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="✕ Close"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:cornerRadius="10dp"
+            app:backgroundTint="#EF4444"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+    <!-- Original Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
