@@ -233,7 +233,7 @@ public class AddCustomer_Activity extends AppCompatActivity {
             public void onIdReturned(long newId) {
                 runOnUiThread(() -> {
                     Toast.makeText(AddCustomer_Activity.this,
-                            "✅ Customer: " + name + " saved successfully!",
+                            " Customer: " + name + " saved successfully!",
                             Toast.LENGTH_LONG).show();
 
                     clearFields();
@@ -244,7 +244,7 @@ public class AddCustomer_Activity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 runOnUiThread(() -> {
-                    Toast.makeText(AddCustomer_Activity.this, "❌ " + message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddCustomer_Activity.this, " " + message, Toast.LENGTH_LONG).show();
                 });
             }
         });

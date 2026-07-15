@@ -156,7 +156,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         finish();
                     } else {
                         String msg = loginResponse.getMessage() != null ? loginResponse.getMessage() : "Unknown error";
-                        Toast.makeText(CreateAccountActivity.this, "❌ " + msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreateAccountActivity.this, " " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
                     //  Handle error response
@@ -170,7 +170,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing error body: " + e.getMessage());
                     }
-                    Toast.makeText(CreateAccountActivity.this, "❌ " + errorMsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateAccountActivity.this, " " + errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -183,7 +183,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 Log.e(TAG, "Network Error: " + t.getMessage());
                 t.printStackTrace();
 
-                Toast.makeText(CreateAccountActivity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CreateAccountActivity.this, " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

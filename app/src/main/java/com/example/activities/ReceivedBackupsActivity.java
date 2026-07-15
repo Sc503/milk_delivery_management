@@ -374,7 +374,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         }
     }
 
-    // ── ✅ RESTORE WITH MERGE/REPLACE USING CUSTOM DIALOG ──────────
+    // ──  RESTORE WITH MERGE/REPLACE USING CUSTOM DIALOG ──────────
     private void restoreBackup(File file) {
         // Create custom dialog
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
@@ -429,7 +429,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         builder.show();
     }
 
-    // ── ✅ Confirm Merge ──────────────────────────────────────────────
+    // ──  Confirm Merge ──────────────────────────────────────────────
     private void confirmMergeRestore(File file) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("🔄 Merge Backup")
@@ -452,7 +452,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ── ✅ Confirm Replace ──────────────────────────────────────────────
+    // ──  Confirm Replace ──────────────────────────────────────────────
     private void confirmReplaceRestore(File file) {
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("🔁 Replace Backup")
@@ -475,7 +475,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ── ✅ Password Dialog ──────────────────────────────────────────────
+    // ──  Password Dialog ──────────────────────────────────────────────
     private void showRestorePasswordDialog(File file, String mode) {
         final EditText passwordInput = new EditText(this);
         passwordInput.setHint("Enter encryption password");
@@ -504,7 +504,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
     }
 
 
-    // ── ✅ Perform Merge Restore ──────────────────────────────────────
+    // ──  Perform Merge Restore ──────────────────────────────────────
     private void performMergeRestore(File file, String password) {
         Toast.makeText(this, "Merging from: " + file.getName(), Toast.LENGTH_LONG).show();
 
@@ -536,15 +536,15 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(ReceivedBackupsActivity.this, "✅ Merge Successful! Data added.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, " Merge Successful! Data added.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(ReceivedBackupsActivity.this, "❌ Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, " Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
     }
-    // ── ✅ Perform Replace Restore ──────────────────────────────────────
+    // ──  Perform Replace Restore ──────────────────────────────────────
     private void performReplaceRestore(File file, String password) {
         Toast.makeText(this, "Restoring from: " + file.getName(), Toast.LENGTH_LONG).show();
 
@@ -576,10 +576,10 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(ReceivedBackupsActivity.this, "✅ Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, " Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(ReceivedBackupsActivity.this, "❌ Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, " Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -591,10 +591,10 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .setMessage("Delete \"" + file.getName() + "\"?")
                 .setPositiveButton("Delete", (d, w) -> {
                     if (file.delete()) {
-                        Toast.makeText(this, "✅ Deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, " Deleted", Toast.LENGTH_SHORT).show();
                         refreshFileList();
                     } else {
-                        Toast.makeText(this, "❌ Delete failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, " Delete failed", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)

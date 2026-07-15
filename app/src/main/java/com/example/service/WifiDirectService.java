@@ -205,7 +205,7 @@ public class WifiDirectService extends Service {
                     in.close();
                     client.close();
 
-                    updateNotification("File received ✅");
+                    updateNotification("File received ");
 
                     if (listener != null)
                         listener.onFileReceived(outFile.getAbsolutePath());
@@ -264,7 +264,7 @@ public class WifiDirectService extends Service {
                 out.flush();
                 socket.shutdownOutput();
 
-                updateNotification("File sent ✅");
+                updateNotification("File sent ");
 
                 if (listener != null)
                     listener.onFileSent(file.getName());

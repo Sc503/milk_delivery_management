@@ -8,15 +8,15 @@
         <!-- Allow app to handle file viewing and sharing -->
         <intent>
             <action android:name="android.intent.action.VIEW" />
-
             <data android:mimeType="*/*" />
         </intent>
         <intent>
             <action android:name="android.intent.action.SEND" />
-
             <data android:mimeType="*/*" />
         </intent>
-    </queries> <!-- Permissions -->
+    </queries>
+
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,15 +42,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MilkDelivery"
         tools:targetApi="31">
-        <activity
-            android:name=".activities.StaffList_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.MonthlyRecap_Activity"
-            android:exported="false" />
-        <activity
-            android:name=".activities.AddStaff_Activity"
-            android:exported="false" /> <!-- Google Maps API Key -->
+
+        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDih1YEyR4R3z4FLMLHobf1Pja-MUazdJY" />
@@ -58,6 +51,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- File Provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -66,11 +60,15 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- WiFi Direct Service -->
+        </provider>
+
+        <!-- WiFi Direct Service -->
         <service
             android:name=".service.WifiDirectService"
             android:exported="false"
-            android:foregroundServiceType="dataSync" /> <!-- Auto Backup Receivers -->
+            android:foregroundServiceType="dataSync" />
+
+        <!-- Auto Backup Receivers -->
         <receiver
             android:name=".Receivers.BootReceiver"
             android:enabled="true"
@@ -83,112 +81,138 @@
         <receiver
             android:name=".Receivers.AutoBackupReceiver"
             android:enabled="true"
-            android:exported="false" /> <!-- Activities -->
+            android:exported="false" />
+
+        <!-- ==================== SPLASH ACTIVITY ==================== -->
         <activity
             android:name=".activities.SplashActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MilkDelivery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- ==================== LOGIN ACTIVITY ==================== -->
         <activity
             android:name=".activities.LoginActivity"
             android:exported="true"
+            android:launchMode="singleTop"
+            android:noHistory="true"
             android:screenOrientation="portrait" />
+
+        <!-- ==================== CREATE ACCOUNT ACTIVITY ==================== -->
         <activity
             android:name=".activities.CreateAccountActivity"
             android:parentActivityName=".activities.LoginActivity"
-            android:theme="@style/Theme.MilkDelivery" />
+            android:screenOrientation="portrait" />
+
+        <!-- ==================== MAIN ACTIVITY ==================== -->
         <activity
             android:name=".activities.MainActivity"
             android:exported="false"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
+
+        <!-- ==================== STAFF ACTIVITIES ==================== -->
+        <activity
+            android:name=".activities.StaffList_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.AddStaff_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- ==================== CUSTOMER ACTIVITIES ==================== -->
+        <activity
+            android:name=".activities.AddCustomer_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
         <activity
             android:name=".activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
+
         <activity
             android:name=".activities.CustomerRecapDetailsActivity"
             android:exported="false"
             android:label="Milk Delivery Summary"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery" />
-        <activity
-            android:name=".activities.BackupCenterActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.MyBackupsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.ReceivedBackupsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.WifiDirectActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" /> <!-- Handle .enc files (Both Open & Share) -->
 
-        <activity
-            android:name=".activities.AddCustomer_Activity"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
-        <activity
-            android:name=".activities.Settings_Activity"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
-        <activity
-            android:name=".activities.AboutUs_Activity"
-            android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
+        <!-- ==================== PAYMENT ACTIVITIES ==================== -->
         <activity
             android:name=".activities.Payment_Activity"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
-
-        <activity
-            android:name=".activities.Payment_Activity"
-            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
         <activity
             android:name=".activities.PaymentDetails_Activity"
             android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
         <activity
             android:name=".activities.PaymentDashboard_Activity"
             android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
         <activity
             android:name=".activities.PaymentHistory_Activity"
             android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
+        <!-- ==================== MONTHLY RECAP ==================== -->
+        <activity
+            android:name=".activities.MonthlyRecap_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- ==================== BACKUP ACTIVITIES ==================== -->
+        <activity
+            android:name=".activities.BackupCenterActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.MyBackupsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.ReceivedBackupsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activities.WifiDirectActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <!-- ==================== ENCRYPTED FILE VIEWER ==================== -->
         <activity
             android:name=".activities.EncryptedFileViewerActivity"
             android:exported="true"
             android:label="Decrypt Backup"
             android:screenOrientation="portrait">
-
             <!-- For "Open with" -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:mimeType="application/octet-stream" />
                 <data android:scheme="file" />
                 <data android:scheme="content" />
@@ -197,20 +221,34 @@
                 <data android:pathPattern=".*\\..*\\.enc" />
                 <data android:pathPattern=".*\\..*\\..*\\.enc" />
             </intent-filter>
-
             <!-- For "Share" menu -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="application/octet-stream" />
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <!-- ==================== SETTINGS & ABOUT ==================== -->
+        <activity
+            android:name=".activities.Settings_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <activity
+            android:name=".activities.AboutUs_Activity"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.MilkDelivery.NoActionBar" />
+
+        <!-- ==================== MAP PICKER ==================== -->
         <activity
             android:name=".activities.MapPickerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

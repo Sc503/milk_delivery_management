@@ -101,7 +101,7 @@ public class CustomerListFragment extends Fragment {
                         () -> {
 
                             requireActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "✅ Delivered by " + staffName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), " Delivered by " + staffName, Toast.LENGTH_SHORT).show();
                             });
                             loadCustomers();
                         }
@@ -115,7 +115,7 @@ public class CustomerListFragment extends Fragment {
 
                 EditCustomerDialog editDialog = new EditCustomerDialog(customer, editedCustomer -> {
                     viewModel.updateCustomer(editedCustomer);
-                    Toast.makeText(getContext(), "✅ Customer updated!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), " Customer updated!", Toast.LENGTH_SHORT).show();
                     loadCustomers();  // Refresh the list
                 });
                 editDialog.show(getChildFragmentManager(), "EditCustomerDialog");

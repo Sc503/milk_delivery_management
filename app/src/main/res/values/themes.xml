@@ -24,6 +24,7 @@
         <item name="android:navigationBarColor">@color/background</item>
     </style>
 
+
     <!-- ✅ NO ACTION BAR THEME for child activities -->
     <style name="Theme.MilkDelivery.NoActionBar" parent="Theme.MilkDelivery">
         <item name="windowActionBar">false</item>

@@ -92,29 +92,29 @@ public class MilkRepository {
 
     // --- Delivery Functions ---
 
-    // ✅ METHOD 1: Without staffName (for backward compatibility)
+    //  METHOD 1: Without staffName (for backward compatibility)
     public void deliverCustomer(long customerId, String date, String time, long staffId, Runnable onCompleted) {
         deliverCustomer(customerId, date, time, staffId, "", onCompleted);
     }
 
-    // ✅ METHOD 2: With staffName (NEW)
+    //  METHOD 2: With staffName (NEW)
     public void deliverCustomer(long customerId, String date, String time, long staffId, String staffName, Runnable onCompleted) {
         executorService.execute(() -> {
             Delivery existing = deliveryDao.getDeliveryForCustomerAndDate(customerId, date);
 
             if (existing == null) {
-                // ✅ NEW delivery with staff name
+                //  NEW delivery with staff name
                 Delivery d = new Delivery(customerId, date, time, "Delivered", staffId, staffName);
                 deliveryDao.insert(d);
-                Log.d("DELIVERY_SAVE", "✅ New delivery: " + date + " by " + staffName + " (ID: " + staffId + ")");
+                Log.d("DELIVERY_SAVE", " New delivery: " + date + " by " + staffName + " (ID: " + staffId + ")");
             } else {
-                // ✅ Update existing delivery with staff name
+                // Update existing delivery with staff name
                 existing.setStatus("Delivered");
                 existing.setDeliveredTime(time);
                 existing.setStaffId(staffId);
                 existing.setStaffName(staffName);
                 deliveryDao.update(existing);
-                Log.d("DELIVERY_SAVE", "✅ Updated delivery: " + date + " by " + staffName + " (ID: " + staffId + ")");
+                Log.d("DELIVERY_SAVE", " Updated delivery: " + date + " by " + staffName + " (ID: " + staffId + ")");
             }
 
             if (onCompleted != null) {
@@ -130,14 +130,14 @@ public class MilkRepository {
             if (existing == null) {
                 Delivery d = new Delivery(customerId, date, "--", "Pending");
                 deliveryDao.insert(d);
-                Log.d("DELIVERY_SAVE", "✅ New delivery: " + date + " -> Pending");
+                Log.d("DELIVERY_SAVE", " New delivery: " + date + " -> Pending");
             } else {
                 existing.setStatus("Pending");
                 existing.setDeliveredTime("--");
                 existing.setStaffId(0);
                 existing.setStaffName("");
                 deliveryDao.update(existing);
-                Log.d("DELIVERY_SAVE", "✅ Updated delivery: " + date + " -> Pending");
+                Log.d("DELIVERY_SAVE", " Updated delivery: " + date + " -> Pending");
             }
 
             if (onCompleted != null) {
@@ -174,12 +174,12 @@ public class MilkRepository {
         return deliveryDao.getDeliveriesForDate(date);
     }
 
-    // ✅ Get delivery with staff name (using JOIN)
+    //  Get delivery with staff name (using JOIN)
     public DeliveryWithStaff getDeliveryWithStaff(long customerId, String date) {
         return deliveryDao.getDeliveryWithStaff(customerId, date);
     }
 
-    // ✅ Get delivery for customer and date (simple)
+    //  Get delivery for customer and date (simple)
     public Delivery getDeliveryForCustomerAndDate(long customerId, String date) {
         return deliveryDao.getDeliveryForCustomerAndDate(customerId, date);
     }

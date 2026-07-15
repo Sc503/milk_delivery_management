@@ -212,18 +212,18 @@ public class AddStaff_Activity extends AppCompatActivity {
                     if (status != null && status) {
                         //  Success
                         String msg = message != null ? message : "Staff created successfully!";
-                        Toast.makeText(AddStaff_Activity.this, "✅ " + msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddStaff_Activity.this, " " + msg, Toast.LENGTH_LONG).show();
                         clearFields();
 
                         //  Navigate back to previous activity after success
                         finish();
                     } else {
-                        // ❌ Error from API
+                        //  Error from API
                         String msg = message != null ? message : "Failed to create staff";
-                        Toast.makeText(AddStaff_Activity.this, "❌ " + msg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddStaff_Activity.this, " " + msg, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    // ❌ Response not successful
+                    //  Response not successful
                     String errorMsg = "Failed to create staff";
                     try {
                         if (response.errorBody() != null) {
@@ -234,7 +234,7 @@ public class AddStaff_Activity extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.e(TAG, "Error parsing error body: " + e.getMessage());
                     }
-                    Toast.makeText(AddStaff_Activity.this, "❌ " + errorMsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddStaff_Activity.this, " " + errorMsg, Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -245,7 +245,7 @@ public class AddStaff_Activity extends AppCompatActivity {
                 resetButtonState();
 
                 Log.e(TAG, "Network Error: " + t.getMessage());
-                Toast.makeText(AddStaff_Activity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AddStaff_Activity.this, " Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

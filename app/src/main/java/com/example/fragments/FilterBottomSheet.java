@@ -50,7 +50,7 @@ public class FilterBottomSheet extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // ✅ XML name - bottom_sheet_filter (tumcha exact file name)
+        // XML name - bottom_sheet_filter (tumcha exact file name)
         View view = inflater.inflate(R.layout.bottom_sheet_filter, container, false);
 
         initViews(view);

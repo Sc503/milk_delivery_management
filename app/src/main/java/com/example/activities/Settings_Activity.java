@@ -2,12 +2,15 @@ package com.example.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,7 +75,7 @@ public class Settings_Activity extends AppCompatActivity {
         // Last Backup Time
         updateLastBackupTime();
 
-        // Backup Now - Original Dialog
+        // Backup Now - With Professional Dialog
         binding.btnBackupNow.setOnClickListener(v -> {
             showBackupOptionsDialog();
         });
@@ -117,11 +120,11 @@ public class Settings_Activity extends AppCompatActivity {
 
 
                                 runOnUiThread(() -> {
-                                    Toast.makeText(this, "✅ Database reset successfully!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this, " Database reset successfully!", Toast.LENGTH_LONG).show();
                                 });
                             } catch (Exception e) {
                                 runOnUiThread(() -> {
-                                    Toast.makeText(this, "❌ Reset failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(this, " Reset failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
                                 });
                             }
                         }).start();
@@ -131,7 +134,7 @@ public class Settings_Activity extends AppCompatActivity {
         });
     }
 
-    // ✅ Original Backup Options Dialog
+    //  Professional Backup Options Dialog
     private void showBackupOptionsDialog() {
         String[] options = {"📄 Normal Backup (.json)", "🔒 Encrypted Backup (.enc)"};
 
@@ -141,38 +144,122 @@ public class Settings_Activity extends AppCompatActivity {
                     if (which == 0) {
                         performNormalBackup();
                     } else {
-                        showEncryptionPasswordDialog();
+                        showProfessionalEncryptionDialog();
                     }
                 })
                 .show();
     }
 
-    // ✅ Original Password Dialog
-    private void showEncryptionPasswordDialog() {
+    //  Professional Encryption Password Setup Dialog
+    private void showProfessionalEncryptionDialog() {
+        // Create custom layout
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 20, 50, 20);
+
+        // File info text
+        TextView fileInfo = new TextView(this);
+        fileInfo.setText("📁 Encrypted Backup File");
+        fileInfo.setTextSize(16);
+        fileInfo.setTextColor(getResources().getColor(android.R.color.black));
+        fileInfo.setTypeface(Typeface.DEFAULT_BOLD);
+        fileInfo.setPadding(0, 0, 0, 10);
+        layout.addView(fileInfo);
+
+        // Divider
+        View divider = new View(this);
+        divider.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 2));
+        divider.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
+        divider.setPadding(0, 0, 0, 20);
+        layout.addView(divider);
+
+        // Info text
+        TextView infoText = new TextView(this);
+        infoText.setText("This file will be encrypted. Enter a password to protect your backup.");
+        infoText.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        infoText.setTextSize(14);
+        infoText.setPadding(0, 0, 0, 20);
+        layout.addView(infoText);
+
+        // Password input with icon
+        LinearLayout passwordLayout = new LinearLayout(this);
+        passwordLayout.setOrientation(LinearLayout.HORIZONTAL);
+        passwordLayout.setGravity(Gravity.CENTER_VERTICAL);
+        passwordLayout.setBackgroundResource(android.R.drawable.editbox_background);
+        passwordLayout.setPadding(15, 5, 15, 5);
+
+        TextView lockIcon = new TextView(this);
+        lockIcon.setText("🔒");
+        lockIcon.setTextSize(18);
+        lockIcon.setPadding(0, 0, 10, 0);
+        passwordLayout.addView(lockIcon);
+
         final EditText passwordInput = new EditText(this);
         passwordInput.setHint("Enter encryption password");
         passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        passwordInput.setBackground(null);
+        passwordInput.setPadding(0, 10, 0, 10);
+        passwordInput.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        passwordLayout.addView(passwordInput);
+
+        layout.addView(passwordLayout);
+
+        // Space
+        View spacer = new View(this);
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 15));
+        layout.addView(spacer);
+
+        // Confirm password with icon
+        LinearLayout confirmLayout = new LinearLayout(this);
+        confirmLayout.setOrientation(LinearLayout.HORIZONTAL);
+        confirmLayout.setGravity(Gravity.CENTER_VERTICAL);
+        confirmLayout.setBackgroundResource(android.R.drawable.editbox_background);
+        confirmLayout.setPadding(15, 5, 15, 5);
+
+        TextView lockIcon2 = new TextView(this);
+        lockIcon2.setText("🔒");
+        lockIcon2.setTextSize(18);
+        lockIcon2.setPadding(0, 0, 10, 0);
+        confirmLayout.addView(lockIcon2);
 
         final EditText confirmInput = new EditText(this);
         confirmInput.setHint("Confirm password");
         confirmInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        confirmInput.setBackground(null);
+        confirmInput.setPadding(0, 10, 0, 10);
+        confirmInput.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        confirmLayout.addView(confirmInput);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(60, 30, 60, 30);
-        layout.addView(passwordInput);
-        layout.addView(confirmInput);
+        layout.addView(confirmLayout);
+
+        // Password strength hint
+        TextView strengthHint = new TextView(this);
+        strengthHint.setText("💡 Use at least 4 characters for security");
+        strengthHint.setTextColor(getResources().getColor(android.R.color.darker_gray));
+        strengthHint.setTextSize(12);
+        strengthHint.setPadding(0, 15, 0, 0);
+        layout.addView(strengthHint);
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("🔒 Encrypted Backup")
-                .setMessage("Enter a password to encrypt your backup file")
+                .setTitle("🔐 Set Encryption Password")
                 .setView(layout)
                 .setPositiveButton("Create Encrypted Backup", (d, w) -> {
                     String password = passwordInput.getText().toString();
                     String confirm = confirmInput.getText().toString();
 
-                    if (password.isEmpty() || confirm.isEmpty()) {
+                    if (password.isEmpty()) {
                         Toast.makeText(this, "Password cannot be empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (password.length() < 4) {
+                        Toast.makeText(this, "Password must be at least 4 characters", Toast.LENGTH_SHORT).show();
                         return;
                     }
 

@@ -222,7 +222,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                     isConnecting = false;
                     isConnected = true;
                     updateUIState();
-                    Toast.makeText(WifiDirectActivity.this, "✅ Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WifiDirectActivity.this, " Connected!", Toast.LENGTH_SHORT).show();
                 });
             }
 

@@ -87,7 +87,7 @@ public class MapPickerActivity extends AppCompatActivity implements OnMapReadyCa
                 .draggable(true));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 15f));
 
-        // ✅ Get address for initial location
+        //  Get address for initial location
         if (!address.isEmpty()) {
             // Address already set from intent
         } else {
@@ -104,7 +104,7 @@ public class MapPickerActivity extends AppCompatActivity implements OnMapReadyCa
                     .title("Selected Location")
                     .draggable(true));
 
-            // ✅ Update address when map is clicked
+            // Update address when map is clicked
             updateAddress(latLng.latitude, latLng.longitude);
         });
 
@@ -118,13 +118,13 @@ public class MapPickerActivity extends AppCompatActivity implements OnMapReadyCa
 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
-                // ✅ Update address when marker is dragged
+                //  Update address when marker is dragged
                 updateAddress(marker.getPosition().latitude, marker.getPosition().longitude);
             }
         });
     }
 
-    // ✅ Method to get address from Lat/Lang using Geocoder
+    //  Method to get address from Lat/Lang using Geocoder
     private void updateAddress(double lat, double lng) {
         this.latitude = lat;
         this.longitude = lng;
@@ -145,7 +145,7 @@ public class MapPickerActivity extends AppCompatActivity implements OnMapReadyCa
 
                 this.address = sb.toString();
 
-                // ✅ Update marker title with address
+                //  Update marker title with address
                 if (selectedMarker != null) {
                     selectedMarker.setTitle(this.address);
                     selectedMarker.showInfoWindow();

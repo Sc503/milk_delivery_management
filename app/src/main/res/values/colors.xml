@@ -29,6 +29,9 @@
     <color name="color_outline">#BDBDBD</color>
     <color name="red">#F44336</color>
 
+
+
+
     <!-- ==================== Dark Theme Colors ==================== -->
     <color name="background_dark">#121212</color>
     <color name="surface_dark">#1E1E1E</color>
@@ -37,6 +40,11 @@
     <color name="on_surface_variant_dark">#9E9E9E</color>
     <color name="primary_container_dark">#1A3A2A</color>
     <color name="on_primary_container_dark">#D1EEDC</color>
+
+    <color name="text_primary">#E8EDF2</color>      <!-- Light text -->
+    <color name="text_secondary">#94A3B8</color>    <!-- Lighter gray -->
+              <!-- Dark card -->
+    <color name="hint_color">#6B7280</color>
 
     <!-- Status Colors for Dark Mode -->
     <color name="delivered_green_dark">#4CAF50</color>

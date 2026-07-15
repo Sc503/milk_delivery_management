@@ -4,7 +4,7 @@
 
     <!-- ✅ Add Customer - Opens AddCustomer_Activity -->
     <item
-        android:id="@+id/action_add_shortcut"
+        android:id="@+id/action_add_customer"
         android:icon="@drawable/ic_add"
         android:title="Add Customer"
         app:showAsAction="always"/>

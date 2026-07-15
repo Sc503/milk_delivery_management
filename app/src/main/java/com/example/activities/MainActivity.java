@@ -2,10 +2,11 @@ package com.example.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,14 +21,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.R;
 import com.example.databinding.ActivityMainBinding;
-
 import com.example.fragments.CustomerListFragment;
 import com.example.fragments.MapFragment;
 import com.example.viewmodel.MilkViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.content.SharedPreferences;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,15 +41,12 @@ import retrofit2.Response;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-
 import android.net.Uri;
 import android.provider.MediaStore;
-
 import com.bumptech.glide.Glide;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-
 import androidx.appcompat.app.AlertDialog;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -70,9 +66,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
+    // ✅ Prevent double creation
+    private boolean isActivityCreated = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // ✅ If activity is not the root, finish it (prevents duplicate)
+        if (!isTaskRoot()) {
+            Log.d("MAIN_ACTIVITY", "❌ Activity is not task root, finishing duplicate");
+            finish();
+            return;
+        }
+
+        // ✅ Prevent double creation
+        if (savedInstanceState != null && isActivityCreated) {
+            Log.d("MAIN_ACTIVITY", "❌ Activity already created, skipping duplicate");
+            super.onCreate(savedInstanceState);
+            return;
+        }
 
         // Theme check
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
@@ -238,26 +251,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bundle.putLong("CUSTOMER_ID", customerId);
             MapFragment fragment = new MapFragment();
             fragment.setArguments(bundle);
+            activeFragment = fragment;
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                invalidateOptionsMenu();
+                supportInvalidateOptionsMenu();
+            }, 100);
+            isActivityCreated = true;
             return;
         }
 
+        // ✅ Only load fragment if savedInstanceState is null
         if (savedInstanceState == null) {
-            // Show MapFragment by default with bottom nav
             BottomNavigationView bottomNav = binding.bottomNavigation;
             if (bottomNav != null) {
-                bottomNav.setSelectedItemId(R.id.nav_map);
                 bottomNav.setVisibility(View.VISIBLE);
+                bottomNav.setSelectedItemId(R.id.nav_map);
             }
+
+            MapFragment mapFragment = new MapFragment();
+            activeFragment = mapFragment;
+
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new MapFragment())
+                    .replace(R.id.fragment_container, mapFragment)
                     .commit();
-            activeFragment = new MapFragment();
+
+            // ✅ Refresh menu with multiple attempts
+            refreshMenuMultipleTimes();
+        } else {
+            // ✅ Restore active fragment on configuration change
+            activeFragment = getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container);
+            if (activeFragment == null) {
+                activeFragment = new MapFragment();
+            }
         }
+
+        isActivityCreated = true;
+    }
+
+    // ✅ Handle new intent without recreating activity
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        Log.d("MAIN_ACTIVITY", "✅ onNewIntent called - Activity reused");
+    }
+
+    // ✅ Aggressive menu refresh for Samsung/Vivo
+    private void refreshMenuMultipleTimes() {
+        binding.toolbar.post(() -> {
+            invalidateOptionsMenu();
+            supportInvalidateOptionsMenu();
+            binding.toolbar.invalidate();
+            Log.d("MAIN_ACTIVITY", "Menu refresh attempt 1");
+        });
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            invalidateOptionsMenu();
+            supportInvalidateOptionsMenu();
+            Log.d("MAIN_ACTIVITY", "Menu refresh attempt 2");
+        }, 100);
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            invalidateOptionsMenu();
+            supportInvalidateOptionsMenu();
+            if (binding.toolbar != null) {
+                binding.toolbar.invalidate();
+            }
+            Log.d("MAIN_ACTIVITY", "Menu refresh attempt 3");
+        }, 300);
+
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            invalidateOptionsMenu();
+            supportInvalidateOptionsMenu();
+            Log.d("MAIN_ACTIVITY", "Menu refresh attempt 4");
+        }, 500);
     }
 
     @Override
@@ -265,13 +339,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         showBottomNavigation();
         invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
     }
 
     // SHOW bottom navigation (only for Map and Customer List)
     private void showBottomNavigation() {
         if (binding.bottomNavigation != null) {
             binding.bottomNavigation.setVisibility(View.VISIBLE);
-            Log.d("NAV_DEBUG", "✅ Bottom nav SHOWN");
+            Log.d("NAV_DEBUG", " Bottom nav SHOWN");
         }
     }
 
@@ -279,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void hideBottomNavigation() {
         if (binding.bottomNavigation != null) {
             binding.bottomNavigation.setVisibility(View.GONE);
-            Log.d("NAV_DEBUG", "❌ Bottom nav HIDDEN");
+            Log.d("NAV_DEBUG", " Bottom nav HIDDEN");
         }
     }
 
@@ -288,11 +363,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         BottomNavigationView bottomNav = binding.bottomNavigation;
 
         if (bottomNav == null) {
-            Log.e("NAV_DEBUG", "❌ Bottom navigation is NULL!");
+            Log.e("NAV_DEBUG", " Bottom navigation is NULL!");
             return;
         }
 
-        Log.d("NAV_DEBUG", "✅ Bottom navigation found, setting up...");
+        Log.d("NAV_DEBUG", " Bottom navigation found, setting up...");
         bottomNav.setVisibility(View.VISIBLE);
         bottomNav.setSelectedItemId(R.id.nav_map);
 
@@ -301,21 +376,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             if (itemId == R.id.nav_map) {
                 MapFragment mapFragment = new MapFragment();
+                activeFragment = mapFragment;
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, mapFragment)
                         .commit();
-                activeFragment = mapFragment;
                 showBottomNavigation();
                 invalidateOptionsMenu();
                 return true;
             } else if (itemId == R.id.nav_customer_list) {
                 CustomerListFragment customerListFragment = new CustomerListFragment();
+                activeFragment = customerListFragment;
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, customerListFragment)
                         .commit();
-                activeFragment = customerListFragment;
                 showBottomNavigation();
                 invalidateOptionsMenu();
                 return true;
@@ -341,7 +416,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // ✅ Opens AddCustomer_Activity
+            // Opens AddCustomer_Activity
             Intent intent = new Intent(MainActivity.this, AddCustomer_Activity.class);
             startActivity(intent);
             hideBottomNavigation();
@@ -352,14 +427,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // ✅ Opens StaffList_Activity
+            // Opens StaffList_Activity
             Intent intent = new Intent(MainActivity.this, StaffList_Activity.class);
             startActivity(intent);
             hideBottomNavigation();
             return;
 
         } else if (itemId == R.id.nav_monthly_recap) {
-            // ✅ Opens MonthlyRecap_Activity
+            // Opens MonthlyRecap_Activity
             Intent intent = new Intent(MainActivity.this, MonthlyRecap_Activity.class);
             startActivity(intent);
             binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -367,21 +442,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
 
         } else if (itemId == R.id.nav_payments) {
-            // ✅ Opens Payment_Activity
+            // Opens Payment_Activity
             Intent intent = new Intent(MainActivity.this, Payment_Activity.class);
             startActivity(intent);
             hideBottomNavigation();
             return;
 
         } else if (itemId == R.id.nav_settings) {
-            // ✅ Opens Settings_Activity
+            // Opens Settings_Activity
             Intent intent = new Intent(MainActivity.this, Settings_Activity.class);
             startActivity(intent);
             hideBottomNavigation();
             return;
 
         } else if (itemId == R.id.nav_about_us) {
-            // ✅ Opens AboutUs_Activity
+            // Opens AboutUs_Activity
             Intent intent = new Intent(MainActivity.this, AboutUs_Activity.class);
             startActivity(intent);
             hideBottomNavigation();
@@ -445,30 +520,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem addCustomer = menu.findItem(R.id.action_add_shortcut);
+
+        MenuItem addCustomer = menu.findItem(R.id.action_add_customer);
         MenuItem addStaff = menu.findItem(R.id.action_add_staff);
         MenuItem filter = menu.findItem(R.id.action_filter);
         MenuItem searchStaff = menu.findItem(R.id.action_search_staff);
 
         boolean isOwner = "Owner".equals(currentUserType);
-        boolean isMap = activeFragment instanceof MapFragment;
 
-        // ✅ Add Customer - ONLY on Map
+        Fragment currentFragment =
+                getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        boolean isMap = currentFragment instanceof MapFragment;
+
         if (addCustomer != null) {
-            addCustomer.setVisible(isMap && isOwner);
+            addCustomer.setVisible(isOwner && isMap);
         }
 
-        // ✅ Add Staff - Hidden (it's in StaffList_Activity toolbar)
         if (addStaff != null) {
             addStaff.setVisible(false);
         }
 
-        // ✅ Filter - Hidden (it's in MonthlyRecap_Activity toolbar)
         if (filter != null) {
             filter.setVisible(false);
         }
 
-        // ✅ Search Staff - Hidden (it's in StaffList_Activity toolbar)
         if (searchStaff != null) {
             searchStaff.setVisible(false);
         }
@@ -496,8 +572,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        // ✅ Add Customer - Opens AddCustomer_Activity
-        if (itemId == R.id.action_add_shortcut) {
+        // Add Customer - Opens AddCustomer_Activity
+        if (itemId == R.id.action_add_customer) {
             if (!"Owner".equals(currentUserType)) {
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
                 return true;
@@ -507,7 +583,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        // ✅ Add Staff - Opens AddStaff_Activity
+        // Add Staff - Opens AddStaff_Activity
         if (itemId == R.id.action_add_staff) {
             if (!"Owner".equals(currentUserType)) {
                 Toast.makeText(this, "Access Denied", Toast.LENGTH_SHORT).show();
@@ -518,12 +594,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-        // ✅ Filter - Handled in MonthlyRecap_Activity
+        // Filter - Handled in MonthlyRecap_Activity
         if (itemId == R.id.action_filter) {
             return true;
         }
 
-        // ✅ Search Staff - Handled by SearchView
+        // Search Staff - Handled by SearchView
         if (itemId == R.id.action_search_staff) {
             return true;
         }

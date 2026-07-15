@@ -19,7 +19,7 @@ public class CustomerCardAdapter extends RecyclerView.Adapter<CustomerCardAdapte
 
     private List<Customer> customerList;
     private Map<Long, String> statusMap;
-    private Map<Long, String> staffNameMap;  // ✅ NEW
+    private Map<Long, String> staffNameMap;
     private final CustomerCardListener listener;
 
     public interface CustomerCardListener {
@@ -72,7 +72,7 @@ public class CustomerCardAdapter extends RecyclerView.Adapter<CustomerCardAdapte
             holder.tvStatus.setBackgroundResource(R.drawable.bg_status_inactive);
         }
 
-        // ✅ SET STAFF NAME
+        //  SET STAFF NAME
         String staffName = staffNameMap != null && staffNameMap.containsKey(customer.getId())
                 ? staffNameMap.get(customer.getId())
                 : "Not assigned";

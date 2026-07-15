@@ -21,43 +21,32 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // ✅ Prevent duplicate splash
+        if (!isTaskRoot()) {
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_splash);
 
         imgSplash = findViewById(R.id.imgSplash);
         txtMoving = findViewById(R.id.txtMoving);
         txtLoading = findViewById(R.id.txtLoading);
 
-        Animation pulse =
-                AnimationUtils.loadAnimation(
-                        this,
-                        R.anim.pulse);
-
-        Animation move =
-                AnimationUtils.loadAnimation(
-                        this,
-                        R.anim.right_to_left);
-
-        Animation blink =
-                AnimationUtils.loadAnimation(
-                        this,
-                        R.anim.blink);
+        Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
+        Animation move = AnimationUtils.loadAnimation(this, R.anim.right_to_left);
+        Animation blink = AnimationUtils.loadAnimation(this, R.anim.blink);
 
         imgSplash.startAnimation(pulse);
-
         txtMoving.startAnimation(move);
-
         txtLoading.startAnimation(blink);
 
         new Handler().postDelayed(() -> {
-
-            startActivity(
-                    new Intent(
-                            SplashActivity.this,
-                            LoginActivity.class));
-
+            // ✅ Clear top flag to prevent multiple instances
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
             finish();
-
-        },3000);
-
+        }, 3000);
     }
 }

@@ -98,6 +98,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         binding.btnLocationFinder.setOnClickListener(v -> checkLocationPermissionAndCenter());
+
+        requireActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh toolbar when returning to this fragment
+        requireActivity().invalidateOptionsMenu();
     }
 
     @Override
@@ -280,7 +289,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             requireActivity().runOnUiThread(() -> {
                 // Show Toast to confirm
-//                Toast.makeText(getContext(), "📌 " + finalStaffDisplay, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), " " + finalStaffDisplay, Toast.LENGTH_LONG).show();
 
                 // Create callback
                 CustomerDetailsDialog.DialogCallback callback = new CustomerDetailsDialog.DialogCallback() {

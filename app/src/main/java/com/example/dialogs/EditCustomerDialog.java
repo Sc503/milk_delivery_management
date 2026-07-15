@@ -74,17 +74,17 @@ public class EditCustomerDialog extends DialogFragment {
 
                                 Intent data = result.getData();
 
-                                // ✅ Get Lat/Lang from MapPicker
+                                //  Get Lat/Lang from MapPicker
                                 latitude = data.getDoubleExtra("LATITUDE", 0);
                                 longitude = data.getDoubleExtra("LONGITUDE", 0);
                                 addressText = data.getStringExtra("ADDRESS");
 
-                                // ✅ Update UI with new values
+                                //  Update UI with new values
                                 binding.etAddress.setText(addressText);
                                 binding.etLatitude.setText(String.valueOf(latitude));
                                 binding.etLongitude.setText(String.valueOf(longitude));
 
-                                // ✅ Log for debugging
+                                //  Log for debugging
                                 android.util.Log.d("EditCustomerDialog",
                                         "📍 Location updated: Lat=" + latitude + ", Lng=" + longitude);
                             }
@@ -104,7 +104,7 @@ public class EditCustomerDialog extends DialogFragment {
             launcher.launch(intent);
         });
 
-        // ✅ NEW: Address change listener - Auto fetch Lat/Lang from Address
+        //  NEW: Address change listener - Auto fetch Lat/Lang from Address
         binding.etAddress.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String address = binding.etAddress.getText().toString().trim();
@@ -114,7 +114,7 @@ public class EditCustomerDialog extends DialogFragment {
             }
         });
 
-        // ✅ NEW: Latitude change listener - Auto fetch Address from Lat/Lang
+        //  NEW: Latitude change listener - Auto fetch Address from Lat/Lang
         binding.etLatitude.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String latStr = binding.etLatitude.getText().toString().trim();
@@ -133,7 +133,7 @@ public class EditCustomerDialog extends DialogFragment {
             }
         });
 
-        // ✅ NEW: Longitude change listener - Auto fetch Address from Lat/Lang
+        //  NEW: Longitude change listener - Auto fetch Address from Lat/Lang
         binding.etLongitude.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String latStr = binding.etLatitude.getText().toString().trim();
@@ -159,15 +159,15 @@ public class EditCustomerDialog extends DialogFragment {
                         "Save",
                         (dialog, which) -> {
 
-                            // ✅ Set basic info
+                            //  Set basic info
                             customer.setName(binding.etName.getText().toString().trim());
                             customer.setMobile(binding.etMobile.getText().toString().trim());
 
-                            // ✅ Use address from EditText
+                            //  Use address from EditText
                             String newAddress = binding.etAddress.getText().toString().trim();
                             customer.setAddress(newAddress);
 
-                            // ✅ Use Lat/Lang from EditText fields
+                            //  Use Lat/Lang from EditText fields
                             try {
                                 double newLat = Double.parseDouble(binding.etLatitude.getText().toString().trim());
                                 double newLng = Double.parseDouble(binding.etLongitude.getText().toString().trim());
@@ -195,7 +195,7 @@ public class EditCustomerDialog extends DialogFragment {
                             customer.setMilkRate(
                                     Double.parseDouble(binding.etMilkRate.getText().toString()));
 
-                            // ✅ Log final values
+                            //  Log final values
                             android.util.Log.d("EditCustomerDialog",
                                     "💾 Saving: Lat=" + customer.getLatitude() +
                                             ", Lng=" + customer.getLongitude());
@@ -206,7 +206,7 @@ public class EditCustomerDialog extends DialogFragment {
                 .create();
     }
 
-    // ✅ NEW: Method to fetch Lat/Lang from Address using Geocoder
+    //  NEW: Method to fetch Lat/Lang from Address using Geocoder
     private void fetchLatLngFromAddress(String address, DialogEditCustomerBinding binding) {
         try {
             Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
@@ -217,31 +217,31 @@ public class EditCustomerDialog extends DialogFragment {
                 double lat = location.getLatitude();
                 double lng = location.getLongitude();
 
-                // ✅ Update Lat/Lang fields
+                //  Update Lat/Lang fields
                 binding.etLatitude.setText(String.valueOf(lat));
                 binding.etLongitude.setText(String.valueOf(lng));
 
-                // ✅ Store values
+                //  Store values
                 latitude = lat;
                 longitude = lng;
 
                 Toast.makeText(requireContext(),
-                        "📍 Location found: " + lat + ", " + lng,
+                        " Location found: " + lat + ", " + lng,
                         Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(),
-                        "❌ Address not found. Please check the address.",
+                        " Address not found. Please check the address.",
                         Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(requireContext(),
-                    "❌ Error fetching location. Please check internet connection.",
+                    " Error fetching location. Please check internet connection.",
                     Toast.LENGTH_SHORT).show();
         }
     }
 
-    // ✅ NEW: Method to fetch Address from Lat/Lang using Geocoder
+    //  NEW: Method to fetch Address from Lat/Lang using Geocoder
     private void fetchAddressFromLatLng(double lat, double lng, DialogEditCustomerBinding binding) {
         try {
             Geocoder geocoder = new Geocoder(requireContext(), Locale.getDefault());
@@ -259,24 +259,24 @@ public class EditCustomerDialog extends DialogFragment {
 
                 String fullAddress = sb.toString();
 
-                // ✅ Update Address field
+                //  Update Address field
                 binding.etAddress.setText(fullAddress);
 
-                // ✅ Store address
+                //  Store address
                 addressText = fullAddress;
 
                 Toast.makeText(requireContext(),
-                        "📍 Address found: " + fullAddress,
+                        " Address found: " + fullAddress,
                         Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(),
-                        "❌ Address not found for these coordinates.",
+                        " Address not found for these coordinates.",
                         Toast.LENGTH_SHORT).show();
             }
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(requireContext(),
-                    "❌ Error fetching address. Please check internet connection.",
+                    " Error fetching address. Please check internet connection.",
                     Toast.LENGTH_SHORT).show();
         }
     }

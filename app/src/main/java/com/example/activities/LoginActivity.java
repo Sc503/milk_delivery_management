@@ -41,14 +41,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_ACCOUNT_ID = "account_id";
     private static final String KEY_NAME = "name";
     private static final String KEY_STAFF_ID = "staff_id";
-
-    // New keys for user information
     private static final String KEY_OWNER_NAME = "owner_name";
     private static final String KEY_STAFF_NAME = "staff_name";
     private static final String KEY_BUSINESS_NAME = "business_name";
     private static final String KEY_ROLE = "role";
-
-    // Old keys (keeping for compatibility)
     private static final String KEY_HEADER_NAME = "header_name";
 
     @Override
@@ -57,15 +53,14 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // CHECK IF USER IS ALREADY LOGGED IN
+        // ✅ CHECK IF USER IS ALREADY LOGGED IN
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
         String userType = prefs.getString(KEY_USER_TYPE, null);
         String mobile = prefs.getString(KEY_MOBILE, null);
 
-        // If Remember Me is checked and user is logged in, skip login screen
+        // ✅ If Remember Me is checked and user is logged in, skip login screen
         if (rememberMe && userType != null && mobile != null) {
-            // User is already logged in, go directly to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -91,17 +86,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.txtForgotPassword.setOnClickListener(v -> {
             Toast.makeText(LoginActivity.this, "Forgot Password feature coming soon", Toast.LENGTH_SHORT).show();
         });
-
-        // Remember Me checkbox - Save/Clear when toggled
-//        binding.checkRemember.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                // Save credentials when checked
-//                saveCredentials();
-//            } else {
-//                // Clear saved credentials when unchecked
-//                clearSavedCredentials();
-//            }
-//        });
     }
 
     private void loadSavedCredentials() {
@@ -161,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.remove(KEY_STAFF_NAME);
         editor.remove(KEY_BUSINESS_NAME);
         editor.remove(KEY_ROLE);
-        editor.remove(KEY_STAFF_ID);  //
+        editor.remove(KEY_STAFF_ID);
         editor.putBoolean(KEY_REMEMBER, false);
         editor.apply();
         Log.d(TAG, "Credentials cleared");
@@ -263,7 +247,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString(KEY_USER_TYPE, "staff");
                 editor.putBoolean(KEY_REMEMBER, true);
                 editor.apply();
-                Log.d(TAG, "Staff account_id saved: " + accountId);
+                Log.d(TAG, "✅ Staff account_id saved: " + accountId);
             }
 
             ApiService apiService = ApiClient.getClient().create(ApiService.class);
@@ -306,39 +290,43 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString(KEY_MOBILE, data.getMobile());
 
                         if (userType.equals("admin")) {
-                            // Owner Login
+                            // ============================================
+                            // ✅ Owner Login
+                            // ============================================
                             editor.putString(KEY_HEADER_NAME, data.getOwnername());
                             editor.putString(KEY_BUSINESS_NAME, data.getBusinessName());
                             editor.putString(KEY_OWNER_NAME, data.getOwnername());
                             editor.putString(KEY_ROLE, "Owner");
                             editor.putString(KEY_NAME, data.getBusinessName());
 
-                            Log.d(TAG, " Owner header_name: " + data.getOwnername());
-                            Log.d(TAG, " Owner business_name: " + data.getBusinessName());
+                            Log.d(TAG, "✅ Owner header_name: " + data.getOwnername());
+                            Log.d(TAG, "✅ Owner business_name: " + data.getBusinessName());
 
                             if (data.getId() != null) {
                                 editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getId()));
-                                Log.d(TAG, " Owner account_id saved: " + data.getId());
+                                Log.d(TAG, "✅ Owner account_id saved: " + data.getId());
                             } else {
                                 editor.putString(KEY_ACCOUNT_ID, "0");
                                 Log.e(TAG, "❌ Owner ID is null!");
                             }
 
-                            //  Owner has NO staff_id
+                            // Owner has NO staff_id
                             editor.putLong(KEY_STAFF_ID, 0);
 
                         } else {
-                            // Staff Login
+                            // ============================================
+                            // ✅ Staff Login
+                            // ============================================
                             editor.putString(KEY_HEADER_NAME, data.getName());
                             editor.putString(KEY_STAFF_NAME, data.getName());
                             editor.putString(KEY_ROLE, "Staff");
                             editor.putString(KEY_NAME, data.getName());
 
-                            Log.d(TAG, " Staff header_name: " + data.getName());
+                            Log.d(TAG, "✅ Staff header_name: " + data.getName());
 
                             if (data.getBusinessName() != null && !data.getBusinessName().isEmpty()) {
                                 editor.putString(KEY_BUSINESS_NAME, data.getBusinessName());
-                                Log.d(TAG, " Staff business_name: " + data.getBusinessName());
+                                Log.d(TAG, "✅ Staff business_name: " + data.getBusinessName());
                             } else {
                                 editor.putString(KEY_BUSINESS_NAME, "");
                                 Log.d(TAG, "⏳ Staff business_name: Empty");
@@ -346,17 +334,17 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (data.getAccountId() != null) {
                                 editor.putString(KEY_ACCOUNT_ID, String.valueOf(data.getAccountId()));
-                                Log.d(TAG, " Staff account_id saved: " + data.getAccountId());
+                                Log.d(TAG, "✅ Staff account_id saved: " + data.getAccountId());
                             } else {
                                 editor.putString(KEY_ACCOUNT_ID, "0");
                                 Log.e(TAG, "❌ Staff account_id is null!");
                             }
 
-                            // SAVE STAFF ID - THIS IS THE FIX!
+                            // ✅ SAVE STAFF ID
                             if (data.getId() != null) {
                                 editor.putLong(KEY_STAFF_ID, data.getId());
-                                Toast.makeText(LoginActivity.this, "Staff ID saved: " + data.getId(), Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "Staff ID saved: " + data.getId());
+                                Toast.makeText(LoginActivity.this, "✅ Staff ID saved: " + data.getId(), Toast.LENGTH_LONG).show();
+                                Log.d(TAG, "✅ Staff ID saved: " + data.getId());
                             } else {
                                 editor.putLong(KEY_STAFF_ID, 0);
                                 Log.e(TAG, "❌ Staff ID is null!");
@@ -364,7 +352,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
 
-                    //  Save user type
+                    // ✅ Save user type
                     if (userType.equals("admin")) {
                         editor.putString(KEY_USER_TYPE, "Owner");
                     } else {
@@ -378,23 +366,24 @@ public class LoginActivity extends AppCompatActivity {
 
                     editor.apply();
 
-                    Log.d(TAG, " Login Successful!");
+                    Log.d(TAG, "✅ Login Successful!");
                     Log.d(TAG, "User Type: " + prefs.getString(KEY_USER_TYPE, ""));
                     Log.d(TAG, "Header Name: " + prefs.getString(KEY_HEADER_NAME, ""));
                     Log.d(TAG, "Business Name: " + prefs.getString(KEY_BUSINESS_NAME, ""));
                     Log.d(TAG, "Account ID: " + prefs.getString(KEY_ACCOUNT_ID, ""));
                     Log.d(TAG, "Staff ID: " + prefs.getLong(KEY_STAFF_ID, 0));
 
-                    // Go to MainActivity
+                    // ✅ Go to MainActivity with CLEAR_TASK flag
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
+
                 } else {
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(LoginActivity.this, "Login failed. Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "❌ Login failed. Please try again.", Toast.LENGTH_LONG).show();
             }
         }
 

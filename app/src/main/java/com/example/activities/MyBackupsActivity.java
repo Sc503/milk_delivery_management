@@ -306,7 +306,7 @@ public class MyBackupsActivity extends AppCompatActivity {
         }
     }
 
-    // ── ✅ RESTORE WITH MERGE/REPLACE ──────────────────────────────
+    // ──  RESTORE WITH MERGE/REPLACE ──────────────────────────────
     private void restoreBackup(File file) {
         // Create custom dialog
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
@@ -429,7 +429,7 @@ public class MyBackupsActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ── ✅ Perform Merge Restore ──────────────────────────────────────
+    // ──  Perform Merge Restore ──────────────────────────────────────
     private void performMergeRestore(File file) {
         performMergeRestore(file, null);
     }
@@ -445,13 +445,13 @@ public class MyBackupsActivity extends AppCompatActivity {
 
             try {
                 if (password != null) {
-                    // ✅ Encrypted merge
+                    //  Encrypted merge
                     success = BackupManager.mergeEncryptedBackup(this, file, password);
                     if (!success) {
                         errorMsg = "Encrypted merge failed - wrong password or corrupted file";
                     }
                 } else {
-                    // ✅ Regular merge
+                    //  Regular merge
                     success = BackupManager.mergeBackupFromFile(this, file);
                     if (!success) {
                         errorMsg = "Regular merge failed";
@@ -467,21 +467,21 @@ public class MyBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(MyBackupsActivity.this, "✅ Merge Successful! Data added.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyBackupsActivity.this, " Merge Successful! Data added.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(MyBackupsActivity.this, "❌ Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyBackupsActivity.this, " Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
     }
 
-    // ── ✅ Perform Replace Restore ──────────────────────────────────────
+    // ── Perform Replace Restore ──────────────────────────────────────
     private void performReplaceRestore(File file) {
         performReplaceRestore(file, null);
     }
 
-    // ── ✅ Perform Replace Restore ──────────────────────────────────────
+    // ──  Perform Replace Restore ──────────────────────────────────────
     private void performReplaceRestore(File file, String password) {
         String fileType = password != null ? "encrypted" : "regular";
         Toast.makeText(this, "Restoring " + fileType + " from: " + file.getName(), Toast.LENGTH_LONG).show();
@@ -492,13 +492,13 @@ public class MyBackupsActivity extends AppCompatActivity {
 
             try {
                 if (password != null) {
-                    // ✅ Encrypted restore
+                    //  Encrypted restore
                     success = BackupManager.restoreEncryptedBackup(this, file, password);
                     if (!success) {
                         errorMsg = "Encrypted restore failed - wrong password or corrupted file";
                     }
                 } else {
-                    // ✅ Regular restore
+                    //  Regular restore
                     success = BackupManager.restoreBackupFromFile(this, file);
                     if (!success) {
                         errorMsg = "Regular restore failed";
@@ -514,10 +514,10 @@ public class MyBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(MyBackupsActivity.this, "✅ Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyBackupsActivity.this, " Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(MyBackupsActivity.this, "❌ Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyBackupsActivity.this, " Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -528,10 +528,10 @@ public class MyBackupsActivity extends AppCompatActivity {
                 .setMessage("Delete \"" + file.getName() + "\"?")
                 .setPositiveButton("Delete", (d, w) -> {
                     if (file.delete()) {
-                        Toast.makeText(this, "✅ Deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, " Deleted", Toast.LENGTH_SHORT).show();
                         refreshFileList();
                     } else {
-                        Toast.makeText(this, "❌ Delete failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, " Delete failed", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)

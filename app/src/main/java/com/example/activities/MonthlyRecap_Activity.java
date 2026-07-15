@@ -52,7 +52,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
+        //  THEME CHECK - Apply saved theme BEFORE loading layout
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
@@ -64,18 +64,18 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
 
-        // ✅ Use View Binding
+        //  Use View Binding
         binding = ActivityMonthlyRecapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ Handle Window Insets
+        //  Handle Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ✅ Setup Toolbar with Back Button
+        // Setup Toolbar with Back Button
         setupToolbar();
 
         // Get user session
@@ -88,13 +88,13 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
 
         setupRecyclerView();
 
-        // ✅ Add filter button click listener
+        //  Add filter button click listener
         binding.ivFilter.setOnClickListener(v -> showFilterBottomSheet());
 
         runMonthlyCalculation();
     }
 
-    // ✅ Setup Toolbar with Back Button
+    //  Setup Toolbar with Back Button
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
@@ -104,7 +104,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
         }
     }
 
-    // ✅ Handle Back Button Click
+    //  Handle Back Button Click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -162,7 +162,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         startActivity(intent);
                     }
 
-                    // ❌ Remove onEditClick - Edit button आता हवा नाही
+
                     /*
                     @Override
                     public void onEditClick(MonthlyRecapAdapter.RecapItem item) {
@@ -192,7 +192,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 }
         );
 
-        // ❌ Remove setOwner - Edit button नाहीये
+
         // adapter.setOwner(currentUserType.equals("Owner"));
         binding.rvMonthlyRecap.setAdapter(adapter);
     }
@@ -221,7 +221,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 allCustomers = new ArrayList<>();
             }
 
-            // ✅ IMPORTANT: Store total customers count BEFORE filtering
+            //  IMPORTANT: Store total customers count BEFORE filtering
             final int totalCustomersCount = allCustomers.size();
 
             final List<Customer> customersList = allCustomers;
@@ -267,7 +267,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         ? ((double) deliveredCount / totalDaysInMonth) * 100.0
                         : 0.0;
 
-                // ✅ Apply filters for RecyclerView items only
+                //  Apply filters for RecyclerView items only
                 if (!customerFilter.trim().isEmpty()
                         && !customer.getName().toLowerCase().contains(customerFilter.toLowerCase())) {
                     continue;
@@ -294,7 +294,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 totalPendingSum += pendingCount;
             }
 
-            // ✅ Use totalCustomersCount (ALL customers, not filtered)
+            // Use totalCustomersCount (ALL customers, not filtered)
             final int finalTotalCustomers = totalCustomersCount;
             final int finalTotalDeliveries = totalDeliveriesSum;
             final int finalTotalPending = totalPendingSum;
@@ -305,14 +305,14 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (binding == null) return;
 
-                // ✅ Set filtered data to RecyclerView
+                // Set filtered data to RecyclerView
                 adapter.setData(recapItems);
 
-                // ✅ Update BOTH Total Customers TextViews
+                // Update BOTH Total Customers TextViews
                 binding.tvTotalCustomers.setText(String.valueOf(finalTotalCustomers));      // Top Card
                 binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));   // Bottom Card
 
-                // ✅ Update other stats
+                //  Update other stats
                 binding.recapTotalDeliveries.setText(String.valueOf(finalTotalDeliveries));
                 binding.recapTotalPending.setText(String.valueOf(finalTotalPending));
                 binding.recapAveragePercentage.setText(
