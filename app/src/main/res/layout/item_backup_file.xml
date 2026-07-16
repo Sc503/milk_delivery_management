@@ -9,6 +9,7 @@
     app:cardElevation="2dp"
     app:cardBackgroundColor="#FFFFFF"
     android:foreground="?attr/selectableItemBackground"
+    android:fitsSystemWindows="true"
     android:clickable="true">
 
     <LinearLayout

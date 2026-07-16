@@ -66,21 +66,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
-    // ✅ Prevent double creation
+    //  Prevent double creation
     private boolean isActivityCreated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ If activity is not the root, finish it (prevents duplicate)
+        //  If activity is not the root, finish it (prevents duplicate)
         if (!isTaskRoot()) {
             Log.d("MAIN_ACTIVITY", "❌ Activity is not task root, finishing duplicate");
             finish();
             return;
         }
 
-        // ✅ Prevent double creation
+        // Prevent double creation
         if (savedInstanceState != null && isActivityCreated) {
             Log.d("MAIN_ACTIVITY", "❌ Activity already created, skipping duplicate");
             super.onCreate(savedInstanceState);
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
 
-        // ✅ Only load fragment if savedInstanceState is null
+        //  Only load fragment if savedInstanceState is null
         if (savedInstanceState == null) {
             BottomNavigationView bottomNav = binding.bottomNavigation;
             if (bottomNav != null) {
@@ -281,10 +281,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fragment_container, mapFragment)
                     .commit();
 
-            // ✅ Refresh menu with multiple attempts
+            //  Refresh menu with multiple attempts
             refreshMenuMultipleTimes();
         } else {
-            // ✅ Restore active fragment on configuration change
+            //  Restore active fragment on configuration change
             activeFragment = getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_container);
             if (activeFragment == null) {
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isActivityCreated = true;
     }
 
-    // ✅ Handle new intent without recreating activity
+    //  Handle new intent without recreating activity
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("MAIN_ACTIVITY", "✅ onNewIntent called - Activity reused");
     }
 
-    // ✅ Aggressive menu refresh for Samsung/Vivo
+    //  Aggressive menu refresh for Samsung/Vivo
     private void refreshMenuMultipleTimes() {
         binding.toolbar.post(() -> {
             invalidateOptionsMenu();
@@ -760,3 +760,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

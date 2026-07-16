@@ -44,7 +44,6 @@ public class StaffList_Activity extends AppCompatActivity {
     private String accountId;
     private static final String TAG = "StaffList_Activity";
 
-    // TextView for total count
     private TextView tvTotalStaffCount;
 
     @Override
@@ -54,13 +53,10 @@ public class StaffList_Activity extends AppCompatActivity {
         setContentView(binding.getRoot());
         context = this;
 
-        // Initialize total staff TextView
         tvTotalStaffCount = binding.tvTotalStaffCount;
 
-        // Setup toolbar
         setupToolbar();
 
-        // Get account_id from SharedPreferences
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         accountId = prefs.getString("account_id", "");
 
@@ -68,7 +64,6 @@ public class StaffList_Activity extends AppCompatActivity {
             Toast.makeText(this, "Please login again", Toast.LENGTH_SHORT).show();
         }
 
-        // Setup adapter
         adapter = new StaffAdapter(new StaffAdapter.Listener() {
             @Override
             public void onCall(Staff staff) {
@@ -85,7 +80,14 @@ public class StaffList_Activity extends AppCompatActivity {
         binding.recyclerStaff.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerStaff.setAdapter(adapter);
 
-        // Load staff from API
+        loadStaffList();
+    }
+
+    // ✅ IMPORTANT: Reload staff list when returning from AddStaff_Activity
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: Reloading staff list...");
         loadStaffList();
     }
 

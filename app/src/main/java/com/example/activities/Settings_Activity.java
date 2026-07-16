@@ -1,5 +1,6 @@
 package com.example.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -9,11 +10,15 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
@@ -23,12 +28,22 @@ import com.example.backup.BackupManager;
 import com.example.databinding.ActivitySettingsBinding;
 import com.example.service.AutoBackupManager;
 
+// ✅ Media3 Imports
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
+
+import com.google.android.material.button.MaterialButton;
+
 public class Settings_Activity extends AppCompatActivity {
 
     private ActivitySettingsBinding binding;
     private SwitchCompat switchTheme;
     private SwitchCompat switchAutoBackup;
     private AutoBackupManager autoBackupManager;
+
+    // ✅ Media3 ExoPlayer instance
+    private ExoPlayer exoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,16 +120,15 @@ public class Settings_Activity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // ── ✅ Reset Database - फक्त Owner/Admin ला दिसेल ──────────────────────────
+        // Reset Database - Only Owner
         String currentUserType = getSharedPreferences("UserSession", MODE_PRIVATE)
                 .getString("userType", "");
 
         if (currentUserType.equals("Owner")) {
-            // Owner - Reset Database Visible
             binding.btnClearCache.setVisibility(View.VISIBLE);
 
             binding.btnClearCache.setOnClickListener(v -> {
-                new androidx.appcompat.app.AlertDialog.Builder(this)
+                new AlertDialog.Builder(this)
                         .setTitle("Reset Local Database")
                         .setMessage("This will delete ALL local data. This action cannot be undone. Continue?")
                         .setPositiveButton("Reset", (dialog, which) -> {
@@ -140,51 +154,72 @@ public class Settings_Activity extends AppCompatActivity {
                         .show();
             });
         } else {
-            // Staff or Customer - Reset Database Hidden
             binding.btnClearCache.setVisibility(View.GONE);
         }
 
-        // ── INFO / HELP BUTTON ──────────────────────────────────────────────
-        // ✅ Check if btnInfo exists (for activity_settings.xml)
-        View btnInfo = findViewById(R.id.btnInfo);
-        if (btnInfo != null) {
-            btnInfo.setOnClickListener(v -> {
-                showHelpDialog();
-            });
-        }
+        // ✅ Info Button - Show Video Dialog
+        binding.btnInfo.setOnClickListener(v -> {
+            showVideoDialog();
+        });
     }
 
-    // ✅ Method to show Help Dialog
-    private void showHelpDialog() {
-        new androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("📖 Help & Tutorial")
-                .setMessage(
-                        "🎯 Theme Mode\n" +
-                                "• Switch between Light and Dark mode\n\n" +
-                                "📦 Backup & Restore\n" +
-                                "• Auto Backup every 24 hours\n" +
-                                "• Create Normal or Encrypted Backup\n" +
-                                "• Share or Restore backups\n\n" +
-                                "🔗 WiFi Direct\n" +
-                                "• Share data directly with other devices\n\n" +
-                                "🗄️ Database Administration\n" +
-                                "• Reset all local data (Cannot be undone)"
-                )
-                .setPositiveButton("Watch Tutorial", (dialog, which) -> {
-                    // Open YouTube tutorial
-                    Intent intent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://www.youtube.com/watch?v=YOUR_VIDEO_ID"));
-                    startActivity(intent);
-                })
-                .setNegativeButton("Close", null)
-                .show();
+    // ✅ Video Dialog Function with Media3 ExoPlayer
+    private void showVideoDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_video_player);
+        dialog.setCancelable(false);
+
+        // Set dialog width
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+
+        PlayerView playerView = dialog.findViewById(R.id.playerView);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+
+        // ✅ Create Media3 ExoPlayer
+        exoPlayer = new ExoPlayer.Builder(this).build();
+        playerView.setPlayer(exoPlayer);
+
+        // ✅ Play video from res/raw/milkflowtutorial.mp4
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.milkflowtutorial);
+        MediaItem mediaItem = MediaItem.fromUri(uri);
+        exoPlayer.setMediaItem(mediaItem);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
+
+        // ✅ Close listener
+        View.OnClickListener closeListener = v -> {
+            if (exoPlayer != null) {
+                exoPlayer.release();
+                exoPlayer = null;
+            }
+            dialog.dismiss();
+        };
+
+        btnClose.setOnClickListener(closeListener);
+        btnOk.setOnClickListener(closeListener);
+
+        dialog.setOnDismissListener(d -> {
+            if (exoPlayer != null) {
+                exoPlayer.release();
+                exoPlayer = null;
+            }
+        });
+
+        dialog.show();
     }
 
     //  Professional Backup Options Dialog
     private void showBackupOptionsDialog() {
         String[] options = {"📄 Normal Backup (.json)", "🔒 Encrypted Backup (.enc)"};
 
-        new androidx.appcompat.app.AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("Create Backup")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
@@ -198,12 +233,10 @@ public class Settings_Activity extends AppCompatActivity {
 
     //  Professional Encryption Password Setup Dialog
     private void showProfessionalEncryptionDialog() {
-        // Create custom layout
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 20, 50, 20);
 
-        // File info text
         TextView fileInfo = new TextView(this);
         fileInfo.setText("📁 Encrypted Backup File");
         fileInfo.setTextSize(16);
@@ -212,7 +245,6 @@ public class Settings_Activity extends AppCompatActivity {
         fileInfo.setPadding(0, 0, 0, 10);
         layout.addView(fileInfo);
 
-        // Divider
         View divider = new View(this);
         divider.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, 2));
@@ -220,7 +252,6 @@ public class Settings_Activity extends AppCompatActivity {
         divider.setPadding(0, 0, 0, 20);
         layout.addView(divider);
 
-        // Info text
         TextView infoText = new TextView(this);
         infoText.setText("This file will be encrypted. Enter a password to protect your backup.");
         infoText.setTextColor(getResources().getColor(android.R.color.darker_gray));
@@ -228,7 +259,6 @@ public class Settings_Activity extends AppCompatActivity {
         infoText.setPadding(0, 0, 0, 20);
         layout.addView(infoText);
 
-        // Password input with icon
         LinearLayout passwordLayout = new LinearLayout(this);
         passwordLayout.setOrientation(LinearLayout.HORIZONTAL);
         passwordLayout.setGravity(Gravity.CENTER_VERTICAL);
@@ -253,13 +283,11 @@ public class Settings_Activity extends AppCompatActivity {
 
         layout.addView(passwordLayout);
 
-        // Space
         View spacer = new View(this);
         spacer.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, 15));
         layout.addView(spacer);
 
-        // Confirm password with icon
         LinearLayout confirmLayout = new LinearLayout(this);
         confirmLayout.setOrientation(LinearLayout.HORIZONTAL);
         confirmLayout.setGravity(Gravity.CENTER_VERTICAL);
@@ -284,7 +312,6 @@ public class Settings_Activity extends AppCompatActivity {
 
         layout.addView(confirmLayout);
 
-        // Password strength hint
         TextView strengthHint = new TextView(this);
         strengthHint.setText("💡 Use at least 4 characters for security");
         strengthHint.setTextColor(getResources().getColor(android.R.color.darker_gray));
@@ -292,7 +319,7 @@ public class Settings_Activity extends AppCompatActivity {
         strengthHint.setPadding(0, 15, 0, 0);
         layout.addView(strengthHint);
 
-        new androidx.appcompat.app.AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle("🔐 Set Encryption Password")
                 .setView(layout)
                 .setPositiveButton("Create Encrypted Backup", (d, w) -> {
@@ -377,6 +404,10 @@ public class Settings_Activity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
         binding = null;
     }
 }

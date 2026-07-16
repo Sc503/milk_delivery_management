@@ -7,6 +7,7 @@
     android:paddingTop="40dp"
     android:paddingBottom="20dp"
     android:paddingStart="20dp"
+    android:fitsSystemWindows="true"
     android:paddingEnd="20dp">
 
     <FrameLayout

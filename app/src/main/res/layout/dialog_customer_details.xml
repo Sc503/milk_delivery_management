@@ -10,6 +10,7 @@
     android:layout_marginTop="@dimen/dialog_margin_vertical"
     android:layout_marginBottom="@dimen/dialog_margin_vertical"
     app:cardBackgroundColor="@color/white"
+    android:fitsSystemWindows="true"
     app:cardCornerRadius="@dimen/dialog_corner_radius"
     app:cardElevation="@dimen/dialog_elevation">
 

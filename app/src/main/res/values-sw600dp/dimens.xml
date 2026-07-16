@@ -1,24 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_size_large">22sp</dimen>
-    <dimen name="text_size_medium">18sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
-    <dimen name="text_size_xsmall">12sp</dimen>
-    <dimen name="button_text_size">14sp</dimen>
-    <dimen name="button_height">48dp</dimen>
-    <dimen name="card_padding">24dp</dimen>
+    <!-- ============ CARD DIMENSIONS ============ -->
     <dimen name="card_margin">16dp</dimen>
     <dimen name="card_margin_small">8dp</dimen>
     <dimen name="card_corner_radius">20dp</dimen>
     <dimen name="card_elevation">6dp</dimen>
+    <dimen name="card_padding">24dp</dimen>
+
+    <!-- ============ TEXT SIZES ============ -->
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_xsmall">12sp</dimen>
+
+    <!-- ============ BUTTON DIMENSIONS ============ -->
+    <dimen name="button_height">48dp</dimen>
     <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
     <dimen name="button_margin_small">8dp</dimen>
+
+    <!-- ============ STATUS BADGE ============ -->
     <dimen name="status_padding_horizontal">16dp</dimen>
     <dimen name="status_padding_vertical">6dp</dimen>
+
+    <!-- ============ ICONS ============ -->
     <dimen name="icon_size_small">20dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
+
+    <!-- ============ MARGINS ============ -->
     <dimen name="margin_tiny">6dp</dimen>
     <dimen name="margin_small">12dp</dimen>
     <dimen name="margin_medium">18dp</dimen>
     <dimen name="margin_large">24dp</dimen>
+
+    <!-- ============ DIALOG DIMENSIONS ============ -->
+    <dimen name="dialog_margin_horizontal">20dp</dimen>
+    <dimen name="dialog_margin_vertical">12dp</dimen>
+    <dimen name="dialog_corner_radius">28dp</dimen>
+    <dimen name="dialog_elevation">14dp</dimen>
+    <dimen name="dialog_padding">32dp</dimen>
+    <dimen name="dialog_title_size">26sp</dimen>
+    <dimen name="dialog_label_size">14sp</dimen>
+    <dimen name="dialog_value_size">20sp</dimen>
+    <dimen name="dialog_button_text_size">18sp</dimen>
+    <dimen name="dialog_deliver_button_text_size">20sp</dimen>
+    <dimen name="dialog_cancel_text_size">18sp</dimen>
+    <dimen name="dialog_button_height">64dp</dimen>
+    <dimen name="dialog_deliver_button_height">72dp</dimen>
+    <dimen name="dialog_button_corner">32dp</dimen>
+    <dimen name="dialog_deliver_button_corner">36dp</dimen>
+    <dimen name="dialog_divider_margin_top">16dp</dimen>
+    <dimen name="dialog_divider_margin_bottom">28dp</dimen>
+    <dimen name="dialog_value_margin_top">6dp</dimen>
+    <dimen name="dialog_section_margin_top">24dp</dimen>
+    <dimen name="dialog_button_row_margin_top">32dp</dimen>
+    <dimen name="dialog_deliver_button_margin_top">16dp</dimen>
+    <dimen name="dialog_cancel_margin_top">18dp</dimen>
+    <dimen name="dialog_cancel_padding">12dp</dimen>
+    <dimen name="dialog_button_margin_small">8dp</dimen>
+    <dimen name="dialog_icon_size">28dp</dimen>
+    <dimen name="dialog_icon_padding">12dp</dimen>
+
+    <!-- ============ WIFI DIRECT DIMENSIONS ============ -->
+    <dimen name="wifi_card_margin">24dp</dimen>
+    <dimen name="wifi_card_corner">32dp</dimen>
+    <dimen name="wifi_card_elevation">12dp</dimen>
+    <dimen name="wifi_card_padding">32dp</dimen>
+    <dimen name="wifi_icon_size">64dp</dimen>
+    <dimen name="wifi_icon_text_size">36sp</dimen>
+    <dimen name="wifi_indicator_size">16dp</dimen>
+    <dimen name="wifi_title_size">28sp</dimen>
+    <dimen name="wifi_subtitle_size">16sp</dimen>
+    <dimen name="wifi_status_text_size">18sp</dimen>
+    <dimen name="wifi_hint_text_size">14sp</dimen>
+    <dimen name="wifi_list_title_size">22sp</dimen>
+    <dimen name="wifi_count_text_size">16sp</dimen>
+    <dimen name="wifi_empty_text_size">16sp</dimen>
+    <dimen name="wifi_button_height">64dp</dimen>
+    <dimen name="wifi_button_text_size">18sp</dimen>
+    <dimen name="wifi_button_corner">16dp</dimen>
+    <dimen name="wifi_button_margin">14dp</dimen>
+    <dimen name="wifi_progress_height">6dp</dimen>
+    <dimen name="wifi_margin_tiny">6dp</dimen>
+    <dimen name="wifi_margin_small">12dp</dimen>
+    <dimen name="wifi_margin_medium">18dp</dimen>
+    <dimen name="wifi_margin_large">24dp</dimen>
+    <dimen name="wifi_icon_padding">12dp</dimen>
+    <dimen name="wifi_status_padding">18dp</dimen>
+    <dimen name="wifi_list_padding">12dp</dimen>
+    <dimen name="wifi_empty_padding">32dp</dimen>
+    <dimen name="wifi_count_padding_h">16dp</dimen>
+    <dimen name="wifi_count_padding_v">6dp</dimen>
+    <dimen name="wifi_list_corner">20dp</dimen>
 </resources>

@@ -161,27 +161,26 @@ public class EditStaff_Activity extends AppCompatActivity {
             return;
         }
 
-        // Validate Password (only if user wants to change it)
+        // ✅ Confirm Password Optional - फक्त Password बदलताना
         if (!TextUtils.isEmpty(password)) {
+            // Password टाकला आहे, पण किमान 3 characters हवेत
             if (password.length() < 3) {
                 binding.etPassword.setError("Password must be at least 3 characters");
                 binding.etPassword.requestFocus();
                 return;
             }
 
-            if (TextUtils.isEmpty(confirmPassword)) {
-                binding.etConfirmPassword.setError("Confirm Password");
-                binding.etConfirmPassword.requestFocus();
-                return;
+            // ✅ Confirm Password टाकला असेल तरच Match Check करा
+            if (!TextUtils.isEmpty(confirmPassword)) {
+                if (!password.equals(confirmPassword)) {
+                    binding.etConfirmPassword.setError("Passwords do not match");
+                    binding.etConfirmPassword.requestFocus();
+                    return;
+                }
             }
-
-            if (!password.equals(confirmPassword)) {
-                binding.etConfirmPassword.setError("Passwords do not match");
-                binding.etConfirmPassword.requestFocus();
-                return;
-            }
+            // जर Confirm Password रिकामा असेल तर त्याला Error दाखवू नका
         } else {
-            // If password is empty, use existing password
+            // Password रिकामा असेल तर Existing Password वापरा
             password = staffToEdit.getPassword();
         }
 
@@ -256,6 +255,4 @@ public class EditStaff_Activity extends AppCompatActivity {
         super.onDestroy();
         binding = null;
     }
-
-
 }

@@ -1,15 +1,20 @@
 package com.example.activities;
 
+import android.app.Dialog;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +26,11 @@ import com.example.models.LoginResponse;
 import com.example.models.MyData;
 import com.example.network.ApiClient;
 import com.example.network.ApiService;
+
+// ✅ Media3 Imports
+import androidx.media3.common.MediaItem;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.ui.PlayerView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +56,9 @@ public class LoginActivity extends AppCompatActivity {
     private static final String KEY_BUSINESS_NAME = "business_name";
     private static final String KEY_ROLE = "role";
     private static final String KEY_HEADER_NAME = "header_name";
+
+    // ✅ Media3 ExoPlayer
+    private ExoPlayer exoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +99,61 @@ public class LoginActivity extends AppCompatActivity {
         binding.txtForgotPassword.setOnClickListener(v -> {
             Toast.makeText(LoginActivity.this, "Forgot Password feature coming soon", Toast.LENGTH_SHORT).show();
         });
+
+        // ✅ NEW: How to Use App? Button
+        binding.tvHowToUseApp.setOnClickListener(v -> showVideoDialog());
+    }
+
+    // ✅ Video Dialog Function with Media3 ExoPlayer
+    private void showVideoDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_video_player);
+        dialog.setCancelable(false);
+
+        // Set dialog width
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+        }
+
+        PlayerView playerView = dialog.findViewById(R.id.playerView);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        Button btnOk = dialog.findViewById(R.id.btnOk);
+
+        // ✅ Create Media3 ExoPlayer
+        exoPlayer = new ExoPlayer.Builder(this).build();
+        playerView.setPlayer(exoPlayer);
+
+        // ✅ Play video from res/raw/milkflowtutorial.mp4
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.milkflowtutorial);
+        MediaItem mediaItem = MediaItem.fromUri(uri);
+        exoPlayer.setMediaItem(mediaItem);
+        exoPlayer.prepare();
+        exoPlayer.setPlayWhenReady(true);
+
+        // ✅ Close listener
+        View.OnClickListener closeListener = v -> {
+            if (exoPlayer != null) {
+                exoPlayer.release();
+                exoPlayer = null;
+            }
+            dialog.dismiss();
+        };
+
+        btnClose.setOnClickListener(closeListener);
+        btnOk.setOnClickListener(closeListener);
+
+        dialog.setOnDismissListener(d -> {
+            if (exoPlayer != null) {
+                exoPlayer.release();
+                exoPlayer = null;
+            }
+        });
+
+        dialog.show();
     }
 
     private void loadSavedCredentials() {
@@ -393,6 +461,15 @@ public class LoginActivity extends AppCompatActivity {
             binding.btnLogin.setText("LOGIN");
             Log.e(TAG, "Network Error: " + t.getMessage());
             Toast.makeText(LoginActivity.this, "❌ Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
         }
     }
 }

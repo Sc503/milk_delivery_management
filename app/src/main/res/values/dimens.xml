@@ -73,4 +73,47 @@
     <!-- Dialog Icons -->
     <dimen name="dialog_icon_size">20dp</dimen>
     <dimen name="dialog_icon_padding">8dp</dimen>
+
+    <!-- ============ WIFI DIRECT DIMENSIONS ============ -->
+    <!-- Card -->
+    <dimen name="wifi_card_margin">16dp</dimen>
+    <dimen name="wifi_card_corner">24dp</dimen>
+    <dimen name="wifi_card_elevation">8dp</dimen>
+    <dimen name="wifi_card_padding">24dp</dimen>
+
+    <!-- Icon -->
+    <dimen name="wifi_icon_size">48dp</dimen>
+    <dimen name="wifi_icon_text_size">28sp</dimen>
+    <dimen name="wifi_indicator_size">12dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="wifi_title_size">22sp</dimen>
+    <dimen name="wifi_subtitle_size">13sp</dimen>
+    <dimen name="wifi_status_text_size">15sp</dimen>
+    <dimen name="wifi_hint_text_size">12sp</dimen>
+    <dimen name="wifi_list_title_size">18sp</dimen>
+    <dimen name="wifi_count_text_size">14sp</dimen>
+    <dimen name="wifi_empty_text_size">14sp</dimen>
+
+    <!-- Button -->
+    <dimen name="wifi_button_height">52dp</dimen>
+    <dimen name="wifi_button_text_size">14sp</dimen>
+    <dimen name="wifi_button_corner">12dp</dimen>
+    <dimen name="wifi_button_margin">10dp</dimen>
+
+    <!-- Progress -->
+    <dimen name="wifi_progress_height">4dp</dimen>
+
+    <!-- Margins & Paddings -->
+    <dimen name="wifi_margin_tiny">4dp</dimen>
+    <dimen name="wifi_margin_small">8dp</dimen>
+    <dimen name="wifi_margin_medium">12dp</dimen>
+    <dimen name="wifi_margin_large">16dp</dimen>
+    <dimen name="wifi_icon_padding">8dp</dimen>
+    <dimen name="wifi_status_padding">14dp</dimen>
+    <dimen name="wifi_list_padding">8dp</dimen>
+    <dimen name="wifi_empty_padding">24dp</dimen>
+    <dimen name="wifi_count_padding_h">12dp</dimen>
+    <dimen name="wifi_count_padding_v">4dp</dimen>
+    <dimen name="wifi_list_corner">16dp</dimen>
 </resources>

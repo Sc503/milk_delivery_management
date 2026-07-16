@@ -106,8 +106,6 @@ dependencies {
   implementation(libs.okhttp)
   // implementation(libs.play.services.location)
   implementation(libs.retrofit)
-  implementation(libs.glide)
-  annotationProcessor(libs.glide.compiler)
   implementation("com.google.android.libraries.places:places:3.5.0")
 
   implementation("com.google.firebase:firebase-firestore")
@@ -121,7 +119,6 @@ dependencies {
   implementation("com.github.chrisbanes:PhotoView:2.3.0")
   implementation("com.squareup.retrofit2:retrofit:2.9.0")
   implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-  implementation("com.google.code.gson:gson:2.10.1")
   implementation("de.hdodenhof:circleimageview:3.1.0")
 
   implementation("androidx.work:work-runtime:2.10.1")
@@ -129,6 +126,13 @@ dependencies {
   // ✅ Step 9.1: Glide Dependency for image loading
   implementation("com.github.bumptech.glide:glide:4.16.0")
   annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+
+  // ✅ फक्त या 3 lines ठेवा
+  implementation("androidx.media3:media3-exoplayer:1.8.0")
+  implementation("androidx.media3:media3-ui:1.8.0")
+  implementation("androidx.media3:media3-common:1.8.0")
+
 
   testImplementation(libs.androidx.compose.ui.test.junit4)
   testImplementation(libs.androidx.core)
