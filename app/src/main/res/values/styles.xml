@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- ==================== PREMIUM DAY HEADER ==================== -->
     <style name="PremiumDayHeader">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -12,9 +13,31 @@
         <item name="android:paddingVertical">8dp</item>
         <item name="android:background">@drawable/day_header_bg</item>
     </style>
+
+    <!-- ==================== NAVIGATION VIEW TEXT ==================== -->
     <style name="NavigationViewText" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
+    <!-- ==================== RESPONSIVE TEXT STYLES ==================== -->
+    <style name="TextAppearance.Responsive" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="TextAppearance.Responsive.Title" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+
+    <style name="TextAppearance.Responsive.Small" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+
+    <!-- ==================== BUTTON STYLES ==================== -->
+    <style name="Button.Responsive" parent="Widget.Material3.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
 
 </resources>

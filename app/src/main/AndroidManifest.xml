@@ -31,6 +31,15 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
+    <!-- ✅ Supports All Screen Sizes -->
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true"
+        android:resizeable="true" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -41,14 +50,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MilkDelivery"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-        <!-- ==================== EDIT STAFF ACTIVITY ==================== -->
-        <activity
-            android:name=".activities.EditStaff_Activity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity" />
 
         <!-- Google Maps API Key -->
         <meta-data
@@ -96,6 +99,7 @@
             android:exported="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -109,13 +113,15 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- ==================== CREATE ACCOUNT ACTIVITY ==================== -->
         <activity
             android:name=".activities.CreateAccountActivity"
             android:parentActivityName=".activities.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- ==================== MAIN ACTIVITY ==================== -->
         <activity
@@ -123,23 +129,25 @@
             android:exported="false"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery" />
 
         <!-- ==================== STAFF ACTIVITIES ==================== -->
         <activity
             android:name=".activities.StaffList_Activity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.AddStaff_Activity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <!-- ✅ EditStaff_Activity - ADDED HERE -->
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.EditStaff_Activity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:parentActivityName=".activities.MainActivity" />
 
         <!-- ==================== CUSTOMER ACTIVITIES ==================== -->
@@ -147,72 +155,91 @@
             android:name=".activities.AddCustomer_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
         <activity
             android:name=".activities.CustomerCalendarActivity"
             android:exported="false"
             android:label="Customer Calendar"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery" />
         <activity
             android:name=".activities.CustomerRecapDetailsActivity"
             android:exported="false"
             android:label="Milk Delivery Summary"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery" />
+        <activity
+            android:name=".activities.EditCustomer_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".activities.MainActivity" />
 
         <!-- ==================== PAYMENT ACTIVITIES ==================== -->
         <activity
             android:name=".activities.Payment_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
         <activity
             android:name=".activities.PaymentDetails_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
         <activity
             android:name=".activities.PaymentDashboard_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
         <activity
             android:name=".activities.PaymentHistory_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
         <!-- ==================== MONTHLY RECAP ==================== -->
         <activity
             android:name=".activities.MonthlyRecap_Activity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- ==================== BACKUP ACTIVITIES ==================== -->
         <activity
             android:name=".activities.BackupCenterActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.MyBackupsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.ReceivedBackupsActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".activities.WifiDirectActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <!-- ==================== ENCRYPTED FILE VIEWER ==================== -->
         <activity
             android:name=".activities.EncryptedFileViewerActivity"
             android:exported="true"
             android:label="Decrypt Backup"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -240,24 +267,21 @@
             android:name=".activities.Settings_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
         <activity
             android:name=".activities.AboutUs_Activity"
             android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/Theme.MilkDelivery.NoActionBar" />
 
         <!-- ==================== MAP PICKER ==================== -->
         <activity
             android:name=".activities.MapPickerActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".activities.EditCustomer_Activity"
-            android:exported="false"
             android:screenOrientation="portrait"
-            android:parentActivityName=".activities.MainActivity" />
+            android:configChanges="orientation|screenSize|keyboardHidden" />
 
     </application>
 
