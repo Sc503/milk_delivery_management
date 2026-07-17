@@ -4,9 +4,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -22,9 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.R;
+import com.example.activities.EditCustomer_Activity;
 import com.example.databinding.FragmentMapBinding;
 import com.example.dialogs.CustomerDetailsDialog;
-import com.example.dialogs.EditCustomerDialog;
 import com.example.models.Customer;
 import com.example.models.Delivery;
 import com.example.models.DeliveryWithStaff;
@@ -105,7 +105,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh toolbar when returning to this fragment
         requireActivity().invalidateOptionsMenu();
     }
 
@@ -252,7 +251,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    //  FIXED: openCustomerDetailsDialog
     private void openCustomerDetailsDialog(Customer customer) {
         String currentUserType = requireContext()
                 .getSharedPreferences("UserSession", MODE_PRIVATE)
@@ -263,18 +261,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        // GET STAFF NAME FROM DELIVERY RECORD
         String today = DateUtils.getTodayDateString();
 
         viewModel.getRepository().getExecutor().execute(() -> {
-            // Get delivery with staff name from database
             DeliveryWithStaff delivery = viewModel.getDeliveryWithStaff(customer.getId(), today);
 
             String staffDisplay = "Not assigned";
             long staffId = 0;
 
             if (delivery != null) {
-                // Your custom display format
                 if (delivery.staffName != null && !delivery.staffName.isEmpty()) {
                     staffDisplay = "Staff Name: " + delivery.staffName + "\n Staff ID: " + delivery.staffId;
                 } else if (delivery.staffId > 0) {
@@ -288,17 +283,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             final long finalStaffId = staffId;
 
             requireActivity().runOnUiThread(() -> {
-                // Show Toast to confirm
-//                Toast.makeText(getContext(), " " + finalStaffDisplay, Toast.LENGTH_LONG).show();
-
-                // Create callback
                 CustomerDetailsDialog.DialogCallback callback = new CustomerDetailsDialog.DialogCallback() {
                     @Override
                     public void onDeliver(Customer c) {
                         String todayDate = DateUtils.getTodayDateString();
                         String nowTime = DateUtils.getCurrentTimeString();
 
-                        // Get logged-in staff ID for marking delivery
                         SharedPreferences prefs = requireContext().getSharedPreferences("UserSession", MODE_PRIVATE);
                         long loggedInStaffId = prefs.getLong("staff_id", 0);
                         String staffName = prefs.getString("staff_name", "Staff");
@@ -333,14 +323,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     @Override
                     public void onEdit(Customer c) {
-                        EditCustomerDialog editDialog = new EditCustomerDialog(c, editedCustomer -> {
-                            viewModel.updateCustomer(editedCustomer);
-                            new Handler().postDelayed(() -> {
-                                refreshMap();
-                                Toast.makeText(getContext(), "Customer updated!", Toast.LENGTH_SHORT).show();
-                            }, 300);
-                        });
-                        editDialog.show(getChildFragmentManager(), "EditCustomerDialog");
+                        // ✅ Open EditCustomer_Activity instead of Dialog
+                        Intent intent = new Intent(getContext(), EditCustomer_Activity.class);
+                        intent.putExtra("CUSTOMER_ID", c.getId());
+                        startActivity(intent);
                     }
 
                     @Override
@@ -349,7 +335,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     }
                 };
 
-                //  Create dialog with callback
                 CustomerDetailsDialog dialog = new CustomerDetailsDialog(customer, finalStaffDisplay, callback);
                 dialog.show(getChildFragmentManager(), "CustomerDetailsDialog");
             });

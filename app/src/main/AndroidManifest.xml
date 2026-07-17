@@ -253,6 +253,12 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".activities.EditCustomer_Activity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity" />
+
     </application>
 
 </manifest>

@@ -8,8 +8,7 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/gradient_background">
 
-
-    <!-- Premium Green Gradient Toolbar with Back Button -->
+    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -23,10 +22,12 @@
         app:titleCentered="true"
         app:elevation="0dp" />
 
+    <!-- ✅ Report Container - फक्त Calendar, Statistics, Payment Slip -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/reportContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:fillViewport="true"
         android:scrollbars="none">
 
@@ -34,10 +35,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:paddingBottom="100dp">
+            android:padding="16dp">
 
-            <!-- Premium Customer Card with Gradient Border -->
+            <!-- Customer Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,8 +45,7 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp"
                 app:strokeWidth="0dp"
-                app:cardBackgroundColor="#FFFFFF"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,7 +55,6 @@
                     android:gravity="center_vertical"
                     android:background="@drawable/card_highlight">
 
-                    <!-- Animated Avatar -->
                     <ImageView
                         android:id="@+id/customer_profile_avatar"
                         android:layout_width="72dp"
@@ -103,11 +101,10 @@
 
                     </LinearLayout>
 
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Calendar Card with Premium Design -->
+            <!-- Calendar Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,7 +162,7 @@
 
                     </LinearLayout>
 
-                    <!-- Days Header with Premium Styling -->
+                    <!-- Days Header -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -189,14 +186,13 @@
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false" />
 
-                    <!-- Premium Divider -->
+                    <!-- Legend -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:background="@drawable/gradient_divider_horizontal"
                         android:layout_marginVertical="16dp" />
 
-                    <!-- Premium Legend -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -296,7 +292,6 @@
                     android:rowCount="2"
                     android:padding="8dp">
 
-                    <!-- Premium Stat 1 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -324,7 +319,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Premium Stat 2 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -352,7 +346,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Premium Stat 3 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -380,7 +373,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Premium Stat 4 -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -437,7 +429,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Premium Payment Details -->
+                    <!-- Payment Details -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -587,68 +579,78 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Premium Action Buttons -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnDownloadPdf"
-                            android:layout_width="0dp"
-                            android:layout_height="52dp"
-                            android:layout_weight="1"
-                            android:text="📄 Download"
-                            android:textAllCaps="false"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/white"
-                            android:backgroundTint="#1976D2"
-                            app:cornerRadius="14dp"
-                            app:iconGravity="textStart"
-                            app:iconPadding="8dp"
-                            android:elevation="4dp" />
-
-                        <Space
-                            android:layout_width="12dp"
-                            android:layout_height="wrap_content" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnSharePdf"
-                            android:layout_width="0dp"
-                            android:layout_height="52dp"
-                            android:layout_weight="1"
-                            android:text="📤 Share"
-                            android:textAllCaps="false"
-                            android:textStyle="bold"
-                            android:textColor="@android:color/white"
-                            android:backgroundTint="#FF6F00"
-                            app:cornerRadius="14dp"
-                            app:iconGravity="textStart"
-                            app:iconPadding="8dp"
-                            android:elevation="4dp" />
-                    </LinearLayout>
-
-                    <!-- Premium Screenshot Button -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnScreenshot"
-                        android:layout_width="match_parent"
-                        android:layout_height="54dp"
-                        android:layout_marginTop="12dp"
-                        android:text="📸 Take Screenshot"
-                        android:textAllCaps="false"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
-                        android:backgroundTint="#6750A4"
-                        app:cornerRadius="14dp"
-                        app:iconGravity="textStart"
-                        app:iconPadding="8dp"
-                        android:elevation="4dp" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- ✅ Buttons - reportContainer च्या बाहेर (Bottom मध्ये) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:elevation="8dp">
+
+        <!-- Action Buttons Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownloadPdf"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="📄 Download"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#1976D2"
+                app:cornerRadius="14dp"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:elevation="4dp" />
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSharePdf"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="📤 Share"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF6F00"
+                app:cornerRadius="14dp"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                android:elevation="4dp" />
+        </LinearLayout>
+
+        <!-- Screenshot Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnScreenshot"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="12dp"
+            android:text="📸 Take Screenshot"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#6750A4"
+            app:cornerRadius="14dp"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:elevation="4dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

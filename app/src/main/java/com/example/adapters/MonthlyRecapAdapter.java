@@ -14,18 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
-
 public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapter.RecapViewHolder> {
 
     private List<RecapItem> itemsList = new ArrayList<>();
     private final OnItemClickListener listener;
 
-
-
     public interface OnItemClickListener {
         void onItemClick(RecapItem item);
-
+        // ❌ Remove onEditClick - Edit Button नाहीये
+        // void onEditClick(RecapItem item);
     }
 
     public static class RecapItem {
@@ -49,8 +46,6 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
     public MonthlyRecapAdapter(OnItemClickListener listener) {
         this.listener = listener;
     }
-
-
 
     public void setData(List<RecapItem> items) {
         this.itemsList = items != null ? items : new ArrayList<>();
@@ -82,8 +77,6 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
         private final TextView txtPending;
         private final TextView txtPercentage;
 
-
-
         public RecapViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.txt_recap_customer_name);
@@ -91,7 +84,6 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
             txtDelivered = itemView.findViewById(R.id.txt_recap_delivered_count);
             txtPending = itemView.findViewById(R.id.txt_recap_pending_count);
             txtPercentage = itemView.findViewById(R.id.txt_recap_percentage);
-
         }
 
         public void bind(final RecapItem item, final OnItemClickListener listener) {
@@ -101,13 +93,12 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
             txtPending.setText(String.valueOf(item.pendingCount));
             txtPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", item.percentage));
 
-            //  Only Item Click
+            // ✅ Only Item Click
             itemView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onItemClick(item);
                 }
             });
-
         }
     }
 }

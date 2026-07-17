@@ -17,10 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.R;
+import com.example.activities.EditCustomer_Activity;
 import com.example.adapters.CustomerCardAdapter;
 import com.example.databinding.FragmentCustomerListBinding;
-import com.example.dialogs.EditCustomerDialog;
 import com.example.models.Customer;
 import com.example.models.DeliveryWithStaff;
 import com.example.utils.DateUtils;
@@ -69,13 +68,11 @@ public class CustomerListFragment extends Fragment {
                 startActivity(mapIntent);
             }
 
-
             @Override
             public void onDeliver(Customer customer) {
                 String today = DateUtils.getTodayDateString();
                 String nowTime = DateUtils.getCurrentTimeString();
 
-                // GET STAFF ID AND NAME
                 SharedPreferences prefs = requireContext().getSharedPreferences("UserSession", MODE_PRIVATE);
                 long staffId = prefs.getLong("staff_id", 0);
                 String staffName = prefs.getString("staff_name", "Staff");
@@ -91,7 +88,6 @@ public class CustomerListFragment extends Fragment {
                     return;
                 }
 
-
                 viewModel.deliverCustomer(
                         customer.getId(),
                         today,
@@ -99,26 +95,20 @@ public class CustomerListFragment extends Fragment {
                         staffId,
                         staffName,
                         () -> {
-
                             requireActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), " Delivered by " + staffName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "✅ Delivered by " + staffName, Toast.LENGTH_SHORT).show();
                             });
                             loadCustomers();
                         }
                 );
             }
 
-            // In CustomerListFragment.java - onViewCreated()
-
             @Override
             public void onEdit(Customer customer) {
-
-                EditCustomerDialog editDialog = new EditCustomerDialog(customer, editedCustomer -> {
-                    viewModel.updateCustomer(editedCustomer);
-                    Toast.makeText(getContext(), " Customer updated!", Toast.LENGTH_SHORT).show();
-                    loadCustomers();  // Refresh the list
-                });
-                editDialog.show(getChildFragmentManager(), "EditCustomerDialog");
+                // ✅ Open EditCustomer_Activity
+                Intent intent = new Intent(getContext(), EditCustomer_Activity.class);
+                intent.putExtra("CUSTOMER_ID", customer.getId());
+                startActivity(intent);
             }
         });
 
@@ -133,7 +123,6 @@ public class CustomerListFragment extends Fragment {
         String today = DateUtils.getTodayDateString();
 
         viewModel.getRepository().getExecutor().execute(() -> {
-            // Get all customers
             List<Customer> customers = viewModel.getAllCustomersSync();
 
             Map<Long, String> statusMap = new HashMap<>();

@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;  // ✅ Import add kara
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -34,8 +34,8 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     private DeliveryHistoryAdapter historyAdapter;
 
     private long customerId;
-    private int filterMonthIdx; // 0-based
-    private int filterYearInt;  // e.g. 2026
+    private int filterMonthIdx;
+    private int filterYearInt;
 
     private final String[] months = {
             "January", "February", "March", "April", "May", "June",
@@ -46,7 +46,6 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
@@ -91,7 +90,6 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         loadCustomerProfile();
         updateMonthYearHeader();
 
-        // Month pagination buttons
         binding.btnDetailPrev.setOnClickListener(v -> {
             filterMonthIdx--;
             if (filterMonthIdx < 0) {
@@ -120,8 +118,9 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
             calendarIntent.putExtra("CUSTOMER_ID", customerId);
             calendarIntent.putExtra("SELECTED_MONTH", filterMonthIdx);
             calendarIntent.putExtra("SELECTED_YEAR", filterYearInt);
-            calendarIntent.putExtra("READ_ONLY",
-                    getIntent().getBooleanExtra("READ_ONLY", false));
+
+            boolean readOnly = getIntent().getBooleanExtra("READ_ONLY", false);
+            calendarIntent.putExtra("READ_ONLY", readOnly);
 
             startActivity(calendarIntent);
         });
@@ -155,15 +154,31 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(customer.getName() + " Recap");
                 }
 
+                // ✅ Customer Name Click - Open Map with Location
                 binding.detailName.setOnClickListener(v -> {
-                    Intent intent = new Intent(
-                            CustomerRecapDetailsActivity.this,
-                            MainActivity.class);
+                    try {
+                        // ✅ Check if customer has valid coordinates
+                        if (customer.getLatitude() == 0 && customer.getLongitude() == 0) {
+                            Toast.makeText(CustomerRecapDetailsActivity.this,
+                                    "Customer location not available", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                    intent.putExtra("CUSTOMER_ID", customerId);
-                    intent.putExtra("OPEN_CUSTOMER_LOCATION", true);
+                        Intent intent = new Intent(
+                                CustomerRecapDetailsActivity.this,
+                                MainActivity.class);
 
-                    startActivity(intent);
+                        intent.putExtra("CUSTOMER_ID", customerId);
+                        intent.putExtra("OPEN_CUSTOMER_LOCATION", true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+
+                        Toast.makeText(CustomerRecapDetailsActivity.this,
+                                "Opening " + customer.getName() + "'s location", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(CustomerRecapDetailsActivity.this,
+                                "Error opening map: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 });
             }
         });
@@ -221,12 +236,26 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         });
     }
 
+    // ✅ Helper method to navigate to MonthlyRecap
+    private void goToMonthlyRecap() {
+        Intent intent = new Intent(this, MonthlyRecap_Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            goToMonthlyRecap();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goToMonthlyRecap();
+        super.onBackPressed();
     }
 }

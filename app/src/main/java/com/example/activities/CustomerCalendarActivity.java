@@ -145,17 +145,16 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             renderCalendarDaysAndStats();
         });
 
-        binding.btnScreenshot.setOnClickListener(v -> {
-            captureAndShareReport();
-        });
-
-        binding.btnDownloadPdf.setOnClickListener(v -> {
-            createPdf(false);
-        });
-
-        binding.btnSharePdf.setOnClickListener(v -> {
-            createPdf(true);
-        });
+        // ✅ Hide buttons if READ_ONLY (coming from Monthly Recap)
+        if (readOnly) {
+            binding.btnScreenshot.setVisibility(View.GONE);
+            binding.btnDownloadPdf.setVisibility(View.GONE);
+            binding.btnSharePdf.setVisibility(View.GONE);
+        } else {
+            binding.btnScreenshot.setOnClickListener(v -> captureAndShareReport());
+            binding.btnDownloadPdf.setOnClickListener(v -> createPdf(false));
+            binding.btnSharePdf.setOnClickListener(v -> createPdf(true));
+        }
 
         renderCalendarDaysAndStats();
     }
@@ -370,10 +369,30 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            // ✅ Go back to CustomerRecapDetailsActivity
+            Intent intent = new Intent(this, CustomerRecapDetailsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("CUSTOMER_ID", customerId);
+            intent.putExtra("FILTER_MONTH_INDEX", currentMonth);
+            intent.putExtra("FILTER_YEAR_STRING", String.valueOf(currentYear));
+            startActivity(intent);
             finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // ✅ Go back to CustomerRecapDetailsActivity
+        Intent intent = new Intent(this, CustomerRecapDetailsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("CUSTOMER_ID", customerId);
+        intent.putExtra("FILTER_MONTH_INDEX", currentMonth);
+        intent.putExtra("FILTER_YEAR_STRING", String.valueOf(currentYear));
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 
     private void captureAndShareReport() {
