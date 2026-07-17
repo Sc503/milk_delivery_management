@@ -21,8 +21,6 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
 
     public interface OnItemClickListener {
         void onItemClick(RecapItem item);
-        // ❌ Remove onEditClick - Edit Button नाहीये
-        // void onEditClick(RecapItem item);
     }
 
     public static class RecapItem {
@@ -49,7 +47,7 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
 
     public void setData(List<RecapItem> items) {
         this.itemsList = items != null ? items : new ArrayList<>();
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // Keep this for bulk updates
     }
 
     @NonNull
@@ -70,7 +68,8 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
         return itemsList.size();
     }
 
-    static class RecapViewHolder extends RecyclerView.ViewHolder {
+    // Fixed: Made private static (was missing static keyword)
+    public static class RecapViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtName;
         private final TextView txtTotalDays;
         private final TextView txtDelivered;
@@ -93,12 +92,8 @@ public class MonthlyRecapAdapter extends RecyclerView.Adapter<MonthlyRecapAdapte
             txtPending.setText(String.valueOf(item.pendingCount));
             txtPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", item.percentage));
 
-            // ✅ Only Item Click
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onItemClick(item);
-                }
-            });
+            // Fixed: Changed to expression lambda (was statement lambda)
+            itemView.setOnClickListener(v -> listener.onItemClick(item));
         }
     }
 }

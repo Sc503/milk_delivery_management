@@ -35,7 +35,8 @@ public class CustomerListFragment extends Fragment {
     private FragmentCustomerListBinding binding;
     private MilkViewModel viewModel;
     private CustomerCardAdapter adapter;
-    private List<Customer> customerList = new ArrayList<>();
+    private final List<Customer> customerList = new ArrayList<>();
+
     private Map<Long, String> deliveryStatusMap = new HashMap<>();
     private Map<Long, String> staffNameMap = new HashMap<>();
 
