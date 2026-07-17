@@ -33,11 +33,11 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
     private Button btnDecrypt;
     private Button btnShare;
     private Button btnClose;
-    private Button btnRestore; // ✅ NEW: Restore button
+    private Button btnRestore;
     private ScrollView scrollView;
     private LinearLayout layoutContent;
     private LinearLayout layoutPassword;
-    private LinearLayout layoutRestoreButton; // ✅ NEW: Restore button layout
+    private LinearLayout layoutRestoreButton;
 
     private String filePath = "";
     private String fileName = "";
@@ -57,16 +57,16 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         btnDecrypt = findViewById(R.id.btnDecrypt);
         btnShare = findViewById(R.id.btnShare);
         btnClose = findViewById(R.id.btnClose);
-        btnRestore = findViewById(R.id.btnRestore); // ✅ NEW
+        btnRestore = findViewById(R.id.btnRestore);
         scrollView = findViewById(R.id.scrollView);
         layoutContent = findViewById(R.id.layoutContent);
         layoutPassword = findViewById(R.id.layoutPassword);
-        layoutRestoreButton = findViewById(R.id.layoutRestoreButton); // ✅ NEW
+        layoutRestoreButton = findViewById(R.id.layoutRestoreButton);
 
         // Handle the intent
         handleIntent();
 
-        // ✅ Decrypt button
+        //  Decrypt button
         btnDecrypt.setOnClickListener(v -> {
             String password = etPassword.getText().toString();
             if (password.isEmpty()) {
@@ -79,7 +79,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         btnShare.setOnClickListener(v -> shareDecryptedContent());
         btnClose.setOnClickListener(v -> finish());
 
-        // ✅ NEW: Restore button click listener
+        //   Restore button click listener
         btnRestore.setOnClickListener(v -> {
             if (filePath.isEmpty()) {
                 Toast.makeText(this, "No file to restore", Toast.LENGTH_SHORT).show();
@@ -199,7 +199,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
             btnShare.setVisibility(View.VISIBLE);
             btnRestore.setVisibility(View.GONE);
 
-            // ✅ Show restore button at bottom
+            //  Show restore button at bottom
             if (layoutRestoreButton != null) {
                 layoutRestoreButton.setVisibility(View.VISIBLE);
                 Button btnRestoreContent = findViewById(R.id.btnRestoreContent);
@@ -220,7 +220,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         }
     }
 
-    // ✅ NEW: Show restore options dialog
+    //  NEW: Show restore options dialog
     private void showRestoreOptions() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("♻️ Restore Backup");
@@ -290,7 +290,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
         builder.show();
     }
 
-    // ✅ NEW: Password dialog for encrypted files
+    // NEW: Password dialog for encrypted files
     private void showPasswordDialog(File file, String mode) {
         final EditText passwordInput = new EditText(this);
         passwordInput.setHint("Enter encryption password");
@@ -314,7 +314,7 @@ public class EncryptedFileViewerActivity extends AppCompatActivity {
                 .show();
     }
 
-    // ✅ NEW: Perform restore in background
+    //  NEW: Perform restore in background
     private void performRestore(File file, String mode, String password) {
         Toast.makeText(this, mode.equals("merge") ? "🔄 Merging..." : "🔁 Restoring...", Toast.LENGTH_LONG).show();
 

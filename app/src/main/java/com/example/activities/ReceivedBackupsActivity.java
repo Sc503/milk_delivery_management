@@ -89,6 +89,13 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
     }
 
+    // ✅ FIX 2: Refresh list when activity comes to foreground
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshFileList();
+    }
+
     private void refreshFileList() {
         backupFileList.clear();
         backupFileList.addAll(loadReceivedFiles());
@@ -576,10 +583,10 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(ReceivedBackupsActivity.this, " Merge Successful! Data added.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, "✅ Merge Successful! Data added.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(ReceivedBackupsActivity.this, " Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, "❌ Merge Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -617,10 +624,10 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
             final String finalError = errorMsg;
             runOnUiThread(() -> {
                 if (finalSuccess) {
-                    Toast.makeText(ReceivedBackupsActivity.this, " Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, "✅ Restore Successful! Data replaced.", Toast.LENGTH_LONG).show();
                     refreshFileList();
                 } else {
-                    Toast.makeText(ReceivedBackupsActivity.this, " Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReceivedBackupsActivity.this, "❌ Restore Failed! " + finalError, Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -632,10 +639,10 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 .setMessage("Delete \"" + file.getName() + "\"?")
                 .setPositiveButton("Delete", (d, w) -> {
                     if (file.delete()) {
-                        Toast.makeText(this, " Deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "🗑️ Deleted", Toast.LENGTH_SHORT).show();
                         refreshFileList();
                     } else {
-                        Toast.makeText(this, " Delete failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "❌ Delete failed", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .setNegativeButton("Cancel", null)

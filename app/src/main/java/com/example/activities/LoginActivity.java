@@ -66,13 +66,13 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ CHECK IF USER IS ALREADY LOGGED IN
+        //  CHECK IF USER IS ALREADY LOGGED IN
         SharedPreferences prefs = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         boolean rememberMe = prefs.getBoolean(KEY_REMEMBER, false);
         String userType = prefs.getString(KEY_USER_TYPE, null);
         String mobile = prefs.getString(KEY_MOBILE, null);
 
-        // ✅ If Remember Me is checked and user is logged in, skip login screen
+        //  If Remember Me is checked and user is logged in, skip login screen
         if (rememberMe && userType != null && mobile != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -359,7 +359,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (userType.equals("admin")) {
                             // ============================================
-                            // ✅ Owner Login
+                            // Owner Login
                             // ============================================
                             editor.putString(KEY_HEADER_NAME, data.getOwnername());
                             editor.putString(KEY_BUSINESS_NAME, data.getBusinessName());
@@ -383,7 +383,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         } else {
                             // ============================================
-                            // ✅ Staff Login
+                            //  Staff Login
                             // ============================================
                             editor.putString(KEY_HEADER_NAME, data.getName());
                             editor.putString(KEY_STAFF_NAME, data.getName());
@@ -408,7 +408,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.e(TAG, "❌ Staff account_id is null!");
                             }
 
-                            // ✅ SAVE STAFF ID
+                            //  SAVE STAFF ID
                             if (data.getId() != null) {
                                 editor.putLong(KEY_STAFF_ID, data.getId());
                                 Toast.makeText(LoginActivity.this, "✅ Staff ID saved: " + data.getId(), Toast.LENGTH_LONG).show();
@@ -420,7 +420,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
 
-                    // ✅ Save user type
+                    //  Save user type
                     if (userType.equals("admin")) {
                         editor.putString(KEY_USER_TYPE, "Owner");
                     } else {
@@ -441,7 +441,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "Account ID: " + prefs.getString(KEY_ACCOUNT_ID, ""));
                     Log.d(TAG, "Staff ID: " + prefs.getLong(KEY_STAFF_ID, 0));
 
-                    // ✅ Go to MainActivity with CLEAR_TASK flag
+                    //  Go to MainActivity with CLEAR_TASK flag
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

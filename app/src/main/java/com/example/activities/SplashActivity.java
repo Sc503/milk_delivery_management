@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ Prevent duplicate splash
+        //  Prevent duplicate splash
         if (!isTaskRoot()) {
             finish();
             return;
@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
         txtLoading.startAnimation(blink);
 
         new Handler().postDelayed(() -> {
-            // ✅ Clear top flag to prevent multiple instances
+            //  Clear top flag to prevent multiple instances
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);

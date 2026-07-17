@@ -2,6 +2,8 @@ package com.example.activities;
 
 import static android.content.Context.WIFI_P2P_SERVICE;
 
+import static com.example.service.WifiDirectService.connectedDeviceName;
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -23,6 +25,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -77,6 +80,11 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             isBound = true;
             setupListener();
             updateUIState();
+
+            // Get connection info after service is connected
+            if (isConnected || WifiDirectService.isConnected) {
+                getConnectionInfo();
+            }
         }
 
         @Override
@@ -133,7 +141,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             }
         }
 
-        // ✅ Handle WiFi settings result
+        // Handle WiFi settings result
         if (requestCode == REQUEST_CODE_WIFI_SETTINGS) {
             checkAndProceedScan();
         }
@@ -173,7 +181,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         }
     }
 
-    //  NEW: Show confirmation dialog before scanning
+    // Show confirmation dialog before scanning
     private void showPreScanConfirmation() {
         // First check if already connected
         if (isConnected || WifiDirectService.isConnected) {
@@ -238,7 +246,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                 .show();
     }
 
-    //  Check and fix issues before scanning
+    // Check and fix issues before scanning
     private void checkAndFixIssues() {
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         boolean isWifiEnabled = wifiManager != null && wifiManager.isWifiEnabled();
@@ -281,7 +289,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         performScan();
     }
 
-    // ✅ NEW: Check and proceed after fixing issues
+    // Check and proceed after fixing issues
     private void checkAndProceedScan() {
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         boolean isWifiEnabled = wifiManager != null && wifiManager.isWifiEnabled();
@@ -294,7 +302,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         }
     }
 
-    // ✅ MODIFIED: Perform the actual scan
+    // Perform the actual scan
     private void performScan() {
         if (isConnected || WifiDirectService.isConnected) {
             Toast.makeText(this, "Already connected. Disconnect first.", Toast.LENGTH_SHORT).show();
@@ -378,11 +386,21 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                         manager.requestConnectionInfo(channel, info -> {
                             if (info.groupFormed) {
                                 isConnected = true;
+                                // Get the connected device name
+                                String deviceName = "";
                                 if (info.isGroupOwner) {
                                     service.onBecomeHost(info.groupOwnerAddress.getHostAddress());
                                 } else {
-                                    service.onBecomeClient(info.groupOwnerAddress.getHostAddress(), "");
+                                    // Try to get device name from connected device
+                                    if (adapter != null && deviceList != null) {
+                                        for (WifiDevice device : deviceList) {
+                                            // Find the connected device by checking if it's the one we connected to
+                                        }
+                                    }
+                                    service.onBecomeClient(info.groupOwnerAddress.getHostAddress(), connectedDeviceName);
                                 }
+                                // Get connection info after connection is formed
+                                getConnectionInfo();
                             }
                         });
                     } else {
@@ -407,8 +425,15 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                 runOnUiThread(() -> {
                     isConnecting = false;
                     isConnected = true;
+
+                    //  FIX 1: Store and display the device name properly
+                    connectedDeviceName = deviceName;
+
                     updateUIState();
-                    Toast.makeText(WifiDirectActivity.this, "✅ Connected!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WifiDirectActivity.this, "✅ Connected to: " + deviceName, Toast.LENGTH_SHORT).show();
+
+                    // Get connection info for proper IP addressing
+                    getConnectionInfo();
                 });
             }
 
@@ -426,7 +451,10 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
             public void onFileReceived(String filePath) {
                 runOnUiThread(() -> {
                     Toast.makeText(WifiDirectActivity.this, "📥 File Received!", Toast.LENGTH_LONG).show();
+
+                    //  FIX 2: Refresh ReceivedBackupsActivity instantly
                     Intent intent = new Intent(WifiDirectActivity.this, ReceivedBackupsActivity.class);
+                    intent.putExtra("REFRESH", true);
                     startActivity(intent);
                 });
             }
@@ -472,7 +500,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         }
 
         if (isConnected || WifiDirectService.isConnected) {
-            setStatus("● Connected to: " + WifiDirectService.connectedDeviceName, "#2E7D32");
+            setStatus("● Connected to: " + connectedDeviceName, "#2E7D32");
             btnScan.setEnabled(false);
             btnScan.setText("CONNECTED");
             btnDisconnect.setVisibility(View.VISIBLE);
@@ -495,6 +523,33 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         }
     }
 
+    // Get connection info for proper IP addressing
+    private void getConnectionInfo() {
+        if (manager != null && channel != null) {
+            manager.requestConnectionInfo(channel, info -> {
+                if (info != null && info.groupFormed) {
+                    String groupOwnerAddress = info.groupOwnerAddress.getHostAddress();
+                    String myRole = info.isGroupOwner ? "HOST" : "CLIENT";
+
+                    Log.d("WifiDirect", "📡 Connection Info:");
+                    Log.d("WifiDirect", "  Group Owner: " + groupOwnerAddress);
+                    Log.d("WifiDirect", "  My Role: " + myRole);
+
+                    // Store the correct IPs in WifiDirectService
+                    if (info.isGroupOwner) {
+                        // This device is HOST
+                        WifiDirectService.hostIpAddress = groupOwnerAddress;
+                        Log.d("WifiDirect", "✅ Host IP stored: " + groupOwnerAddress);
+                    } else {
+                        // This device is CLIENT
+                        WifiDirectService.hostIpAddress = groupOwnerAddress;
+                        Log.d("WifiDirect", "✅ Host IP stored: " + groupOwnerAddress);
+                    }
+                }
+            });
+        }
+    }
+
     private void setStatus(String text, String colorHex) {
         if (statusText != null) {
             statusText.setText(text);
@@ -513,6 +568,8 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                     WifiDirectService.isConnected = false;
                     WifiDirectService.isGroupOwner = false;
                     WifiDirectService.connectedHostAddress = null;
+                    WifiDirectService.hostIpAddress = null;
+                    connectedDeviceName = "";
                     updateUIState();
                     Toast.makeText(WifiDirectActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
                 });
@@ -525,6 +582,8 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                     WifiDirectService.isConnected = false;
                     WifiDirectService.isGroupOwner = false;
                     WifiDirectService.connectedHostAddress = null;
+                    WifiDirectService.hostIpAddress = null;
+                    connectedDeviceName = "";
                     updateUIState();
                     Toast.makeText(WifiDirectActivity.this, "Disconnected", Toast.LENGTH_SHORT).show();
                 });
@@ -566,10 +625,12 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
 
         if (!checkLocationPermission()) return;
 
+
+
         manager.connect(channel, config, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                WifiDirectService.connectedDeviceName = device.name;
+                connectedDeviceName = device.name;
                 runOnUiThread(() -> {
                     Toast.makeText(WifiDirectActivity.this, "Connecting to " + device.name + "...", Toast.LENGTH_SHORT).show();
                 });

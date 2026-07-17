@@ -7,7 +7,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -18,27 +20,27 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
+
+// karan updated  wifi direct code !
 
 public class WifiDirectService extends Service {
 
-    public static final int    PORT            = 8988;
-    public static final String CHANNEL_ID      = "wifi_direct_channel";
+    public static final int PORT = 8988;
+    public static final String CHANNEL_ID = "wifi_direct_channel";
 
-    // ── Shared state ─────────────────────────────────────────────
-    public static boolean isConnected          = false;
-    public static boolean isGroupOwner         = false;
-    public static String  connectedHostAddress = null;
-    public static String  connectedDeviceName  = "";
-    public static String  pendingFilePath      = null;
-    public static String  myHostAddress        = null;
-    public static String  clientAddress        = null; //  Store client IP
+    // ALL PUBLIC STATIC - Easy access from anywhere
+    public static boolean isConnected = false;
+    public static boolean isGroupOwner = false;
+    public static String connectedHostAddress = null;
+    public static String connectedDeviceName = "";
+    public static String myHostAddress = null;
+    public static String hostIpAddress = null;
+    public static String clientIpAddress = null;
 
-    // ── Callbacks ─────────────────────────────────────────────────
+    // Callbacks
     public interface StateListener {
         void onConnected(boolean asHost, String hostAddress, String deviceName);
         void onDisconnected();
@@ -48,25 +50,23 @@ public class WifiDirectService extends Service {
     }
     private static StateListener listener;
     public static void setListener(StateListener l) { listener = l; }
-    public static void clearListener()              { listener = null; }
+    public static void clearListener() { listener = null; }
 
-    // ── Binder ───────────────────────────────────────────────────
+    // Binder
     private final IBinder binder = new LocalBinder();
     public class LocalBinder extends Binder {
         public WifiDirectService getService() { return WifiDirectService.this; }
     }
     @Override public IBinder onBind(Intent intent) { return binder; }
 
-    private boolean serverRunning      = false;
-    private ServerSocket activeSocket  = null;
-    private List<String> connectedClients = new ArrayList<>();
+    private boolean serverRunning = false;
+    private ServerSocket serverSocket = null;
 
-    // ────────────────────────────────────────────────────────────
     @Override
     public void onCreate() {
         super.onCreate();
         startForeground(1, buildNotification("Wi-Fi Direct active"));
-        startServer();
+        Log.d("WifiDirectService", "✅ Service created");
     }
 
     @Override
@@ -78,73 +78,191 @@ public class WifiDirectService extends Service {
     public void onDestroy() {
         super.onDestroy();
         stopServer();
+        Log.d("WifiDirectService", "❌ Service destroyed");
     }
 
-    // ── Start Server for Receiving ──────────────────────────────
-    private void startServer() {
-        if (!serverRunning) {
-            serverRunning = true;
-            new ReceiveThread().start();
-        }
-    }
-
-    // ── Called by WifiDirectActivity when connection state changes
+    // ── Connection State Methods ──────────────────────────────────
     public void onBecomeHost(String hostAddress) {
-        isConnected          = true;
-        isGroupOwner         = true;
+        isConnected = true;
+        isGroupOwner = true;
         connectedHostAddress = hostAddress;
-        myHostAddress        = hostAddress;
-        clientAddress        = null; // Reset client address
+        myHostAddress = hostAddress;
+        hostIpAddress = hostAddress;
+        clientIpAddress = null;
 
-        updateNotification("HOST – waiting for file…");
-
-        if (!serverRunning) {
-            serverRunning = true;
-            new ReceiveThread().start();
-        }
+        Log.d("WifiDirectService", "✅ Became HOST: " + hostAddress);
+        Log.d("WifiDirectService", "✅ Host IP stored: " + hostIpAddress);
+        startServer();
 
         if (listener != null)
             listener.onConnected(true, hostAddress, connectedDeviceName);
     }
 
     public void onBecomeClient(String hostAddress, String deviceName) {
-        isConnected          = true;
-        isGroupOwner         = false;
+        isConnected = true;
+        isGroupOwner = false;
         connectedHostAddress = hostAddress;
-        connectedDeviceName  = deviceName;
-        myHostAddress        = null;
-        clientAddress        = null;
+        connectedDeviceName = deviceName; // ✅ Store device name properly
+        myHostAddress = null;
+        hostIpAddress = hostAddress;
+        clientIpAddress = null;
 
-        //  Client also starts a server to receive files from host
-        if (!serverRunning) {
-            serverRunning = true;
-            new ReceiveThread().start();
-        }
-
-        updateNotification("Connected to " + deviceName);
+        Log.d("WifiDirectService", "✅ Became CLIENT. Host: " + hostAddress);
+        Log.d("WifiDirectService", "✅ Device Name: " + deviceName);
+        Log.d("WifiDirectService", "✅ Host IP stored: " + hostIpAddress);
+        startServer();
 
         if (listener != null)
             listener.onConnected(false, hostAddress, deviceName);
     }
 
     public void onConnectionLost() {
-        isConnected          = false;
-        isGroupOwner         = false;
+        isConnected = false;
+        isGroupOwner = false;
         connectedHostAddress = null;
-        myHostAddress        = null;
-        clientAddress        = null;
-        serverRunning        = false;
-        connectedClients.clear();
+        myHostAddress = null;
+        hostIpAddress = null;
+        clientIpAddress = null;
 
-        updateNotification("Wi-Fi Direct – not connected");
-
+        Log.d("WifiDirectService", "❌ Connection lost");
         stopServer();
 
         if (listener != null)
             listener.onDisconnected();
     }
 
-    // ── Send a file (BOTH HOST AND CLIENT CAN SEND) ──
+    // ── Start Server for Receiving ──────────────────────────────
+    private void startServer() {
+        if (serverRunning) {
+            Log.d("WifiDirectService", "⚠️ Server already running");
+            return;
+        }
+        serverRunning = true;
+        new Thread(new ReceiveRunnable()).start();
+        Log.d("WifiDirectService", "📥 Server started on port " + PORT);
+    }
+
+    private void stopServer() {
+        serverRunning = false;
+        try {
+            if (serverSocket != null) {
+                serverSocket.close();
+                serverSocket = null;
+            }
+        } catch (Exception ignored) {}
+        Log.d("WifiDirectService", "📥 Server stopped");
+    }
+
+    // ── Receive Runnable ─────────────────────────────────────────
+    private class ReceiveRunnable implements Runnable {
+        @Override
+        public void run() {
+            try {
+                serverSocket = new ServerSocket();
+                serverSocket.setReuseAddress(true);
+                serverSocket.bind(new InetSocketAddress(PORT));
+
+                Log.d("WifiDirectService", "📥 Server listening on port " + PORT);
+
+                while (serverRunning) {
+                    try {
+                        Log.d("WifiDirectService", "📥 Waiting for incoming connection...");
+                        Socket client = serverSocket.accept();
+                        client.setSoTimeout(30000);
+
+                        // Get client IP
+                        String clientIp = client.getInetAddress().getHostAddress();
+
+                        // ✅ FIX 3: Don't accept connections from our own device
+                        if (clientIp.equals(myHostAddress) || clientIp.equals("127.0.0.1")) {
+                            Log.d("WifiDirectService", "⚠️ Ignoring own connection from: " + clientIp);
+                            client.close();
+                            continue;
+                        }
+
+                        // Store client IP for sending back
+                        clientIpAddress = clientIp;
+                        Log.d("WifiDirectService", "✅ CLIENT CONNECTED!");
+                        Log.d("WifiDirectService", "✅ Client IP: " + clientIp);
+
+                        // Receive file
+                        receiveFile(client);
+
+                    } catch (Exception e) {
+                        if (serverRunning) {
+                            Log.e("WifiDirectService", "Receive error: " + e.getMessage());
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("WifiDirectService", "Server error: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // ── Receive File (SAVES TO DOWNLOADS FOLDER) ──────────────
+    private void receiveFile(Socket client) {
+        InputStream in = null;
+        FileOutputStream fos = null;
+
+        try {
+            in = client.getInputStream();
+
+            // Get received folder (Downloads/MilkDelivery/received)
+            File receivedFolder = new File(
+                    Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_DOWNLOADS
+                    ),
+                    "MilkDelivery/received"
+            );
+
+            if (!receivedFolder.exists()) {
+                receivedFolder.mkdirs();
+                Log.d("WifiDirectService", "📁 Created folder: " + receivedFolder.getAbsolutePath());
+            }
+
+            // Create unique filename
+            String timestamp = new java.text.SimpleDateFormat(
+                    "yyyyMMdd_HHmmss", java.util.Locale.getDefault()
+            ).format(new java.util.Date());
+            File outFile = new File(receivedFolder, "received_backup_" + timestamp + ".enc");
+
+            fos = new FileOutputStream(outFile);
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            long totalBytes = 0;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+                totalBytes += bytesRead;
+            }
+
+            fos.flush();
+
+            Log.d("WifiDirectService", "✅ File received: " + outFile.getAbsolutePath());
+            Log.d("WifiDirectService", "✅ File size: " + totalBytes + " bytes");
+
+            // ✅ FIX 2: Notify with file path so UI can refresh
+            if (listener != null) {
+                listener.onFileReceived(outFile.getAbsolutePath());
+            }
+
+        } catch (Exception e) {
+            Log.e("WifiDirectService", "Error receiving file: " + e.getMessage());
+            e.printStackTrace();
+            if (listener != null) {
+                listener.onError("Receive failed: " + e.getMessage());
+            }
+        } finally {
+            try { if (fos != null) fos.close(); } catch (Exception ignored) {}
+            try { if (in != null) in.close(); } catch (Exception ignored) {}
+            try { if (client != null) client.close(); } catch (Exception ignored) {}
+        }
+    }
+
+    // ── Send File ─────────────────────────────────────────────────
     public void sendFile(File file) {
         if (!isConnected) {
             if (listener != null)
@@ -152,195 +270,157 @@ public class WifiDirectService extends Service {
             return;
         }
 
-        new SendThread(file).start();
+        Log.d("WifiDirectService", "📤 Preparing to send: " + file.getName());
+        Log.d("WifiDirectService", "📤 isGroupOwner: " + isGroupOwner);
+        Log.d("WifiDirectService", "📤 clientIpAddress: " + clientIpAddress);
+        Log.d("WifiDirectService", "📤 hostIpAddress: " + hostIpAddress);
+
+        new Thread(new SendRunnable(file)).start();
     }
 
-    // ── Stop server socket ───────────────────────────────────────
-    private void stopServer() {
-        serverRunning = false;
-        try { if (activeSocket != null) activeSocket.close(); }
-        catch (Exception ignored) {}
-        activeSocket  = null;
-    }
-
-    // ── RECEIVE (BOTH HOST AND CLIENT) ────────────────────────
-    private class ReceiveThread extends Thread {
-        @Override public void run() {
-            try {
-                activeSocket = new ServerSocket(PORT);
-
-                while (serverRunning) {
-                    Socket client = activeSocket.accept();
-
-                    //  Get client IP address and store it
-                    String clientIp = client.getInetAddress().getHostAddress();
-
-                    //  Store client IP for future communication
-                    if (!connectedClients.contains(clientIp)) {
-                        connectedClients.add(clientIp);
-                    }
-                    clientAddress = clientIp;  //  Update client address
-
-                    File dir = new File(
-                            android.os.Environment
-                                    .getExternalStoragePublicDirectory(
-                                            android.os.Environment.DIRECTORY_DOWNLOADS),
-                            "MilkDelivery/received"
-                    );
-                    if (!dir.exists()) dir.mkdirs();
-
-                    File outFile = new File(dir, "received_backup_" + System.currentTimeMillis() + ".enc");
-
-                    InputStream in = client.getInputStream();
-                    FileOutputStream fos = new FileOutputStream(outFile);
-
-                    byte[] buf = new byte[4096];
-                    int n;
-                    while ((n = in.read(buf)) != -1) {
-                        fos.write(buf, 0, n);
-                    }
-
-                    fos.flush();
-                    fos.close();
-                    in.close();
-                    client.close();
-
-                    updateNotification("File received ");
-
-                    if (listener != null)
-                        listener.onFileReceived(outFile.getAbsolutePath());
-                }
-
-            } catch (Exception e) {
-                if (serverRunning && listener != null) {
-                    listener.onError("Receive error: " + e.getMessage());
-                }
-            }
-        }
-    }
-
-    // ── SEND (BOTH HOST AND CLIENT) ────────────────────────────
-    private class SendThread extends Thread {
+    private class SendRunnable implements Runnable {
         private final File file;
-        SendThread(File file) { this.file = file; }
 
-        @Override public void run() {
+        SendRunnable(File file) {
+            this.file = file;
+        }
+
+        @Override
+        public void run() {
             Socket socket = null;
+            OutputStream out = null;
             FileInputStream fis = null;
-            String targetAddress = null;
 
             try {
-                //  Determine target address based on role
-                if (isGroupOwner) {
-                    // HOST sends to client - use stored client address
-                    targetAddress = clientAddress;
-
-                    // If no client address, find it
-                    if (targetAddress == null || targetAddress.isEmpty()) {
-                        targetAddress = findClientAddress();
-                    }
-                } else {
-                    // CLIENT sends to host
-                    targetAddress = connectedHostAddress;
-                }
+                // Determine target address
+                String targetAddress = getTargetAddress();
 
                 if (targetAddress == null || targetAddress.isEmpty()) {
+                    Log.e("WifiDirectService", "❌ No target address found");
                     if (listener != null) {
-                        listener.onError("Could not find target device. Try reconnecting.");
+                        listener.onError("Could not find target device IP. Make sure both devices are connected.");
                     }
                     return;
                 }
 
-                socket = new Socket(targetAddress, PORT);
-                OutputStream out = socket.getOutputStream();
+                Log.d("WifiDirectService", "📤 Target address: " + targetAddress);
+                Log.d("WifiDirectService", "📤 Connecting to: " + targetAddress + ":" + PORT);
+
+                // Connect to target
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(targetAddress, PORT), 30000);
+                socket.setSoTimeout(30000);
+
+                Log.d("WifiDirectService", "📤 Connected to target!");
+
+                out = socket.getOutputStream();
                 fis = new FileInputStream(file);
 
-                byte[] buf = new byte[4096];
-                int n;
-                while ((n = fis.read(buf)) != -1) {
-                    out.write(buf, 0, n);
+                // Send file data
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                long totalBytes = 0;
+
+                while ((bytesRead = fis.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                    totalBytes += bytesRead;
                 }
 
                 out.flush();
                 socket.shutdownOutput();
 
-                updateNotification("File sent ");
+                Log.d("WifiDirectService", "✅ File sent! Total: " + totalBytes + " bytes");
 
-                if (listener != null)
+                if (listener != null) {
                     listener.onFileSent(file.getName());
+                }
 
             } catch (Exception e) {
+                Log.e("WifiDirectService", "❌ Send error: " + e.getMessage());
+                e.printStackTrace();
                 if (listener != null) {
-                    listener.onError("Send error: " + e.getMessage() + "\nTry reconnecting.");
+                    listener.onError("Send failed: " + e.getMessage());
                 }
             } finally {
                 try { if (fis != null) fis.close(); } catch (Exception ignored) {}
+                try { if (out != null) out.close(); } catch (Exception ignored) {}
                 try { if (socket != null) socket.close(); } catch (Exception ignored) {}
             }
         }
+    }
 
-        // ── Find client IP when HOST wants to send ──────────────────
-        private String findClientAddress() {
-            // Try stored client address
-            if (clientAddress != null && !clientAddress.isEmpty()) {
-                if (isReachable(clientAddress, 2000)) {
-                    return clientAddress;
-                }
+    // ── Get Target Address ──────────────────────────────────────
+    private String getTargetAddress() {
+        if (isGroupOwner) {
+            // HOST sends to CLIENT
+            Log.d("WifiDirectService", "🔍 HOST looking for CLIENT...");
+            if (clientIpAddress != null && !clientIpAddress.isEmpty()) {
+                Log.d("WifiDirectService", "✅ Using stored client IP: " + clientIpAddress);
+                return clientIpAddress;
             }
-
-            // Try connected clients list
-            for (String ip : connectedClients) {
-                if (isReachable(ip, 2000)) {
-                    return ip;
-                }
+            Log.d("WifiDirectService", "⚠️ No stored client IP, searching...");
+            return findClientAddress();
+        } else {
+            // CLIENT sends to HOST
+            Log.d("WifiDirectService", "🔍 CLIENT looking for HOST...");
+            if (hostIpAddress != null && !hostIpAddress.isEmpty()) {
+                Log.d("WifiDirectService", "✅ Using stored host IP: " + hostIpAddress);
+                return hostIpAddress;
             }
+            Log.d("WifiDirectService", "⚠️ No stored host IP, using connectedHostAddress: " + connectedHostAddress);
+            return connectedHostAddress;
+        }
+    }
 
-            // Try common WiFi Direct client IPs
-            String[] possibleIps = {
-                    "192.168.49.1",
-                    "192.168.49.2",
-                    "192.168.1.1",
-                    "192.168.0.1",
-                    "192.168.43.1",
-                    "10.0.0.1"
-            };
+    // ── Find Client Address ──────────────────────────────────────
+    private String findClientAddress() {
+        Log.d("WifiDirectService", "🔍 Searching for client IP...");
 
-            for (String ip : possibleIps) {
-                if (isReachable(ip, 2000)) {
-                    return ip;
-                }
+        String[] possibleIps = {
+                "192.168.49.2",
+                "192.168.49.1",
+                "192.168.1.2",
+                "192.168.0.2",
+                "192.168.43.2",
+                "10.0.0.2"
+        };
+
+        for (String ip : possibleIps) {
+            if (isReachable(ip)) {
+                Log.d("WifiDirectService", "✅ Found client at: " + ip);
+                return ip;
             }
-
-            // Try to find using host IP (scan subnet)
-            if (myHostAddress != null && !myHostAddress.isEmpty()) {
-                try {
-                    String[] parts = myHostAddress.split("\\.");
-                    if (parts.length == 4) {
-                        String base = parts[0] + "." + parts[1] + "." + parts[2] + ".";
-                        for (int i = 1; i <= 254; i++) {
-                            if (i != Integer.parseInt(parts[3])) {
-                                String testIp = base + i;
-                                if (isReachable(testIp, 500)) {
-                                    return testIp;
-                                }
-                            }
-                        }
-                    }
-                } catch (Exception e) {
-                    // Continue with default IPs
-                }
-            }
-
-            return null;
         }
 
-        private boolean isReachable(String ip, int timeoutMs) {
+        if (myHostAddress != null && !myHostAddress.isEmpty()) {
             try {
-                InetAddress address = InetAddress.getByName(ip);
-                return address.isReachable(timeoutMs);
+                String[] parts = myHostAddress.split("\\.");
+                if (parts.length == 4) {
+                    String base = parts[0] + "." + parts[1] + "." + parts[2] + ".";
+                    for (int i = 1; i <= 254; i++) {
+                        if (i == Integer.parseInt(parts[3])) continue;
+                        String testIp = base + i;
+                        if (isReachable(testIp)) {
+                            Log.d("WifiDirectService", "✅ Found client at: " + testIp);
+                            return testIp;
+                        }
+                    }
+                }
             } catch (Exception e) {
-                return false;
+                Log.e("WifiDirectService", "Error scanning subnet: " + e.getMessage());
             }
+        }
+
+        Log.e("WifiDirectService", "❌ No client IP found!");
+        return null;
+    }
+
+    private boolean isReachable(String ip) {
+        try {
+            java.net.InetAddress address = java.net.InetAddress.getByName(ip);
+            return address.isReachable(2000);
+        } catch (Exception e) {
+            return false;
         }
     }
 
@@ -358,10 +438,5 @@ public class WifiDirectService extends Service {
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setOngoing(true)
                 .build();
-    }
-
-    private void updateNotification(String text) {
-        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE))
-                .notify(1, buildNotification(text));
     }
 }
