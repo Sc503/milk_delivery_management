@@ -397,6 +397,7 @@ public class Settings_Activity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+//            Toast.makeText(this, "dad", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
