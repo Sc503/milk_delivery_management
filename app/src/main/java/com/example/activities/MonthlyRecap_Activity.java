@@ -52,7 +52,6 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ THEME CHECK - Apply saved theme BEFORE loading layout
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
@@ -64,37 +63,36 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
 
         EdgeToEdge.enable(this);
 
-        // ✅ Use View Binding
         binding = ActivityMonthlyRecapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ Handle Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ✅ Setup Toolbar with Back Button
         setupToolbar();
 
-        // Get user session
         SharedPreferences prefs = getSharedPreferences("UserSession", MODE_PRIVATE);
         currentUserType = prefs.getString("userType", "");
         currentMobile = prefs.getString("mobile", "");
 
-        // Initialize ViewModel
         viewModel = new ViewModelProvider(this).get(MilkViewModel.class);
 
         setupRecyclerView();
 
-        // ✅ Add filter button click listener
         binding.ivFilter.setOnClickListener(v -> showFilterBottomSheet());
 
         runMonthlyCalculation();
     }
 
-    // ✅ Setup Toolbar with Back Button
+    @Override
+    protected void onResume() {
+        super.onResume();
+        runMonthlyCalculation();
+    }
+
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
@@ -104,14 +102,27 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
         }
     }
 
-    // ✅ Handle Back Button Click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // Close activity and go back
+            goToHomeFragment();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goToHomeFragment();
+        super.onBackPressed();
+    }
+
+    private void goToHomeFragment() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra("OPEN_HOME_FRAGMENT", true);
+        startActivity(intent);
+        finish();
     }
 
     private void showFilterBottomSheet() {
@@ -161,39 +172,9 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
 
                         startActivity(intent);
                     }
-
-                    // ❌ Remove onEditClick - Edit button आता हवा नाही
-                    /*
-                    @Override
-                    public void onEditClick(MonthlyRecapAdapter.RecapItem item) {
-                        viewModel.getRepository().getExecutor().execute(() -> {
-                            Customer customer = viewModel.getRepository().getCustomerByIdSync(item.customerId);
-
-                            if (customer == null) {
-                                return;
-                            }
-
-                            runOnUiThread(() -> {
-                                EditCustomerDialog dialog = new EditCustomerDialog(
-                                        customer,
-                                        updatedCustomer -> {
-                                            viewModel.updateCustomer(updatedCustomer);
-                                            Toast.makeText(MonthlyRecap_Activity.this,
-                                                    "Customer Updated", Toast.LENGTH_SHORT).show();
-                                            runMonthlyCalculation();
-                                        }
-                                );
-
-                                dialog.show(getSupportFragmentManager(), "EDIT_CUSTOMER");
-                            });
-                        });
-                    }
-                    */
                 }
         );
 
-        // ❌ Remove setOwner - Edit button नाहीये
-        // adapter.setOwner(currentUserType.equals("Owner"));
         binding.rvMonthlyRecap.setAdapter(adapter);
     }
 
@@ -203,6 +184,11 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
         final int yearInt = Integer.parseInt(selectedYearStr);
         final int totalDaysInMonth = DateUtils.getDaysInMonth(selectedMonthIdx, yearInt);
         final String yearMonthPrefix = DateUtils.getYearMonthPrefix(selectedMonthIdx, yearInt);
+
+        // ✅ Get current month and year
+        Calendar cal = Calendar.getInstance();
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentYear = cal.get(Calendar.YEAR);
 
         viewModel.getRepository().getExecutor().execute(() -> {
             List<Customer> allCustomers;
@@ -221,16 +207,19 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 allCustomers = new ArrayList<>();
             }
 
-            // ✅ IMPORTANT: Store total customers count BEFORE filtering
-            final int totalCustomersCount = allCustomers.size();
-
-            final List<Customer> customersList = allCustomers;
-
+            // ✅ Get deliveries for selected month/year ONLY
             List<Delivery> monthDeliveries = viewModel.getRepository().getDeliveriesForMonthSync(yearMonthPrefix);
             if (monthDeliveries == null) {
                 monthDeliveries = new ArrayList<>();
             }
 
+            // ✅ Check if selected month/year is the CURRENT month/year
+            boolean isCurrentMonthYear = (selectedMonthIdx == currentMonth && yearInt == currentYear);
+
+            // ✅ Check if ANY deliveries exist for this month/year
+            boolean hasDeliveries = !monthDeliveries.isEmpty();
+
+            // ✅ Create map of customer deliveries
             Map<Long, List<Delivery>> customerDeliveriesMap = new HashMap<>();
             for (Delivery d : monthDeliveries) {
                 List<Delivery> list = customerDeliveriesMap.get(d.getCustomerId());
@@ -245,7 +234,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
             int totalDeliveriesSum = 0;
             int totalPendingSum = 0;
 
-            for (Customer customer : customersList) {
+            for (Customer customer : allCustomers) {
                 List<Delivery> list = customerDeliveriesMap.get(customer.getId());
                 if (list == null) {
                     list = new ArrayList<>();
@@ -267,35 +256,56 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         ? ((double) deliveredCount / totalDaysInMonth) * 100.0
                         : 0.0;
 
-                // ✅ Apply filters for RecyclerView items only
+                // ✅ Apply customer name filter
                 if (!customerFilter.trim().isEmpty()
                         && !customer.getName().toLowerCase().contains(customerFilter.toLowerCase())) {
                     continue;
                 }
 
+                // ✅ Apply deliveries filter
                 if (deliveredCount < minDeliveriesFilter) {
                     continue;
                 }
 
+                // ✅ Apply pending filter
                 if (minPendingFilter > 0 && pendingCount > minPendingFilter) {
                     continue;
                 }
 
-                recapItems.add(new MonthlyRecapAdapter.RecapItem(
-                        customer.getId(),
-                        customer.getName(),
-                        totalDaysInMonth,
-                        deliveredCount,
-                        pendingCount,
-                        pct
-                ));
+                // ✅ CRITICAL LOGIC:
+                // ✅ 1. If selected month/year is CURRENT month/year → Show ALL customers (delivered + pending)
+                // ✅ 2. If selected month/year has SOME deliveries → Show ONLY customers with deliveries
+                // ✅ 3. If selected month/year has NO deliveries → Show 0 customers
+
+                if (isCurrentMonthYear) {
+                    // ✅ Current Month: Show ALL customers (even with 0 deliveries)
+                    recapItems.add(new MonthlyRecapAdapter.RecapItem(
+                            customer.getId(),
+                            customer.getName(),
+                            totalDaysInMonth,
+                            deliveredCount,
+                            pendingCount,
+                            pct
+                    ));
+                } else if (hasDeliveries && !list.isEmpty()) {
+                    // ✅ Selected month has deliveries: Show ONLY customers who have deliveries
+                    recapItems.add(new MonthlyRecapAdapter.RecapItem(
+                            customer.getId(),
+                            customer.getName(),
+                            totalDaysInMonth,
+                            deliveredCount,
+                            pendingCount,
+                            pct
+                    ));
+                }
+                // ✅ Else: Skip (no deliveries, not current month)
 
                 totalDeliveriesSum += deliveredCount;
                 totalPendingSum += pendingCount;
             }
 
-            // ✅ Use totalCustomersCount (ALL customers, not filtered)
-            final int finalTotalCustomers = totalCustomersCount;
+            // ✅ Use filtered customers count (recapItems.size())
+            final int finalTotalCustomers = recapItems.size();
             final int finalTotalDeliveries = totalDeliveriesSum;
             final int finalTotalPending = totalPendingSum;
             final double finalAveragePercentage = (finalTotalDeliveries + finalTotalPending) > 0
@@ -305,14 +315,10 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (binding == null) return;
 
-                // ✅ Set filtered data to RecyclerView
                 adapter.setData(recapItems);
 
-                // ✅ Update BOTH Total Customers TextViews
-                binding.tvTotalCustomers.setText(String.valueOf(finalTotalCustomers));      // Top Card
-                binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));   // Bottom Card
-
-                // ✅ Update other stats
+                binding.tvTotalCustomers.setText(String.valueOf(finalTotalCustomers));
+                binding.recapTotalCustomers.setText(String.valueOf(finalTotalCustomers));
                 binding.recapTotalDeliveries.setText(String.valueOf(finalTotalDeliveries));
                 binding.recapTotalPending.setText(String.valueOf(finalTotalPending));
                 binding.recapAveragePercentage.setText(

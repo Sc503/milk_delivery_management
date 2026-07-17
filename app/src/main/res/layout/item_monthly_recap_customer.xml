@@ -8,7 +8,6 @@
     android:paddingBottom="14dp"
     android:paddingStart="12dp"
     android:paddingEnd="12dp"
-    android:fitsSystemWindows="true"
     android:background="?attr/selectableItemBackground">
 
     <!-- Customer Name -->
