@@ -323,7 +323,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     @Override
                     public void onEdit(Customer c) {
-                        // ✅ Open EditCustomer_Activity instead of Dialog
+                        //  Open EditCustomer_Activity instead of Dialog
                         Intent intent = new Intent(getContext(), EditCustomer_Activity.class);
                         intent.putExtra("CUSTOMER_ID", c.getId());
                         startActivity(intent);

@@ -73,7 +73,7 @@
 
                 </LinearLayout>
 
-                <!-- ✅ INFO BUTTON -->
+                <!--  INFO BUTTON -->
                 <ImageButton
                     android:id="@+id/btnInfo"
                     android:layout_width="48dp"
@@ -101,7 +101,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- ✅ Theme Mode Toggle -->
+                    <!--  Theme Mode Toggle -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -361,7 +361,7 @@
                         android:layout_marginTop="2dp"
                         android:layout_marginBottom="12dp" />
 
-                    <!-- ✅ Reset Database Button -->
+                    <!-- Reset Database Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_clear_cache"
                         android:layout_width="wrap_content"

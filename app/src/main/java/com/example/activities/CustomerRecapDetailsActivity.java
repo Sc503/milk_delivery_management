@@ -154,10 +154,10 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
                     getSupportActionBar().setTitle(customer.getName() + " Recap");
                 }
 
-                // ✅ Customer Name Click - Open Map with Location
+                //  Customer Name Click - Open Map with Location
                 binding.detailName.setOnClickListener(v -> {
                     try {
-                        // ✅ Check if customer has valid coordinates
+                        //  Check if customer has valid coordinates
                         if (customer.getLatitude() == 0 && customer.getLongitude() == 0) {
                             Toast.makeText(CustomerRecapDetailsActivity.this,
                                     "Customer location not available", Toast.LENGTH_SHORT).show();
@@ -236,7 +236,7 @@ public class CustomerRecapDetailsActivity extends AppCompatActivity {
         });
     }
 
-    // ✅ Helper method to navigate to MonthlyRecap
+    //  Helper method to navigate to MonthlyRecap
     private void goToMonthlyRecap() {
         Intent intent = new Intent(this, MonthlyRecap_Activity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -39,7 +39,7 @@ public class EditCustomer_Activity extends AppCompatActivity {
     private long customerId;
     private Customer currentCustomer;
 
-    // ✅ Views (Without Binding)
+    //  Views (Without Binding)
     private TextInputEditText etCustomerName, etMobileNumber, etAddress, etLatitude, etLongitude, etMilkQuantity, etMilkRate;
     private TextInputLayout layCustomerName, layMobileNumber, layLatitude, layLongitude;
     private MaterialButton btnSearchAddress, btnGetLocation, btnCancel, btnSaveCustomer;

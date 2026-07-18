@@ -114,7 +114,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
         // Profile image - placeholder
         holder.binding.imgStaff.setImageResource(R.drawable.ic_person);
 
-        // ✅ FIXED: Edit button - Open EditStaff_Activity
+        //  FIXED: Edit button - Open EditStaff_Activity
         holder.binding.btnEdit.setOnClickListener(v -> {
             if (mcontext != null) {
                 Gson gson = new Gson();

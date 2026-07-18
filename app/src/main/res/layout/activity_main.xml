@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:background="?attr/colorSurface" />
 
-        <!-- ✅ Bottom Navigation Tabs - ID FIXED -->
+        <!--  Bottom Navigation Tabs - ID FIXED -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"

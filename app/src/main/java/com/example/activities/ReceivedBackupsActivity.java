@@ -89,7 +89,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
     }
 
-    // ✅ FIX 2: Refresh list when activity comes to foreground
+    //  FIX 2: Refresh list when activity comes to foreground
     @Override
     protected void onResume() {
         super.onResume();

@@ -28,7 +28,7 @@ import com.example.backup.BackupManager;
 import com.example.databinding.ActivitySettingsBinding;
 import com.example.service.AutoBackupManager;
 
-// ✅ Media3 Imports
+//  Media3 Imports
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
@@ -42,7 +42,7 @@ public class Settings_Activity extends AppCompatActivity {
     private SwitchCompat switchAutoBackup;
     private AutoBackupManager autoBackupManager;
 
-    // ✅ Media3 ExoPlayer instance
+    //  Media3 ExoPlayer instance
     private ExoPlayer exoPlayer;
 
     @Override
@@ -157,13 +157,13 @@ public class Settings_Activity extends AppCompatActivity {
             binding.btnClearCache.setVisibility(View.GONE);
         }
 
-        // ✅ Info Button - Show Video Dialog
+        //  Info Button - Show Video Dialog
         binding.btnInfo.setOnClickListener(v -> {
             showVideoDialog();
         });
     }
 
-    // ✅ Video Dialog Function with Media3 ExoPlayer
+    //  Video Dialog Function with Media3 ExoPlayer
     private void showVideoDialog() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -182,18 +182,18 @@ public class Settings_Activity extends AppCompatActivity {
         Button btnClose = dialog.findViewById(R.id.btnClose);
         Button btnOk = dialog.findViewById(R.id.btnOk);
 
-        // ✅ Create Media3 ExoPlayer
+        //  Create Media3 ExoPlayer
         exoPlayer = new ExoPlayer.Builder(this).build();
         playerView.setPlayer(exoPlayer);
 
-        // ✅ Play video from res/raw/milkflowtutorial.mp4
+        //  Play video from res/raw/milkflowtutorial.mp4
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.milkflowtutorial);
         MediaItem mediaItem = MediaItem.fromUri(uri);
         exoPlayer.setMediaItem(mediaItem);
         exoPlayer.prepare();
         exoPlayer.setPlayWhenReady(true);
 
-        // ✅ Close listener
+        //  Close listener
         View.OnClickListener closeListener = v -> {
             if (exoPlayer != null) {
                 exoPlayer.release();

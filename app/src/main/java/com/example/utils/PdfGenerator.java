@@ -26,22 +26,22 @@ public class PdfGenerator {
 
         PdfDocument document = new PdfDocument();
 
-        // ✅ Page Size: A4 (595 x 842)
+        //  Page Size: A4 (595 x 842)
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(595, 842, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
         android.graphics.Canvas canvas = page.getCanvas();
 
-        // ✅ Background - Light Gray
+        //  Background - Light Gray
         Paint bgPaint = new Paint();
         bgPaint.setColor(Color.parseColor("#F5F5F5"));
         canvas.drawRect(0, 0, 595, 842, bgPaint);
 
-        // ✅ Title Background - Green
+        //  Title Background - Green
         Paint headerBg = new Paint();
         headerBg.setColor(Color.parseColor("#1B5E20"));
         canvas.drawRect(0, 0, 595, 80, headerBg);
 
-        // ✅ Title
+        //  Title
         Paint titlePaint = new Paint();
         titlePaint.setColor(Color.WHITE);
         titlePaint.setTextSize(28);
@@ -49,20 +49,20 @@ public class PdfGenerator {
         titlePaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText("🧾 PAYMENT SLIP", 297, 50, titlePaint);
 
-        // ✅ Subtitle
+        //  Subtitle
         Paint subPaint = new Paint();
         subPaint.setColor(Color.parseColor("#E8F5E9"));
         subPaint.setTextSize(14);
         subPaint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText("Milk Delivery Management", 297, 70, subPaint);
 
-        // ✅ Divider Line
+        //  Divider Line
         Paint linePaint = new Paint();
         linePaint.setColor(Color.parseColor("#E0E0E0"));
         linePaint.setStrokeWidth(2);
         canvas.drawLine(40, 100, 555, 100, linePaint);
 
-        // ✅ Customer Info
+        //  Customer Info
         Paint labelPaint = new Paint();
         labelPaint.setColor(Color.parseColor("#546E7A"));
         labelPaint.setTextSize(14);
@@ -103,7 +103,7 @@ public class PdfGenerator {
         canvas.drawLine(40, y, 555, y, linePaint);
         y += 30;
 
-        // ✅ Milk Details
+        //  Milk Details
         Paint sectionPaint = new Paint();
         sectionPaint.setColor(Color.parseColor("#004D40"));
         sectionPaint.setTextSize(18);
@@ -139,7 +139,7 @@ public class PdfGenerator {
         canvas.drawLine(40, y, 555, y, thickLine);
         y += 30;
 
-        // ✅ Total Amount - Highlighted
+        //  Total Amount - Highlighted
         Paint totalLabel = new Paint();
         totalLabel.setColor(Color.parseColor("#1A237E"));
         totalLabel.setTextSize(20);
@@ -154,7 +154,7 @@ public class PdfGenerator {
         canvas.drawText("₹ " + String.format(Locale.getDefault(), "%.2f", amount), 555, y, totalValue);
         y += 40;
 
-        // ✅ Payment Status - with Color
+        //  Payment Status - with Color
         Paint statusLabel = new Paint();
         statusLabel.setColor(Color.parseColor("#546E7A"));
         statusLabel.setTextSize(16);
@@ -175,11 +175,11 @@ public class PdfGenerator {
         }
         y += 50;
 
-        // ✅ Divider
+        //  Divider
         canvas.drawLine(40, y, 555, y, linePaint);
         y += 30;
 
-        // ✅ Footer
+        //  Footer
         Paint footerPaint = new Paint();
         footerPaint.setColor(Color.parseColor("#78909C"));
         footerPaint.setTextSize(11);
@@ -192,7 +192,7 @@ public class PdfGenerator {
         footerPaint.setColor(Color.parseColor("#B0BEC5"));
         canvas.drawText("This is a computer-generated invoice | Thank you for your business!", 297, y, footerPaint);
 
-        // ✅ Border
+        //  Border
         Paint borderPaint = new Paint();
         borderPaint.setColor(Color.parseColor("#1B5E20"));
         borderPaint.setStrokeWidth(3);
@@ -202,7 +202,7 @@ public class PdfGenerator {
         // Finish Page
         document.finishPage(page);
 
-        // ✅ Save PDF
+        //  Save PDF
         String fileName = "Payment_Slip_" + new SimpleDateFormat("yyyy_MM_dd_HH_mm", Locale.getDefault()).format(new Date()) + ".pdf";
 
         File folder = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
@@ -210,7 +210,7 @@ public class PdfGenerator {
             folder.mkdirs();
         }
 
-        // ✅ Create subfolder "MilkDelivery/Invoices"
+        //  Create subfolder "MilkDelivery/Invoices"
         File invoiceFolder = new File(folder, "MilkDelivery/Invoices");
         if (!invoiceFolder.exists()) {
             invoiceFolder.mkdirs();
@@ -223,7 +223,7 @@ public class PdfGenerator {
             document.writeTo(out);
             out.close();
 
-            // ✅ Notify MediaScanner
+            //  Notify MediaScanner
             android.media.MediaScannerConnection.scanFile(
                     context,
                     new String[]{file.getAbsolutePath()},

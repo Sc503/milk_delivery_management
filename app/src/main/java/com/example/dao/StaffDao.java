@@ -31,6 +31,7 @@ public interface StaffDao {
     @Query("SELECT * FROM staff ORDER BY name ASC")
     LiveData<List<Staff>> getAllStaff();
 
+
     @Query("SELECT * FROM staff WHERE id=:id LIMIT 1")
     Staff getStaffById(long id);
 

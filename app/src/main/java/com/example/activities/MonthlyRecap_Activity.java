@@ -185,7 +185,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
         final int totalDaysInMonth = DateUtils.getDaysInMonth(selectedMonthIdx, yearInt);
         final String yearMonthPrefix = DateUtils.getYearMonthPrefix(selectedMonthIdx, yearInt);
 
-        // ✅ Get current month and year
+        //  Get current month and year
         Calendar cal = Calendar.getInstance();
         int currentMonth = cal.get(Calendar.MONTH);
         int currentYear = cal.get(Calendar.YEAR);
@@ -207,19 +207,19 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                 allCustomers = new ArrayList<>();
             }
 
-            // ✅ Get deliveries for selected month/year ONLY
+            //  Get deliveries for selected month/year ONLY
             List<Delivery> monthDeliveries = viewModel.getRepository().getDeliveriesForMonthSync(yearMonthPrefix);
             if (monthDeliveries == null) {
                 monthDeliveries = new ArrayList<>();
             }
 
-            // ✅ Check if selected month/year is the CURRENT month/year
+            //  Check if selected month/year is the CURRENT month/year
             boolean isCurrentMonthYear = (selectedMonthIdx == currentMonth && yearInt == currentYear);
 
-            // ✅ Check if ANY deliveries exist for this month/year
+            //  Check if ANY deliveries exist for this month/year
             boolean hasDeliveries = !monthDeliveries.isEmpty();
 
-            // ✅ Create map of customer deliveries
+            //  Create map of customer deliveries
             Map<Long, List<Delivery>> customerDeliveriesMap = new HashMap<>();
             for (Delivery d : monthDeliveries) {
                 List<Delivery> list = customerDeliveriesMap.get(d.getCustomerId());
@@ -256,29 +256,29 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                         ? ((double) deliveredCount / totalDaysInMonth) * 100.0
                         : 0.0;
 
-                // ✅ Apply customer name filter
+                //  Apply customer name filter
                 if (!customerFilter.trim().isEmpty()
                         && !customer.getName().toLowerCase().contains(customerFilter.toLowerCase())) {
                     continue;
                 }
 
-                // ✅ Apply deliveries filter
+                //  Apply deliveries filter
                 if (deliveredCount < minDeliveriesFilter) {
                     continue;
                 }
 
-                // ✅ Apply pending filter
+                //  Apply pending filter
                 if (minPendingFilter > 0 && pendingCount > minPendingFilter) {
                     continue;
                 }
 
-                // ✅ CRITICAL LOGIC:
-                // ✅ 1. If selected month/year is CURRENT month/year → Show ALL customers (delivered + pending)
-                // ✅ 2. If selected month/year has SOME deliveries → Show ONLY customers with deliveries
-                // ✅ 3. If selected month/year has NO deliveries → Show 0 customers
+                //  CRITICAL LOGIC:
+                //  1. If selected month/year is CURRENT month/year → Show ALL customers (delivered + pending)
+                //  2. If selected month/year has SOME deliveries → Show ONLY customers with deliveries
+                //  3. If selected month/year has NO deliveries → Show 0 customers
 
                 if (isCurrentMonthYear) {
-                    // ✅ Current Month: Show ALL customers (even with 0 deliveries)
+                    //  Current Month: Show ALL customers (even with 0 deliveries)
                     recapItems.add(new MonthlyRecapAdapter.RecapItem(
                             customer.getId(),
                             customer.getName(),
@@ -288,7 +288,7 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                             pct
                     ));
                 } else if (hasDeliveries && !list.isEmpty()) {
-                    // ✅ Selected month has deliveries: Show ONLY customers who have deliveries
+                    //  Selected month has deliveries: Show ONLY customers who have deliveries
                     recapItems.add(new MonthlyRecapAdapter.RecapItem(
                             customer.getId(),
                             customer.getName(),
@@ -298,13 +298,13 @@ public class MonthlyRecap_Activity extends AppCompatActivity {
                             pct
                     ));
                 }
-                // ✅ Else: Skip (no deliveries, not current month)
+                //  Else: Skip (no deliveries, not current month)
 
                 totalDeliveriesSum += deliveredCount;
                 totalPendingSum += pendingCount;
             }
 
-            // ✅ Use filtered customers count (recapItems.size())
+            //  Use filtered customers count (recapItems.size())
             final int finalTotalCustomers = recapItems.size();
             final int finalTotalDeliveries = totalDeliveriesSum;
             final int finalTotalPending = totalPendingSum;

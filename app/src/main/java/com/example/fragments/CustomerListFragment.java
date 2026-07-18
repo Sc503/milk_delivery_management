@@ -106,7 +106,7 @@ public class CustomerListFragment extends Fragment {
 
             @Override
             public void onEdit(Customer customer) {
-                // ✅ Open EditCustomer_Activity
+                //  Open EditCustomer_Activity
                 Intent intent = new Intent(getContext(), EditCustomer_Activity.class);
                 intent.putExtra("CUSTOMER_ID", customer.getId());
                 startActivity(intent);

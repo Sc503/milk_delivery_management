@@ -74,6 +74,11 @@ dependencies {
   implementation(libs.play.services.location)
   implementation(libs.play.services.base)
 
+    // ... other dependencies ...
+
+
+
+
   implementation(platform(libs.androidx.compose.bom))
   implementation(platform(libs.firebase.bom))
   // implementation(libs.accompanist.permissions)

@@ -145,7 +145,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
             renderCalendarDaysAndStats();
         });
 
-        // ✅ Hide buttons if READ_ONLY (coming from Monthly Recap)
+        //  Hide buttons if READ_ONLY (coming from Monthly Recap)
         if (readOnly) {
             binding.btnScreenshot.setVisibility(View.GONE);
             binding.btnDownloadPdf.setVisibility(View.GONE);
@@ -369,7 +369,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            // ✅ Go back to CustomerRecapDetailsActivity
+            //  Go back to CustomerRecapDetailsActivity
             Intent intent = new Intent(this, CustomerRecapDetailsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra("CUSTOMER_ID", customerId);
@@ -384,7 +384,7 @@ public class CustomerCalendarActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // ✅ Go back to CustomerRecapDetailsActivity
+        //  Go back to CustomerRecapDetailsActivity
         Intent intent = new Intent(this, CustomerRecapDetailsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("CUSTOMER_ID", customerId);

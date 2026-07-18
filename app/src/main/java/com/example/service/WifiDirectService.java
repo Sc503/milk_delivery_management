@@ -173,7 +173,7 @@ public class WifiDirectService extends Service {
                         // Get client IP
                         String clientIp = client.getInetAddress().getHostAddress();
 
-                        // ✅ FIX 3: Don't accept connections from our own device
+                        //  FIX 3: Don't accept connections from our own device
                         if (clientIp.equals(myHostAddress) || clientIp.equals("127.0.0.1")) {
                             Log.d("WifiDirectService", "⚠️ Ignoring own connection from: " + clientIp);
                             client.close();
@@ -244,7 +244,7 @@ public class WifiDirectService extends Service {
             Log.d("WifiDirectService", "✅ File received: " + outFile.getAbsolutePath());
             Log.d("WifiDirectService", "✅ File size: " + totalBytes + " bytes");
 
-            // ✅ FIX 2: Notify with file path so UI can refresh
+            //  FIX 2: Notify with file path so UI can refresh
             if (listener != null) {
                 listener.onFileReceived(outFile.getAbsolutePath());
             }

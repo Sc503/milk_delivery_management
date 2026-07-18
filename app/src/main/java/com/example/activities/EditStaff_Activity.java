@@ -40,7 +40,7 @@ public class EditStaff_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ THEME CHECK
+        //  THEME CHECK
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
@@ -55,14 +55,14 @@ public class EditStaff_Activity extends AppCompatActivity {
         binding = ActivityEditStaffBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // ✅ Handle Window Insets
+        //  Handle Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // ✅ Setup Toolbar
+        //  Setup Toolbar
         setupToolbar();
 
         // Get Staff Data from Intent
@@ -109,7 +109,7 @@ public class EditStaff_Activity extends AppCompatActivity {
         binding.btnUpdateStaff.setOnClickListener(v -> updateStaff());
     }
 
-    // ✅ Setup Toolbar with Back Button
+    //  Setup Toolbar with Back Button
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
@@ -119,7 +119,7 @@ public class EditStaff_Activity extends AppCompatActivity {
         }
     }
 
-    // ✅ Handle Back Button Click
+    //  Handle Back Button Click
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -161,7 +161,7 @@ public class EditStaff_Activity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Confirm Password Optional - फक्त Password बदलताना
+        //  Confirm Password Optional - फक्त Password बदलताना
         if (!TextUtils.isEmpty(password)) {
             // Password टाकला आहे, पण किमान 3 characters हवेत
             if (password.length() < 3) {
@@ -170,7 +170,7 @@ public class EditStaff_Activity extends AppCompatActivity {
                 return;
             }
 
-            // ✅ Confirm Password टाकला असेल तरच Match Check करा
+            //  Confirm Password टाकला असेल तरच Match Check करा
             if (!TextUtils.isEmpty(confirmPassword)) {
                 if (!password.equals(confirmPassword)) {
                     binding.etConfirmPassword.setError("Passwords do not match");
