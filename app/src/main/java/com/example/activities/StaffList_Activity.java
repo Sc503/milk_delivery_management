@@ -1,6 +1,5 @@
 package com.example.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -39,8 +38,7 @@ public class StaffList_Activity extends AppCompatActivity {
 
     private ActivityStaffListBinding binding;
     private StaffAdapter adapter;
-    private Context context;
-    private List<Staff> staffList = new ArrayList<>();
+    private final List<Staff> staffList = new ArrayList<>();
     private String accountId;
     private static final String TAG = "StaffList_Activity";
 
@@ -51,7 +49,6 @@ public class StaffList_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityStaffListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        context = this;
 
         tvTotalStaffCount = binding.tvTotalStaffCount;
 
@@ -66,13 +63,13 @@ public class StaffList_Activity extends AppCompatActivity {
 
         adapter = new StaffAdapter(new StaffAdapter.Listener() {
             @Override
-            public void onCall(Staff staff) {
+            public void onCall(@NonNull Staff staff) {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + staff.getMobile()));
                 startActivity(intent);
             }
 
             @Override
-            public void onDetails(Staff staff) {
+            public void onDetails(@NonNull Staff staff) {
                 showStaffDetails(staff);
             }
         }, this);
@@ -83,7 +80,7 @@ public class StaffList_Activity extends AppCompatActivity {
         loadStaffList();
     }
 
-    //  IMPORTANT: Reload staff list when returning from AddStaff_Activity
+    // IMPORTANT: Reload staff list when returning from AddStaff_Activity
     @Override
     protected void onResume() {
         super.onResume();
@@ -113,7 +110,7 @@ public class StaffList_Activity extends AppCompatActivity {
 
         call.enqueue(new Callback<StaffListResponse>() {
             @Override
-            public void onResponse(Call<StaffListResponse> call, Response<StaffListResponse> response) {
+            public void onResponse(@NonNull Call<StaffListResponse> call, @NonNull Response<StaffListResponse> response) {
                 binding.progressBar.setVisibility(View.GONE);
 
                 if (response.isSuccessful() && response.body() != null) {
@@ -147,7 +144,7 @@ public class StaffList_Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<StaffListResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<StaffListResponse> call, @NonNull Throwable t) {
                 binding.progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Network Error: " + t.getMessage());
                 Toast.makeText(StaffList_Activity.this, "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
@@ -186,7 +183,7 @@ public class StaffList_Activity extends AppCompatActivity {
                 .show();
     }
 
-    public void filterStaff(String text) {
+    private void filterStaff(String text) {
         if (adapter != null) {
             adapter.filter(text);
             updateTotalStaffCount(adapter.getFilteredCount());
@@ -230,7 +227,7 @@ public class StaffList_Activity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         } else if (id == R.id.action_add_staff) {
             Intent intent = new Intent(this, AddStaff_Activity.class);

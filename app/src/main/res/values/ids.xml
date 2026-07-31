@@ -3,4 +3,5 @@
     <item name="nav_payment" type="id" />
     <item name="nav_support" type="id" />
     <item name="nav_logout" type="id" />
+    <item name="txt_device_count" type="id" />
 </resources>

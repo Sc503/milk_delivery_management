@@ -331,7 +331,8 @@
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="10dp"
-                            app:backgroundTint="#10B981" />
+                            app:backgroundTint="#10B981"
+                            android:onClick="btnWifiDirect" />
 
                     </LinearLayout>
 

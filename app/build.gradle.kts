@@ -67,14 +67,16 @@ secrets {
 // This makes it easy to add them back in the future if needed.
 dependencies {
   implementation(libs.androidx.activity.ktx)
+  implementation(libs.androidx.coordinatorlayout)
   implementation(libs.appcompat)
+  implementation(libs.google.material)
   implementation(libs.material)
   implementation(libs.constraintlayout)
   implementation(libs.play.services.maps)
   implementation(libs.play.services.location)
   implementation(libs.play.services.base)
 
-    // ... other dependencies ...
+  // ... other dependencies ...
 
 
 
@@ -133,7 +135,7 @@ dependencies {
   annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
 
-  // ✅ फक्त या 3 lines ठेवा
+
   implementation("androidx.media3:media3-exoplayer:1.8.0")
   implementation("androidx.media3:media3-ui:1.8.0")
   implementation("androidx.media3:media3-common:1.8.0")

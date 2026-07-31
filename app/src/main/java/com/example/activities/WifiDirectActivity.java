@@ -1,8 +1,6 @@
 package com.example.activities;
 
-import static android.content.Context.WIFI_P2P_SERVICE;
-
-import static com.example.service.WifiDirectService.connectedDeviceName;
+import static com.example.services.WifiDirectService.connectedDeviceName;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -38,9 +36,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
-import com.example.adapters.DeviceAdapter;
+import com.example.adapters.DeviceAdapter1;
 import com.example.models.WifiDevice;
-import com.example.service.WifiDirectService;
+import com.example.services.WifiDirectService;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -59,7 +57,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     private BroadcastReceiver receiver;
     private IntentFilter intentFilter;
 
-    private DeviceAdapter adapter;
+    private DeviceAdapter1 adapter;
     private List<WifiDevice> deviceList = new ArrayList<>();
 
     private TextView statusText;
@@ -97,7 +95,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi_direct);
+        setContentView(R.layout.activity_wifi_direct1);
 
         initViews();
         initWifiP2p();
@@ -157,7 +155,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
 
         if (rv != null) {
             rv.setLayoutManager(new LinearLayoutManager(this));
-            adapter = new DeviceAdapter(deviceList, this::connectToDevice);
+            adapter = new DeviceAdapter1(deviceList, this::connectToDevice);
             rv.setAdapter(adapter);
         }
 
@@ -175,7 +173,7 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
                     Toast.makeText(this, "Connect to a device first", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent intent = new Intent(this, BackupCenterActivity.class);
+                Intent intent = new Intent(this, BackupCenterActivity1.class);
                 intent.putExtra("MODE", "SELECT_TO_SEND");
                 startActivityForResult(intent, REQUEST_CODE_BACKUP_CENTER);
             });
@@ -625,8 +623,6 @@ public class WifiDirectActivity extends AppCompatActivity implements WifiP2pMana
         config.groupOwnerIntent = 7;
 
         if (!checkLocationPermission()) return;
-
-
 
         manager.connect(channel, config, new WifiP2pManager.ActionListener() {
             @Override

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.service.AutoBackupManager;
+import com.example.services.AutoBackupManager;
 
 public class BootReceiver extends BroadcastReceiver {
 

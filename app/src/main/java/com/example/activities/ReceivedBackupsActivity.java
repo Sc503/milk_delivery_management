@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.InputType;
@@ -16,15 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
-import com.example.adapters.BackupAdapter;
+import com.example.adapters.BackupAdapter1;
 import com.example.backup.BackupManager;
-import com.example.models.BackupFile;
-import com.example.service.WifiDirectService;
+import com.example.models.BackupFile1;
+import com.example.services.WifiDirectService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,8 +37,8 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
     private TextView txtFileCount;
     private View emptyState;
     private RecyclerView rv;
-    private BackupAdapter adapter;
-    private List<BackupFile> backupFileList = new ArrayList<>();
+    private BackupAdapter1 adapter;
+    private List<BackupFile1> backupFileList = new ArrayList<>();
 
     private WifiDirectService wifiService;
     private boolean isServiceBound = false;
@@ -75,14 +73,14 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
 
         refreshFileList();
 
-        adapter = new BackupAdapter(backupFileList, new BackupAdapter.OnBackupClickListener() {
+        adapter = new BackupAdapter1(backupFileList, new BackupAdapter1.OnBackupClickListener() {
             @Override
-            public void onClick(BackupFile f) {
+            public void onClick(BackupFile1 f) {
                 showFileOptionsDialog(f.getFile());
             }
 
             @Override
-            public void onLongClick(BackupFile f) {
+            public void onLongClick(BackupFile1 f) {
                 showOptions(f.getFile());
             }
         });
@@ -211,8 +209,8 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
         }
     }
 
-    private List<BackupFile> loadReceivedFiles() {
-        List<BackupFile> list = new ArrayList<>();
+    private List<BackupFile1> loadReceivedFiles() {
+        List<BackupFile1> list = new ArrayList<>();
 
         File base = new File(
                 android.os.Environment.getExternalStoragePublicDirectory(
@@ -243,7 +241,7 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 } else if (isFileEncrypted(f)) {
                     type = "🔒 ";
                 }
-                list.add(new BackupFile(f, type));
+                list.add(new BackupFile1(f, type));
             }
         }
 

@@ -39,6 +39,8 @@ firebaseBom = "34.12.0"
 secretsGradlePlugin = "2.0.1"
 activityKtx = "1.13.0"
 glide = "4.16.0"
+material = "1.14.0"
+coordinatorlayout = "1.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -96,6 +98,8 @@ firebase-ai = { group = "com.google.firebase", name = "firebase-ai" }
 androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
+google-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

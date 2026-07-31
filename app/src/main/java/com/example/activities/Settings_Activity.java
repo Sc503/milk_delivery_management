@@ -26,14 +26,11 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.example.R;
 import com.example.backup.BackupManager;
 import com.example.databinding.ActivitySettingsBinding;
-import com.example.service.AutoBackupManager;
+import com.example.services.AutoBackupManager;
 
-//  Media3 Imports
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
-
-import com.google.android.material.button.MaterialButton;
 
 public class Settings_Activity extends AppCompatActivity {
 
@@ -41,8 +38,6 @@ public class Settings_Activity extends AppCompatActivity {
     private SwitchCompat switchTheme;
     private SwitchCompat switchAutoBackup;
     private AutoBackupManager autoBackupManager;
-
-    //  Media3 ExoPlayer instance
     private ExoPlayer exoPlayer;
 
     @Override
@@ -91,9 +86,10 @@ public class Settings_Activity extends AppCompatActivity {
         // Last Backup Time
         updateLastBackupTime();
 
-        // Backup Now - With Professional Dialog
+        // ✅ Backup Now - ONLY Encrypted Backup (Removed JSON option)
         binding.btnBackupNow.setOnClickListener(v -> {
-            showBackupOptionsDialog();
+            // ✅ Go directly to encryption password dialog
+            showProfessionalEncryptionDialog();
         });
 
         // Share Backup - Open MyBackupsActivity
@@ -110,13 +106,13 @@ public class Settings_Activity extends AppCompatActivity {
 
         // Backup Center
         binding.btnBackupCenter.setOnClickListener(v -> {
-            Intent intent = new Intent(this, BackupCenterActivity.class);
+            Intent intent = new Intent(this, BackupCenterActivity1.class);
             startActivity(intent);
         });
 
         // WiFi Direct
         binding.btnWifiDirect.setOnClickListener(v -> {
-            Intent intent = new Intent(this, WifiDirectActivity.class);
+            Intent intent = new Intent(this, TempWifiDirectActivity.class);
             startActivity(intent);
         });
 
@@ -157,20 +153,19 @@ public class Settings_Activity extends AppCompatActivity {
             binding.btnClearCache.setVisibility(View.GONE);
         }
 
-        //  Info Button - Show Video Dialog
+        // Info Button - Show Video Dialog
         binding.btnInfo.setOnClickListener(v -> {
             showVideoDialog();
         });
     }
 
-    //  Video Dialog Function with Media3 ExoPlayer
+    // Video Dialog Function with Media3 ExoPlayer
     private void showVideoDialog() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_video_player);
         dialog.setCancelable(false);
 
-        // Set dialog width
         if (dialog.getWindow() != null) {
             dialog.getWindow().setLayout(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -182,18 +177,15 @@ public class Settings_Activity extends AppCompatActivity {
         Button btnClose = dialog.findViewById(R.id.btnClose);
         Button btnOk = dialog.findViewById(R.id.btnOk);
 
-        //  Create Media3 ExoPlayer
         exoPlayer = new ExoPlayer.Builder(this).build();
         playerView.setPlayer(exoPlayer);
 
-        //  Play video from res/raw/milkflowtutorial.mp4
         Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.milkflowtutorial);
         MediaItem mediaItem = MediaItem.fromUri(uri);
         exoPlayer.setMediaItem(mediaItem);
         exoPlayer.prepare();
         exoPlayer.setPlayWhenReady(true);
 
-        //  Close listener
         View.OnClickListener closeListener = v -> {
             if (exoPlayer != null) {
                 exoPlayer.release();
@@ -215,30 +207,14 @@ public class Settings_Activity extends AppCompatActivity {
         dialog.show();
     }
 
-    //  Professional Backup Options Dialog
-    private void showBackupOptionsDialog() {
-        String[] options = {"📄 Normal Backup (.json)", "🔒 Encrypted Backup (.enc)"};
-
-        new AlertDialog.Builder(this)
-                .setTitle("Create Backup")
-                .setItems(options, (dialog, which) -> {
-                    if (which == 0) {
-                        performNormalBackup();
-                    } else {
-                        showProfessionalEncryptionDialog();
-                    }
-                })
-                .show();
-    }
-
-    //  Professional Encryption Password Setup Dialog
+    // ✅ Professional Encryption Password Setup Dialog (No changes needed here)
     private void showProfessionalEncryptionDialog() {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 20, 50, 20);
 
         TextView fileInfo = new TextView(this);
-        fileInfo.setText("📁 Encrypted Backup File");
+        fileInfo.setText("🔒 Encrypted Backup File");
         fileInfo.setTextSize(16);
         fileInfo.setTextColor(getResources().getColor(android.R.color.black));
         fileInfo.setTypeface(Typeface.DEFAULT_BOLD);
@@ -259,6 +235,7 @@ public class Settings_Activity extends AppCompatActivity {
         infoText.setPadding(0, 0, 0, 20);
         layout.addView(infoText);
 
+        // Password Input
         LinearLayout passwordLayout = new LinearLayout(this);
         passwordLayout.setOrientation(LinearLayout.HORIZONTAL);
         passwordLayout.setGravity(Gravity.CENTER_VERTICAL);
@@ -288,6 +265,7 @@ public class Settings_Activity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT, 15));
         layout.addView(spacer);
 
+        // Confirm Password Input
         LinearLayout confirmLayout = new LinearLayout(this);
         confirmLayout.setOrientation(LinearLayout.HORIZONTAL);
         confirmLayout.setGravity(Gravity.CENTER_VERTICAL);
@@ -347,20 +325,7 @@ public class Settings_Activity extends AppCompatActivity {
                 .show();
     }
 
-    private void performNormalBackup() {
-        Toast.makeText(this, "Creating backup...", Toast.LENGTH_SHORT).show();
-        new Thread(() -> {
-            boolean success = BackupManager.createBackup(this);
-            runOnUiThread(() -> {
-                if (success) {
-                    Toast.makeText(this, "✅ Backup created successfully!", Toast.LENGTH_LONG).show();
-                    updateLastBackupTime();
-                } else {
-                    Toast.makeText(this, "❌ Backup failed!", Toast.LENGTH_LONG).show();
-                }
-            });
-        }).start();
-    }
+    // ✅ REMOVED: performNormalBackup() - No longer needed
 
     private void performEncryptedBackup(String password) {
         Toast.makeText(this, "🔒 Creating encrypted backup...", Toast.LENGTH_SHORT).show();
@@ -397,7 +362,6 @@ public class Settings_Activity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
-//            Toast.makeText(this, "dad", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

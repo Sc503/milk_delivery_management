@@ -75,7 +75,7 @@ public class DateUtils {
         int actualMonth = monthZeroBased + 1; // 1-12
         return String.format(Locale.getDefault(), "%04d-%02d%%", year, actualMonth);
     }
-    
+
     /**
      * Formats month/year into double digit date prefix (e.g., "2026-06")
      */

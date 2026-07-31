@@ -1,4 +1,117 @@
 <resources>
     <string name="app_name">MilkFlow</string>
     <string name="share_invoice">Share Invoice</string>
+
+    <!-- WiFi Direct Activity Strings -->
+    <string name="connect_first">Connect to a device first</string>
+    <string name="wifi_direct_off">● Wi-Fi Direct is OFF</string>
+    <string name="wifi_direct_on">● Wi-Fi Direct is ON</string>
+    <string name="connected_as_host">● Connected as HOST</string>
+    <string name="connected_as_client">● Connected as CLIENT</string>
+    <string name="connected_to">✅ Connected to: %s</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="disconnecting">Disconnecting...</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="disconnect_confirm">Are you sure you want to disconnect from %s?</string>
+    <string name="disconnected_success">✅ Disconnected successfully</string>
+    <string name="not_connected">Not connected to any device</string>
+    <string name="already_connected_disconnect">Already connected. Disconnect first.</string>
+    <string name="already_connecting">Already connecting...</string>
+
+    <string name="found">found</string>
+    <string name="devices_found">%d found</string>
+    <string name="devices_found_zero">0 found</string>
+    <string name="client_found">✅ Client found: %s</string>
+    <string name="client_ip_not_found">⚠️ Client IP not found. Try receiving a file first.</string>
+
+    <string name="enable_wifi">📶 Enable WiFi</string>
+    <string name="wifi_direct_needs_wifi">WiFi Direct requires WiFi to be enabled.</string>
+    <string name="turn_on">Turn On</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="scanning_for_devices">🔍 Scanning for devices...</string>
+    <string name="no_devices_found">No devices found. Try again.</string>
+    <string name="no_devices_found_tap_scan">No devices found\nTap \'Scan Devices\' to discover</string>
+    <string name="scan_failed">Scan failed: %d</string>
+    <string name="permission_error_location">Permission error. Please grant location permission.</string>
+    <string name="permissions_required_for_wifi_direct">Permissions required for WiFi Direct</string>
+
+    <string name="connecting_to">Connecting to %s...</string>
+    <string name="connection_failed">Connection failed: %d</string>
+    <string name="connected_to_device">● Connected to: %s</string>
+
+    <string name="connected">CONNECTED</string>
+    <string name="scanning_status">● Scanning...</string>
+    <string name="scanning_upper">SCANNING...</string>
+    <string name="connecting_status">● Connecting...</string>
+    <string name="connecting_upper">CONNECTING...</string>
+    <string name="ready_to_connect">● Ready to connect</string>
+    <string name="scan">🔍 SCAN</string>
+
+    <string name="permissions_required">Permissions required for WiFi Direct</string>
+    <string name="target_ip_not_found">Target IP not found. Please reconnect.</string>
+    <string name="sending_file">Sending: %s</string>
+    <string name="service_not_ready">Service not ready</string>
+    <string name="file_not_found">File not found</string>
+
+    <string name="backup_center">Backup Center</string>
+    <string name="select_file">Select File</string>
+
+    <!-- File Transfer Strings -->
+    <string name="transfer_started">Transfer started: %s</string>
+    <string name="transfer_progress">Progress: %d%%</string>
+    <string name="transfer_complete">✅ Transfer complete!</string>
+    <string name="transfer_failed">❌ Transfer failed: %s</string>
+    <string name="file_received">📥 File received: %s</string>
+    <string name="file_sent">📤 File sent: %s</string>
+
+    <!-- Error Messages -->
+    <string name="error_general">An error occurred</string>
+    <string name="error_permission">Permission denied</string>
+    <string name="error_wifi_disabled">Wi-Fi is disabled</string>
+    <string name="error_connection_failed">Connection failed</string>
+    <string name="error_device_not_found">Device not found</string>
+    <string name="error_selecting_file">Error selecting file</string>
+
+    <!-- Extra Strings -->
+    <string name="device_connected_success">Device connected successfully</string>
+    <string name="please_wait">Please wait...</string>
+    <string name="tap_scan_to_discover">Tap \'Scan\' to discover nearby devices</string>
+    <string name="you_are_host">You are the HOST</string>
+    <string name="connected_to_host">Connected to: %s</string>
+    <string name="host">Host</string>
+
+    <!-- NEW STRINGS ADDED FOR TempWifiDirectActivity -->
+    <!-- Connection Status -->
+    <string name="wifi_disabled">Wi-Fi Disabled</string>
+    <string name="local_device">Local Device: %s</string>
+    <string name="remote_peer">Remote Peer: %s</string>
+
+    <!-- Disconnect -->
+    <string name="disconnected_failed">Failed to disconnect: %d</string>
+
+    <!-- Scan -->
+    <string name="scanning_devices">Scanning for nearby devices...</string>
+    <string name="wifi_direct_not_supported">Wi-Fi Direct not supported.</string>
+    <string name="system_busy">System busy. Retry shortly.</string>
+    <string name="internal_error">Internal error.</string>
+    <string name="unknown_error">Unknown error (%d)</string>
+
+    <!-- Connection -->
+    <string name="initiating_connection">Initiating connection to %s</string>
+
+    <!-- Transfer -->
+    <string name="transfer_successful">Transfer Successful</string>
+    <string name="transfer_failed_title">Transfer Failed</string>
+
+    <!-- Permissions -->
+    <string name="permissions_granted">Permissions granted! You can now scan for peers.</string>
+    <string name="permissions_denied">Permissions denied. Wi-Fi Direct features will be limited.</string>
+
+    <!-- Backup Center -->
+    <string name="backup_center_title">Backup Center</string>
+
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="na">N/A</string>
 </resources>

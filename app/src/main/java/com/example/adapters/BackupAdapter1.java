@@ -9,24 +9,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
-import com.example.models.BackupFile;
+import com.example.models.BackupFile1;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class BackupAdapter extends RecyclerView.Adapter<BackupAdapter.ViewHolder> {
+public class BackupAdapter1 extends RecyclerView.Adapter<BackupAdapter1.ViewHolder> {
 
-    private List<BackupFile> fileList;
+    private List<BackupFile1> fileList;
     private OnBackupClickListener listener;
 
     public interface OnBackupClickListener {
-        void onClick(BackupFile file);
-        void onLongClick(BackupFile file);
+        void onClick(BackupFile1 file);
+        void onLongClick(BackupFile1 file);
     }
 
-    public BackupAdapter(List<BackupFile> fileList, OnBackupClickListener listener) {
+    public BackupAdapter1(List<BackupFile1> fileList, OnBackupClickListener listener) {
         this.fileList = fileList;
         this.listener = listener;
     }
@@ -35,13 +35,13 @@ public class BackupAdapter extends RecyclerView.Adapter<BackupAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_backup_file, parent, false);
+                .inflate(R.layout.item_backup_file1, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BackupFile backupFile = fileList.get(position);
+        BackupFile1 backupFile = fileList.get(position);
         java.io.File file = backupFile.getFile();
 
         // File name

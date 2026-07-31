@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.services;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -99,7 +99,7 @@ public class AutoBackupManager {
 
         PeriodicWorkRequest workRequest =
                 new PeriodicWorkRequest.Builder(
-                        AutoBackupWorker.class,
+                        com.example.services.AutoBackupWorker.class,
                         24,
                         TimeUnit.HOURS
                 ).build();

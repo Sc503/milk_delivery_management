@@ -1,4 +1,4 @@
-package com.example.service;
+package com.example.services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -378,11 +378,12 @@ public class WifiDirectService extends Service {
 
         String[] possibleIps = {
                 "192.168.49.2",
-                "192.168.49.1",
+                "192.168.49.1", //host
                 "192.168.1.2",
                 "192.168.0.2",
                 "192.168.43.2",
-                "10.0.0.2"
+                "10.0.0.2",
+                "192.168.49.97" //client
         };
 
         for (String ip : possibleIps) {

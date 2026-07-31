@@ -73,21 +73,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // ✅ If activity is not the root, finish it
+        //  If activity is not the root, finish it
         if (!isTaskRoot()) {
             Log.d("MAIN_ACTIVITY", "❌ Activity is not task root, finishing duplicate");
             finish();
             return;
         }
 
-        // ✅ Prevent double creation - Fix for super.onCreate
+        // Prevent double creation - Fix for super.onCreate
         if (savedInstanceState != null && isActivityCreated) {
             Log.d("MAIN_ACTIVITY", "❌ Activity already created, skipping duplicate");
-            // ✅ Don't call super.onCreate again, just return
+            //  Don't call super.onCreate again, just return
             return;
         }
 
-        // ✅ Theme check
+        //  Theme check
         SharedPreferences themePrefs = getSharedPreferences("ThemePrefs", MODE_PRIVATE);
         boolean isDarkMode = themePrefs.getBoolean("dark_mode", false);
 
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             currentUserType = "Guest";
         }
 
-        // ✅ Setup Back Press Dispatcher for AndroidX
+        //  Setup Back Press Dispatcher for AndroidX
         setupBackPressedDispatcher();
 
         setupMenuByRole();
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         isActivityCreated = true;
     }
 
-    // ✅ Setup AndroidX Back Press Dispatcher
+    //  Setup AndroidX Back Press Dispatcher
     private void setupBackPressedDispatcher() {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     navigateToMenuItem(R.id.nav_home);
                     showBottomNavigation();
                 } else {
-                    // ✅ Call finish() to close activity
+                    //  Call finish() to close activity
                     finish();
                 }
             }
@@ -741,5 +741,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    // ✅ Removed onBackPressed() - Using OnBackPressedDispatcher instead
+    //  Removed onBackPressed() - Using OnBackPressedDispatcher instead
 }

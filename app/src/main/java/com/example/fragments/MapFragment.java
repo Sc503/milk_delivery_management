@@ -73,6 +73,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    @Nullable
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMapBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(MilkViewModel.class);
@@ -185,16 +187,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    // ============================================================
+    // 🔥 FIXED METHOD - Null check added!
+    // ============================================================
     private void renderMarkersOnUI(List<Customer> customers, Map<Long, Boolean> deliveryStatusMap) {
-        if (googleMap == null) return;
+        // ✅ FIX 1: Check if googleMap is null
+        if (googleMap == null) {
+            Log.e("MapFragment", "❌ googleMap is null!");
+            return;
+        }
+
+        // ✅ FIX 2: Check if binding is null
+        if (binding == null) {
+            Log.e("MapFragment", "❌ binding is null!");
+            return;
+        }
+
+        // ✅ FIX 3: Check if customers is null
+        if (customers == null) {
+            customers = java.util.Collections.emptyList();
+        }
+
+        // ✅ FIX 4: Check if deliveryStatusMap is null
+        if (deliveryStatusMap == null) {
+            deliveryStatusMap = new HashMap<>();
+        }
 
         googleMap.clear();
         markerLookup.clear();
-        binding.cardNoMarkers.setVisibility(View.GONE);
+
+        // ✅ FIX 5: Safe access to cardNoMarkers
+        try {
+            binding.cardNoMarkers.setVisibility(customers.isEmpty() ? View.VISIBLE : View.GONE);
+        } catch (Exception e) {
+            Log.e("MapFragment", "❌ Error setting visibility: " + e.getMessage());
+        }
 
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
         Marker selectedMarker = null;
         LatLng selectedLatLng = null;
+        boolean hasValidMarkers = false;
 
         for (Customer customer : customers) {
             if (customer.getLatitude() == 0 && customer.getLongitude() == 0) {
@@ -203,6 +235,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             LatLng latLng = new LatLng(customer.getLatitude(), customer.getLongitude());
             boundsBuilder.include(latLng);
+            hasValidMarkers = true;
 
             boolean delivered = deliveryStatusMap.getOrDefault(customer.getId(), false);
             float markerColor = delivered ? BitmapDescriptorFactory.HUE_GREEN : BitmapDescriptorFactory.HUE_RED;
@@ -233,7 +266,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        if (!customers.isEmpty()) {
+        if (hasValidMarkers) {
             try {
                 LatLngBounds bounds = boundsBuilder.build();
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
@@ -323,7 +356,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
                     @Override
                     public void onEdit(Customer c) {
-                        //  Open EditCustomer_Activity instead of Dialog
                         Intent intent = new Intent(getContext(), EditCustomer_Activity.class);
                         intent.putExtra("CUSTOMER_ID", c.getId());
                         startActivity(intent);
@@ -379,5 +411,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        googleMap = null;
     }
 }

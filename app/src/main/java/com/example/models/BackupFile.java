@@ -1,19 +1,22 @@
 package com.example.models;
 
+
+
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class BackupFile {
-    private File file;
-    private String type; // "My Backups" or "Received"
-
-    // Constructor with just File (for My Backups)
-    public BackupFile(File file) {
-        this.file = file;
-        this.type = "My Backups";
+    public enum Type {
+        MY_BACKUP,
+        RECEIVED
     }
 
-    // Constructor with File and type (for Received Backups)
-    public BackupFile(File file, String type) {
+    private final File file;
+    private final Type type;
+
+    public BackupFile(File file, Type type) {
         this.file = file;
         this.type = type;
     }
@@ -22,11 +25,38 @@ public class BackupFile {
         return file;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public String getName() {
+        return file.getName();
+    }
+
+    public long getSize() {
+        return file.length();
+    }
+
+    public String getFormattedSize() {
+        long size = file.length();
+        if (size <= 0) return "0 B";
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        if (digitGroups >= units.length) digitGroups = units.length - 1;
+        return String.format(Locale.US, "%.1f %s", size / Math.pow(1024, digitGroups), units[digitGroups]);
+    }
+
+    public String getFormattedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+        return sdf.format(new Date(file.lastModified()));
+    }
+
+    public String getExtension() {
+        String name = file.getName();
+        int dotIndex = name.lastIndexOf('.');
+        if (dotIndex != -1 && dotIndex < name.length() - 1) {
+            return name.substring(dotIndex + 1).toUpperCase();
+        }
+        return "FILE";
     }
 }

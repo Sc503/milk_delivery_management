@@ -23,13 +23,30 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <!-- Android 11+ Storage Permission -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission
+        android:name="android.permission.NEARBY_WIFI_DEVICES"
+        android:usesPermissionFlags="neverForLocation"
+        tools:targetApi="tiramisu" />
+
 
     <!-- ✅ Supports All Screen Sizes -->
     <supports-screens
@@ -72,7 +89,15 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <!-- WiFi Direct Service -->
+        <!-- ==================== SERVICES ==================== -->
+
+        <!-- File Transfer Service (Foreground Service for WiFi Direct) -->
+        <service
+            android:name=".services.FileTransferService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
+        <!-- WiFi Direct Service  -->
         <service
             android:name=".service.WifiDirectService"
             android:exported="false"
@@ -91,6 +116,11 @@
         <receiver
             android:name=".Receivers.AutoBackupReceiver"
             android:enabled="true"
+            android:exported="false" />
+
+        <!-- WiFi Direct Broadcast Receiver -->
+        <receiver
+            android:name=".Receivers.WifiDirectBroadcastReceiver"
             android:exported="false" />
 
         <!-- ==================== SPLASH ACTIVITY ==================== -->
@@ -218,6 +248,11 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
+            android:name=".activities.BackupCenterActivity1"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity
             android:name=".activities.MyBackupsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -227,6 +262,14 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|keyboardHidden" />
+
+        <!-- ==================== WIFI DIRECT ACTIVITIES ==================== -->
+        <activity
+            android:name=".activities.TempWifiDirectActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+
         <activity
             android:name=".activities.WifiDirectActivity"
             android:exported="false"

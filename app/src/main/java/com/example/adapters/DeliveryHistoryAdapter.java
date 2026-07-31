@@ -60,7 +60,7 @@ public class DeliveryHistoryAdapter extends RecyclerView.Adapter<DeliveryHistory
         public void bind(final Delivery delivery) {
             // Friendly format date
             txtDate.setText(DateUtils.getFriendlyDateString(delivery.getDeliveryDate()));
-            
+
             String status = delivery.getStatus();
             txtStatus.setText(status);
 
