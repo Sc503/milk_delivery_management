@@ -169,4 +169,11 @@ public class MainViewModel extends AndroidViewModel {
         }
         super.onCleared();
     }
+
+    // ✅ Clear transfer state to prevent old dialog from showing
+    public void clearTransferState() {
+        // ✅ fileTransferService null असला तरी state clear करा
+        transferStateMediator.setValue(TransferState.idle());
+        Log.d("MainViewModel", "Transfer state cleared");
+    }
 }

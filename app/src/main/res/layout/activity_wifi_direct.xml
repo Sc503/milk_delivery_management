@@ -5,15 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="#F5F5F5"
     tools:context="com.example.activities.TempWifiDirectActivity">
 
-    <!-- Top App Bar / Header -->
+    <!-- Top App Bar / Header - Dark Green -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="#1B5E20"
         app:elevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,6 @@
             android:layout_height="?attr/actionBarSize"
             android:paddingHorizontal="16dp">
 
-            <!-- App Logo + Title inside header -->
             <ImageView
                 android:id="@+id/iv_header_logo"
                 android:layout_width="32dp"
@@ -58,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Share Files Offline"
-                    android:textColor="#E0F2F1"
+                    android:textColor="#A5D6A7"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -92,7 +91,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 1. Connection Status Card -->
+            <!-- 1. Connection Status Card - Dark Green -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_connection_status"
                 android:layout_width="match_parent"
@@ -100,9 +99,9 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/colorBorder"
+                app:strokeColor="#388E3C"
                 app:strokeWidth="1dp"
-                app:cardBackgroundColor="@color/colorCardBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -114,7 +113,7 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:background="@drawable/ic_launcher_background"
-                        android:backgroundTint="@color/light_gray"
+                        android:backgroundTint="#E8F5E9"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent">
@@ -125,6 +124,7 @@
                             android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_wifi_off"
+                            app:tint="#1B5E20"
                             android:contentDescription="Status Icon" />
                     </FrameLayout>
 
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Connection Status"
-                        android:textColor="@color/colorTextSecondary"
+                        android:textColor="#757575"
                         android:textSize="12sp"
                         android:layout_marginStart="16dp"
                         app:layout_constraintStart_toEndOf="@id/layout_status_icon_bg"
@@ -144,7 +144,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Disconnected"
-                        android:textColor="@color/colorError"
+                        android:textColor="#D32F2F"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_marginStart="16dp"
@@ -157,14 +157,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Local Device: Unknown"
-                        android:textColor="@color/colorTextSecondary"
+                        android:textColor="#757575"
                         android:textSize="11sp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="2dp"
                         app:layout_constraintStart_toEndOf="@id/layout_status_icon_bg"
                         app:layout_constraintTop_toBottomOf="@id/tv_connection_status" />
 
-                    <!-- Detailed Info (hidden when disconnected, but shown in code) -->
+                    <!-- Detailed Info -->
                     <LinearLayout
                         android:id="@+id/layout_connected_details"
                         android:layout_width="0dp"
@@ -179,7 +179,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/colorBorder"
+                            android:background="#388E3C"
                             android:layout_marginVertical="12dp"/>
 
                         <GridLayout
@@ -189,12 +189,11 @@
                             android:rowCount="4"
                             android:useDefaultMargins="true">
 
-                            <!-- IP Address -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="IP Address:"
-                                android:textColor="@color/colorTextSecondary"
+                                android:textColor="#757575"
                                 android:textStyle="bold"
                                 android:textSize="12sp"
                                 android:layout_columnWeight="1"/>
@@ -204,16 +203,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="N/A"
-                                android:textColor="@color/colorTextPrimary"
+                                android:textColor="#212121"
                                 android:textSize="12sp"
                                 android:layout_columnWeight="1"/>
 
-                            <!-- Role -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Role:"
-                                android:textColor="@color/colorTextSecondary"
+                                android:textColor="#757575"
                                 android:textStyle="bold"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
@@ -224,17 +222,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="N/A"
-                                android:textColor="@color/colorTextPrimary"
+                                android:textColor="#212121"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
                                 android:layout_columnWeight="1"/>
 
-                            <!-- Connected Device Name -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Connected Device:"
-                                android:textColor="@color/colorTextSecondary"
+                                android:textColor="#757575"
                                 android:textStyle="bold"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
@@ -245,17 +242,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="N/A"
-                                android:textColor="@color/colorTextPrimary"
+                                android:textColor="#212121"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
                                 android:layout_columnWeight="1"/>
 
-                            <!-- Connected Time -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Connected Time:"
-                                android:textColor="@color/colorTextSecondary"
+                                android:textColor="#757575"
                                 android:textStyle="bold"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
@@ -266,7 +262,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="00:00:00"
-                                android:textColor="@color/colorTextPrimary"
+                                android:textColor="#212121"
                                 android:textSize="12sp"
                                 android:layout_marginTop="4dp"
                                 android:layout_columnWeight="1"/>
@@ -274,15 +270,15 @@
 
                     </LinearLayout>
 
-                    <!-- Disconnect Button inside Status Card -->
+                    <!-- Disconnect Button -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_disconnect"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DISCONNECT"
-                        android:textColor="@color/colorError"
-                        app:strokeColor="@color/colorError"
+                        android:textColor="#D32F2F"
+                        app:strokeColor="#D32F2F"
                         android:visibility="gone"
                         android:layout_marginTop="12dp"
                         app:layout_constraintTop_toBottomOf="@id/layout_connected_details"
@@ -291,16 +287,16 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 2. Nearby Devices & Discover -->
+            <!-- 2. Nearby Devices - Dark Green -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/colorBorder"
+                app:strokeColor="#388E3C"
                 app:strokeWidth="1dp"
-                app:cardBackgroundColor="@color/colorCardBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -318,7 +314,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_phone"
-                            app:tint="@color/colorPrimary"
+                            app:tint="#1B5E20"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -330,13 +326,13 @@
                             android:text="Nearby Devices"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorTextPrimary"
+                            android:textColor="#212121"
                             android:layout_marginStart="8dp"
                             app:layout_constraintStart_toEndOf="@id/iv_nearby_icon"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent" />
 
-                        <!-- Discover Devices / SCAN Button -->
+                        <!-- SCAN Button - Dark Green -->
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_scan"
                             style="@style/Widget.Material3.Button"
@@ -344,14 +340,14 @@
                             android:layout_height="wrap_content"
                             android:text="SCAN"
                             android:textSize="12sp"
-                            app:backgroundTint="@color/colorPrimary"
+                            app:backgroundTint="#1B5E20"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- RecyclerView showing nearby devices -->
+                    <!-- RecyclerView -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_devices"
                         android:layout_width="match_parent"
@@ -359,7 +355,7 @@
                         android:nestedScrollingEnabled="false"
                         tools:listitem="@layout/item_device" />
 
-                    <!-- Empty State for Devices -->
+                    <!-- Empty State -->
                     <LinearLayout
                         android:id="@+id/layout_devices_empty"
                         android:layout_width="match_parent"
@@ -372,14 +368,14 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:src="@drawable/ic_info"
-                            app:tint="@color/colorTextSecondary"
-                            android:alpha="0.5" />
+                            app:tint="#A5D6A7"
+                            android:alpha="0.6" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="No nearby devices found yet."
-                            android:textColor="@color/colorTextSecondary"
+                            android:textColor="#757575"
                             android:textSize="14sp"
                             android:layout_marginTop="8dp"
                             android:gravity="center" />
@@ -388,7 +384,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Ensure Wi-Fi is enabled on both devices and tap Scan."
-                            android:textColor="@color/colorTextSecondary"
+                            android:textColor="#757575"
                             android:textSize="12sp"
                             android:layout_marginTop="4dp"
                             android:gravity="center" />
@@ -397,16 +393,16 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 3. File to Send Selection Card -->
+            <!-- 3. File to Send - Dark Green -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/colorBorder"
+                app:strokeColor="#388E3C"
                 app:strokeWidth="1dp"
-                app:cardBackgroundColor="@color/colorCardBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -424,7 +420,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_folder"
-                            app:tint="@color/colorPrimary"
+                            app:tint="#1B5E20"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -436,7 +432,7 @@
                             android:text="File to Send"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorTextPrimary"
+                            android:textColor="#212121"
                             android:layout_marginStart="8dp"
                             app:layout_constraintStart_toEndOf="@id/iv_file_section_icon"
                             app:layout_constraintTop_toTopOf="parent"
@@ -444,7 +440,7 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- Selected File Preview Details -->
+                    <!-- Selected File Preview -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_selected_file_details"
                         android:layout_width="match_parent"
@@ -453,9 +449,9 @@
                         android:visibility="gone"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorBorder"
+                        app:strokeColor="#388E3C"
                         app:strokeWidth="1dp"
-                        app:cardBackgroundColor="@color/light_gray">
+                        app:cardBackgroundColor="#E8F5E9">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -467,7 +463,7 @@
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 android:src="@drawable/ic_file"
-                                app:tint="@color/colorPrimary"
+                                app:tint="#1B5E20"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -489,7 +485,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="File_Name.pdf"
-                                    android:textColor="@color/colorTextPrimary"
+                                    android:textColor="#212121"
                                     android:textSize="14sp"
                                     android:textStyle="bold"
                                     android:ellipsize="middle"
@@ -500,7 +496,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="2.45 MB • PDF File"
-                                    android:textColor="@color/colorTextSecondary"
+                                    android:textColor="#757575"
                                     android:textSize="12sp"
                                     android:layout_marginTop="2dp" />
                             </LinearLayout>
@@ -511,6 +507,7 @@
                                 android:layout_height="40dp"
                                 android:background="?attr/selectableItemBackgroundBorderless"
                                 android:src="@drawable/ic_delete"
+                                app:tint="#D32F2F"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -519,19 +516,23 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Select File Button -->
+                    <!-- Select File Button - Dark Green -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_select_file"
                         style="@style/Widget.Material3.Button"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
                         android:text="SELECT FILE"
-                        app:backgroundTint="@color/colorPrimary" />
+                        android:textColor="@color/white"
+                        app:backgroundTint="#1B5E20"
+                        app:icon="@drawable/ic_folder"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/white" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 4. Transfer Progress Card -->
+            <!-- 4. Transfer Progress - Dark Green -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_transfer_progress"
                 android:layout_width="match_parent"
@@ -540,9 +541,9 @@
                 android:visibility="gone"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/colorBorder"
+                app:strokeColor="#388E3C"
                 app:strokeWidth="1dp"
-                app:cardBackgroundColor="@color/colorCardBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -560,7 +561,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_check_circle"
-                            app:tint="@color/colorPrimary"
+                            app:tint="#1B5E20"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -573,7 +574,7 @@
                             android:text="Transfer Progress"
                             android:textSize="16sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorTextPrimary"
+                            android:textColor="#212121"
                             android:layout_marginStart="8dp"
                             app:layout_constraintStart_toEndOf="@id/iv_progress_icon"
                             app:layout_constraintTop_toTopOf="parent"
@@ -581,7 +582,7 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <!-- Progress bar & numeric percentage -->
+                    <!-- Progress Bar - Dark Green -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -596,8 +597,8 @@
                             android:layout_weight="1"
                             android:max="100"
                             android:progress="0"
-                            app:trackColor="@color/light_gray"
-                            app:indicatorColor="@color/colorPrimary"
+                            app:trackColor="#E8F5E9"
+                            app:indicatorColor="#1B5E20"
                             app:trackThickness="8dp"
                             app:trackCornerRadius="4dp" />
 
@@ -608,12 +609,12 @@
                             android:text="0%"
                             android:textSize="14sp"
                             android:textStyle="bold"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="#1B5E20"
                             android:gravity="end" />
 
                     </LinearLayout>
 
-                    <!-- Technical Stats Grid -->
+                    <!-- Stats Grid -->
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -622,7 +623,6 @@
                         android:layout_marginBottom="16dp"
                         android:useDefaultMargins="true">
 
-                        <!-- Transfer Speed -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -634,7 +634,7 @@
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/ic_speed"
-                                app:tint="@color/colorTextSecondary" />
+                                app:tint="#757575" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -647,7 +647,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Transfer Speed"
                                     android:textSize="10sp"
-                                    android:textColor="@color/colorTextSecondary" />
+                                    android:textColor="#757575" />
 
                                 <TextView
                                     android:id="@+id/tv_transfer_speed"
@@ -656,11 +656,10 @@
                                     android:text="0.0 KB/s"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/colorTextPrimary" />
+                                    android:textColor="#212121" />
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Size Transferred -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -672,7 +671,7 @@
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/ic_file"
-                                app:tint="@color/colorTextSecondary" />
+                                app:tint="#757575" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -685,7 +684,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Transferred"
                                     android:textSize="10sp"
-                                    android:textColor="@color/colorTextSecondary" />
+                                    android:textColor="#757575" />
 
                                 <TextView
                                     android:id="@+id/tv_transferred_size"
@@ -694,11 +693,10 @@
                                     android:text="0 B / 0 B"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/colorTextPrimary" />
+                                    android:textColor="#212121" />
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Remaining Time -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -711,7 +709,7 @@
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/ic_clock"
-                                app:tint="@color/colorTextSecondary" />
+                                app:tint="#757575" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -724,7 +722,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Remaining Time"
                                     android:textSize="10sp"
-                                    android:textColor="@color/colorTextSecondary" />
+                                    android:textColor="#757575" />
 
                                 <TextView
                                     android:id="@+id/tv_remaining_time"
@@ -733,11 +731,10 @@
                                     android:text="00:00:00"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/colorTextPrimary" />
+                                    android:textColor="#212121" />
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Total Size -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -750,7 +747,7 @@
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/ic_info"
-                                app:tint="@color/colorTextSecondary" />
+                                app:tint="#757575" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -763,7 +760,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="Status"
                                     android:textSize="10sp"
-                                    android:textColor="@color/colorTextSecondary" />
+                                    android:textColor="#757575" />
 
                                 <TextView
                                     android:id="@+id/tv_transfer_status"
@@ -772,7 +769,7 @@
                                     android:text="Idle"
                                     android:textSize="12sp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/colorTextPrimary" />
+                                    android:textColor="#212121" />
                             </LinearLayout>
                         </LinearLayout>
                     </GridLayout>
@@ -784,22 +781,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="CANCEL TRANSFER"
-                        android:textColor="@color/colorError"
-                        app:strokeColor="@color/colorError" />
+                        android:textColor="#D32F2F"
+                        app:strokeColor="#D32F2F" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 5. Save Location Card (Receiver) -->
+            <!-- 5. Save Location Card - Dark Green -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/colorBorder"
+                app:strokeColor="#388E3C"
                 app:strokeWidth="1dp"
-                app:cardBackgroundColor="@color/colorCardBackground">
+                app:cardBackgroundColor="#FFFFFF">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -811,7 +808,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_folder"
-                        app:tint="@color/colorPrimary"
+                        app:tint="#1B5E20"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         android:contentDescription="Save Location Icon" />
@@ -823,7 +820,7 @@
                         android:text="Save Location (Receiver)"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@color/colorTextPrimary"
+                        android:textColor="#212121"
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toEndOf="@id/iv_save_loc_icon"
                         app:layout_constraintTop_toTopOf="@id/iv_save_loc_icon"
@@ -833,9 +830,10 @@
                         android:id="@+id/tv_save_loc_path"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="/storage/emulated/0/Download/WiFiDirectShare/"
-                        android:textColor="@color/colorTextSecondary"
+                        android:text="/storage/emulated/0/Download/MilkDelivery/Received/"
+                        android:textColor="#1B5E20"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         android:layout_marginTop="6dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -847,12 +845,12 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- 6. Send File Floating/Bottom Container (Sticky Button) -->
+    <!-- 6. Send File Button - Dark Green -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorBackground"
+        android:background="#FFFFFF"
         android:elevation="8dp"
         android:padding="16dp">
 
@@ -864,9 +862,12 @@
             android:text="SEND FILE"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_send"
             app:iconGravity="textStart"
-            app:backgroundTint="@color/colorPrimary" />
+            app:iconTint="@color/white"
+            app:backgroundTint="#1B5E20" />
+
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

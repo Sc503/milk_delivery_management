@@ -19,7 +19,7 @@ public class BackupCenterActivity1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup_center1);
 
-        // Initialize all buttons
+        // Initialize buttons
         btnMyBackups = findViewById(R.id.btnMyBackups);
         btnReceivedBackups = findViewById(R.id.btnReceivedBackups);
         btnWifiDirect = findViewById(R.id.btnWifiDirect);
@@ -30,13 +30,13 @@ public class BackupCenterActivity1 extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Received Backups - Open ReceivedBackupsActivity
+        // ✅ Received Backups - Open ReceivedBackupsActivity
         btnReceivedBackups.setOnClickListener(v -> {
             Intent intent = new Intent(this, ReceivedBackupsActivity.class);
             startActivity(intent);
         });
 
-        // WiFi Direct - DISABLED (just shows a toast)
+        // WiFi Direct - DISABLED
         btnWifiDirect.setOnClickListener(v -> {
             // WiFi Direct is disabled
         });

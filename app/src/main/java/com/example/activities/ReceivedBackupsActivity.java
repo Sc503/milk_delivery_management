@@ -4,9 +4,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,11 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
 import com.example.adapters.BackupAdapter1;
+import com.example.backup.BackupFileManager;
 import com.example.backup.BackupManager;
 import com.example.models.BackupFile1;
 import com.example.services.WifiDirectService;
@@ -212,24 +216,30 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
     private List<BackupFile1> loadReceivedFiles() {
         List<BackupFile1> list = new ArrayList<>();
 
-        File base = new File(
-                android.os.Environment.getExternalStoragePublicDirectory(
-                        android.os.Environment.DIRECTORY_DOWNLOADS
-                ),
-                "MilkDelivery/received"
-        );
+        // ✅ BackupFileManager वापरा
+        BackupFileManager manager = BackupFileManager.getInstance(this);
+        File base = manager.getReceivedBackupFolder();
+
+        Log.d("ReceivedBackups", "========== LOADING RECEIVED FILES ==========");
+        Log.d("ReceivedBackups", "Folder path: " + base.getAbsolutePath());
+        Log.d("ReceivedBackups", "Folder exists: " + base.exists());
 
         if (!base.exists()) {
-            base.mkdirs();
+            boolean created = base.mkdirs();
+            Log.d("ReceivedBackups", "Created folder: " + created);
             return list;
         }
 
-        File[] receivedFiles = base.listFiles(file ->
-                file.isFile() &&
-                        (file.getName().endsWith(".json") || file.getName().endsWith(".enc"))
-        );
+        // ✅ सर्व फाइल्स लिस्ट करा (कोणताही filter नाही)
+        File[] receivedFiles = base.listFiles(file -> file.isFile());
 
         if (receivedFiles != null) {
+            Log.d("ReceivedBackups", "Total files found: " + receivedFiles.length);
+            for (File f : receivedFiles) {
+                Log.d("ReceivedBackups", "  📄 " + f.getName() + " (" + f.length() + " bytes)");
+            }
+
+            // ✅ Newest first sort
             java.util.Arrays.sort(receivedFiles, (f1, f2) ->
                     Long.compare(f2.lastModified(), f1.lastModified())
             );
@@ -238,16 +248,20 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
                 String type = "";
                 if (f.getName().endsWith(".enc")) {
                     type = "🔒 ";
-                } else if (isFileEncrypted(f)) {
-                    type = "🔒 ";
+                } else if (f.getName().endsWith(".json")) {
+                    type = "📄 ";
+                } else {
+                    type = "📁 ";
                 }
                 list.add(new BackupFile1(f, type));
             }
+        } else {
+            Log.d("ReceivedBackups", "No files found (null)");
         }
 
+        Log.d("ReceivedBackups", "Files added to list: " + list.size());
         return list;
     }
-
     private boolean isFileEncrypted(File file) {
         try {
             String content = readFileContent(file);
@@ -356,21 +370,29 @@ public class ReceivedBackupsActivity extends AppCompatActivity {
     }
 
     private void sendViaWifi(File file) {
-        if (!WifiDirectService.isConnected) {
-            Toast.makeText(this, "Not connected to any device.\nOpen WiFi Direct first.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, WifiDirectActivity.class));
-            return;
-        }
+        // ✅ TempWifiDirectActivity ला File पाठवा
+        Intent intent = new Intent(this, TempWifiDirectActivity.class);
 
-        if (!isServiceBound || wifiService == null) {
-            Toast.makeText(this, "Service not available. Please reconnect.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, WifiDirectService.class);
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-            return;
-        }
+        try {
+            // ✅ File path आणि name
+            intent.putExtra("file_path", file.getAbsolutePath());
+            intent.putExtra("file_name", file.getName());
 
-        wifiService.sendFile(file);
-        Toast.makeText(this, "Sending: " + file.getName() + " via WiFi Direct...", Toast.LENGTH_SHORT).show();
+            // ✅ File URI (FileProvider वापरून)
+            Uri fileUri = FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    file
+            );
+            intent.setData(fileUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(intent);
+
+        } catch (Exception e) {
+            Log.e("MyBackups", "Error sending file", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void openFile(File file) {

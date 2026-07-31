@@ -302,6 +302,13 @@ public class FileTransferService extends Service implements ProgressListener {
         ));
         updateNotification("Transfer completed successfully", 100);
 
+        // ✅ SUCCESS state नंतर IDLE state ला reset करा
+        // जेणेकरून पुन्हा activity open केल्यावर dialog दिसणार नाही
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+            transferState.postValue(TransferState.idle());
+            Log.d(TAG, "Transfer state reset to IDLE after success");
+        }, 1000); // 1 सेकंदानंतर reset
+
         // ✅ Restart Server automatically to accept subsequent transfers
         startListeningForFiles();
     }

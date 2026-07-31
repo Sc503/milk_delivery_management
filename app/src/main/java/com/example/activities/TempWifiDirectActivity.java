@@ -25,6 +25,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -148,7 +149,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
 
         // File Selection Button - Opens Backup Center
         binding.btnSelectFile.setOnClickListener(v -> {
-            Intent intent = new Intent(TempWifiDirectActivity.this, BackupCenterActivity.class);
+            Intent intent = new Intent(TempWifiDirectActivity.this, BackupCenterActivity1.class);
             backupCenterLauncher.launch(intent);
         });
 
@@ -182,10 +183,10 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
         Intent intent = getIntent();
         if (intent == null) return;
 
-        // Check if file was passed
-        Uri uri = intent.getData();
+        // ✅ File path check करा
         String filePath = intent.getStringExtra("file_path");
         String fileName = intent.getStringExtra("file_name");
+        Uri uri = intent.getData();
 
         if (uri != null) {
             Log.d(TAG, "📥 File received from MyBackups: " + uri.toString());
@@ -194,9 +195,11 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
         } else if (filePath != null) {
             File file = new File(filePath);
             if (file.exists()) {
-                Uri fileUri = Uri.fromFile(file);
+                Uri fileUri = FileProvider.getUriForFile(this, getPackageName() + ".provider", file);
                 viewModel.selectFile(fileUri);
                 Toast.makeText(this, "📁 File loaded: " + fileName, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "❌ File not found: " + filePath, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -325,8 +328,14 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                 binding.tvRemainingTime.setText(state.getFormattedRemainingTime());
                 binding.tvTransferStatus.setText(state.getMessage());
 
+                // ✅ फक्त SUCCESS state असल्यावरच dialog दाखवा
                 if (state.getStatus() == TransferState.Status.SUCCESS) {
-                    showSuccessDialog(state.getMessage());
+                    // ✅ fileTransferService null नसेल तरच dialog दाखवा
+                    if (fileTransferService != null) {
+                        showSuccessDialog(state.getMessage());
+                        // ✅ Dialog दाखवल्यानंतर state idle करा
+                        viewModel.clearTransferState();
+                    }
                 } else if (state.getStatus() == TransferState.Status.FAILED) {
                     showFailureDialog(state.getMessage());
                 }
@@ -655,6 +664,11 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             registerReceiver(broadcastReceiver, intentFilter);
         }
         refreshConnectionStatus();
+
+        // ✅ Transfer state clear करा जेणेकरून जुना success dialog दिसणार नाही
+        if (viewModel != null) {
+            viewModel.clearTransferState();
+        }
     }
 
     private void refreshConnectionStatus() {
@@ -697,5 +711,13 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             isServiceBound = false;
         }
         super.onDestroy();
+    }
+    @Override
+    public void onBackPressed() {
+        // ✅ Close all activities and go to Settings_Activity
+        Intent intent = new Intent(this, Settings_Activity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

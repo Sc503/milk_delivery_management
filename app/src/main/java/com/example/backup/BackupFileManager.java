@@ -15,9 +15,9 @@ public class BackupFileManager {
     private static final String TAG = "BackupFileManager";
     private static BackupFileManager instance;
 
-    // ✅ CHANGED: Use same folder name as BackupManager
+    // ✅ CORRECT: Same as BackupManager
     private static final String BACKUP_FOLDER_NAME = "MilkDelivery";
-    private static final String RECEIVED_FOLDER_NAME = "Received";
+    private static final String RECEIVED_FOLDER_NAME = "received";
 
     private final File myBackupFolder;
     private final File receivedBackupFolder;
@@ -25,7 +25,7 @@ public class BackupFileManager {
     private BackupFileManager(Context context) {
         File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-        // ✅ CHANGED: Now uses "MilkDelivery" instead of "MilkFlow"
+        // ✅ My Backups folder: /Downloads/MilkDelivery/
         myBackupFolder = new File(downloadsDir, BACKUP_FOLDER_NAME);
         if (!myBackupFolder.exists()) {
             boolean created = myBackupFolder.mkdirs();
@@ -34,7 +34,7 @@ public class BackupFileManager {
             }
         }
 
-        // ✅ CHANGED: Received folder now inside MilkDelivery
+        // ✅ Received folder: /Downloads/MilkDelivery/Received/
         receivedBackupFolder = new File(myBackupFolder, RECEIVED_FOLDER_NAME);
         if (!receivedBackupFolder.exists()) {
             boolean created = receivedBackupFolder.mkdirs();
@@ -42,6 +42,9 @@ public class BackupFileManager {
                 Log.d(TAG, "Created Received folder: " + receivedBackupFolder.getAbsolutePath());
             }
         }
+
+        Log.d(TAG, "📁 My Backups folder: " + myBackupFolder.getAbsolutePath());
+        Log.d(TAG, "📁 Received folder: " + receivedBackupFolder.getAbsolutePath());
     }
 
     public static synchronized BackupFileManager getInstance(Context context) {
@@ -65,12 +68,14 @@ public class BackupFileManager {
             File[] fileList = myBackupFolder.listFiles();
             if (fileList != null) {
                 for (File file : fileList) {
-                    if (file.isFile()) {
+                    if (file.isFile() && !file.getName().startsWith(".")) {
                         files.add(file);
                     }
                 }
             }
         }
+        // ✅ Sort newest first
+        files.sort((f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
         return files;
     }
 
@@ -80,18 +85,25 @@ public class BackupFileManager {
             File[] fileList = receivedBackupFolder.listFiles();
             if (fileList != null) {
                 for (File file : fileList) {
-                    if (file.isFile()) {
+                    if (file.isFile() && !file.getName().startsWith(".")) {
                         files.add(file);
                     }
                 }
             }
         }
+        // ✅ Sort newest first
+        files.sort((f1, f2) -> Long.compare(f2.lastModified(), f1.lastModified()));
         return files;
     }
 
     public void saveReceivedFile(InputStream inputStream, String fileName) throws IOException {
+        if (!receivedBackupFolder.exists()) {
+            receivedBackupFolder.mkdirs();
+        }
+
         File destFile = new File(receivedBackupFolder, fileName);
 
+        // ✅ Handle duplicate file names
         int count = 1;
         String name = fileName;
         String extension = "";
@@ -114,9 +126,15 @@ public class BackupFileManager {
             }
             fos.flush();
         }
+
+        Log.d(TAG, "✅ File saved: " + destFile.getAbsolutePath());
     }
 
     public File getUniqueFileForReceived(String fileName) {
+        if (!receivedBackupFolder.exists()) {
+            receivedBackupFolder.mkdirs();
+        }
+
         File destFile = new File(receivedBackupFolder, fileName);
         int count = 1;
         String name = fileName;
@@ -132,5 +150,23 @@ public class BackupFileManager {
             count++;
         }
         return destFile;
+    }
+
+    // ✅ Helper to delete a backup file
+    public boolean deleteBackupFile(String fileName) {
+        File file = new File(myBackupFolder, fileName);
+        if (file.exists()) {
+            return file.delete();
+        }
+        return false;
+    }
+
+    // ✅ Helper to delete a received backup file
+    public boolean deleteReceivedFile(String fileName) {
+        File file = new File(receivedBackupFolder, fileName);
+        if (file.exists()) {
+            return file.delete();
+        }
+        return false;
     }
 }

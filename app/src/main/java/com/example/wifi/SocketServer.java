@@ -127,9 +127,20 @@ public class SocketServer implements Runnable {
             }
 
             // Save to Received Backups folder using BackupFileManager
+            // Save to Received Backups folder using BackupFileManager
             BackupFileManager backupManager = BackupFileManager.getInstance(context);
             File destFile = backupManager.getUniqueFileForReceived(fileName);
-            Log.d(TAG, "💾 Saving to: " + destFile.getAbsolutePath());
+
+// ✅ ADD: जर फाइल अजूनही exists असेल तर force delete करा
+            if (destFile.exists()) {
+                Log.w(TAG, "⚠️ File still exists, deleting: " + destFile.getName());
+                boolean deleted = destFile.delete();
+                if (deleted) {
+                    Log.d(TAG, "✅ Old file deleted");
+                    // नवीन FileOutputStream साठी नवीन File object
+                    destFile = new File(destFile.getParent(), fileName);
+                }
+            }
 
             fos = new FileOutputStream(destFile);
 

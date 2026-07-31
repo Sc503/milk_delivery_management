@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.InputType;
@@ -15,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.R;
 import com.example.adapters.BackupAdapter1;
@@ -247,21 +250,29 @@ public class MyBackupsActivity extends AppCompatActivity {
     }
 
     private void sendViaWifi(File file) {
-        if (!WifiDirectService.isConnected) {
-            Toast.makeText(this, "Not connected to any device.\nOpen WiFi Direct first.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, WifiDirectActivity.class));
-            return;
-        }
+        // ✅ TempWifiDirectActivity ला File पाठवा
+        Intent intent = new Intent(this, TempWifiDirectActivity.class);
 
-        if (!isServiceBound || wifiService == null) {
-            Toast.makeText(this, "Service not available. Please reconnect.", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, WifiDirectService.class);
-            bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
-            return;
-        }
+        try {
+            // ✅ File path आणि name
+            intent.putExtra("file_path", file.getAbsolutePath());
+            intent.putExtra("file_name", file.getName());
 
-        wifiService.sendFile(file);
-        Toast.makeText(this, "Sending: " + file.getName() + " via WiFi Direct...", Toast.LENGTH_SHORT).show();
+            // ✅ File URI (FileProvider वापरून)
+            Uri fileUri = FileProvider.getUriForFile(
+                    this,
+                    getPackageName() + ".provider",
+                    file
+            );
+            intent.setData(fileUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            startActivity(intent);
+
+        } catch (Exception e) {
+            Log.e("MyBackups", "Error sending file", e);
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void openFile(File file) {

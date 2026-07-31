@@ -111,7 +111,7 @@ public class PaymentDetails_Activity extends AppCompatActivity {
                 try {
                     Uri uri = FileProvider.getUriForFile(
                             this,
-                            getPackageName() + ".provider",
+                            "com.aistudio.milkdelivery.qyvjpt.provider",  // ✅ हे वापरा
                             file
                     );
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -140,7 +140,7 @@ public class PaymentDetails_Activity extends AppCompatActivity {
             if (file != null && file.exists()) {
                 Uri uri = FileProvider.getUriForFile(
                         this,
-                        getPackageName() + ".provider",
+                        "com.aistudio.milkdelivery.qyvjpt.provider",  // ✅ हे वापरा
                         file
                 );
                 Intent intent = new Intent(Intent.ACTION_SEND);
