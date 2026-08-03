@@ -1,5 +1,6 @@
 package com.example.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -35,7 +36,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
         // Back to Login link
         binding.tvLoginLink.setOnClickListener(v -> {
-            finish(); // Go back to Login
+
+            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -151,9 +156,17 @@ public class CreateAccountActivity extends AppCompatActivity {
                     //  Check if account was created successfully
                     if (loginResponse.getStatus().equals("true") || loginResponse.getStatus().equals(true)) {
                         Toast.makeText(CreateAccountActivity.this,
-                                " Account created successfully! \n\nAccount ID: " + loginResponse.getAccountID(),
+                                "✅ Account created successfully! \n\nAccount ID: " + loginResponse.getAccountID(),
                                 Toast.LENGTH_LONG).show();
+
+                        // ✅ LoginActivity ला redirect करा
+                        Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
                         finish();
+
+                        Log.d(TAG, "✅ Redirecting to LoginActivity");
+
                     } else {
                         String msg = loginResponse.getMessage() != null ? loginResponse.getMessage() : "Unknown error";
                         Toast.makeText(CreateAccountActivity.this, " " + msg, Toast.LENGTH_LONG).show();
