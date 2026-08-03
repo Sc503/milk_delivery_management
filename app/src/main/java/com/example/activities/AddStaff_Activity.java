@@ -108,6 +108,16 @@ public class AddStaff_Activity extends AppCompatActivity {
         binding.btnSaveStaff.setText("Create Staff");
     }
 
+
+    private boolean isValidMobileNumber(String mobile) {
+        if (TextUtils.isEmpty(mobile)) return false;
+        if (mobile.length() != 10) return false;
+        if (!TextUtils.isDigitsOnly(mobile)) return false;
+        char firstDigit = mobile.charAt(0);
+        if (firstDigit < '6' || firstDigit > '9') return false;
+        return true;
+    }
+
     private void saveStaff() {
         String name = binding.etStaffName.getText().toString().trim();
         String mobile = binding.etMobile1.getText().toString().trim();
@@ -127,15 +137,18 @@ public class AddStaff_Activity extends AppCompatActivity {
             return;
         }
 
-        // Validate Mobile
-        if (TextUtils.isEmpty(mobile)) {
-            binding.etMobile1.setError("Enter Mobile Number");
-            binding.etMobile1.requestFocus();
-            return;
-        }
 
-        if (mobile.length() < 10) {
-            binding.etMobile1.setError("Enter valid 10-digit mobile number");
+        //  Validate Mobile - 10 digits, only numbers, starts with 6/7/8/9
+        if (!isValidMobileNumber(mobile)) {
+            if (TextUtils.isEmpty(mobile)) {
+                binding.etMobile1.setError("Enter Mobile Number");
+            } else if (mobile.length() != 10) {
+                binding.etMobile1.setError("Mobile number must be exactly 10 digits");
+            } else if (!TextUtils.isDigitsOnly(mobile)) {
+                binding.etMobile1.setError("Enter only numbers");
+            } else {
+                binding.etMobile1.setError("Enter valid mobile number (starts with 6/7/8/9)");
+            }
             binding.etMobile1.requestFocus();
             return;
         }

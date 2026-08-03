@@ -4,19 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/card_margin"
-    android:layout_marginEnd="@dimen/card_margin"
-    android:layout_marginTop="@dimen/card_margin_small"
-    android:layout_marginBottom="@dimen/card_margin_small"
-    app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="@dimen/card_elevation"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
     app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/card_padding">
+        android:padding="14dp">
 
         <!-- Customer Name and Status -->
         <LinearLayout
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="John Doe"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="#1A2332"
                 android:maxLines="1"
@@ -42,25 +42,46 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="✅ Delivered"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                android:paddingHorizontal="@dimen/status_padding_horizontal"
-                android:paddingVertical="@dimen/status_padding_vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
                 android:background="@drawable/bg_status_active"
                 android:textColor="#10B981"
-                android:layout_marginStart="@dimen/margin_small" />
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
 
-        <!-- Mobile -->
-        <TextView
-            android:id="@+id/txt_customer_mobile"
-            android:layout_width="wrap_content"
+        <!-- Mobile with Call Icon -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📱 9876543210"
-            android:textSize="@dimen/text_size_medium"
-            android:textColor="#7B8794"
-            android:layout_marginTop="@dimen/margin_tiny" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/txt_customer_mobile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="9876543210"
+                android:textSize="14sp"
+                android:textColor="#7B8794" />
+
+            <!-- Call Icon - छोटा आकार -->
+            <ImageButton
+                android:id="@+id/btn_call_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/circle_background_primary"
+                android:src="@drawable/ic_call"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:contentDescription="Call"
+                app:tint="@android:color/white" />
+
+        </LinearLayout>
 
         <!-- Address -->
         <TextView
@@ -68,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="📍 123 Main Street, Mumbai"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="14sp"
             android:textColor="#7B8794"
-            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginTop="4dp"
             android:maxLines="2"
             android:ellipsize="end" />
 
@@ -80,110 +101,83 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="👨‍💼 Staff: Not assigned"
-            android:textSize="@dimen/text_size_small"
+            android:textSize="12sp"
             android:textColor="#10B981"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/margin_tiny" />
+            android:layout_marginTop="2dp" />
 
         <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#E8EDF2"
-            android:layout_marginVertical="@dimen/margin_medium" />
+            android:layout_marginVertical="2dp" />
 
-        <!-- Action Buttons - Responsive Grid -->
+        <!-- ✅ Action Buttons - फक्त 3 buttons, ICONS नाहीत -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="4"
             android:gravity="center">
 
-            <!-- Call Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_call"
-                style="@style/Widget.Material3.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
-                android:layout_weight="1"
-                android:layout_marginEnd="@dimen/button_margin_small"
-                android:text="Call"
-                android:textSize="@dimen/button_text_size"
-                android:textColor="@color/primary"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:minWidth="0dp"
-                app:strokeColor="@color/primary"
-                app:strokeWidth="1.5dp"
-                app:cornerRadius="@dimen/button_corner_radius"
-                app:iconSize="@dimen/icon_size_small"
-                app:iconGravity="textStart"
-                app:iconPadding="@dimen/icon_padding" />
-
-            <!-- Navigate Button -->
+            <!-- Route Button - फक्त टेक्स्ट -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_navigate"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:layout_marginStart="@dimen/button_margin_small"
-                android:layout_marginEnd="@dimen/button_margin_small"
+                android:layout_marginEnd="4dp"
                 android:text="Route"
-                android:textSize="@dimen/button_text_size"
+                android:textSize="12sp"
                 android:textColor="@color/primary"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:minWidth="0dp"
                 app:strokeColor="@color/primary"
                 app:strokeWidth="1.5dp"
-                app:cornerRadius="@dimen/button_corner_radius"
-                app:iconSize="@dimen/icon_size_small"
+                app:cornerRadius="8dp"
                 app:iconGravity="textStart"
-                app:iconPadding="@dimen/icon_padding" />
+                app:iconPadding="0dp" />
 
-            <!-- Edit Button -->
+            <!-- Edit Button - फक्त टेक्स्ट -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:layout_marginStart="@dimen/button_margin_small"
-                android:layout_marginEnd="@dimen/button_margin_small"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
                 android:text="Edit"
-                android:textSize="@dimen/button_text_size"
+                android:textSize="12sp"
                 android:textColor="@color/primary"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:minWidth="0dp"
                 app:strokeColor="@color/primary"
                 app:strokeWidth="1.5dp"
-                app:cornerRadius="@dimen/button_corner_radius"
-                app:iconSize="@dimen/icon_size_small"
+                app:cornerRadius="8dp"
                 app:iconGravity="textStart"
-                app:iconPadding="@dimen/icon_padding" />
+                app:iconPadding="0dp" />
 
-            <!-- Deliver Button -->
+            <!-- Deliver Button - फक्त टेक्स्ट -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_deliver"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/button_height"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/button_margin_small"
+                android:layout_height="44dp"
+                android:layout_weight="1.3"
+                android:layout_marginStart="4dp"
                 android:text="Deliver"
-                android:textSize="@dimen/button_text_size"
+                android:textSize="12sp"
                 android:textColor="#FFFFFF"
                 android:gravity="center"
                 android:textAlignment="center"
                 android:minWidth="0dp"
                 android:backgroundTint="@color/primary"
-                app:cornerRadius="@dimen/button_corner_radius"
-
-                app:iconSize="@dimen/icon_size_small"
+                app:cornerRadius="8dp"
                 app:iconGravity="textStart"
-                app:iconPadding="@dimen/icon_padding"
+                app:iconPadding="0dp"
                 style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>

@@ -14,6 +14,12 @@
         <item name="android:background">@drawable/day_header_bg</item>
     </style>
 
+    <style name="CardTheme" parent="Theme.Material3.Light">
+        <item name="colorPrimary">#3B82F6</item>
+        <item name="colorSecondary">#8B5CF6</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+
     <!-- ==================== NAVIGATION VIEW TEXT ==================== -->
     <style name="NavigationViewText" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">?attr/colorOnSurface</item>

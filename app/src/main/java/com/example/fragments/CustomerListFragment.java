@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ import com.example.models.Customer;
 import com.example.models.DeliveryWithStaff;
 import com.example.utils.DateUtils;
 import com.example.viewmodel.MilkViewModel;
-
+import androidx.appcompat.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,21 +90,31 @@ public class CustomerListFragment extends Fragment {
                     return;
                 }
 
-                viewModel.deliverCustomer(
-                        customer.getId(),
-                        today,
-                        nowTime,
-                        staffId,
-                        staffName,
-                        () -> {
-                            requireActivity().runOnUiThread(() -> {
-                                Toast.makeText(getContext(), "✅ Delivered by " + staffName, Toast.LENGTH_SHORT).show();
-                            });
-                            loadCustomers();
-                        }
-                );
-            }
 
+                String currentStatus = deliveryStatusMap != null && deliveryStatusMap.containsKey(customer.getId())
+                        ? deliveryStatusMap.get(customer.getId()) : "Pending";
+
+
+                if ("Pending".equalsIgnoreCase(currentStatus)) {
+                    viewModel.deliverCustomer(
+                            customer.getId(),
+                            today,
+                            nowTime,
+                            staffId,
+                            staffName,
+                            () -> {
+                                requireActivity().runOnUiThread(() -> {
+                                    Toast.makeText(getContext(), "✅ Delivered by " + staffName, Toast.LENGTH_SHORT).show();
+                                });
+                                loadCustomers();
+                            }
+                    );
+                }
+
+                else if ("Delivered".equalsIgnoreCase(currentStatus)) {
+                    showUndeliverDialog(customer);
+                }
+            }
             @Override
             public void onEdit(Customer customer) {
                 //  Open EditCustomer_Activity
@@ -118,6 +129,14 @@ public class CustomerListFragment extends Fragment {
 
         // Load customers
         loadCustomers();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadCustomers();
+        Log.d("CustomerListFragment", "🔄 Refreshing customer list");
     }
 
     private void loadCustomers() {
@@ -168,5 +187,39 @@ public class CustomerListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void showUndeliverDialog(Customer customer) {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("⚠️ Undeliver Confirmation")
+                .setMessage("Are you sure you want to mark this delivery as UNDELIVERED?\n\n" +
+                        "Customer: " + customer.getName() + "\n" +
+                        "Mobile: " + customer.getMobile())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("✅ Yes, Undeliver", (dialog, which) -> {
+                    // Undeliver logic
+                    String today = DateUtils.getTodayDateString();
+
+                    viewModel.markDeliveryPending(
+                            customer.getId(),
+                            today,
+                            () -> {
+                                requireActivity().runOnUiThread(() -> {
+                                    Toast.makeText(getContext(), "⏳ Marked as Undelivered", Toast.LENGTH_SHORT).show();
+                                });
+                                loadCustomers();
+                            }
+                    );
+                })
+                .setNegativeButton("❌ No, Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                    Toast.makeText(getContext(), "Action cancelled", Toast.LENGTH_SHORT).show();
+                })
+                .setNeutralButton("📞 Call Customer", (dialog, which) -> {
+                    // Call customer directly from dialog
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + customer.getMobile()));
+                    startActivity(intent);
+                })
+                .show();
     }
 }
