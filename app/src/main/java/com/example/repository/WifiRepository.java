@@ -165,14 +165,14 @@ public class WifiRepository {
                 isConnected.postValue(false);
                 connectionStatusText.postValue("Disconnected");
                 connectionInfo.postValue(null);
-                discoveredDevices.postValue(new ArrayList<>()); // ✅ Devices list clear करा
+                discoveredDevices.postValue(new ArrayList<>());
                 if (listener != null) listener.onSuccess();
             }
 
             @Override
             public void onFailure(int reason) {
                 Log.e(TAG, "Disconnect failed: " + reason);
-                // ✅ तरीही status update करा
+
                 isConnected.postValue(false);
                 connectionStatusText.postValue("Disconnected");
                 connectionInfo.postValue(null);
@@ -191,7 +191,7 @@ public class WifiRepository {
                 } else {
                     isConnected.postValue(false);
                     connectionInfo.postValue(null);
-                    connectionStatusText.postValue("Disconnected"); // ✅ हे add करा
+                    connectionStatusText.postValue("Disconnected");
                 }
             });
         }

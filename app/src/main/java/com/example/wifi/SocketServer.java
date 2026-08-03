@@ -27,7 +27,7 @@ public class SocketServer implements Runnable {
     private volatile boolean isStopped = false;
 
     public SocketServer(Context context, ProgressListener listener) {
-        this.context = context.getApplicationContext(); // ✅ Application context
+        this.context = context.getApplicationContext();
         this.listener = listener;
     }
 
@@ -91,11 +91,11 @@ public class SocketServer implements Runnable {
                 }
             }
         } finally {
-            cleanup(); // ✅ cleanup() method call करा
+            cleanup();
         }
     }
 
-    // ✅ नवीन cleanup() method add करा
+
     private void cleanup() {
         try {
             if (serverSocket != null && !serverSocket.isClosed()) {
@@ -131,7 +131,7 @@ public class SocketServer implements Runnable {
             BackupFileManager backupManager = BackupFileManager.getInstance(context);
             File destFile = backupManager.getUniqueFileForReceived(fileName);
 
-// ✅ ADD: जर फाइल अजूनही exists असेल तर force delete करा
+
             if (destFile.exists()) {
                 Log.w(TAG, "⚠️ File still exists, deleting: " + destFile.getName());
                 boolean deleted = destFile.delete();

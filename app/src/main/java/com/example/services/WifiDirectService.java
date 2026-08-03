@@ -24,8 +24,6 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-// karan updated  wifi direct code !
-
 public class WifiDirectService extends Service {
 
     public static final int PORT = 8988;
@@ -102,7 +100,7 @@ public class WifiDirectService extends Service {
         isConnected = true;
         isGroupOwner = false;
         connectedHostAddress = hostAddress;
-        connectedDeviceName = deviceName; // ✅ Store device name properly
+        connectedDeviceName = deviceName;
         myHostAddress = null;
         hostIpAddress = hostAddress;
         clientIpAddress = null;

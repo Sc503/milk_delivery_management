@@ -48,7 +48,7 @@
         tools:targetApi="tiramisu" />
 
 
-    <!-- ✅ Supports All Screen Sizes -->
+    <!--  Supports All Screen Sizes -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"

@@ -70,7 +70,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                     Uri uri = result.getData().getData();
                     if (uri != null) {
                         try {
-                            // ✅ FileProvider URI already has grant permissions
+                            //  FileProvider URI already has grant permissions
                             // No need to call takePersistableUriPermission
                             viewModel.selectFile(uri);
                             Log.d(TAG, "✅ File selected: " + uri.toString());
@@ -112,7 +112,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        // ✅ Check if file was passed from MyBackupsActivity
+        //  Check if file was passed from MyBackupsActivity
         checkAndRequestPermissions();
         handleIncomingFileFromMyBackups();
 
@@ -178,12 +178,12 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
         binding.btnCancelTransfer.setOnClickListener(v -> viewModel.cancelTransfer());
     }
 
-    // ✅ Handle file from MyBackupsActivity
+    //  Handle file from MyBackupsActivity
     private void handleIncomingFileFromMyBackups() {
         Intent intent = getIntent();
         if (intent == null) return;
 
-        // ✅ File path check करा
+
         String filePath = intent.getStringExtra("file_path");
         String fileName = intent.getStringExtra("file_name");
         Uri uri = intent.getData();
@@ -328,12 +328,12 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                 binding.tvRemainingTime.setText(state.getFormattedRemainingTime());
                 binding.tvTransferStatus.setText(state.getMessage());
 
-                // ✅ फक्त SUCCESS state असल्यावरच dialog दाखवा
+
                 if (state.getStatus() == TransferState.Status.SUCCESS) {
-                    // ✅ fileTransferService null नसेल तरच dialog दाखवा
+
                     if (fileTransferService != null) {
                         showSuccessDialog(state.getMessage());
-                        // ✅ Dialog दाखवल्यानंतर state idle करा
+
                         viewModel.clearTransferState();
                     }
                 } else if (state.getStatus() == TransferState.Status.FAILED) {
@@ -343,22 +343,22 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
         });
     }
 
-    // ✅ UPDATED: Check permissions with Samsung-specific handling
+    //  UPDATED: Check permissions with Samsung-specific handling
     private void checkAndRequestPermissions() {
-        // ✅ If user already permanently denied, don't ask again
+        //  If user already permanently denied, don't ask again
         if (isPermissionPermanentlyDenied) {
             Toast.makeText(this, "⚠️ Permissions permanently denied. Please enable in Settings.", Toast.LENGTH_LONG).show();
             showSamsungPermissionDialog();
             return;
         }
 
-        // ✅ Prevent multiple simultaneous requests
+        //  Prevent multiple simultaneous requests
         if (isPermissionRequestInProgress) {
             Log.d(TAG, "Permission request already in progress, skipping...");
             return;
         }
 
-        // ✅ Check if WiFi is enabled
+        //  Check if WiFi is enabled
         android.net.wifi.WifiManager wifiManager =
                 (android.net.wifi.WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifiManager != null && !wifiManager.isWifiEnabled()) {
@@ -374,7 +374,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             return;
         }
 
-        // ✅ Check location permission (Critical for Samsung)
+        //  Check location permission (Critical for Samsung)
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -382,7 +382,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
 
             new AlertDialog.Builder(this)
                     .setTitle("📍 Location Permission Required")
-                    .setMessage("On Samsung devices, WiFi Direct scanning requires LOCATION permission.\n\n" +
+                    .setMessage("WiFi Direct scanning requires LOCATION permission on your device.\n\n" +
                             "Please grant location permission when prompted.\n\n" +
                             "If denied, go to:\n" +
                             "Settings → Apps → MilkFlow → Permissions\n\n" +
@@ -400,14 +400,14 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                     .setNegativeButton("Cancel", (dialog, which) -> {
                         isPermissionRequestInProgress = false;
                         Toast.makeText(this, "Location permission required for WiFi Direct.", Toast.LENGTH_LONG).show();
-                        finish(); // ✅ Close activity if user cancels
+                        finish(); //  Close activity if user cancels
                     })
                     .setCancelable(false)
                     .show();
             return;
         }
 
-        // ✅ Check all other permissions
+        //  Check all other permissions
         if (!PermissionHelper.hasAllPermissions(this)) {
             isPermissionRequestInProgress = true;
             ActivityCompat.requestPermissions(
@@ -416,12 +416,12 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                     PERMISSIONS_REQUEST_CODE
             );
         } else {
-            // ✅ All permissions already granted
+            //  All permissions already granted
             Log.d(TAG, "All permissions already granted");
         }
     }
 
-    // ✅ UPDATED: Handle permission results with detailed logging
+    //  UPDATED: Handle permission results with detailed logging
 
     boolean allGranted = true;
     boolean locationGranted = false;
@@ -434,7 +434,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        // ✅ Reset the flag
+        //  Reset the flag
         isPermissionRequestInProgress = false;
 
         if (requestCode == PERMISSIONS_REQUEST_CODE) {
@@ -477,21 +477,21 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             }
 
             if (allGranted) {
-                // ✅ All permissions granted
+                //  All permissions granted
 //                Toast.makeText(this, "✅ Permissions granted! You can now scan for peers.",
 //                        Toast.LENGTH_SHORT).show();
                 triggerDeviceDiscovery();
 
             } else if (locationGranted && wifiGranted) {
                 allGranted = true;
-                // ✅ Location and WiFi permissions granted
+                //  Location and WiFi permissions granted
                 Toast.makeText(this, "✅ Required permissions granted.", Toast.LENGTH_SHORT).show();
                // triggerDeviceDiscovery();
 
             } else {
                 // ❌ Some permissions denied
 
-                // ✅ Check if user checked "Never ask again"
+                //  Check if user checked "Never ask again"
                 boolean shouldShowRationale = false;
                 for (String permission : permissions) {
                     if (shouldShowRequestPermissionRationale(permission)) {
@@ -501,24 +501,24 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                 }
 
                 if (!shouldShowRationale) {
-                    // ✅ User checked "Never ask again" - permanently denied
+                    //  User checked "Never ask again" - permanently denied
                     isPermissionPermanentlyDenied = true;
                     Toast.makeText(this,
                             "⚠️ Permissions permanently denied. Please enable in Settings.",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    // ✅ User denied but we can ask again
+                    //  User denied but we can ask again
                     Toast.makeText(this,
                             "⚠️ Permissions denied. WiFi Direct features will be limited.",
                             Toast.LENGTH_LONG).show();
                 }
 
-                // ✅ Show Samsung dialog
+                // Show Samsung dialog
                 showSamsungPermissionDialog();
             }
         }
     }
-    // ✅ New method: Show Samsung-specific permission dialog
+    //  New method: Show Samsung-specific permission dialog
     private void showSamsungPermissionDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("📍 Permission Required")
@@ -534,11 +534,11 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     startActivity(intent);
-                    // ✅ Close activity - user needs to enable permissions in Settings
+                    //  Close activity - user needs to enable permissions in Settings
                     finish();
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> {
-                    // ✅ Close activity - user doesn't want to grant permissions
+                    //  Close activity - user doesn't want to grant permissions
                     Toast.makeText(this,
                             "WiFi Direct feature disabled. Enable permissions in Settings to use it.",
                             Toast.LENGTH_LONG).show();
@@ -548,9 +548,9 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
                 .show();
     }
 
-    // ✅ UPDATED: Device discovery with WiFi and permission checks
+    //  UPDATED: Device discovery with WiFi and permission checks
     private void triggerDeviceDiscovery() {
-        // ✅ Check if permissions are permanently denied
+        //  Check if permissions are permanently denied
         if (isPermissionPermanentlyDenied) {
             Toast.makeText(this,
                     "⚠️ Permissions permanently denied. Please enable in Settings.",
@@ -564,7 +564,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             return;
         }
 
-        // ✅ Check if WiFi is enabled
+        //  Check if WiFi is enabled
         android.net.wifi.WifiManager wifiManager =
                 (android.net.wifi.WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null || !wifiManager.isWifiEnabled()) {
@@ -573,7 +573,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             return;
         }
 
-        // ✅ Check location permission
+        //  Check location permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
@@ -583,19 +583,19 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
             }
         }
 
-        // ✅ Check all permissions
+        //  Check all permissions
         if (!PermissionHelper.hasAllPermissions(this)) {
             checkAndRequestPermissions();
             return;
         }
 
-        // ✅ If permission request is in progress, don't scan
+        //  If permission request is in progress, don't scan
         if (isPermissionRequestInProgress) {
             Toast.makeText(this, "⏳ Permission request in progress...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // ✅ All good - start discovery
+        //  All good - start discovery
         viewModel.discoverPeers(new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
@@ -665,7 +665,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
         }
         refreshConnectionStatus();
 
-        // ✅ Transfer state clear करा जेणेकरून जुना success dialog दिसणार नाही
+
         if (viewModel != null) {
             viewModel.clearTransferState();
         }
@@ -714,7 +714,7 @@ public class TempWifiDirectActivity extends AppCompatActivity implements DeviceA
     }
     @Override
     public void onBackPressed() {
-        // ✅ Close all activities and go to Settings_Activity
+        //  Close all activities and go to Settings_Activity
         Intent intent = new Intent(this, Settings_Activity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

@@ -14,7 +14,13 @@ import com.example.repository.WifiRepository;
 public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "WifiDirectReceiver";
 
-    private final WifiRepository repository;
+    private  WifiRepository repository;
+
+
+    // Default constructor जोडा
+    public WifiDirectBroadcastReceiver() {
+        // Required for Android system
+    }
 
     public WifiDirectBroadcastReceiver(WifiRepository repository) {
         this.repository = repository;
@@ -26,6 +32,11 @@ public class WifiDirectBroadcastReceiver extends BroadcastReceiver {
         if (action == null) return;
 
         Log.d(TAG, "onReceive action: " + action);
+
+
+        if (repository == null) {
+            repository = WifiRepository.getInstance(context);
+        }
 
         switch (action) {
             case WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION:
