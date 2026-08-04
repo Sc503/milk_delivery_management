@@ -96,6 +96,7 @@ public class PaymentDetails_Activity extends AppCompatActivity {
             Toast.makeText(this, "Payment Saved & Backed Up", Toast.LENGTH_SHORT).show();
         });
 
+
         // PDF Download
         binding.btnDownloadPdf.setOnClickListener(v -> {
             if (currentCustomer == null) return;
@@ -109,9 +110,11 @@ public class PaymentDetails_Activity extends AppCompatActivity {
             if (file != null && file.exists()) {
                 Toast.makeText(this, "PDF Saved: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
                 try {
+
+                    String authority = getPackageName() + ".provider";
                     Uri uri = FileProvider.getUriForFile(
                             this,
-                            "com.aistudio.milkdelivery.qyvjpt.provider",  // ✅ हे वापरा
+                            authority,
                             file
                     );
                     Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -127,7 +130,7 @@ public class PaymentDetails_Activity extends AppCompatActivity {
             }
         });
 
-        // Share PDF
+// Share PDF
         binding.btnSharePdf.setOnClickListener(v -> {
             if (currentCustomer == null) return;
             File file = PdfGenerator.generateInvoice(
@@ -138,24 +141,29 @@ public class PaymentDetails_Activity extends AppCompatActivity {
                     paymentStatus
             );
             if (file != null && file.exists()) {
-                Uri uri = FileProvider.getUriForFile(
-                        this,
-                        "com.aistudio.milkdelivery.qyvjpt.provider",  // ✅ हे वापरा
-                        file
-                );
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("application/pdf");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                intent.setClipData(ClipData.newRawUri(null, uri));
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                Intent chooser = Intent.createChooser(intent, "Share Invoice");
-                chooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(chooser);
+                try {
+
+                    String authority = getPackageName() + ".provider";
+                    Uri uri = FileProvider.getUriForFile(
+                            this,
+                            authority,
+                            file
+                    );
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("application/pdf");
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.setClipData(ClipData.newRawUri(null, uri));
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Intent chooser = Intent.createChooser(intent, "Share Invoice");
+                    chooser.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    startActivity(chooser);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Error sharing PDF: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(this, "Failed to generate PDF", Toast.LENGTH_SHORT).show();
             }
         });
-
         // WhatsApp
         binding.btnWhatsApp.setOnClickListener(v -> {
             if (currentCustomer == null) return;

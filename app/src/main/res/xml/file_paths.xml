@@ -4,21 +4,31 @@
     <!-- App external files -->
     <external-files-path
         name="external_files"
-        path="." />
+        path="Documents/" />
 
     <!-- Cache -->
     <cache-path
         name="cache_files"
-        path="." />
+        path="reports/" />
 
     <!-- External cache -->
     <external-cache-path
         name="external_cache"
         path="." />
 
-    <!-- Public storage (optional) -->
+    <!-- Public storage -->
     <external-path
         name="external"
         path="." />
+
+    <!-- Files directory -->
+    <files-path
+        name="files"
+        path="." />
+
+    <!-- External files - Download -->
+    <external-files-path
+        name="download"
+        path="Download/" />
 
 </paths>
