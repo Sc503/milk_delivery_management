@@ -83,17 +83,16 @@ public class CustomerListFragment extends Fragment {
                         .getSharedPreferences("UserSession", MODE_PRIVATE)
                         .getString("userType", "");
 
-                if (!"Owner".equals(currentUserType)) {
+
+                if (!"Owner".equals(currentUserType) && !"Staff".equals(currentUserType)) {
                     requireActivity().runOnUiThread(() -> {
                         Toast.makeText(getContext(), "Access Denied", Toast.LENGTH_SHORT).show();
                     });
                     return;
                 }
 
-
                 String currentStatus = deliveryStatusMap != null && deliveryStatusMap.containsKey(customer.getId())
                         ? deliveryStatusMap.get(customer.getId()) : "Pending";
-
 
                 if ("Pending".equalsIgnoreCase(currentStatus)) {
                     viewModel.deliverCustomer(
@@ -109,9 +108,7 @@ public class CustomerListFragment extends Fragment {
                                 loadCustomers();
                             }
                     );
-                }
-
-                else if ("Delivered".equalsIgnoreCase(currentStatus)) {
+                } else if ("Delivered".equalsIgnoreCase(currentStatus)) {
                     showUndeliverDialog(customer);
                 }
             }
