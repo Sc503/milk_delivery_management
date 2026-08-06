@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-  namespace = "com.example"
+  namespace = "in.esmartsolution.milkflow"
   compileSdk = 36
 
   defaultConfig {
-    applicationId = "com.aistudio.milkdelivery.qyvjpt"
+    applicationId = "in.esmartsolution.milkflow"
     minSdk = 26
     targetSdk = 36
     versionCode = 1

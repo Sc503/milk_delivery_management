@@ -283,8 +283,9 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Saurabh Chaudhari"
+                                android:text="Saurabh Chaudhari\n☎️ 9370734093"
                                 android:textSize="14sp"
+                                android:textAlignment="center"
                                 android:textColor="#1E293B"
                                 android:textStyle="bold" />
 
@@ -299,8 +300,9 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Karan Pawar"
+                                android:text="Karan Pawar\n☎️ 7066744688"
                                 android:textSize="14sp"
+                                android:textAlignment="center"
                                 android:textColor="#1E293B"
                                 android:textStyle="bold" />
 
